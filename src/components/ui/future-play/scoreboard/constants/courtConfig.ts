@@ -56,7 +56,7 @@ export const courtColors = {
 
 // Player configuration
 export const playerConfig = {
-  size: 14, // Size of player circles in pixels (increased from 10 to 14 for avatars)
+  size: 16, // Size of player silhouettes in pixels (increased for full body)
   team1Color: "#4CAF50", // Team 1 color (green)
   team2Color: "#1A70C5", // Team 2 color (blue)
   glowSize: 20, // Size of glow effect
