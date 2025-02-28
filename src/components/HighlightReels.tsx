@@ -207,13 +207,19 @@ const HighlightReels = () => {
               </div>
               
               {/* Progress bar moved to bottom right */}
-              <div className="absolute bottom-6 right-6 h-1.5 w-24 bg-white/10 rounded-full overflow-hidden z-10">
-                <div 
-                  className="h-full bg-primary transition-all duration-75 rounded-full"
-                  style={{ 
-                    width: isPaused ? 0 : `${(activeSlide / (highlights.length - 1)) * 100}%`
-                  }}
-                ></div>
+              <div className="absolute bottom-6 right-6 flex gap-2">
+                {highlights.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => goToSlide(index)}
+                    className={`h-2 rounded-full transition-all ${
+                      index === activeSlide 
+                        ? 'bg-primary w-8' 
+                        : 'bg-white/30 hover:bg-white/50 w-2'
+                    }`}
+                    aria-label={`Go to slide ${index + 1}`}
+                  />
+                ))}
               </div>
               
               {/* More prominent slider controls - Left and Right navigation buttons */}
@@ -233,22 +239,6 @@ const HighlightReels = () => {
                 >
                   <ChevronRight className="w-6 h-6" />
                 </button>
-              </div>
-              
-              {/* Slides indicator */}
-              <div className="absolute bottom-6 left-6 flex gap-2">
-                {highlights.map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => goToSlide(index)}
-                    className={`w-2 h-2 rounded-full transition-all ${
-                      index === activeSlide 
-                        ? 'bg-white w-6' 
-                        : 'bg-white/30 hover:bg-white/50'
-                    }`}
-                    aria-label={`Go to slide ${index + 1}`}
-                  />
-                ))}
               </div>
             </div>
             
