@@ -44,13 +44,13 @@ const FuturePlayModal = ({ isOpen, onClose }: FuturePlayModalProps) => {
       interval = setInterval(() => {
         setGameTime(prev => prev + 1);
         
-        // Random chance to trigger a highlight
-        if (Math.random() < 0.01) {
+        // Increased chance to trigger highlights for a more dynamic demo
+        if (Math.random() < 0.03) {
           triggerHighlight();
         }
         
-        // Random chance for score to increase (for demo purposes)
-        if (Math.random() < 0.05) {
+        // Increased chance for score to increase for a more dynamic demo
+        if (Math.random() < 0.1) {
           if (Math.random() > 0.5) {
             setPlayer1Score(prev => prev + 1);
           } else {
@@ -63,7 +63,7 @@ const FuturePlayModal = ({ isOpen, onClose }: FuturePlayModalProps) => {
     return () => clearInterval(interval);
   }, [showScoreboard, showHighlight]);
   
-  // Highlight timer effect
+  // Highlight timer effect - faster for demo purposes
   useEffect(() => {
     let interval: NodeJS.Timeout;
     
@@ -74,9 +74,9 @@ const FuturePlayModal = ({ isOpen, onClose }: FuturePlayModalProps) => {
             setShowHighlight(false);
             return 0;
           }
-          return prev + 1;
+          return prev + 1.5; // Faster progress for demo
         });
-      }, 50);
+      }, 40); // Faster interval for demo
     }
     
     return () => clearInterval(interval);
@@ -636,10 +636,10 @@ const FuturePlayModal = ({ isOpen, onClose }: FuturePlayModalProps) => {
           
           <div className="relative flex flex-col items-center text-center">
             <span className="inline-block bg-white/10 backdrop-blur-sm text-primary/80 px-4 py-1 rounded-full text-xs font-medium mb-2 border border-primary/20">
-              PickleBills
+              SwingNet
             </span>
             <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-2">
-              SwingNet: The Future of Play
+              The Future of Play
             </h2>
           </div>
         </div>
@@ -652,12 +652,15 @@ const FuturePlayModal = ({ isOpen, onClose }: FuturePlayModalProps) => {
             <div className="absolute top-1/3 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20">
               <div className={`${animationComplete ? 'opacity-100 scale-100' : 'opacity-0 scale-50'} transition-all duration-700`}>
                 <button 
-                  className="w-20 h-20 md:w-24 md:h-24 rounded-full bg-primary/90 hover:bg-primary shadow-lg shadow-primary/20 flex items-center justify-center transition-all duration-300 hover:scale-105 backdrop-blur-sm"
+                  className="w-20 h-20 md:w-24 md:h-24 rounded-full bg-primary/90 hover:bg-primary shadow-lg shadow-primary/20 flex items-center justify-center transition-all duration-300 hover:scale-105 backdrop-blur-sm animate-pulse-slow"
                   aria-label="Launch Digital Scoreboard"
                   onClick={handlePlayButtonClick}
                 >
                   <Play className="w-10 h-10 md:w-12 md:h-12 text-white fill-white" />
                 </button>
+                <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 text-white/70 text-sm whitespace-nowrap">
+                  Click to experience live demo
+                </div>
               </div>
             </div>
             
@@ -798,7 +801,7 @@ const FuturePlayModal = ({ isOpen, onClose }: FuturePlayModalProps) => {
         {/* Footer */}
         <div className="p-6 border-t border-white/10 flex justify-between items-center bg-navy-dark">
           <div className="text-white/60 text-sm">
-            Powered by PickleBills AI
+            Powered by SwingNet AI
           </div>
           <AnimatedButton onClick={onClose} size="md">
             Back to Home
