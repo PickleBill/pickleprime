@@ -135,10 +135,10 @@ const MobileScoreboardView: React.FC<MobileScoreboardViewProps> = ({
           </div>
         </div>
         
-        {/* Desktop Layout - Three-column with scoreboard, court, and match feed */}
+        {/* Desktop Layout - Two-column with scoreboard (50%) on left, and court+feed stacked on right (50%) */}
         <div className="hidden sm:flex h-full p-4 gap-4">
-          {/* Left Column - Scoreboard (Wider on desktop) */}
-          <div className="w-[38%] h-[calc(100%-40px)]">
+          {/* Left Column - Scoreboard (Wider - 50%) */}
+          <div className="w-1/2 h-[calc(100%-40px)]">
             <ScoreboardStats 
               player1Stats={player1Stats}
               player2Stats={player2Stats}
@@ -146,26 +146,29 @@ const MobileScoreboardView: React.FC<MobileScoreboardViewProps> = ({
             />
           </div>
           
-          {/* Middle Column - Court View */}
-          <div className="w-[40%] h-[calc(100%-40px)]">
-            <CourtView 
-              ballPosition={ballPosition}
-              ballTrajectory={ballTrajectory}
-              ballVelocity={ballVelocity}
-              player1={player1}
-              player2={player2}
-              player3={player3}
-              player4={player4}
-              player1Score={player1Score}
-              player2Score={player2Score}
-            />
-          </div>
-          
-          {/* Right Column - Match Feed (Skinnier on desktop) */}
-          <div className="w-[22%] h-[calc(100%-40px)]">
-            <MatchFeed 
-              feedItems={matchFeedItems}
-            />
+          {/* Right Column - Stacked Court View on top and Match Feed on bottom */}
+          <div className="w-1/2 h-[calc(100%-40px)] flex flex-col gap-4">
+            {/* Court View - Upper right quadrant */}
+            <div className="h-1/2">
+              <CourtView 
+                ballPosition={ballPosition}
+                ballTrajectory={ballTrajectory}
+                ballVelocity={ballVelocity}
+                player1={player1}
+                player2={player2}
+                player3={player3}
+                player4={player4}
+                player1Score={player1Score}
+                player2Score={player2Score}
+              />
+            </div>
+            
+            {/* Match Feed - Lower right quadrant */}
+            <div className="h-1/2">
+              <MatchFeed 
+                feedItems={matchFeedItems}
+              />
+            </div>
           </div>
         </div>
       </div>
