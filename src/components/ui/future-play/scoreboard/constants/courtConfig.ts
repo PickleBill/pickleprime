@@ -17,9 +17,9 @@ export const courtBoundaries = {
 
 // Court colors based on the reference image
 export const courtColors = {
-  surface: "#A7CC7B", // Outer court surface color (light green)
-  kitchen: "#81D4E3", // Kitchen/central zone color (light blue)
-  quadrant: "#5B9BD5", // Quadrant color (darker blue)
+  surface: "#A7EBFD", // Light blue background from the image
+  kitchen: "#2ABADB", // Brighter blue for the center court
+  quadrant: "#2ABADB", // Same blue for all court sections
   lines: "white", // Court line color
   boundary: "#FFFFFF", // Outer boundary color (white)
   team1: "#4CAF50", // Team 1 color (green)

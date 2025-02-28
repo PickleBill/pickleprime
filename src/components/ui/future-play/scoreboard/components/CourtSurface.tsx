@@ -3,11 +3,11 @@ import React from 'react';
 import { courtBoundaries, courtColors, teamLabels } from '../constants/courtConfig';
 
 const CourtSurface: React.FC = () => {
-  // Render court base with outer green boundary
+  // Render court base with outer light blue background
   const renderCourtBase = () => (
     <>
-      {/* Green outer background */}
-      <div className="absolute inset-0 rounded-lg" style={{ backgroundColor: '#A7CC7B' }}></div>
+      {/* Light blue outer background */}
+      <div className="absolute inset-0 rounded-lg" style={{ backgroundColor: courtColors.surface }}></div>
       
       {/* Main court rectangle */}
       <div className="absolute" style={{ 
@@ -23,7 +23,7 @@ const CourtSurface: React.FC = () => {
   // Render the four court quadrants
   const renderCourtQuadrants = () => (
     <>
-      {/* Top Left quadrant - darker blue */}
+      {/* Top Left quadrant - blue */}
       <div className="absolute" style={{ 
         top: `${courtBoundaries.top}%`, 
         bottom: `${courtBoundaries.midLine}%`,
@@ -32,7 +32,7 @@ const CourtSurface: React.FC = () => {
         backgroundColor: courtColors.quadrant
       }}></div>
       
-      {/* Top Right quadrant - darker blue */}
+      {/* Top Right quadrant - blue */}
       <div className="absolute" style={{ 
         top: `${courtBoundaries.top}%`, 
         bottom: `${courtBoundaries.midLine}%`,
@@ -41,7 +41,7 @@ const CourtSurface: React.FC = () => {
         backgroundColor: courtColors.quadrant
       }}></div>
       
-      {/* Bottom Left quadrant - darker blue */}
+      {/* Bottom Left quadrant - blue */}
       <div className="absolute" style={{ 
         top: `${courtBoundaries.midLine}%`, 
         bottom: `${courtBoundaries.bottom - 100}%`,
@@ -50,27 +50,13 @@ const CourtSurface: React.FC = () => {
         backgroundColor: courtColors.quadrant
       }}></div>
       
-      {/* Bottom Right quadrant - darker blue */}
+      {/* Bottom Right quadrant - blue */}
       <div className="absolute" style={{ 
         top: `${courtBoundaries.midLine}%`, 
         bottom: `${courtBoundaries.bottom - 100}%`,
         left: `${courtBoundaries.centerLine}%`,
         right: `${courtBoundaries.right - 100}%`,
         backgroundColor: courtColors.quadrant
-      }}></div>
-    </>
-  );
-
-  // Render the central kitchen area (non-volley zone)
-  const renderCentralArea = () => (
-    <>
-      {/* Center zone - lighter blue */}
-      <div className="absolute" style={{ 
-        top: `${courtBoundaries.top}%`, 
-        bottom: `${courtBoundaries.bottom - 100}%`,
-        left: `${courtBoundaries.kitchenLeft}%`,
-        right: `${courtBoundaries.kitchenRight - 100}%`,
-        backgroundColor: courtColors.kitchen
       }}></div>
     </>
   );
@@ -84,7 +70,7 @@ const CourtSurface: React.FC = () => {
         bottom: `${courtBoundaries.bottom - 100}%`,
         left: '50%',
         width: '2px',
-        backgroundColor: '#6CA9ED', // Light blue for net
+        backgroundColor: 'white', // White for net
         transform: 'translateX(-50%)'
       }}></div>
       
@@ -118,7 +104,6 @@ const CourtSurface: React.FC = () => {
   return (
     <>
       {renderCourtBase()}
-      {renderCentralArea()}
       {renderCourtQuadrants()}
       {renderCourtLines()}
       {renderTeamLabels()}

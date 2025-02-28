@@ -9,13 +9,9 @@ interface BallProps {
   ballVelocity: number;
 }
 
-const Ball: React.FC<BallProps> = ({
-  ballPosition,
-  ballTrajectory,
-  ballVelocity
-}) => {
-  // Generate trail based on velocity and direction
-  const renderTrail = () => {
+const Ball: React.FC<BallProps> = ({ ballPosition, ballTrajectory, ballVelocity }) => {
+  // Render the ball trail
+  const renderBallTrail = () => {
     const segments = ballConfig.trailLength;
     const trailElements = [];
     
@@ -36,14 +32,14 @@ const Ball: React.FC<BallProps> = ({
           key={`trail-${i}`}
           className="absolute rounded-full"
           style={{
-            left: `${trailX}%`,
-            top: `${trailY}%`,
-            width: `${trailSize * 0.5}rem`,
-            height: `${trailSize * 0.5}rem`,
+            width: `${trailSize}px`,
+            height: `${trailSize}px`,
             backgroundColor: ballConfig.trailColor,
             opacity: trailOpacity,
+            left: `${trailX}%`,
+            top: `${trailY}%`,
             transform: 'translate(-50%, -50%)',
-            zIndex: 20 - i,
+            zIndex: 2
           }}
         />
       );
@@ -52,41 +48,58 @@ const Ball: React.FC<BallProps> = ({
     return trailElements;
   };
   
+  // Render the ball trajectory line
+  const renderTrajectoryLine = () => (
+    <div
+      className="absolute"
+      style={{
+        left: `${ballPosition.x}%`,
+        top: `${ballPosition.y}%`,
+        width: '1px',
+        height: '1px',
+        zIndex: 1
+      }}
+    >
+      <div
+        style={{
+          position: 'absolute',
+          width: '1px',
+          height: '40px',
+          backgroundColor: ballConfig.trajectoryColor,
+          opacity: 0.3,
+          transformOrigin: 'top',
+          transform: `rotate(${Math.atan2(
+            ballTrajectory.endY - ballPosition.y,
+            ballTrajectory.endX - ballPosition.x
+          ) * (180 / Math.PI)}deg)`
+        }}
+      />
+    </div>
+  );
+  
+  // Render the main ball
+  const renderBall = () => (
+    <div
+      className="absolute rounded-full border"
+      style={{
+        width: `${ballConfig.size}px`,
+        height: `${ballConfig.size}px`,
+        backgroundColor: ballConfig.color,
+        borderColor: ballConfig.borderColor,
+        left: `${ballPosition.x}%`,
+        top: `${ballPosition.y}%`,
+        transform: 'translate(-50%, -50%)',
+        zIndex: 3,
+        boxShadow: `0 0 ${ballConfig.glowSize}px rgba(255, 235, 59, ${ballConfig.glowOpacity})`
+      }}
+    />
+  );
+  
   return (
     <>
-      {/* Ball trail */}
-      {renderTrail()}
-      
-      {/* Ball glow effect */}
-      <div
-        className="absolute rounded-full"
-        style={{
-          left: `${ballPosition.x}%`,
-          top: `${ballPosition.y}%`,
-          width: `${ballConfig.glowSize * 0.4}rem`,
-          height: `${ballConfig.glowSize * 0.4}rem`,
-          backgroundColor: `${ballConfig.color}`,
-          opacity: ballConfig.glowOpacity,
-          transform: 'translate(-50%, -50%)',
-          filter: 'blur(8px)',
-          zIndex: 29,
-        }}
-      />
-      
-      {/* Ball */}
-      <div
-        className="absolute rounded-full border"
-        style={{
-          left: `${ballPosition.x}%`,
-          top: `${ballPosition.y}%`,
-          width: `${ballConfig.size * 0.4}rem`,
-          height: `${ballConfig.size * 0.4}rem`,
-          backgroundColor: ballConfig.color,
-          borderColor: ballConfig.borderColor,
-          transform: 'translate(-50%, -50%)',
-          zIndex: 30,
-        }}
-      />
+      {renderBallTrail()}
+      {renderTrajectoryLine()}
+      {renderBall()}
     </>
   );
 };
