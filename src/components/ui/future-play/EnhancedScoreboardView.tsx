@@ -487,9 +487,9 @@ const EnhancedScoreboardView: React.FC<EnhancedScoreboardViewProps> = ({
               {/* White lines */}
               <div className="absolute inset-0 border-2 border-white/90"></div>
               
-              {/* Non-volley zone (kitchen) - top and bottom */}
-              <div className="absolute top-0 left-0 right-0 h-[20%] border-b-2 border-white/90 bg-[#0EA5E9]/80"></div>
-              <div className="absolute bottom-0 left-0 right-0 h-[20%] border-t-2 border-white/90 bg-[#0EA5E9]/80"></div>
+              {/* Non-volley zone (kitchen) - top and bottom - Made more compressed vertically */}
+              <div className="absolute top-0 left-0 right-0 h-[14%] border-b-2 border-white/90 bg-[#0EA5E9]/80"></div>
+              <div className="absolute bottom-0 left-0 right-0 h-[14%] border-t-2 border-white/90 bg-[#0EA5E9]/80"></div>
               
               {/* Center line */}
               <div className="absolute top-0 bottom-0 left-1/2 w-0.5 bg-white/90 -translate-x-[0.25px]"></div>
