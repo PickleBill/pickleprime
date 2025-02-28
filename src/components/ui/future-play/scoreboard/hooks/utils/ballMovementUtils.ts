@@ -1,3 +1,4 @@
+
 import { Position, BallTrajectory } from "../../types";
 import { courtBoundaries } from "../../constants/courtConfig";
 
@@ -75,7 +76,9 @@ export function calculateNextBallPosition(
   // Update trajectory
   setBallTrajectory({
     endX: newPos.x + newDirX * 5,
-    endY: newPos.y + newDirY * 5
+    endY: newPos.y + newDirY * 5,
+    dx: newDirX,
+    dy: newDirY
   });
   
   return newPos;

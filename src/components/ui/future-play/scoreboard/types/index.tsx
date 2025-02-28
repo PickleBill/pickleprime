@@ -9,6 +9,8 @@ export interface Position {
 export interface BallTrajectory {
   endX: number;
   endY: number;
+  dx?: number;
+  dy?: number;
 }
 
 export interface PlayerPosition {

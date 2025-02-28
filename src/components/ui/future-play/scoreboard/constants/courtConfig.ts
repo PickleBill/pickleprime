@@ -9,6 +9,10 @@ export const courtBoundaries = {
   centerLine: 50, // Center vertical line (%)
   kitchenLeft: 36, // Kitchen left boundary (%)
   kitchenRight: 64, // Kitchen right boundary (%)
+  net: {
+    top: 45, // Net top boundary (%)
+    bottom: 55, // Net bottom boundary (%)
+  }
 };
 
 // Court colors based on the reference image

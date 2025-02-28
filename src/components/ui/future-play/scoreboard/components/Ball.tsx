@@ -19,13 +19,17 @@ const Ball: React.FC<BallProps> = ({
     const segments = ballConfig.trailLength;
     const trailElements = [];
     
+    // Calculate direction from trajectory if available, or use default
+    const dx = ballTrajectory.dx || (ballTrajectory.endX - ballPosition.x) / 5;
+    const dy = ballTrajectory.dy || (ballTrajectory.endY - ballPosition.y) / 5;
+    
     for (let i = 1; i <= segments; i++) {
       const trailOpacity = 1 - (i / segments);
       const trailSize = ballConfig.size * (1 - i / (segments * 2));
       
       // Calculate trail segment position based on trajectory
-      const trailX = ballPosition.x - (ballTrajectory.dx * i * (ballVelocity / 10));
-      const trailY = ballPosition.y - (ballTrajectory.dy * i * (ballVelocity / 10));
+      const trailX = ballPosition.x - (dx * i * (ballVelocity / 10));
+      const trailY = ballPosition.y - (dy * i * (ballVelocity / 10));
       
       trailElements.push(
         <div 
