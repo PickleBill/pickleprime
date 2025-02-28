@@ -1,10 +1,12 @@
 
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { ChevronLeft, ChevronRight, Video, Zap, Camera, Award } from "lucide-react";
 import AnimatedButton from "./ui/AnimatedButton";
 
 const HighlightReels = () => {
   const [activeSlide, setActiveSlide] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+  const slideIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
   const highlights = [
     {
@@ -57,12 +59,62 @@ const HighlightReels = () => {
     }
   ];
 
+  // Setup autoplay
+  useEffect(() => {
+    startSlideInterval();
+    
+    return () => {
+      if (slideIntervalRef.current) {
+        clearInterval(slideIntervalRef.current);
+      }
+    };
+  }, []);
+
+  // Reset interval when active slide changes manually
+  useEffect(() => {
+    if (!isPaused) {
+      startSlideInterval();
+    }
+  }, [activeSlide, isPaused]);
+
+  const startSlideInterval = () => {
+    // Clear any existing interval
+    if (slideIntervalRef.current) {
+      clearInterval(slideIntervalRef.current);
+    }
+    
+    // Set new interval
+    slideIntervalRef.current = setInterval(() => {
+      setActiveSlide((prev) => (prev === highlights.length - 1 ? 0 : prev + 1));
+    }, 4000); // Change slide every 4 seconds
+  };
+
+  const pauseAutoplay = () => {
+    setIsPaused(true);
+    if (slideIntervalRef.current) {
+      clearInterval(slideIntervalRef.current);
+      slideIntervalRef.current = null;
+    }
+  };
+
+  const resumeAutoplay = () => {
+    setIsPaused(false);
+    startSlideInterval();
+  };
+
   const nextSlide = () => {
+    pauseAutoplay();
     setActiveSlide((prev) => (prev === highlights.length - 1 ? 0 : prev + 1));
   };
 
   const prevSlide = () => {
+    pauseAutoplay();
     setActiveSlide((prev) => (prev === 0 ? highlights.length - 1 : prev - 1));
+  };
+
+  const goToSlide = (index: number) => {
+    pauseAutoplay();
+    setActiveSlide(index);
   };
 
   return (
@@ -118,30 +170,54 @@ const HighlightReels = () => {
           </div>
           
           {/* Right side: Image slider */}
-          <div className="order-1 md:order-2 relative">
+          <div 
+            className="order-1 md:order-2 relative"
+            onMouseEnter={pauseAutoplay}
+            onMouseLeave={resumeAutoplay}
+          >
             <div className="bg-navy-dark rounded-xl overflow-hidden relative aspect-[4/3] shadow-xl">
-              {/* Current slide */}
-              <div 
-                className="absolute inset-0 transition-opacity duration-500"
-                style={{
-                  opacity: 1,
-                  backgroundImage: `url(${highlights[activeSlide].image})`,
-                  backgroundSize: 'cover',
-                  backgroundPosition: 'center'
-                }}
-              >
-                {/* Gradient overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-navy-dark/90 via-transparent to-transparent"></div>
-                
-                {/* Caption */}
-                <div className="absolute bottom-0 left-0 right-0 p-6">
-                  <div className="flex items-center gap-2 mb-2">
-                    <div className="animate-pulse w-2 h-2 bg-primary rounded-full"></div>
-                    <span className="text-white/80 text-sm uppercase tracking-wider">Live Highlight</span>
+              {/* Progress bar */}
+              <div className="absolute top-0 left-0 w-full h-1 bg-white/10 z-10">
+                <div 
+                  className="h-full bg-primary transition-all duration-75"
+                  style={{ 
+                    width: isPaused ? 0 : `${(activeSlide / (highlights.length - 1)) * 100}%`
+                  }}
+                ></div>
+              </div>
+              
+              {/* Slides with transition effect */}
+              {highlights.map((slide, index) => (
+                <div 
+                  key={slide.id}
+                  className={`absolute inset-0 transition-opacity duration-1000 ${
+                    index === activeSlide ? 'opacity-100 z-10' : 'opacity-0 z-0'
+                  }`}
+                  style={{
+                    backgroundImage: `url(${slide.image})`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center'
+                  }}
+                >
+                  {/* Gradient overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-navy-dark/90 via-transparent to-transparent"></div>
+                  
+                  {/* Caption */}
+                  <div className="absolute bottom-0 left-0 right-0 p-6">
+                    <div className="flex items-center gap-2 mb-2">
+                      <div className="animate-pulse w-2 h-2 bg-primary rounded-full"></div>
+                      <span className="text-white/80 text-sm uppercase tracking-wider">Live Highlight</span>
+                    </div>
+                    <h3 className="text-white text-xl font-bold mb-1">{slide.title}</h3>
+                    <p className="text-white/80">{slide.description}</p>
                   </div>
-                  <h3 className="text-white text-xl font-bold mb-1">{highlights[activeSlide].title}</h3>
-                  <p className="text-white/80">{highlights[activeSlide].description}</p>
                 </div>
+              ))}
+              
+              {/* "Video" playback indicator */}
+              <div className="absolute top-4 right-6 px-3 py-1 bg-black/30 backdrop-blur-sm rounded-full text-white/80 text-xs border border-white/10 flex items-center gap-2">
+                <div className="animate-pulse w-2 h-2 bg-red-500 rounded-full"></div>
+                <span>Auto-Playing Highlights</span>
               </div>
               
               {/* Slider controls */}
@@ -149,12 +225,14 @@ const HighlightReels = () => {
                 <button 
                   onClick={prevSlide}
                   className="w-10 h-10 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center text-white hover:bg-white/20 transition-colors border border-white/20"
+                  aria-label="Previous slide"
                 >
                   <ChevronLeft className="w-5 h-5" />
                 </button>
                 <button 
                   onClick={nextSlide}
                   className="w-10 h-10 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center text-white hover:bg-white/20 transition-colors border border-white/20"
+                  aria-label="Next slide"
                 >
                   <ChevronRight className="w-5 h-5" />
                 </button>
@@ -165,12 +243,13 @@ const HighlightReels = () => {
                 {highlights.map((_, index) => (
                   <button
                     key={index}
-                    onClick={() => setActiveSlide(index)}
+                    onClick={() => goToSlide(index)}
                     className={`w-2 h-2 rounded-full transition-all ${
                       index === activeSlide 
                         ? 'bg-white w-6' 
                         : 'bg-white/30 hover:bg-white/50'
                     }`}
+                    aria-label={`Go to slide ${index + 1}`}
                   />
                 ))}
               </div>
