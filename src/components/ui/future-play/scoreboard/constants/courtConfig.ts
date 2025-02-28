@@ -10,6 +10,13 @@ export const courtBoundaries = {
   courtLeft: 13.33, // Left of main court boundary (%)
   courtRight: 86.67, // Right of main court boundary (%)
   
+  // Add property aliases for backward compatibility with existing code
+  top: 25, // Alias for courtTop
+  bottom: 75, // Alias for courtBottom
+  left: 13.33, // Alias for courtLeft
+  right: 86.67, // Alias for courtRight
+  midLine: 50, // Alias for centerLine
+  
   // Center line
   centerLine: 50, // Center vertical line (%)
   
@@ -20,6 +27,12 @@ export const courtBoundaries = {
   // Net
   netPosition: 50, // Net position (%) - middle of court
   netThickness: 2, // Thickness of net line (px)
+  
+  // Net properties for backward compatibility
+  net: {
+    top: 39.17, // Same as kitchenTop
+    bottom: 60.83 // Same as kitchenBottom
+  },
   
   // Service boxes
   serviceLinePosition: 32.5, // Service line position from baseline (%)
