@@ -7,8 +7,8 @@ export const courtBoundaries = {
   right: 90, // Right court boundary (%)
   net: { top: 48, bottom: 52 }, // Net position (%)
   midLine: 50, // Middle line of the court (%)
-  kitchenTop: 30, // Non-volley zone top line (%)
-  kitchenBottom: 70, // Non-volley zone bottom line (%)
+  kitchenTop: 35, // Non-volley zone top line (%)
+  kitchenBottom: 65, // Non-volley zone bottom line (%)
   serviceBoxes: {
     topLeft: { x1: 0, y1: 0, x2: 25, y2: 50 },
     topRight: { x1: 25, y1: 0, x2: 50, y2: 50 },
@@ -19,18 +19,19 @@ export const courtBoundaries = {
 
 // Court colors
 export const courtColors = {
-  surface: "#0A4D73", // Main court surface color (dark blue)
+  surface: "#1A2D5A", // Main court surface color (dark blue)
+  kitchen: "#0FA0CE", // Non-volley zone color (light blue)
   lines: "white", // Court line color
-  boundary: "#1B4D2B", // Outer boundary color (dark green)
-  team1: "#176840", // Team 1 color (green)
-  team2: "#0A4D73" // Team 2 color (blue)
+  boundary: "#76C043", // Outer boundary color (green)
+  team1: "#76C043", // Team 1 color (green)
+  team2: "#0FA0CE" // Team 2 color (blue)
 };
 
 // Player configuration
 export const playerConfig = {
   size: 10, // Size of player circles in pixels
-  team1Color: "#176840", // Team 1 color (green)
-  team2Color: "#0A4D73", // Team 2 color (blue)
+  team1Color: "#76C043", // Team 1 color (green)
+  team2Color: "#0FA0CE", // Team 2 color (blue)
   glowSize: 20, // Size of glow effect
   glowOpacity: 0.3 // Opacity of glow effect
 };
@@ -40,9 +41,11 @@ export const ballConfig = {
   size: 5, // Size of ball in pixels
   color: "#FFFFFF", // Ball color (white)
   borderColor: "#F0F0F0", // Ball border color
-  trajectoryColor: "#45D97E", // Ball trajectory line color (light green)
+  trajectoryColor: "#76C043", // Ball trajectory line color (green)
+  trailColor: "#76C043", // Ball trail color (green)
   glowSize: 15, // Size of glow effect
-  glowOpacity: 0.6 // Opacity of glow effect
+  glowOpacity: 0.6, // Opacity of glow effect
+  trailLength: 8 // Number of trail segments
 };
 
 // Team labels
