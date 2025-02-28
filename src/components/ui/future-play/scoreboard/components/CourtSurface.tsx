@@ -16,10 +16,10 @@ const CourtSurface: React.FC = () => {
   const extendedLeft = originalLeft - (originalLeft * extendBy);
   const extendedRight = originalRight + ((100 - originalRight) * extendBy);
   
-  // Render buffer area (now smaller due to court extension)
+  // Render buffer area (now smaller due to court extension and further reduced by 10%)
   const renderBufferArea = () => {
-    // Calculate buffer size reduction (40% smaller)
-    const bufferReduction = 0.4;
+    // Calculate buffer size reduction (50% smaller - increased from 40%)
+    const bufferReduction = 0.5;
     const topBuffer = courtBoundaries.courtTop * bufferReduction;
     const bottomBuffer = courtBoundaries.courtBottom * bufferReduction;
     const leftBuffer = courtBoundaries.courtLeft * bufferReduction;

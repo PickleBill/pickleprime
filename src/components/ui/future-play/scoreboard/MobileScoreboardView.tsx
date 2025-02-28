@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { 
   ChevronLeft, Activity, Trophy, 
@@ -224,10 +223,10 @@ const MobileScoreboardView: React.FC<MobileScoreboardViewProps> = ({
           </div>
         </div>
         
-        {/* Right Panel with Court View (66%) and Match Feed (33%) */}
+        {/* Right Panel with Court View (60%) and Match Feed (40%) */}
         <div className="flex flex-col h-full space-y-4">
-          {/* Court View Panel - 66% height */}
-          <div className="bg-[#1B4D2B] rounded-lg overflow-hidden border border-white/10 shadow-lg flex-2" style={{ height: "66%" }}>
+          {/* Court View Panel - 60% height (reduced from 66%) */}
+          <div className="bg-[#1B4D2B] rounded-lg overflow-hidden border border-white/10 shadow-lg flex-2" style={{ height: "60%" }}>
             <div className="py-2 px-3 bg-[#176840] text-white flex items-center justify-between">
               <h3 className="font-medium text-sm">TEAM GREEN</h3>
               <div className="text-right text-xs text-white/70">vs</div>
@@ -247,8 +246,8 @@ const MobileScoreboardView: React.FC<MobileScoreboardViewProps> = ({
             </div>
           </div>
           
-          {/* Match Feed Panel - 33% height */}
-          <div className="bg-navy-dark rounded-lg overflow-hidden border border-white/10 shadow-lg flex-1" style={{ height: "33%" }}>
+          {/* Match Feed Panel - 40% height (increased from 33%) */}
+          <div className="bg-navy-dark rounded-lg overflow-hidden border border-white/10 shadow-lg flex-1" style={{ height: "40%" }}>
             <div className="py-2 px-3 bg-[#1E3A8A] text-white flex items-center justify-between">
               <h3 className="font-medium text-sm">MATCH FEED</h3>
               <div className="flex items-center gap-2">
