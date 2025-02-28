@@ -3,35 +3,37 @@ import React, { useState } from "react";
 import PillarCard from "./ui/PillarCard";
 import { pillars } from "@/assets/data";
 import { X } from "lucide-react";
+import DashboardModal from "./ui/DashboardModal";
 
 const SolutionSection = () => {
-  // State for handling the highlight reel modal
+  // State for handling the highlight reel modal and dashboard modal
   const [showHighlightModal, setShowHighlightModal] = useState(false);
+  const [showDashboard, setShowDashboard] = useState(false);
 
   // Sample highlight images/videos data
   const highlightContent = [
     {
       id: 1,
       type: "image",
-      url: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5",
+      url: "https://images.unsplash.com/photo-1599579133515-8d31998bd508?q=80",
       caption: "Perfect backhand winner"
     },
     {
       id: 2,
       type: "image",
-      url: "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7",
+      url: "https://images.unsplash.com/photo-1599579133540-36c7875e09c4?q=80",
       caption: "Analytics in action"
     },
     {
       id: 3,
       type: "image",
-      url: "https://images.unsplash.com/photo-1511367461989-f85a21fda167",
+      url: "https://images.unsplash.com/photo-1574271143515-5cddf8da19be?q=80",
       caption: "Incredible rally point"
     },
     {
       id: 4,
       type: "image", 
-      url: "https://images.unsplash.com/photo-1608245449230-4ac19066d2d0",
+      url: "https://images.unsplash.com/photo-1587280501635-eae4e23dfd79?q=80",
       caption: "Match-winning smash"
     }
   ];
@@ -170,14 +172,20 @@ const SolutionSection = () => {
             <div className="p-6 border-t">
               <button 
                 className="w-full py-3 bg-primary text-white font-medium rounded-lg hover:bg-primary-dark transition-colors"
-                onClick={() => setShowHighlightModal(false)}
+                onClick={() => {
+                  setShowHighlightModal(false);
+                  setShowDashboard(true);
+                }}
               >
-                Close Gallery
+                See How it Works
               </button>
             </div>
           </div>
         </div>
       )}
+
+      {/* Dashboard Modal */}
+      <DashboardModal isOpen={showDashboard} onClose={() => setShowDashboard(false)} />
     </section>
   );
 };
