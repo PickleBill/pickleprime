@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from "react";
-import { X, Video, Activity, Trophy, Monitor, Users } from "lucide-react";
+import { X, Video, Activity, Trophy, Monitor, Users, Play } from "lucide-react";
 import AnimatedButton from "./AnimatedButton";
 
 interface FuturePlayModalProps {
@@ -145,7 +145,7 @@ const FuturePlayModal = ({ isOpen, onClose }: FuturePlayModalProps) => {
           <div className="absolute top-0 left-0 w-full h-full opacity-10 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxwYXRoIGZpbGw9IiMxMTE4MjgiIGQ9Ik0wIDBoNjB2NjBIMHoiLz48cGF0aCBkPSJNMzAgMzBoMzB2MzBIMzB6TTAgMzBoMzB2MzBIMHoiIGZpbGw9IiMyQkNCNkUiIG9wYWNpdHk9Ii4xIi8+PC9nPjwvc3ZnPg==')]"></div>
           
           <div className="relative flex flex-col items-center text-center">
-            <span className="inline-block bg-white/10 backdrop-blur-sm text-primary px-4 py-1 rounded-full text-sm font-medium mb-2 border border-primary/20">
+            <span className="inline-block bg-white/10 backdrop-blur-sm text-primary/80 px-4 py-1 rounded-full text-xs font-medium mb-2 border border-primary/20">
               PickleBills SwingNet: The future of Play
             </span>
             <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-2">
@@ -156,9 +156,19 @@ const FuturePlayModal = ({ isOpen, onClose }: FuturePlayModalProps) => {
 
         {/* Main Content */}
         <div className="relative p-4 md:p-8 overflow-auto max-h-[calc(90vh-12rem)]">
+          {/* Play Button - Big and centered above the central statement */}
+          <div className={`flex justify-center mb-6 ${animationComplete ? 'opacity-100 scale-100' : 'opacity-0 scale-50'} transition-all duration-700`}>
+            <button 
+              className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-primary hover:bg-primary-dark shadow-lg shadow-primary/20 flex items-center justify-center transition-all duration-300 hover:scale-105"
+              aria-label="Launch Digital Scoreboard"
+            >
+              <Play className="w-8 h-8 md:w-10 md:h-10 text-white fill-white" />
+            </button>
+          </div>
+          
           {/* Central Statement */}
           <div className={`text-center max-w-3xl mx-auto mb-10 ${animationComplete ? 'opacity-100 transform-none' : 'opacity-0 translate-y-4'} transition-all duration-1000`}>
-            <p className="text-white/90 text-lg md:text-xl leading-relaxed">
+            <p className="text-white/80 text-base md:text-lg leading-relaxed">
               "We didn't just design a scheduling app; we built a full engagement ecosystem. 
               From highlight reels to analytics that keep players obsessed, 
               to interactive scoreboards for sponsor revenue— 
@@ -168,17 +178,6 @@ const FuturePlayModal = ({ isOpen, onClose }: FuturePlayModalProps) => {
 
           {/* Pillars Circle Layout */}
           <div className="relative">
-            {/* Center circle */}
-            <div className={`w-24 h-24 md:w-32 md:h-32 rounded-full bg-gradient-to-br from-navy to-navy-dark border border-primary/30 absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 flex items-center justify-center shadow-lg shadow-primary/20 ${animationComplete ? 'opacity-100 scale-100' : 'opacity-0 scale-50'} transition-all duration-700`}>
-              <div className="text-primary font-bold text-2xl">
-                <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M24 4C35.0457 4 44 12.9543 44 24C44 35.0457 35.0457 44 24 44C12.9543 44 4 35.0457 4 24C4 12.9543 12.9543 4 24 4Z" stroke="#2BCB6E" strokeWidth="2" strokeLinecap="round" strokeDasharray="4 4"/>
-                  <path d="M24 16L24 32" stroke="#2BCB6E" strokeWidth="2" strokeLinecap="round"/>
-                  <path d="M16 24L32 24" stroke="#2BCB6E" strokeWidth="2" strokeLinecap="round"/>
-                </svg>
-              </div>
-            </div>
-            
             {/* Pillars in a circle layout */}
             <div className="grid grid-cols-1 md:grid-cols-5 gap-4 md:gap-6 mb-8 relative">
               {pillars.map((pillar, index) => {
