@@ -146,10 +146,10 @@ const FuturePlayModal = ({ isOpen, onClose }: FuturePlayModalProps) => {
           
           <div className="relative flex flex-col items-center text-center">
             <span className="inline-block bg-white/10 backdrop-blur-sm text-primary/80 px-4 py-1 rounded-full text-xs font-medium mb-2 border border-primary/20">
-              PickleBills SwingNet: The future of Play
+              PickleBills
             </span>
             <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-2">
-              The Full Engagement Ecosystem
+              SwingNet: The Future of Play
             </h2>
           </div>
         </div>
@@ -158,8 +158,8 @@ const FuturePlayModal = ({ isOpen, onClose }: FuturePlayModalProps) => {
         <div className="relative p-4 md:p-8 overflow-auto max-h-[calc(90vh-12rem)]">
           {/* Pillars layout moved up */}
           <div className="relative mb-6">
-            {/* Overlay Play Button (centered absolute positioning) */}
-            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20">
+            {/* Overlay Play Button (centered absolute positioning) - moved higher */}
+            <div className="absolute top-1/3 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20">
               <div className={`${animationComplete ? 'opacity-100 scale-100' : 'opacity-0 scale-50'} transition-all duration-700`}>
                 <button 
                   className="w-20 h-20 md:w-24 md:h-24 rounded-full bg-primary/90 hover:bg-primary shadow-lg shadow-primary/20 flex items-center justify-center transition-all duration-300 hover:scale-105 backdrop-blur-sm"
