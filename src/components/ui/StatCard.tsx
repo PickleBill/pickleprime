@@ -6,10 +6,12 @@ interface StatCardProps {
   value: string;
   label: string;
   description: string;
+  icon?: string;
+  color?: string;
   className?: string;
 }
 
-const StatCard = ({ value, label, description, className }: StatCardProps) => {
+const StatCard = ({ value, label, description, icon, color = "primary", className }: StatCardProps) => {
   return (
     <div
       className={cn(
@@ -18,7 +20,7 @@ const StatCard = ({ value, label, description, className }: StatCardProps) => {
       )}
     >
       <div className="flex flex-col items-start">
-        <span className="text-4xl md:text-5xl font-bold text-primary">{value}</span>
+        <span className={`text-4xl md:text-5xl font-bold text-${color}`}>{value}</span>
         <span className="text-sm font-medium text-navy uppercase tracking-wider mt-1">
           {label}
         </span>

@@ -27,19 +27,22 @@ const MarketSection = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
           <StatCard
-            title="36.5 Million"
+            value="36.5 Million"
+            label="PLAYERS"
             description="People play racquet sports in the US alone, with pickleball seeing 160% growth over 3 years"
             icon="TrendingUp"
             color="green"
           />
           <StatCard
-            title="10,320+"
+            value="10,320+"
+            label="FACILITIES"
             description="Dedicated pickleball facilities in the US, with thousands more being built each year"
             icon="Building2"
             color="blue"
           />
           <StatCard
-            title="$4.8 Billion"
+            value="$4.8 Billion"
+            label="MARKET SIZE"
             description="Annual equipment and facility revenue in the US racquet sports market"
             icon="DollarSign"
             color="amber"
