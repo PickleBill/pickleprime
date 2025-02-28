@@ -19,24 +19,34 @@ export const courtBoundaries = {
 
 // Court colors
 export const courtColors = {
-  surface: "#5FAEDC", // Main court surface color
+  surface: "#0A4D73", // Main court surface color (dark blue)
   lines: "white", // Court line color
-  boundary: "#1B4D2B", // Outer boundary color
-  team1: "#176840", // Team 1 color
-  team2: "#0A4D73" // Team 2 color
+  boundary: "#1B4D2B", // Outer boundary color (dark green)
+  team1: "#176840", // Team 1 color (green)
+  team2: "#0A4D73" // Team 2 color (blue)
 };
 
 // Player configuration
 export const playerConfig = {
-  size: 8, // Size of player circles in pixels
-  team1Color: "#176840", // Team 1 color 
-  team2Color: "#0A4D73" // Team 2 color
+  size: 10, // Size of player circles in pixels
+  team1Color: "#176840", // Team 1 color (green)
+  team2Color: "#0A4D73", // Team 2 color (blue)
+  glowSize: 20, // Size of glow effect
+  glowOpacity: 0.3 // Opacity of glow effect
 };
 
 // Ball configuration
 export const ballConfig = {
-  size: 4, // Size of ball in pixels
-  color: "#FACC15", // Ball color
-  borderColor: "#F59E0B", // Ball border color
-  trajectoryColor: "#e6ff05" // Ball trajectory line color
+  size: 5, // Size of ball in pixels
+  color: "#FFFFFF", // Ball color (white)
+  borderColor: "#F0F0F0", // Ball border color
+  trajectoryColor: "#45D97E", // Ball trajectory line color (light green)
+  glowSize: 15, // Size of glow effect
+  glowOpacity: 0.6 // Opacity of glow effect
+};
+
+// Team labels
+export const teamLabels = {
+  team1: "TEAM GREEN",
+  team2: "TEAM BLUE"
 };
