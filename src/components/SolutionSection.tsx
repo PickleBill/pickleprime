@@ -13,8 +13,16 @@ const SolutionSection = () => {
   // Video player simulation state
   const [isPlaying, setIsPlaying] = useState(false);
   const [progressWidth, setProgressWidth] = useState(0);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  
+  // Array of pickleball action images for the slideshow
+  const slideImages = [
+    "/lovable-uploads/f6a5f1d2-6b3c-4940-bff5-e72057054635.png",
+    "/lovable-uploads/52327bfd-294c-46cf-abbc-598425b4ed4a.png",
+    "/lovable-uploads/7f9dd4fa-704a-467b-8951-44d38612abb5.png"
+  ];
 
-  // Simulate video progress when "playing"
+  // Simulate video progress when "playing" and cycle through images
   useEffect(() => {
     let interval: ReturnType<typeof setInterval>;
     
@@ -23,8 +31,15 @@ const SolutionSection = () => {
         setProgressWidth(prev => {
           if (prev >= 100) {
             setIsPlaying(false);
+            setCurrentImageIndex(0); // Reset to first image
             return 0;
           }
+          
+          // Change image every 33% of progress
+          if (prev % 33 === 0 && prev > 0) {
+            setCurrentImageIndex((currentImageIndex + 1) % slideImages.length);
+          }
+          
           return prev + 0.5;
         });
       }, 50);
@@ -33,12 +48,15 @@ const SolutionSection = () => {
     return () => {
       if (interval) clearInterval(interval);
     };
-  }, [isPlaying]);
+  }, [isPlaying, currentImageIndex, slideImages.length]);
 
   // Reset progress when stopped
   useEffect(() => {
     if (!isPlaying && progressWidth === 100) {
-      setTimeout(() => setProgressWidth(0), 500);
+      setTimeout(() => {
+        setProgressWidth(0);
+        setCurrentImageIndex(0);
+      }, 500);
     }
   }, [isPlaying, progressWidth]);
 
@@ -135,17 +153,25 @@ const SolutionSection = () => {
               </ul>
             </div>
             <div className="lg:h-auto bg-gray-200 min-h-[300px] relative overflow-hidden">
-              <img
-                src="/lovable-uploads/d57ab558-dee0-4f1a-a7ba-17e0a656629e.png"
-                alt="Pickleball Action Shot"
-                className={`w-full h-full object-cover object-center transition-opacity duration-300 ${isPlaying ? 'opacity-90' : 'opacity-100'}`}
-              />
+              {/* Image slideshow */}
+              <div className="w-full h-full">
+                {slideImages.map((src, index) => (
+                  <img
+                    key={index}
+                    src={src}
+                    alt={`Pickleball Action Shot ${index + 1}`}
+                    className={`absolute inset-0 w-full h-full object-cover object-center transition-opacity duration-500 ${
+                      currentImageIndex === index ? 'opacity-100 z-10' : 'opacity-0 z-0'
+                    }`}
+                  />
+                ))}
+              </div>
               
               {/* Video player overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-navy/50 to-transparent"></div>
+              <div className="absolute inset-0 bg-gradient-to-t from-navy/50 to-transparent z-20"></div>
               
               {/* Video controls */}
-              <div className="absolute bottom-0 left-0 right-0 p-4">
+              <div className="absolute bottom-0 left-0 right-0 p-4 z-30">
                 {/* Progress bar */}
                 <div className="h-1 w-full bg-white/30 rounded-full mb-3">
                   <div 
@@ -171,7 +197,7 @@ const SolutionSection = () => {
               
               {/* Highlight reel button */}
               <div 
-                className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm p-3 rounded-lg shadow-lg cursor-pointer transition-transform hover:scale-105"
+                className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm p-3 rounded-lg shadow-lg cursor-pointer transition-transform hover:scale-105 z-30"
                 onClick={() => setShowHighlightModal(true)}
               >
                 <div className="flex items-center gap-2">
