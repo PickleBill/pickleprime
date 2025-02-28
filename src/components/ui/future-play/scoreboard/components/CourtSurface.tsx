@@ -10,9 +10,9 @@ const CourtSurface: React.FC = () => {
   const originalLeft = courtBoundaries.courtLeft;
   const originalRight = courtBoundaries.courtRight;
   
-  // Extend court in all directions by 20%
-  const extendedTop = originalTop - (originalTop * extendBy);
-  const extendedBottom = originalBottom + ((100 - originalBottom) * extendBy);
+  // Extend court in all directions by 20% - but reduce vertical size by 20%
+  const extendedTop = originalTop - (originalTop * extendBy) + 20; // Add 20% to top boundary to move it down
+  const extendedBottom = originalBottom + ((100 - originalBottom) * extendBy) - 20; // Reduce bottom boundary by 20%
   const extendedLeft = originalLeft - (originalLeft * extendBy);
   const extendedRight = originalRight + ((100 - originalRight) * extendBy);
   
@@ -20,8 +20,8 @@ const CourtSurface: React.FC = () => {
   const renderBufferArea = () => {
     // Calculate buffer size reduction (40% smaller)
     const bufferReduction = 0.4;
-    const topBuffer = courtBoundaries.courtTop * bufferReduction;
-    const bottomBuffer = courtBoundaries.courtBottom * bufferReduction;
+    const topBuffer = courtBoundaries.courtTop * bufferReduction + 20; // Add 20% to move down
+    const bottomBuffer = courtBoundaries.courtBottom * bufferReduction - 20; // Reduce by 20%
     const leftBuffer = courtBoundaries.courtLeft * bufferReduction;
     const rightBuffer = courtBoundaries.courtRight * bufferReduction;
     
