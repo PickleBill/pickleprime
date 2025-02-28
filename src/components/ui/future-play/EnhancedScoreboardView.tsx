@@ -73,7 +73,7 @@ const EnhancedScoreboardView: React.FC<EnhancedScoreboardViewProps> = ({
   const blueTeamColor = "#0A4D73"; // Darker blue
   
   // Carolina blue court color - lighter and brighter
-  const courtColor = "#33C3F0"; // Carolina blue shade
+  const carolinaBlue = "#33C3F0"; // True Carolina blue shade
   
   // Court boundaries for better bounce mechanics
   // Modified to reflect a more realistic pickleball court ratio (more elongated vertically)
@@ -981,7 +981,7 @@ const EnhancedScoreboardView: React.FC<EnhancedScoreboardViewProps> = ({
                 <div className="absolute inset-0 bg-[#1E3B20]/90 shadow-inner"></div>
                 
                 {/* Blue court area with Carolina blue color - elongated vertically */}
-                <div className="absolute inset-x-[15%] inset-y-[5%] bg-[#33C3F0]/90 rounded-sm">
+                <div style={{ position: "absolute", inset: "5% 15%", background: "#33C3F0", opacity: 0.9, borderRadius: "0.125rem" }}>
                   {/* White lines */}
                   <div className="absolute inset-0 border-2 border-white/90"></div>
                   
@@ -992,12 +992,12 @@ const EnhancedScoreboardView: React.FC<EnhancedScoreboardViewProps> = ({
                   
                   {/* Non-volley zone (kitchen) - top */}
                   <div className="absolute top-0 left-0 right-0 h-[42%] border-b-2 border-white/90">
-                    <div className="absolute inset-0 bg-[#33C3F0]/70"></div>
+                    <div style={{ position: "absolute", inset: 0, background: "#33C3F0", opacity: 0.7 }}></div>
                   </div>
                   
                   {/* Non-volley zone (kitchen) - bottom */}
                   <div className="absolute bottom-0 left-0 right-0 h-[42%] border-t-2 border-white/90">
-                    <div className="absolute inset-0 bg-[#33C3F0]/70"></div>
+                    <div style={{ position: "absolute", inset: 0, background: "#33C3F0", opacity: 0.7 }}></div>
                   </div>
                   
                   {/* Center line */}
