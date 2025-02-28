@@ -11,15 +11,18 @@ const SolutionSection = () => {
   const [showDashboard, setShowDashboard] = useState(false);
   
   // Video player simulation state
-  const [isPlaying, setIsPlaying] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(true); // Start playing automatically
   const [progressWidth, setProgressWidth] = useState(0);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   
-  // Array of pickleball action images for the slideshow
+  // Array of pickleball action images for the slideshow (adding 3 new images)
   const slideImages = [
     "/lovable-uploads/f6a5f1d2-6b3c-4940-bff5-e72057054635.png",
     "/lovable-uploads/52327bfd-294c-46cf-abbc-598425b4ed4a.png",
-    "/lovable-uploads/7f9dd4fa-704a-467b-8951-44d38612abb5.png"
+    "/lovable-uploads/7f9dd4fa-704a-467b-8951-44d38612abb5.png",
+    "/lovable-uploads/bcbc30d7-1049-404d-95cd-1a066f700b6e.png",
+    "/lovable-uploads/8029edf8-966c-4941-b75a-3f393c00d531.png",
+    "/lovable-uploads/f73f8efb-cdd6-42c9-97ed-45ef8b69aad9.png"
   ];
 
   // Simulate video progress when "playing" and cycle through images
@@ -30,13 +33,13 @@ const SolutionSection = () => {
       interval = setInterval(() => {
         setProgressWidth(prev => {
           if (prev >= 100) {
-            setIsPlaying(false);
-            setCurrentImageIndex(0); // Reset to first image
+            // Instead of stopping, we'll loop through images
+            setCurrentImageIndex((currentImageIndex + 1) % slideImages.length);
             return 0;
           }
           
-          // Change image every 33% of progress
-          if (prev % 33 === 0 && prev > 0) {
+          // Change image every ~16.6% of progress (for 6 images)
+          if (prev % 16.5 === 0 && prev > 0) {
             setCurrentImageIndex((currentImageIndex + 1) % slideImages.length);
           }
           
@@ -151,6 +154,15 @@ const SolutionSection = () => {
                   <span className="text-gray-700">Branded overlays for facilities</span>
                 </li>
               </ul>
+              
+              {/* New CTA button replacing the top-right corner one */}
+              <button
+                onClick={() => setShowHighlightModal(true)}
+                className="mt-4 bg-primary hover:bg-primary-dark transition-colors text-white font-medium py-3 px-6 rounded-lg flex items-center justify-center gap-2"
+              >
+                <span>View Highlights in Action</span>
+                <Play className="w-4 h-4" />
+              </button>
             </div>
             <div className="lg:h-auto bg-gray-200 min-h-[300px] relative overflow-hidden">
               {/* Image slideshow */}
@@ -191,21 +203,6 @@ const SolutionSection = () => {
                   
                   <div className="text-xs text-white font-medium backdrop-blur-sm bg-black/30 px-2 py-1 rounded">
                     {Math.floor(progressWidth / 100 * 24)}s / 24s
-                  </div>
-                </div>
-              </div>
-              
-              {/* Highlight reel button */}
-              <div 
-                className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm p-3 rounded-lg shadow-lg cursor-pointer transition-transform hover:scale-105 z-30"
-                onClick={() => setShowHighlightModal(true)}
-              >
-                <div className="flex items-center gap-2">
-                  <div className="text-sm font-medium text-navy">View Highlights</div>
-                  <div className="w-6 h-6 rounded-full bg-primary flex items-center justify-center text-white">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M5 3l14 9-14 9V3z" fill="currentColor"/>
-                    </svg>
                   </div>
                 </div>
               </div>
