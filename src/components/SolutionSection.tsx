@@ -97,8 +97,8 @@ const SolutionSection = () => {
             </div>
             <div className="lg:h-auto bg-gray-200 min-h-[300px] relative overflow-hidden">
               <img
-                src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&q=80"
-                alt="Highlight Reel Feature"
+                src="/lovable-uploads/d57ab558-dee0-4f1a-a7ba-17e0a656629e.png"
+                alt="Pickleball Action Shot"
                 className="w-full h-full object-cover object-center"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-navy/30 to-transparent"></div>

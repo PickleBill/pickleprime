@@ -11,8 +11,8 @@ const AboutSection = () => {
           <div className="relative animate-slide-in">
             <div className="rounded-xl overflow-hidden shadow-xl">
               <img
-                src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&q=80" 
-                alt="AI Technology for Racket Sports"
+                src="/lovable-uploads/c35d445c-43d1-4719-a56f-dc693c4903f1.png" 
+                alt="Futuristic Digital Pickleball Court"
                 className="w-full h-auto object-cover"
               />
             </div>
