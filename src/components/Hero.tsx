@@ -61,18 +61,23 @@ const Hero = () => {
             <p className="text-lg md:text-xl text-gray-700 mb-8 max-w-2xl mx-auto">
               Upgrade any venue into a tech-enabled, social-entertainment hub — driving revenue, brand differentiation, and deeper player loyalty.
             </p>
-            <div className="flex flex-col space-y-4 sm:space-y-0 sm:flex-row sm:justify-center">
-              <div className="w-full sm:w-auto">
-                <AnimatedButton size="lg" withArrow>
-                  Schedule a Demo
-                </AnimatedButton>
-              </div>
-              <div className="w-full sm:w-auto flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3">
+            
+            {/* Updated button layout: For Players & For Facilities side by side, followed by Schedule a Demo below */}
+            <div className="flex flex-col space-y-4 items-center">
+              {/* First row: For Players & For Facilities */}
+              <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3 w-full sm:w-auto">
                 <AnimatedButton variant="outline" size="lg" onClick={() => setShowPlayerModal(true)}>
                   For Players
                 </AnimatedButton>
                 <AnimatedButton variant="outline" size="lg" onClick={() => setShowFacilityModal(true)}>
                   For Facilities
+                </AnimatedButton>
+              </div>
+              
+              {/* Second row: Schedule a Demo */}
+              <div className="w-full sm:w-auto mt-4">
+                <AnimatedButton size="lg" withArrow>
+                  Schedule a Demo
                 </AnimatedButton>
               </div>
             </div>
