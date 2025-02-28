@@ -258,10 +258,10 @@ const EnhancedScoreboardView: React.FC<EnhancedScoreboardViewProps> = ({
         </div>
       </div>
 
-      {/* Main Content */}
-      <div className="flex-1 flex gap-4 p-4">
-        {/* Left Side - Court View */}
-        <div className="flex-1 relative bg-[#092435] rounded-lg overflow-hidden border border-[#1A4258]/50" ref={courtRef}>
+      {/* Main Content - adjusted to be slightly more compressed */}
+      <div className="flex-1 flex gap-4 p-4 pb-0">
+        {/* Left Side - Court View - slightly reduced height */}
+        <div className="flex-1 relative bg-[#092435] rounded-lg overflow-hidden border border-[#1A4258]/50 h-[calc(100%-40px)]" ref={courtRef}>
           {/* Dark gradient background */}
           <div className="absolute inset-0 bg-gradient-to-br from-[#092435] to-[#061620]"></div>
           
@@ -428,8 +428,8 @@ const EnhancedScoreboardView: React.FC<EnhancedScoreboardViewProps> = ({
           </div>
         </div>
         
-        {/* Right Side Panel */}
-        <div className="w-96 flex flex-col gap-4">
+        {/* Right Side Panel - slightly reduced height */}
+        <div className="w-96 flex flex-col gap-4 h-[calc(100%-40px)]">
           {/* Live Scoreboard */}
           <div className="bg-[#092435] rounded-lg overflow-hidden border border-[#1A4258]/50 flex flex-col">
             <div className="bg-[#0C8068] py-3 px-4 uppercase text-white font-semibold">
@@ -555,31 +555,9 @@ const EnhancedScoreboardView: React.FC<EnhancedScoreboardViewProps> = ({
           </div>
         </div>
       </div>
-      
-      {/* Sponsor Footer */}
-      <div className="w-full py-3 px-6 bg-[#092435]/70 backdrop-blur-sm border-t border-[#1A4258]/50 flex items-center justify-between">
-        <div className="text-white/40 text-xs uppercase">
-          Powered by SwingNet
-        </div>
-        
-        <div className="flex items-center gap-2">
-          <span className="text-white/40 text-xs uppercase mr-2">Sponsored by</span>
-          <div className="flex items-center gap-6">
-            {sponsors.map(sponsor => (
-              <span key={sponsor.id} className="text-white/80 uppercase text-sm">{sponsor.name}</span>
-            ))}
-          </div>
-        </div>
-        
-        <div className="flex items-center gap-2">
-          <div className="w-6 h-1 bg-primary rounded-full"></div>
-          <div className="w-6 h-1 bg-white/30 rounded-full"></div>
-          <div className="w-6 h-1 bg-white/30 rounded-full"></div>
-        </div>
-      </div>
-      
-      {/* Bottom action bar */}
-      <div className="w-full px-6 py-3 bg-[#092435]/90 backdrop-blur-sm border-t border-[#1A4258]/50 flex items-center justify-between">
+
+      {/* Real-time Analytics Bar - moved above the sponsor footer and slightly overlapping */}
+      <div className="w-full px-6 py-3 bg-[#092435]/90 backdrop-blur-sm border-t border-[#1A4258]/50 flex items-center justify-between -mt-2 relative z-10 shadow-lg">
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-3">
             <Activity className="w-5 h-5 text-[#1a9dc3]" />
@@ -606,6 +584,28 @@ const EnhancedScoreboardView: React.FC<EnhancedScoreboardViewProps> = ({
             <Share2 className="w-4 h-4" />
             <span>Share</span>
           </button>
+        </div>
+      </div>
+      
+      {/* Sponsor Footer - now below the real-time analytics bar */}
+      <div className="w-full py-3 px-6 bg-[#092435]/70 backdrop-blur-sm border-t border-[#1A4258]/50 flex items-center justify-between">
+        <div className="text-white/40 text-xs uppercase">
+          Powered by SwingNet
+        </div>
+        
+        <div className="flex items-center gap-2">
+          <span className="text-white/40 text-xs uppercase mr-2">Sponsored by</span>
+          <div className="flex items-center gap-6">
+            {sponsors.map(sponsor => (
+              <span key={sponsor.id} className="text-white/80 uppercase text-sm">{sponsor.name}</span>
+            ))}
+          </div>
+        </div>
+        
+        <div className="flex items-center gap-2">
+          <div className="w-6 h-1 bg-primary rounded-full"></div>
+          <div className="w-6 h-1 bg-white/30 rounded-full"></div>
+          <div className="w-6 h-1 bg-white/30 rounded-full"></div>
         </div>
       </div>
     </div>
