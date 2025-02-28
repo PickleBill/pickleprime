@@ -170,14 +170,10 @@ const HighlightReels = () => {
           </div>
           
           {/* Right side: Image slider */}
-          <div 
-            className="order-1 md:order-2 relative"
-            onMouseEnter={pauseAutoplay}
-            onMouseLeave={resumeAutoplay}
-          >
+          <div className="order-1 md:order-2 relative">
             <div className="bg-navy-dark rounded-xl overflow-hidden relative aspect-[4/3] shadow-xl">
               {/* Progress bar */}
-              <div className="absolute top-0 left-0 w-full h-1 bg-white/10 z-10">
+              <div className="absolute top-0 left-0 w-full h-1.5 bg-white/10 z-10">
                 <div 
                   className="h-full bg-primary transition-all duration-75"
                   style={{ 
@@ -220,21 +216,22 @@ const HighlightReels = () => {
                 <span>Auto-Playing Highlights</span>
               </div>
               
-              {/* Slider controls */}
-              <div className="absolute bottom-24 right-6 flex gap-2">
+              {/* More prominent slider controls - Left and Right navigation buttons */}
+              <div className="absolute inset-0 flex items-center justify-between px-4 pointer-events-none">
                 <button 
                   onClick={prevSlide}
-                  className="w-10 h-10 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center text-white hover:bg-white/20 transition-colors border border-white/20"
+                  className="w-12 h-12 rounded-full bg-black/40 hover:bg-black/60 backdrop-blur-sm flex items-center justify-center text-white border border-white/20 transition-colors transform hover:scale-105 pointer-events-auto"
                   aria-label="Previous slide"
                 >
-                  <ChevronLeft className="w-5 h-5" />
+                  <ChevronLeft className="w-6 h-6" />
                 </button>
+                
                 <button 
                   onClick={nextSlide}
-                  className="w-10 h-10 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center text-white hover:bg-white/20 transition-colors border border-white/20"
+                  className="w-12 h-12 rounded-full bg-black/40 hover:bg-black/60 backdrop-blur-sm flex items-center justify-center text-white border border-white/20 transition-colors transform hover:scale-105 pointer-events-auto"
                   aria-label="Next slide"
                 >
-                  <ChevronRight className="w-5 h-5" />
+                  <ChevronRight className="w-6 h-6" />
                 </button>
               </div>
               
