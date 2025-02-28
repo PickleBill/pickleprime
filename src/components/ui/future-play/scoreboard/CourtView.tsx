@@ -25,7 +25,13 @@ const CourtView: React.FC<CourtViewProps> = ({
   player4
 }) => {
   return (
-    <div className="relative w-full aspect-[4/3] bg-navy-dark rounded-lg overflow-hidden">
+    <div className="relative w-full" style={{ 
+      // Aspect ratio of the court is 30' x 60' = 1:2, so for every 2 units of width, we need 1 unit of height
+      aspectRatio: '2/1',
+      backgroundColor: '#92D36E', // Match the buffer color
+      borderRadius: '0.5rem',
+      overflow: 'hidden'
+    }}>
       {/* Court structure */}
       <CourtSurface />
       

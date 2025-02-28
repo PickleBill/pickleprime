@@ -1,27 +1,42 @@
 
-// Court configuration constants
+// Court configuration constants based on standard pickleball dimensions
+// Standard court is 20' x 44' with a 30' x 60' total playing area
+
 export const courtBoundaries = {
-  top: 10, // Top court boundary (%)
-  bottom: 90, // Bottom court boundary (%)
-  left: 15, // Left court boundary (%)
-  right: 85, // Right court boundary (%)
-  midLine: 50, // Middle horizontal line (%)
+  // Court boundaries as percentages of the container
+  // Main court: 20' x 44'
+  courtTop: 25, // Top of main court boundary (%)
+  courtBottom: 75, // Bottom of main court boundary (%)
+  courtLeft: 13.33, // Left of main court boundary (%)
+  courtRight: 86.67, // Right of main court boundary (%)
+  
+  // Center line
   centerLine: 50, // Center vertical line (%)
-  kitchenLeft: 36, // Kitchen left boundary (%)
-  kitchenRight: 64, // Kitchen right boundary (%)
-  net: {
-    top: 45, // Net top boundary (%)
-    bottom: 55, // Net bottom boundary (%)
-  }
+  
+  // Non-volley zone (kitchen) - 7' from net on each side
+  kitchenTop: 39.17, // Kitchen top boundary (%) - 7' from net
+  kitchenBottom: 60.83, // Kitchen bottom boundary (%) - 7' from net
+  
+  // Net
+  netPosition: 50, // Net position (%) - middle of court
+  netThickness: 2, // Thickness of net line (px)
+  
+  // Service boxes
+  serviceLinePosition: 32.5, // Service line position from baseline (%)
 };
 
-// Court colors based on the reference image
+// Court colors for the visualization
 export const courtColors = {
-  surface: "#A7EBFD", // Light blue background from the image
-  kitchen: "#2ABADB", // Brighter blue for the center court
-  quadrant: "#2ABADB", // Same blue for all court sections
-  lines: "white", // Court line color
-  boundary: "#FFFFFF", // Outer boundary color (white)
+  // Play area
+  buffer: "#92D36E", // Grass green for buffer area
+  court: "#3897C8", // Medium blue for main court
+  kitchen: "#A7EBFD", // Light blue for kitchen/non-volley zone
+  
+  // Lines
+  lines: "#FFFFFF", // White for court lines
+  netShadow: "rgba(0, 0, 0, 0.2)", // Shadow for the net
+  
+  // Teams
   team1: "#4CAF50", // Team 1 color (green)
   team2: "#1A70C5" // Team 2 color (blue)
 };
