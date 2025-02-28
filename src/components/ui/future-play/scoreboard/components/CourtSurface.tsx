@@ -3,12 +3,27 @@ import React from 'react';
 import { courtBoundaries, courtColors, teamLabels } from '../constants/courtConfig';
 
 const CourtSurface: React.FC = () => {
-  // Render buffer area (30' x 60' total playing area)
-  const renderBufferArea = () => (
-    <div className="absolute inset-0 rounded-lg" style={{ backgroundColor: courtColors.buffer }}></div>
-  );
+  // Render buffer area (reduced by ~40% from original 30' x 60' playing area)
+  const renderBufferArea = () => {
+    // Calculate buffer size reduction (40% smaller)
+    const bufferReduction = 0.4;
+    const topBuffer = courtBoundaries.courtTop * bufferReduction;
+    const bottomBuffer = courtBoundaries.courtBottom * bufferReduction;
+    const leftBuffer = courtBoundaries.courtLeft * bufferReduction;
+    const rightBuffer = courtBoundaries.courtRight * bufferReduction;
+    
+    return (
+      <div className="absolute rounded-lg" style={{ 
+        top: `${topBuffer}%`,
+        bottom: `${topBuffer}%`,
+        left: `${leftBuffer}%`,
+        right: `${leftBuffer}%`,
+        backgroundColor: courtColors.buffer
+      }}></div>
+    );
+  };
 
-  // Render main court (20' x 44')
+  // Render main court (20' x 44') with white border
   const renderMainCourt = () => (
     <div className="absolute" style={{ 
       top: `${courtBoundaries.courtTop}%`, 
