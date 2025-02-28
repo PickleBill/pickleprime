@@ -16,7 +16,7 @@ interface MatchFeedProps {
 
 const MatchFeed: React.FC<MatchFeedProps> = ({ feedItems }) => {
   return (
-    <div className="bg-[#092435] rounded-lg overflow-hidden border border-[#1A4258]/50 flex flex-col">
+    <div className="bg-[#092435] rounded-lg overflow-hidden border border-[#1A4258]/50 flex flex-col h-full">
       <div className="py-1.5 px-3 flex items-center justify-between border-b border-[#1A4258]/50">
         <span className="uppercase text-white font-semibold text-xs sm:text-sm">Match Feed</span>
         <div className="flex items-center gap-2">
@@ -29,7 +29,7 @@ const MatchFeed: React.FC<MatchFeedProps> = ({ feedItems }) => {
         </div>
       </div>
       
-      <div className="max-h-[280px] sm:max-h-60 overflow-y-auto p-2">
+      <div className="max-h-[280px] sm:flex-1 overflow-y-auto p-2">
         {feedItems.map(item => (
           <div 
             key={item.id} 

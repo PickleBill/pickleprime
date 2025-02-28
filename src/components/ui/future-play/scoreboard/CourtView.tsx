@@ -32,7 +32,7 @@ const CourtView: React.FC<CourtViewProps> = ({
   const courtRef = useRef<HTMLDivElement>(null);
   
   return (
-    <div className="w-full relative bg-[#092435] rounded-lg overflow-hidden border border-[#1A4258]/50 aspect-[5/3]" ref={courtRef}>
+    <div className="w-full h-full relative bg-[#092435] rounded-lg overflow-hidden border border-[#1A4258]/50 sm:flex-1 aspect-[5/3] sm:aspect-auto" ref={courtRef}>
       {/* Dark gradient background */}
       <div className="absolute inset-0 bg-gradient-to-br from-[#092435] to-[#061620]"></div>
       
@@ -97,7 +97,7 @@ const CourtView: React.FC<CourtViewProps> = ({
       
       {/* Ball velocity indicator near the ball */}
       <div 
-        className="absolute z-10 px-1.5 py-0.5 bg-[#092435]/80 text-white text-[10px] rounded backdrop-blur-sm border border-[#1A4258]/50"
+        className="absolute z-10 px-1.5 py-0.5 sm:px-2 sm:py-1 bg-[#092435]/80 text-white text-[10px] sm:text-xs rounded backdrop-blur-sm border border-[#1A4258]/50"
         style={{ 
           left: `${ballPosition.x}%`,
           top: `${ballPosition.y + 5}%`,
@@ -149,6 +149,7 @@ const CourtView: React.FC<CourtViewProps> = ({
         </>
       )}
       
+      {/* Player positions - different sizes for mobile and desktop */}
       {/* Player 1 - Main player */}
       <div 
         className="absolute z-20 flex items-center justify-center transition-all duration-300"
@@ -159,9 +160,9 @@ const CourtView: React.FC<CourtViewProps> = ({
           filter: 'drop-shadow(0 0 10px rgba(26, 157, 195, 0.5))'
         }}
       >
-        <div className="w-6 h-6 sm:w-8 sm:h-8 md:w-12 md:h-12 rounded-full flex items-center justify-center">
+        <div className="w-6 h-6 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center">
           <div className="absolute w-full h-full bg-[#1a9dc3]/40 rounded-full animate-pulse"></div>
-          <div className="z-10 bg-[#1a9dc3] text-white text-[8px] sm:text-xs font-bold w-4 h-4 sm:w-5 sm:h-5 md:w-8 md:h-8 rounded-full flex items-center justify-center border-[1px] sm:border-2 border-white/70">
+          <div className="z-10 bg-[#1a9dc3] text-white text-[8px] sm:text-xs font-bold w-4 h-4 sm:w-7 sm:h-7 md:w-8 md:h-8 rounded-full flex items-center justify-center border-[1px] sm:border-2 border-white/70">
             P1
           </div>
         </div>
@@ -177,9 +178,9 @@ const CourtView: React.FC<CourtViewProps> = ({
           filter: 'drop-shadow(0 0 8px rgba(26, 157, 195, 0.4))'
         }}
       >
-        <div className="w-5 h-5 sm:w-7 sm:h-7 md:w-10 md:h-10 rounded-full flex items-center justify-center">
+        <div className="w-5 h-5 sm:w-8 sm:h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center">
           <div className="absolute w-full h-full bg-[#1a9dc3]/40 rounded-full animate-pulse"></div>
-          <div className="z-10 bg-[#1a9dc3] text-white text-[8px] sm:text-xs font-bold w-3 h-3 sm:w-4 sm:h-4 md:w-7 md:h-7 rounded-full flex items-center justify-center border-[1px] sm:border-2 border-white/70">
+          <div className="z-10 bg-[#1a9dc3] text-white text-[8px] sm:text-xs font-bold w-3 h-3 sm:w-5 sm:h-5 md:w-7 md:h-7 rounded-full flex items-center justify-center border-[1px] sm:border-2 border-white/70">
             P3
           </div>
         </div>
@@ -195,9 +196,9 @@ const CourtView: React.FC<CourtViewProps> = ({
           filter: 'drop-shadow(0 0 10px rgba(43, 203, 110, 0.5))'
         }}
       >
-        <div className="w-6 h-6 sm:w-8 sm:h-8 md:w-12 md:h-12 rounded-full flex items-center justify-center">
+        <div className="w-6 h-6 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center">
           <div className="absolute w-full h-full bg-primary/40 rounded-full animate-pulse"></div>
-          <div className="z-10 bg-primary text-white text-[8px] sm:text-xs font-bold w-4 h-4 sm:w-5 sm:h-5 md:w-8 md:h-8 rounded-full flex items-center justify-center border-[1px] sm:border-2 border-white/70">
+          <div className="z-10 bg-primary text-white text-[8px] sm:text-xs font-bold w-4 h-4 sm:w-7 sm:h-7 md:w-8 md:h-8 rounded-full flex items-center justify-center border-[1px] sm:border-2 border-white/70">
             P2
           </div>
         </div>
@@ -213,30 +214,30 @@ const CourtView: React.FC<CourtViewProps> = ({
           filter: 'drop-shadow(0 0 8px rgba(43, 203, 110, 0.4))'
         }}
       >
-        <div className="w-5 h-5 sm:w-7 sm:h-7 md:w-10 md:h-10 rounded-full flex items-center justify-center">
+        <div className="w-5 h-5 sm:w-8 sm:h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center">
           <div className="absolute w-full h-full bg-primary/40 rounded-full animate-pulse"></div>
-          <div className="z-10 bg-primary text-white text-[8px] sm:text-xs font-bold w-3 h-3 sm:w-4 sm:h-4 md:w-7 md:h-7 rounded-full flex items-center justify-center border-[1px] sm:border-2 border-white/70">
+          <div className="z-10 bg-primary text-white text-[8px] sm:text-xs font-bold w-3 h-3 sm:w-5 sm:h-5 md:w-7 md:h-7 rounded-full flex items-center justify-center border-[1px] sm:border-2 border-white/70">
             P4
           </div>
         </div>
       </div>
       
-      {/* Score overlay - Always visible on mobile but smaller */}
+      {/* Score overlay on court - Mobile only (desktop shows score in the stats panel) */}
       <div 
-        className="absolute top-3 left-1/2 transform -translate-x-1/2 flex items-center gap-4 sm:gap-8 bg-[#092435]/90 backdrop-blur-sm px-4 sm:px-8 py-2 sm:py-4 rounded-full border border-[#1A4258]/50 z-20"
+        className="absolute top-3 left-1/2 transform -translate-x-1/2 flex sm:hidden items-center gap-4 bg-[#092435]/90 backdrop-blur-sm px-4 py-2 rounded-full border border-[#1A4258]/50 z-20"
         style={{ boxShadow: '0 0 20px rgba(0, 0, 0, 0.5)' }}
       >
-        <span className="text-[#1a9dc3] font-bold text-2xl sm:text-3xl">{player1Score}</span>
-        <span className="text-white/50 text-xl sm:text-2xl">-</span>
-        <span className="text-primary font-bold text-2xl sm:text-3xl">{player2Score}</span>
+        <span className="text-[#1a9dc3] font-bold text-2xl">{player1Score}</span>
+        <span className="text-white/50 text-xl">-</span>
+        <span className="text-primary font-bold text-2xl">{player2Score}</span>
       </div>
       
       {/* Team labels for clarity - smaller on mobile */}
-      <div className="absolute top-12 sm:top-16 left-2 sm:left-3 bg-[#1a9dc3]/20 backdrop-blur-sm px-1.5 py-0.5 sm:px-2 sm:py-1 rounded text-[10px] sm:text-xs text-white border border-[#1a9dc3]/30 z-10">
+      <div className="absolute top-12 left-2 sm:left-3 bg-[#1a9dc3]/20 backdrop-blur-sm px-1.5 py-0.5 sm:px-2 sm:py-1 rounded text-[10px] sm:text-xs text-white border border-[#1a9dc3]/30 z-10">
         TEAM BLUE
       </div>
       
-      <div className="absolute top-12 sm:top-16 right-2 sm:right-3 bg-primary/20 backdrop-blur-sm px-1.5 py-0.5 sm:px-2 sm:py-1 rounded text-[10px] sm:text-xs text-white border border-primary/30 z-10">
+      <div className="absolute top-12 right-2 sm:right-3 bg-primary/20 backdrop-blur-sm px-1.5 py-0.5 sm:px-2 sm:py-1 rounded text-[10px] sm:text-xs text-white border border-primary/30 z-10">
         TEAM GREEN
       </div>
     </div>

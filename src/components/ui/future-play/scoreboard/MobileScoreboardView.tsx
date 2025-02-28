@@ -101,33 +101,68 @@ const MobileScoreboardView: React.FC<MobileScoreboardViewProps> = ({
         player2Name={player2Stats.name}
       />
 
-      {/* Main Content - Scrollable Area */}
-      <div className="flex flex-col flex-1 overflow-auto">
-        {/* Court View - Positioned at top for mobile */}
-        <div className="px-2 pt-2">
-          <CourtView 
-            ballPosition={ballPosition}
-            ballTrajectory={ballTrajectory}
-            ballVelocity={ballVelocity}
-            player1={player1}
-            player2={player2}
-            player3={player3}
-            player4={player4}
-            player1Score={player1Score}
-            player2Score={player2Score}
-          />
+      {/* Main Content - Different layout for mobile and desktop */}
+      <div className="flex-1 overflow-auto">
+        {/* Mobile Layout - Stacked vertically */}
+        <div className="flex flex-col sm:hidden">
+          {/* Court View at top for mobile */}
+          <div className="px-2 pt-2">
+            <CourtView 
+              ballPosition={ballPosition}
+              ballTrajectory={ballTrajectory}
+              ballVelocity={ballVelocity}
+              player1={player1}
+              player2={player2}
+              player3={player3}
+              player4={player4}
+              player1Score={player1Score}
+              player2Score={player2Score}
+            />
+          </div>
+          
+          {/* Stats and Feed stacked on mobile */}
+          <div className="p-2 space-y-2">
+            <ScoreboardStats 
+              player1Stats={player1Stats}
+              player2Stats={player2Stats}
+            />
+            
+            <div className="mb-16"> {/* Bottom margin for footer */}
+              <MatchFeed 
+                feedItems={matchFeedItems}
+              />
+            </div>
+          </div>
         </div>
         
-        {/* Stats and Feed - Stacked vertically on mobile */}
-        <div className="p-2 space-y-2">
-          {/* Scoreboard Stats - Compact version for mobile */}
-          <ScoreboardStats 
-            player1Stats={player1Stats}
-            player2Stats={player2Stats}
-          />
+        {/* Desktop Layout - Three-column with scoreboard, court, and match feed */}
+        <div className="hidden sm:flex h-full p-4 gap-4">
+          {/* Left Column - Scoreboard (Wider on desktop) */}
+          <div className="w-[38%] h-[calc(100%-40px)]">
+            <ScoreboardStats 
+              player1Stats={player1Stats}
+              player2Stats={player2Stats}
+              expanded={true}
+            />
+          </div>
           
-          {/* Match Feed - Takes remaining space */}
-          <div className="mb-16"> {/* Add bottom margin to ensure footer doesn't overlap */}
+          {/* Middle Column - Court View */}
+          <div className="w-[40%] h-[calc(100%-40px)]">
+            <CourtView 
+              ballPosition={ballPosition}
+              ballTrajectory={ballTrajectory}
+              ballVelocity={ballVelocity}
+              player1={player1}
+              player2={player2}
+              player3={player3}
+              player4={player4}
+              player1Score={player1Score}
+              player2Score={player2Score}
+            />
+          </div>
+          
+          {/* Right Column - Match Feed (Skinnier on desktop) */}
+          <div className="w-[22%] h-[calc(100%-40px)]">
             <MatchFeed 
               feedItems={matchFeedItems}
             />
