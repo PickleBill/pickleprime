@@ -69,11 +69,12 @@ const EnhancedScoreboardView: React.FC<EnhancedScoreboardViewProps> = ({
   const courtRef = useRef<HTMLDivElement>(null);
   
   // Court boundaries for better bounce mechanics
+  // Modified to reflect a more realistic pickleball court ratio (more elongated vertically)
   const courtBoundaries = {
-    top: 20, // Top court boundary (%)
-    bottom: 80, // Bottom court boundary (%)
-    left: 5, // Left court boundary (%)
-    right: 95, // Right court boundary (%)
+    top: 15, // Top court boundary (%) - moved up slightly
+    bottom: 85, // Bottom court boundary (%) - moved down slightly
+    left: 10, // Left court boundary (%)
+    right: 90, // Right court boundary (%)
     net: { top: 48, bottom: 52 }, // Net position (%)
     midLine: 50 // Middle line of the court (%)
   };
@@ -269,34 +270,34 @@ const EnhancedScoreboardView: React.FC<EnhancedScoreboardViewProps> = ({
       
       // Occasionally set new random targets for players to simulate positioning
       if (Math.random() < 0.05) {
-        // Set new random targets within their respective court areas
+        // Set new random targets within their respective court areas - adjusted for new court dimensions
         
         // Player 1 - Front left
         setPlayer1(prev => ({
           ...prev,
           targetX: Math.random() * 20 + 15, // 15-35%
-          targetY: Math.random() * 15 + 25, // 25-40%
+          targetY: Math.random() * 20 + 20, // 20-40%
         }));
         
         // Player 2 - Front right
         setPlayer2(prev => ({
           ...prev,
           targetX: Math.random() * 20 + 65, // 65-85%
-          targetY: Math.random() * 15 + 25, // 25-40%
+          targetY: Math.random() * 20 + 20, // 20-40%
         }));
         
         // Player 3 - Back left
         setPlayer3(prev => ({
           ...prev,
           targetX: Math.random() * 20 + 15, // 15-35%
-          targetY: Math.random() * 15 + 60, // 60-75%
+          targetY: Math.random() * 20 + 60, // 60-80%
         }));
         
         // Player 4 - Back right
         setPlayer4(prev => ({
           ...prev,
           targetX: Math.random() * 20 + 65, // 65-85%
-          targetY: Math.random() * 15 + 60, // 60-75%
+          targetY: Math.random() * 20 + 60, // 60-80%
         }));
       }
     }, 50);
@@ -476,19 +477,19 @@ const EnhancedScoreboardView: React.FC<EnhancedScoreboardViewProps> = ({
           {/* Dark gradient background */}
           <div className="absolute inset-0 bg-gradient-to-br from-[#092435] to-[#061620]"></div>
           
-          {/* Pickleball Court with proper colors */}
-          <div className="absolute inset-8 rounded-lg overflow-hidden">
-            {/* Green outer area (pickleball court surroundings) */}
-            <div className="absolute inset-0 bg-[#4CAF50]/20 shadow-inner"></div>
+          {/* Pickleball Court with proper colors - Modified with more padding and vertical extension */}
+          <div className="absolute inset-4 rounded-lg overflow-hidden">
+            {/* Green outer area (pickleball court surroundings) - Increased padding */}
+            <div className="absolute inset-0 bg-[#F2FCE2] shadow-inner"></div>
             
-            {/* Blue court area */}
-            <div className="absolute inset-3 bg-[#0EA5E9]/70 rounded-sm">
+            {/* Blue court area - Made more rectangular to reflect pickleball court dimensions */}
+            <div className="absolute inset-[10%] bg-[#0EA5E9]/70 rounded-sm">
               {/* White lines */}
               <div className="absolute inset-0 border-2 border-white/90"></div>
               
               {/* Non-volley zone (kitchen) - top and bottom */}
-              <div className="absolute top-0 left-0 right-0 h-[22%] border-b-2 border-white/90 bg-[#0EA5E9]/80"></div>
-              <div className="absolute bottom-0 left-0 right-0 h-[22%] border-t-2 border-white/90 bg-[#0EA5E9]/80"></div>
+              <div className="absolute top-0 left-0 right-0 h-[20%] border-b-2 border-white/90 bg-[#0EA5E9]/80"></div>
+              <div className="absolute bottom-0 left-0 right-0 h-[20%] border-t-2 border-white/90 bg-[#0EA5E9]/80"></div>
               
               {/* Center line */}
               <div className="absolute top-0 bottom-0 left-1/2 w-0.5 bg-white/90 -translate-x-[0.25px]"></div>
@@ -497,6 +498,11 @@ const EnhancedScoreboardView: React.FC<EnhancedScoreboardViewProps> = ({
               <div className="absolute top-[48%] bottom-[48%] left-0 right-0 bg-black/30 backdrop-blur-[1px]">
                 <div className="h-full w-full border-t border-b border-white/90 bg-white/10"></div>
               </div>
+            </div>
+            
+            {/* Additional green court borders - to create more authentic pickleball court look */}
+            <div className="absolute inset-0 pointer-events-none">
+              <div className="absolute inset-[8%] border-4 border-[#4CAF50]/30 rounded-sm"></div>
             </div>
           </div>
           
