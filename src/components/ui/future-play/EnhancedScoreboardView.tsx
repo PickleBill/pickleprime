@@ -487,17 +487,23 @@ const EnhancedScoreboardView: React.FC<EnhancedScoreboardViewProps> = ({
               {/* White lines */}
               <div className="absolute inset-0 border-2 border-white/90"></div>
               
-              {/* Non-volley zone (kitchen) - top and bottom - Made more compressed vertically */}
-              <div className="absolute top-0 left-0 right-0 h-[14%] border-b-2 border-white/90 bg-[#0EA5E9]/80"></div>
-              <div className="absolute bottom-0 left-0 right-0 h-[14%] border-t-2 border-white/90 bg-[#0EA5E9]/80"></div>
-              
-              {/* Center line */}
-              <div className="absolute top-0 bottom-0 left-1/2 w-0.5 bg-white/90 -translate-x-[0.25px]"></div>
-              
-              {/* Net */}
+              {/* Net area - center gray strip */}
               <div className="absolute top-[48%] bottom-[48%] left-0 right-0 bg-black/30 backdrop-blur-[1px]">
                 <div className="h-full w-full border-t border-b border-white/90 bg-white/10"></div>
               </div>
+              
+              {/* Non-volley zone (kitchen) - top - extending about 2x the height of the net */}
+              <div className="absolute top-0 left-0 right-0 h-[42%] border-b-2 border-white/90">
+                <div className="absolute inset-0 bg-[#0EA5E9]/50"></div>
+              </div>
+              
+              {/* Non-volley zone (kitchen) - bottom - extending about 2x the height of the net */}
+              <div className="absolute bottom-0 left-0 right-0 h-[42%] border-t-2 border-white/90">
+                <div className="absolute inset-0 bg-[#0EA5E9]/50"></div>
+              </div>
+              
+              {/* Center line */}
+              <div className="absolute top-0 bottom-0 left-1/2 w-0.5 bg-white/90 -translate-x-[0.25px]"></div>
             </div>
             
             {/* Additional green court borders - to create more authentic pickleball court look */}
