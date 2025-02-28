@@ -15,8 +15,9 @@ const SolutionSection = () => {
   const [progressWidth, setProgressWidth] = useState(0);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   
-  // Array of pickleball action images for the slideshow (adding 3 new images)
+  // Array of pickleball action images for the slideshow (reordering with new image first)
   const slideImages = [
+    "/lovable-uploads/c8c26cf4-e8ff-48db-b3ff-a497749005b2.png", // New image first
     "/lovable-uploads/f6a5f1d2-6b3c-4940-bff5-e72057054635.png",
     "/lovable-uploads/52327bfd-294c-46cf-abbc-598425b4ed4a.png",
     "/lovable-uploads/7f9dd4fa-704a-467b-8951-44d38612abb5.png",
@@ -38,8 +39,8 @@ const SolutionSection = () => {
             return 0;
           }
           
-          // Change image every ~16.6% of progress (for 6 images)
-          if (prev % 16.5 === 0 && prev > 0) {
+          // Change image every ~14.3% of progress (for 7 images)
+          if (prev % 14.3 === 0 && prev > 0) {
             setCurrentImageIndex((currentImageIndex + 1) % slideImages.length);
           }
           
@@ -182,7 +183,17 @@ const SolutionSection = () => {
               {/* Video player overlay */}
               <div className="absolute inset-0 bg-gradient-to-t from-navy/50 to-transparent z-20"></div>
               
-              {/* Video controls */}
+              {/* Large centered play button overlay */}
+              <div className="absolute inset-0 flex items-center justify-center z-30 pointer-events-none">
+                <button 
+                  onClick={togglePlayPause}
+                  className="w-20 h-20 rounded-full bg-primary flex items-center justify-center text-white hover:bg-primary-dark transition-colors transform hover:scale-105 shadow-lg pointer-events-auto"
+                >
+                  {isPlaying ? <Pause className="w-8 h-8" /> : <Play className="w-8 h-8 ml-1" />}
+                </button>
+              </div>
+              
+              {/* Video controls - positioned at bottom */}
               <div className="absolute bottom-0 left-0 right-0 p-4 z-30">
                 {/* Progress bar */}
                 <div className="h-1 w-full bg-white/30 rounded-full mb-3">
@@ -193,14 +204,7 @@ const SolutionSection = () => {
                 </div>
                 
                 {/* Controls */}
-                <div className="flex items-center justify-between">
-                  <button 
-                    onClick={togglePlayPause}
-                    className="w-10 h-10 rounded-full bg-white flex items-center justify-center text-primary hover:bg-white/90 transition-colors"
-                  >
-                    {isPlaying ? <Pause className="w-5 h-5" /> : <Play className="w-5 h-5 ml-0.5" />}
-                  </button>
-                  
+                <div className="flex items-center justify-end">
                   <div className="text-xs text-white font-medium backdrop-blur-sm bg-black/30 px-2 py-1 rounded">
                     {Math.floor(progressWidth / 100 * 24)}s / 24s
                   </div>
