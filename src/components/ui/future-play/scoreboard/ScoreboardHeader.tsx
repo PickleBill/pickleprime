@@ -7,10 +7,11 @@ interface ScoreboardHeaderProps {
   gameTime: number;
   player1Score: number;
   player2Score: number;
-  player1Avatar: string;
-  player2Avatar: string;
-  player1Name: string;
-  player2Name: string;
+  currentSet?: number;
+  player1Avatar?: string;
+  player2Avatar?: string;
+  player1Name?: string;
+  player2Name?: string;
 }
 
 const ScoreboardHeader: React.FC<ScoreboardHeaderProps> = ({
@@ -18,10 +19,11 @@ const ScoreboardHeader: React.FC<ScoreboardHeaderProps> = ({
   gameTime,
   player1Score,
   player2Score,
-  player1Avatar,
-  player2Avatar,
-  player1Name,
-  player2Name
+  currentSet,
+  player1Avatar = "https://images.unsplash.com/photo-1628157588553-5eeea00af15c?w=150&h=150&crop=faces&auto=format&fit=crop",
+  player2Avatar = "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=150&h=150&crop=faces&auto=format&fit=crop",
+  player1Name = "Alex",
+  player2Name = "Jordan"
 }) => {
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);

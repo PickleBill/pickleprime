@@ -1,21 +1,14 @@
 
 import React from 'react';
 
-interface PlayerPosition {
-  x: number;
-  y: number;
-  targetX: number;
-  targetY: number;
-}
-
 interface CourtViewProps {
   ballPosition: { x: number; y: number };
   ballTrajectory: { x: number; y: number }[];
   ballVelocity: number;
-  player1: PlayerPosition;
-  player2: PlayerPosition;
-  player3: PlayerPosition;
-  player4: PlayerPosition;
+  player1: { x: number; y: number; targetX: number; targetY: number };
+  player2: { x: number; y: number; targetX: number; targetY: number };
+  player3: { x: number; y: number; targetX: number; targetY: number };
+  player4: { x: number; y: number; targetX: number; targetY: number };
   courtColor: string;
 }
 
@@ -33,20 +26,34 @@ const CourtView: React.FC<CourtViewProps> = ({
   const greenTeamColor = "#176840"; // Darker green
   const blueTeamColor = "#0A4D73"; // Darker blue
 
+  // Court boundaries for better bounce mechanics
+  const courtBoundaries = {
+    top: 10, // Top court boundary (%)
+    bottom: 90, // Bottom court boundary (%)
+    left: 15, // Left court boundary (%)
+    right: 85, // Right court boundary (%)
+    net: { top: 48, bottom: 52 }, // Net position (%)
+    midLine: 50 // Middle line of the court (%)
+  };
+
   return (
-    <div className="relative w-full h-full">
+    <div className="relative inset-0 w-full h-full">
       {/* Dark gradient background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-navy-dark to-navy-darker"></div>
+      <div className="absolute inset-0 bg-gradient-to-br from-[#092435] to-[#061620]"></div>
       
-      {/* Pickleball Court with updated Carolina blue color */}
-      <div className="absolute inset-4 rounded-lg overflow-hidden">
+      {/* Pickleball Court with updated lighter blue color - elongated vertically */}
+      <div className="absolute inset-2 rounded-lg overflow-hidden">
         {/* Green outer area - darker green */}
         <div className="absolute inset-0 bg-[#1E3B20]/90 shadow-inner"></div>
         
         {/* Court area with Carolina blue color */}
         <div 
-          className="absolute inset-x-[15%] inset-y-[5%] rounded-sm"
-          style={{ backgroundColor: `${courtColor}/90` }}
+          className="absolute rounded-sm"
+          style={{ 
+            inset: "5% 15%", 
+            backgroundColor: courtColor, 
+            opacity: 0.9 
+          }}
         >
           {/* White lines */}
           <div className="absolute inset-0 border-2 border-white/90"></div>
@@ -60,7 +67,7 @@ const CourtView: React.FC<CourtViewProps> = ({
           <div className="absolute top-0 left-0 right-0 h-[42%] border-b-2 border-white/90">
             <div 
               className="absolute inset-0"
-              style={{ backgroundColor: `${courtColor}/70` }}
+              style={{ backgroundColor: courtColor, opacity: 0.7 }}
             ></div>
           </div>
           
@@ -68,7 +75,7 @@ const CourtView: React.FC<CourtViewProps> = ({
           <div className="absolute bottom-0 left-0 right-0 h-[42%] border-t-2 border-white/90">
             <div 
               className="absolute inset-0"
-              style={{ backgroundColor: `${courtColor}/70` }}
+              style={{ backgroundColor: courtColor, opacity: 0.7 }}
             ></div>
           </div>
           
@@ -108,7 +115,7 @@ const CourtView: React.FC<CourtViewProps> = ({
       
       {/* Ball velocity indicator near the ball */}
       <div 
-        className="absolute z-10 px-1.5 py-0.5 bg-navy-dark/80 text-white text-[10px] rounded backdrop-blur-sm border border-white/10"
+        className="absolute z-10 px-1.5 py-0.5 bg-[#092435]/80 text-white text-[10px] rounded backdrop-blur-sm border border-[#1A4258]/50"
         style={{ 
           left: `${ballPosition.x}%`,
           top: `${ballPosition.y + 5}%`,
@@ -160,13 +167,13 @@ const CourtView: React.FC<CourtViewProps> = ({
         </>
       )}
       
-      {/* Player positions - Restore original positions */}
+      {/* Player positions - Green Team (1 & 2) on top, Blue Team (3 & 4) on bottom */}
       {/* Player 1 - Green team, top left */}
       <div 
         className="absolute z-20 flex items-center justify-center transition-all duration-300"
         style={{ 
           left: `${player1.x}%`, 
-          top: `${player1.y}%`,
+          top: `25%`,
           transform: 'translate(-50%, -50%)',
           filter: 'drop-shadow(0 0 10px rgba(43, 203, 110, 0.8))'
         }}
@@ -184,7 +191,7 @@ const CourtView: React.FC<CourtViewProps> = ({
         className="absolute z-20 flex items-center justify-center transition-all duration-300"
         style={{ 
           left: `${player2.x}%`, 
-          top: `${player2.y}%`,
+          top: `25%`,
           transform: 'translate(-50%, -50%)',
           filter: 'drop-shadow(0 0 10px rgba(43, 203, 110, 0.8))'
         }}
@@ -202,7 +209,7 @@ const CourtView: React.FC<CourtViewProps> = ({
         className="absolute z-20 flex items-center justify-center transition-all duration-300"
         style={{ 
           left: `${player3.x}%`, 
-          top: `${player3.y}%`,
+          top: `75%`,
           transform: 'translate(-50%, -50%)',
           filter: 'drop-shadow(0 0 8px rgba(26, 157, 195, 0.8))'
         }}
@@ -220,7 +227,7 @@ const CourtView: React.FC<CourtViewProps> = ({
         className="absolute z-20 flex items-center justify-center transition-all duration-300"
         style={{ 
           left: `${player4.x}%`, 
-          top: `${player4.y}%`,
+          top: `75%`,
           transform: 'translate(-50%, -50%)',
           filter: 'drop-shadow(0 0 8px rgba(26, 157, 195, 0.8))'
         }}
@@ -228,26 +235,17 @@ const CourtView: React.FC<CourtViewProps> = ({
         <div className="w-5 h-5 rounded-full flex items-center justify-center">
           <div className="absolute w-full h-full bg-[#0A4D73]/70 rounded-full animate-pulse"></div>
           <div className="z-10 bg-[#0A4D73] text-white text-[8px] font-bold w-3 h-3 rounded-full flex items-center justify-center border-[1px] border-white/70">
-            P3
+            P4
           </div>
         </div>
       </div>
       
-      {/* Score overlay */}
-      <div className="absolute top-3 left-1/2 transform -translate-x-1/2 bg-navy-dark/80 backdrop-blur-sm px-3 py-1.5 rounded-full border border-white/10 z-20">
-        <div className="flex items-center gap-3">
-          <span className="text-[#176840] font-bold text-lg">Green</span>
-          <span className="text-white/50 text-sm">vs</span>
-          <span className="text-[#0A4D73] font-bold text-lg">Blue</span>
-        </div>
-      </div>
-      
-      {/* Team labels for clarity */}
-      <div className="absolute top-3 left-3 bg-[#176840]/30 backdrop-blur-sm px-1.5 py-0.5 rounded text-[10px] text-white border border-[#176840]/40 z-10">
+      {/* Team labels for clarity - Mobile */}
+      <div className="absolute top-12 left-2 bg-[#176840]/30 backdrop-blur-sm px-1.5 py-0.5 rounded text-[10px] text-white border border-[#176840]/40 z-10">
         TEAM GREEN
       </div>
       
-      <div className="absolute bottom-3 right-3 bg-[#0A4D73]/30 backdrop-blur-sm px-1.5 py-0.5 rounded text-[10px] text-white border border-[#0A4D73]/40 z-10">
+      <div className="absolute bottom-12 right-2 bg-[#0A4D73]/30 backdrop-blur-sm px-1.5 py-0.5 rounded text-[10px] text-white border border-[#0A4D73]/40 z-10">
         TEAM BLUE
       </div>
     </div>
