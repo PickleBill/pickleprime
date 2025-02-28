@@ -1,292 +1,132 @@
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import PillarCard from "./ui/PillarCard";
-import { pillars } from "@/assets/data";
-import { X, Play, Pause } from "lucide-react";
+import AnimatedButton from "./ui/AnimatedButton";
+import FacilityModal from "./ui/FacilityModal";
+import PlayerModal from "./ui/PlayerModal";
 import DashboardModal from "./ui/DashboardModal";
+import FuturePlayModal from "./ui/FuturePlayModal";
+import LiveScoreboardPreview from "./ui/LiveScoreboardPreview";
 
 const SolutionSection = () => {
-  // State for handling the highlight reel modal and dashboard modal
-  const [showHighlightModal, setShowHighlightModal] = useState(false);
-  const [showDashboard, setShowDashboard] = useState(false);
-  
-  // Video player simulation state
-  const [isPlaying, setIsPlaying] = useState(true); // Start playing automatically
-  const [progressWidth, setProgressWidth] = useState(0);
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  
-  // Array of pickleball action images for the slideshow (reordering with new image first)
-  const slideImages = [
-    "/lovable-uploads/c8c26cf4-e8ff-48db-b3ff-a497749005b2.png", // New image first
-    "/lovable-uploads/f6a5f1d2-6b3c-4940-bff5-e72057054635.png",
-    "/lovable-uploads/52327bfd-294c-46cf-abbc-598425b4ed4a.png",
-    "/lovable-uploads/7f9dd4fa-704a-467b-8951-44d38612abb5.png",
-    "/lovable-uploads/bcbc30d7-1049-404d-95cd-1a066f700b6e.png",
-    "/lovable-uploads/8029edf8-966c-4941-b75a-3f393c00d531.png",
-    "/lovable-uploads/f73f8efb-cdd6-42c9-97ed-45ef8b69aad9.png"
-  ];
-
-  // Total duration and number of images
-  const totalDuration = 24; // seconds for full cycle
-  const imagesCount = slideImages.length;
-  const secondsPerImage = totalDuration / imagesCount; // Distribute time evenly
-  
-  // Simulate video progress when playing
-  useEffect(() => {
-    let interval: ReturnType<typeof setInterval>;
-    
-    if (isPlaying) {
-      interval = setInterval(() => {
-        setProgressWidth(prev => {
-          // Increment progress
-          const newProgress = prev + 0.5;
-          
-          // Calculate when to switch images based on progress percentage
-          const progressPerImage = 100 / imagesCount;
-          const currentImagePosition = Math.floor(newProgress / progressPerImage);
-          
-          // Update image if needed
-          if (currentImagePosition !== Math.floor(prev / progressPerImage)) {
-            setCurrentImageIndex(currentImagePosition % imagesCount);
-          }
-          
-          // Reset at the end
-          if (newProgress >= 100) {
-            return 0;
-          }
-          
-          return newProgress;
-        });
-      }, 50); // Update every 50ms
-    }
-    
-    return () => {
-      if (interval) clearInterval(interval);
-    };
-  }, [isPlaying, imagesCount]);
-
-  // Reset progress when stopped
-  useEffect(() => {
-    if (!isPlaying && progressWidth === 100) {
-      setTimeout(() => {
-        setProgressWidth(0);
-        setCurrentImageIndex(0);
-      }, 500);
-    }
-  }, [isPlaying, progressWidth]);
-
-  // Sample highlight images/videos data with updated URLs
-  const highlightContent = [
-    {
-      id: 1,
-      type: "image",
-      url: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=800",
-      caption: "AI-powered analytics dashboard"
-    },
-    {
-      id: 2,
-      type: "image",
-      url: "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?q=80&w=800",
-      caption: "Performance data visualization"
-    },
-    {
-      id: 3,
-      type: "image",
-      url: "https://images.unsplash.com/photo-1574271143515-5cddf8da19be?q=80&w=800",
-      caption: "Incredible rally point"
-    },
-    {
-      id: 4,
-      type: "image", 
-      url: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=800",
-      caption: "Real-time motion tracking"
-    }
-  ];
-
-  const togglePlayPause = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    setIsPlaying(prev => !prev);
-  };
+  const [showFacilityModal, setShowFacilityModal] = useState(false);
+  const [showPlayerModal, setShowPlayerModal] = useState(false);
+  const [showDashboardModal, setShowDashboardModal] = useState(false);
+  const [showFuturePlayModal, setShowFuturePlayModal] = useState(false);
 
   return (
-    <section id="solution" className="bg-white">
+    <section id="solution" className="py-16 md:py-24 bg-white">
       <div className="container">
-        <div className="max-w-3xl mx-auto text-center mb-16 animate-fade-in">
-          <span className="inline-block bg-primary/10 text-primary px-4 py-1 rounded-full text-sm font-medium mb-4">
-            Our 5-Pillar Solution
-          </span>
-          <h2 className="text-3xl md:text-4xl font-bold mb-6 text-navy">
-            Comprehensive Platform for the Next Generation of Racquet Sports
+        <div className="text-center max-w-3xl mx-auto mb-16">
+          <h2 className="text-3xl md:text-4xl font-bold text-navy mb-4">
+            A Complete Ecosystem
           </h2>
-          <p className="text-gray-700">
-            We've built a complete ecosystem that transforms the racquet sports experience for players, facility owners, coaches, and fans alike.
+          <p className="text-gray-600">
+            We've built a comprehensive platform that connects facilities,
+            players, and data in one seamless ecosystem, revolutionizing the
+            racquet sports experience for everyone involved.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {pillars.map((pillar, index) => (
-            <div 
-              key={pillar.id} 
-              className="animate-scale-in" 
-              style={{ animationDelay: `${index * 0.1}s` }}
-            >
-              <PillarCard
-                title={pillar.title}
-                description={pillar.description}
-                icon={pillar.icon}
-              />
-            </div>
-          ))}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+          <PillarCard
+            title="Facility Experience"
+            description="Streamlined operations and improved customer experience for courts and clubs."
+            features={[
+              "Intuitive court booking & management",
+              "Automated waitlists & notifications",
+              "Integrated point-of-sale system",
+              "Member management & analytics"
+            ]}
+            icon="/lovable-uploads/c8c26cf4-e8ff-48db-b3ff-a497749005b2.png"
+            primaryColor="primary"
+            onClick={() => setShowFacilityModal(true)}
+          />
+
+          <PillarCard
+            title="Player Experience"
+            description="Engaging digital experience that enhances the player journey on and off the court."
+            features={[
+              "Easy court booking & reservations",
+              "Skill tracking & improvement insights",
+              "Social connections & match finding",
+              "League & tournament participation"
+            ]}
+            icon="/lovable-uploads/c35d445c-43d1-4719-a56f-dc693c4903f1.png"
+            primaryColor="teal"
+            onClick={() => setShowPlayerModal(true)}
+          />
+
+          <PillarCard
+            title="Admin Dashboard"
+            description="Powerful analytics and tools for managers to optimize operations and grow revenue."
+            features={[
+              "Comprehensive reporting & analytics",
+              "Resource utilization insights",
+              "Member engagement tracking",
+              "Financial performance metrics"
+            ]}
+            icon="/lovable-uploads/d1c55fc9-6562-4ad1-8eed-c7a547ac7b6b.png"
+            primaryColor="purple"
+            onClick={() => setShowDashboardModal(true)}
+          />
         </div>
 
-        {/* Example feature showcase with simulated video player */}
-        <div className="mt-20 bg-gray-50 rounded-2xl overflow-hidden shadow-sm border border-gray-100">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <div className="p-8 lg:p-12 flex flex-col justify-center">
-              <span className="text-sm text-primary font-medium uppercase tracking-wider mb-2">
-                Featured Technology
-              </span>
-              <h3 className="text-2xl md:text-3xl font-bold mb-4 text-navy">
-                One-Touch Highlight Reels
+        {/* New Future of Play Section with Scoreboard Preview */}
+        <div className="mt-16 border-t pt-16">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+            <div>
+              <h3 className="text-2xl md:text-3xl font-bold text-navy mb-4">
+                The Future of Play
               </h3>
-              <p className="text-gray-700 mb-6">
-                Our proprietary "Boom Button" lets players instantly create, edit, and share their best moments. AI-powered cameras track the action and automatically generate highlight clips that can be shared across social media with a single tap.
+              <p className="text-gray-600 mb-6">
+                SwingNet is revolutionizing the on-court experience with futuristic digital displays, 
+                AI-powered video capture, real-time analytics, and engaging gamification elements.
               </p>
-              <ul className="space-y-3 mb-6">
-                <li className="flex items-center gap-2">
-                  <div className="w-1.5 h-1.5 rounded-full bg-primary"></div>
-                  <span className="text-gray-700">Automated video capture and editing</span>
+              <ul className="space-y-3 mb-8">
+                <li className="flex items-start gap-2">
+                  <span className="text-primary mt-1">•</span>
+                  <span className="text-gray-700">
+                    Smart cameras track gameplay and create instant highlights
+                  </span>
                 </li>
-                <li className="flex items-center gap-2">
-                  <div className="w-1.5 h-1.5 rounded-full bg-primary"></div>
-                  <span className="text-gray-700">Instant social media sharing</span>
+                <li className="flex items-start gap-2">
+                  <span className="text-primary mt-1">•</span>
+                  <span className="text-gray-700">
+                    Digital scoreboards and court displays enhance gameplay
+                  </span>
                 </li>
-                <li className="flex items-center gap-2">
-                  <div className="w-1.5 h-1.5 rounded-full bg-primary"></div>
-                  <span className="text-gray-700">Branded overlays for facilities</span>
+                <li className="flex items-start gap-2">
+                  <span className="text-primary mt-1">•</span>
+                  <span className="text-gray-700">
+                    Performance analytics help players improve their skills
+                  </span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-primary mt-1">•</span>
+                  <span className="text-gray-700">
+                    Gamification elements make playing more engaging and rewarding
+                  </span>
                 </li>
               </ul>
-              
-              {/* New CTA button replacing the top-right corner one */}
-              <button
-                onClick={() => setShowHighlightModal(true)}
-                className="mt-4 bg-primary hover:bg-primary-dark transition-colors text-white font-medium py-3 px-6 rounded-lg flex items-center justify-center gap-2"
-              >
-                <span>View Highlights in Action</span>
-                <Play className="w-4 h-4" />
-              </button>
+              <AnimatedButton onClick={() => setShowFuturePlayModal(true)} size="lg">
+                Explore The Future of Play
+              </AnimatedButton>
             </div>
-            <div className="lg:h-auto bg-gray-200 min-h-[300px] relative overflow-hidden">
-              {/* Image slideshow */}
-              <div className="w-full h-full">
-                {slideImages.map((src, index) => (
-                  <img
-                    key={index}
-                    src={src}
-                    alt={`Pickleball Action Shot ${index + 1}`}
-                    className={`absolute inset-0 w-full h-full object-cover object-center transition-opacity duration-500 ${
-                      currentImageIndex === index ? 'opacity-100 z-10' : 'opacity-0 z-0'
-                    }`}
-                  />
-                ))}
-              </div>
-              
-              {/* Video player overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-navy/50 to-transparent z-20"></div>
-              
-              {/* Large centered play button overlay */}
-              <div className="absolute inset-0 flex items-center justify-center z-30 pointer-events-none">
-                <button 
-                  onClick={togglePlayPause}
-                  className="w-20 h-20 rounded-full bg-green-500 flex items-center justify-center text-white hover:bg-green-600 transition-colors transform hover:scale-105 shadow-lg pointer-events-auto"
-                >
-                  {isPlaying ? <Pause className="w-8 h-8" /> : <Play className="w-8 h-8 ml-1" />}
-                </button>
-              </div>
-              
-              {/* Video controls - positioned at bottom */}
-              <div className="absolute bottom-0 left-0 right-0 p-4 z-30">
-                {/* Progress bar */}
-                <div className="h-1 w-full bg-white/30 rounded-full mb-3">
-                  <div 
-                    className="h-full bg-primary rounded-full transition-all duration-100 ease-linear"
-                    style={{ width: `${progressWidth}%` }}
-                  ></div>
-                </div>
-                
-                {/* Controls */}
-                <div className="flex items-center justify-end">
-                  <div className="text-xs text-white font-medium backdrop-blur-sm bg-black/30 px-2 py-1 rounded">
-                    {Math.floor(progressWidth / 100 * totalDuration)}s / {totalDuration}s
-                  </div>
-                </div>
-              </div>
+            
+            {/* Scoreboard Preview */}
+            <div className="relative">
+              <LiveScoreboardPreview onLaunchFullView={() => setShowFuturePlayModal(true)} />
             </div>
           </div>
         </div>
       </div>
 
-      {/* Highlight Reels Modal */}
-      {showHighlightModal && (
-        <div className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4 animate-fade-in">
-          <div className="bg-white rounded-xl w-full max-w-4xl max-h-[90vh] overflow-y-auto">
-            <div className="sticky top-0 bg-white p-4 border-b flex items-center justify-between z-10">
-              <h3 className="text-xl font-bold text-navy">PickleBills Highlight Reels</h3>
-              <button 
-                onClick={() => setShowHighlightModal(false)}
-                className="p-2 rounded-full hover:bg-gray-100 transition-colors"
-              >
-                <X className="w-5 h-5" />
-              </button>
-            </div>
-            
-            <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-6">
-              {highlightContent.map((item) => (
-                <div key={item.id} className="bg-gray-50 rounded-lg overflow-hidden shadow-sm border border-gray-100">
-                  <div className="aspect-video bg-gray-200 relative">
-                    <img 
-                      src={item.url} 
-                      alt={item.caption}
-                      className="w-full h-full object-cover" 
-                    />
-                    {item.type === "video" && (
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <div className="w-16 h-16 rounded-full bg-primary/90 flex items-center justify-center text-white cursor-pointer">
-                          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M5 3l14 9-14 9V3z" fill="currentColor"/>
-                          </svg>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                  <div className="p-4">
-                    <div className="text-navy font-medium">{item.caption}</div>
-                    <div className="mt-2 flex items-center justify-between">
-                      <span className="text-xs text-gray-500">Captured with PickleBills AI</span>
-                      <button className="text-primary text-sm font-medium hover:underline">Share</button>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-            
-            <div className="p-6 border-t">
-              <button 
-                className="w-full py-3 bg-primary text-white font-medium rounded-lg hover:bg-primary-dark transition-colors"
-                onClick={() => {
-                  setShowHighlightModal(false);
-                  setShowDashboard(true);
-                }}
-              >
-                See How it Works
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Dashboard Modal */}
-      <DashboardModal isOpen={showDashboard} onClose={() => setShowDashboard(false)} />
+      {/* Modals */}
+      <FacilityModal isOpen={showFacilityModal} onClose={() => setShowFacilityModal(false)} />
+      <PlayerModal isOpen={showPlayerModal} onClose={() => setShowPlayerModal(false)} />
+      <DashboardModal isOpen={showDashboardModal} onClose={() => setShowDashboardModal(false)} />
+      <FuturePlayModal isOpen={showFuturePlayModal} onClose={() => setShowFuturePlayModal(false)} />
     </section>
   );
 };
