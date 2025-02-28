@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { Position, BallTrajectory } from './types';
+import { courtBoundaries, courtColors, playerConfig, ballConfig } from './constants/courtConfig';
 
 interface CourtViewProps {
   ballPosition: Position;
@@ -21,110 +22,121 @@ const CourtView: React.FC<CourtViewProps> = ({
   player3,
   player4
 }) => {
-  return (
-    <div className="relative w-full aspect-[5/6] bg-[#5FAEDC] rounded-lg overflow-hidden">
+  // Render court components
+  const renderCourtOutline = () => (
+    <>
       {/* Green buffer outside the lines */}
       <div className="absolute inset-x-2 inset-y-2 bg-[#1B4D2B] rounded"></div>
       
       {/* Court area */}
       <div className="absolute inset-x-6 inset-y-6 bg-[#5FAEDC] rounded-md">
         {/* Court lines */}
-        <div className="absolute inset-0 flex flex-col">
-          {/* Middle line */}
-          <div className="absolute top-0 bottom-0 left-1/2 w-0.5 bg-white/80 transform -translate-x-1/2" />
-          
-          {/* Non-volley zone line (Kitchen) - top half */}
-          <div className="absolute top-[30%] left-0 right-0 h-0.5 bg-white/80" />
-          
-          {/* Non-volley zone line (Kitchen) - bottom half */}
-          <div className="absolute top-[70%] left-0 right-0 h-0.5 bg-white/80" />
-          
-          {/* Horizontal center line */}
-          <div className="absolute top-1/2 left-0 right-0 h-0.5 bg-white/80" />
-          
-          {/* Service court boxes - lines */}
-          <div className="absolute top-0 left-1/4 bottom-1/2 w-0.5 bg-white/80" />
-          <div className="absolute top-0 right-1/4 bottom-1/2 w-0.5 bg-white/80" />
-          <div className="absolute top-1/2 left-1/4 bottom-0 w-0.5 bg-white/80" />
-          <div className="absolute top-1/2 right-1/4 bottom-0 w-0.5 bg-white/80" />
-        </div>
+        <div className="absolute inset-0 flex flex-col"></div>
       </div>
+    </>
+  );
+
+  // Render court lines
+  const renderCourtLines = () => (
+    <div className="absolute inset-0 flex flex-col">
+      {/* Middle line */}
+      <div className="absolute top-0 bottom-0 left-1/2 w-0.5 bg-white/80 transform -translate-x-1/2" />
+      
+      {/* Non-volley zone line (Kitchen) - top half */}
+      <div className="absolute top-[30%] left-0 right-0 h-0.5 bg-white/80" />
+      
+      {/* Non-volley zone line (Kitchen) - bottom half */}
+      <div className="absolute top-[70%] left-0 right-0 h-0.5 bg-white/80" />
+      
+      {/* Horizontal center line */}
+      <div className="absolute top-1/2 left-0 right-0 h-0.5 bg-white/80" />
+      
+      {/* Service court boxes - lines */}
+      <div className="absolute top-0 left-1/4 bottom-1/2 w-0.5 bg-white/80" />
+      <div className="absolute top-0 right-1/4 bottom-1/2 w-0.5 bg-white/80" />
+      <div className="absolute top-1/2 left-1/4 bottom-0 w-0.5 bg-white/80" />
+      <div className="absolute top-1/2 right-1/4 bottom-0 w-0.5 bg-white/80" />
+    </div>
+  );
+
+  // Render a player
+  const renderPlayer = (position: Position, teamId: number, playerLabel: string) => {
+    const teamColor = teamId === 1 ? playerConfig.team1Color : playerConfig.team2Color;
+    
+    return (
+      <div 
+        className="absolute rounded-full text-white flex items-center justify-center border-2 border-white text-xs font-bold"
+        style={{ 
+          left: `${position.x * 100}%`, 
+          top: `${position.y * 100}%`,
+          transform: 'translate(-50%, -50%)',
+          width: `${playerConfig.size * 0.4}rem`,
+          height: `${playerConfig.size * 0.4}rem`,
+          backgroundColor: teamColor
+        }}
+      >
+        {playerLabel}
+      </div>
+    );
+  };
+
+  // Render the ball
+  const renderBall = () => (
+    <div 
+      className="absolute rounded-full border shadow-lg"
+      style={{ 
+        left: `${ballPosition.x * 100}%`, 
+        top: `${ballPosition.y * 100}%`,
+        transform: 'translate(-50%, -50%)',
+        width: `${ballConfig.size * 0.4}rem`,
+        height: `${ballConfig.size * 0.4}rem`,
+        backgroundColor: ballConfig.color,
+        borderColor: ballConfig.borderColor
+      }}
+    />
+  );
+
+  // Render ball trajectory
+  const renderBallTrajectory = () => (
+    <svg className="absolute inset-0 w-full h-full overflow-visible pointer-events-none">
+      <path
+        d={`M ${ballPosition.x * 100}% ${ballPosition.y * 100}% L ${ballTrajectory.endX * 100}% ${ballTrajectory.endY * 100}%`}
+        stroke={ballConfig.trajectoryColor}
+        strokeWidth="2"
+        strokeDasharray="5,5"
+        fill="none"
+        opacity="0.7"
+      />
+    </svg>
+  );
+
+  // Render ball velocity indicator
+  const renderBallVelocity = () => (
+    <div 
+      className="absolute right-2 top-2 px-2 py-1 bg-black/40 backdrop-blur-sm rounded text-white text-xs"
+    >
+      {Math.round(ballVelocity)} mph
+    </div>
+  );
+
+  return (
+    <div className="relative w-full aspect-[5/6] bg-[#5FAEDC] rounded-lg overflow-hidden">
+      {/* Court structure */}
+      {renderCourtOutline()}
+      {renderCourtLines()}
       
       {/* Players */}
-      <div 
-        className="absolute w-8 h-8 rounded-full bg-[#176840] text-white flex items-center justify-center border-2 border-white text-xs font-bold"
-        style={{ 
-          left: `${player1.x * 100}%`, 
-          top: `${player1.y * 100}%`,
-          transform: 'translate(-50%, -50%)'
-        }}
-      >
-        P1
-      </div>
+      {renderPlayer(player1, 1, "P1")}
+      {renderPlayer(player2, 1, "P2")}
+      {renderPlayer(player3, 2, "P3")}
+      {renderPlayer(player4, 2, "P4")}
       
-      <div 
-        className="absolute w-8 h-8 rounded-full bg-[#176840] text-white flex items-center justify-center border-2 border-white text-xs font-bold"
-        style={{ 
-          left: `${player2.x * 100}%`, 
-          top: `${player2.y * 100}%`,
-          transform: 'translate(-50%, -50%)'
-        }}
-      >
-        P2
-      </div>
+      {/* Ball and trajectory */}
+      {renderBall()}
+      {ballTrajectory && renderBallTrajectory()}
       
-      <div 
-        className="absolute w-8 h-8 rounded-full bg-[#0A4D73] text-white flex items-center justify-center border-2 border-white text-xs font-bold"
-        style={{ 
-          left: `${player3.x * 100}%`, 
-          top: `${player3.y * 100}%`,
-          transform: 'translate(-50%, -50%)'
-        }}
-      >
-        P3
-      </div>
-      
-      <div 
-        className="absolute w-8 h-8 rounded-full bg-[#0A4D73] text-white flex items-center justify-center border-2 border-white text-xs font-bold"
-        style={{ 
-          left: `${player4.x * 100}%`, 
-          top: `${player4.y * 100}%`,
-          transform: 'translate(-50%, -50%)'
-        }}
-      >
-        P4
-      </div>
-      
-      {/* Ball */}
-      <div 
-        className="absolute w-4 h-4 rounded-full bg-yellow-400 border border-yellow-600 shadow-lg"
-        style={{ 
-          left: `${ballPosition.x * 100}%`, 
-          top: `${ballPosition.y * 100}%`,
-          transform: 'translate(-50%, -50%)'
-        }}
-      />
-      
-      {/* Ball trajectory */}
-      {ballTrajectory && (
-        <svg className="absolute inset-0 w-full h-full overflow-visible pointer-events-none">
-          <path
-            d={`M ${ballPosition.x * 100}% ${ballPosition.y * 100}% L ${ballTrajectory.endX * 100}% ${ballTrajectory.endY * 100}%`}
-            stroke="#e6ff05"
-            strokeWidth="2"
-            strokeDasharray="5,5"
-            fill="none"
-            opacity="0.7"
-          />
-        </svg>
-      )}
-      
-      {/* Ball velocity indicator */}
-      <div 
-        className="absolute right-2 top-2 px-2 py-1 bg-black/40 backdrop-blur-sm rounded text-white text-xs"
-      >
-        {Math.round(ballVelocity)} mph
-      </div>
+      {/* Ball velocity */}
+      {renderBallVelocity()}
     </div>
   );
 };
