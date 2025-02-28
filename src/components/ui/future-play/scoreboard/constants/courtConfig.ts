@@ -65,8 +65,8 @@ export const playerConfig = {
 
 // Ball configuration
 export const ballConfig = {
-  size: 5, // Size of ball in pixels
-  color: "#FFEB3B", // Ball color (yellow)
+  size: 15, // Size of ball in pixels (increased from 5 to 15 - 3x larger)
+  color: "#FFFF00", // Bright neon yellow color
   borderColor: "#F0F0F0", // Ball border color
   trajectoryColor: "#4CAF50", // Ball trajectory line color (green)
   trailColor: "#4CAF50", // Ball trail color (green)
