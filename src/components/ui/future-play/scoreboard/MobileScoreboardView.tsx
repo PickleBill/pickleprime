@@ -6,35 +6,9 @@ import MatchFeed from './MatchFeed';
 import CourtView from './CourtView';
 import HighlightView from './HighlightView';
 import ScoreboardFooter from './ScoreboardFooter';
+import { MobileScoreboardProps } from './types';
 
-interface Sponsor {
-  id: number;
-  name: string;
-}
-
-interface MobileScoreboardViewProps {
-  onBackClick: () => void;
-  onHighlightClick: () => void;
-  showHighlight: boolean;
-  highlightTimer: number;
-  gameTime: number;
-  player1Score: number;
-  player2Score: number;
-  currentSet: number;
-  ballPosition: { x: number; y: number };
-  ballTrajectory: { x: number; y: number }[];
-  ballVelocity: number;
-  player1: { x: number; y: number; targetX: number; targetY: number };
-  player2: { x: number; y: number; targetX: number; targetY: number };
-  player3: { x: number; y: number; targetX: number; targetY: number };
-  player4: { x: number; y: number; targetX: number; targetY: number };
-  player1Stats: any;
-  player2Stats: any;
-  matchFeedItems: any[];
-  sponsors: Sponsor[];
-}
-
-const MobileScoreboardView: React.FC<MobileScoreboardViewProps> = ({
+const MobileScoreboardView: React.FC<MobileScoreboardProps> = ({
   onBackClick,
   onHighlightClick,
   showHighlight,
@@ -79,6 +53,10 @@ const MobileScoreboardView: React.FC<MobileScoreboardViewProps> = ({
         player2Score={player2Score}
         gameTime={gameTime}
         currentSet={currentSet}
+        player1Avatar={player1Stats.avatar}
+        player2Avatar={player2Stats.avatar}
+        player1Name={player1Stats.name}
+        player2Name={player2Stats.name}
       />
       
       {/* Main content - stacked vertically on mobile */}

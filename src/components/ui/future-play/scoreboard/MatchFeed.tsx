@@ -1,14 +1,7 @@
 
 import React from 'react';
-import { Video, Trophy, Activity, Heart } from 'lucide-react';
-
-interface MatchFeedItem {
-  id: number;
-  type: "highlight" | "achievement" | "stat";
-  content: string;
-  time: string;
-  likes?: number;
-}
+import { Activity, Trophy, Video, Heart } from 'lucide-react';
+import { MatchFeedItem } from './types';
 
 interface MatchFeedProps {
   matchFeedItems: MatchFeedItem[];
@@ -20,17 +13,17 @@ const MatchFeed: React.FC<MatchFeedProps> = ({ matchFeedItems }) => {
       {matchFeedItems.map(item => (
         <div 
           key={item.id} 
-          className="mb-2 bg-navy/40 rounded-lg overflow-hidden border border-white/5"
+          className="mb-2 bg-[#0A2B3D] rounded-lg overflow-hidden border border-[#1A4258]/30"
         >
           <div className="p-2">
             <div className="flex items-center justify-between mb-1">
               <div className="flex items-center gap-1.5">
                 {item.type === "highlight" ? (
-                  <Video className="w-3 h-3 text-primary" />
+                  <Video className="w-3 h-3 text-[#2BCB6E]" />
                 ) : item.type === "achievement" ? (
-                  <Trophy className="w-3 h-3 text-yellow-400" />
+                  <Trophy className="w-3 h-3 text-[#e89e25]" />
                 ) : (
-                  <Activity className="w-3 h-3 text-blue-400" />
+                  <Activity className="w-3 h-3 text-[#1a9dc3]" />
                 )}
                 <span className="uppercase text-[10px] font-semibold text-white/80">
                   {item.type === "highlight" ? "Highlight" : 
@@ -48,7 +41,7 @@ const MatchFeed: React.FC<MatchFeedProps> = ({ matchFeedItems }) => {
                   <Heart className="w-2.5 h-2.5" />
                   <span>{item.likes}</span>
                 </button>
-                <button className="text-[10px] py-0.5 px-1.5 bg-primary/20 text-primary rounded hover:bg-primary/30 transition-colors">
+                <button className="text-[10px] py-0.5 px-1.5 bg-[#0C8068]/20 text-[#0C8068] rounded hover:bg-[#0C8068]/30 transition-colors">
                   VIEW
                 </button>
               </div>

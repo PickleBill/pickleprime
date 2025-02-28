@@ -1,11 +1,7 @@
 
 import React from 'react';
 import { Video } from 'lucide-react';
-
-interface Sponsor {
-  id: number;
-  name: string;
-}
+import { Sponsor } from './types';
 
 interface ScoreboardFooterProps {
   onHighlightClick: () => void;
