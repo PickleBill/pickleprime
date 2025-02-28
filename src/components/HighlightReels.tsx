@@ -172,16 +172,6 @@ const HighlightReels = () => {
           {/* Right side: Image slider */}
           <div className="order-1 md:order-2 relative">
             <div className="bg-navy-dark rounded-xl overflow-hidden relative aspect-[4/3] shadow-xl">
-              {/* Progress bar */}
-              <div className="absolute top-0 left-0 w-full h-1.5 bg-white/10 z-10">
-                <div 
-                  className="h-full bg-primary transition-all duration-75"
-                  style={{ 
-                    width: isPaused ? 0 : `${(activeSlide / (highlights.length - 1)) * 100}%`
-                  }}
-                ></div>
-              </div>
-              
               {/* Slides with transition effect */}
               {highlights.map((slide, index) => (
                 <div 
@@ -214,6 +204,16 @@ const HighlightReels = () => {
               <div className="absolute top-4 right-6 px-3 py-1 bg-black/30 backdrop-blur-sm rounded-full text-white/80 text-xs border border-white/10 flex items-center gap-2">
                 <div className="animate-pulse w-2 h-2 bg-red-500 rounded-full"></div>
                 <span>Auto-Playing Highlights</span>
+              </div>
+              
+              {/* Progress bar moved to bottom right */}
+              <div className="absolute bottom-6 right-6 h-1.5 w-24 bg-white/10 rounded-full overflow-hidden z-10">
+                <div 
+                  className="h-full bg-primary transition-all duration-75 rounded-full"
+                  style={{ 
+                    width: isPaused ? 0 : `${(activeSlide / (highlights.length - 1)) * 100}%`
+                  }}
+                ></div>
               </div>
               
               {/* More prominent slider controls - Left and Right navigation buttons */}
