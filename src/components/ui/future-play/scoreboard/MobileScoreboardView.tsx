@@ -61,6 +61,10 @@ const MobileScoreboardView: React.FC<MobileScoreboardViewProps> = ({
         player1Score={player1Score}
         player2Score={player2Score}
         currentSet={currentSet}
+        player1Avatar={player1Stats.avatar}
+        player2Avatar={player2Stats.avatar}
+        player1Name={player1Stats.name}
+        player2Name={player2Stats.name}
       />
       
       {/* Main content tabs */}
@@ -146,7 +150,7 @@ const MobileScoreboardView: React.FC<MobileScoreboardViewProps> = ({
           
           <TabsContent value="feed" className="flex-1 p-0 m-0 data-[state=active]:flex flex-col">
             <div className="flex-1 p-3 overflow-y-auto">
-              <MatchFeed items={matchFeedItems} />
+              <MatchFeed matchFeedItems={matchFeedItems} />
             </div>
           </TabsContent>
         </Tabs>
@@ -175,10 +179,7 @@ const MobileScoreboardView: React.FC<MobileScoreboardViewProps> = ({
       </div>
       
       {/* Footer with sponsors */}
-      <ScoreboardFooter 
-        onHighlightClick={onHighlightClick}
-        sponsors={sponsors}
-      />
+      <ScoreboardFooter sponsors={sponsors} />
     </div>
   );
 };

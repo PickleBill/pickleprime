@@ -1,6 +1,8 @@
 
 // Mock player stats
-export const player1Stats = {
+import { MatchFeedItem, PlayerStats, Sponsor } from "../types";
+
+export const player1Stats: PlayerStats = {
   name: "Alex Chen",
   winRate: "78%",
   topSpeed: "47 mph",
@@ -11,7 +13,7 @@ export const player1Stats = {
   avatar: "https://images.unsplash.com/photo-1628157588553-5eeea00af15c?w=150&h=150&crop=faces&auto=format&fit=crop"
 };
 
-export const player2Stats = {
+export const player2Stats: PlayerStats = {
   name: "Jordan Smith",
   winRate: "71%",
   topSpeed: "52 mph",
@@ -23,7 +25,7 @@ export const player2Stats = {
 };
 
 // Mock match feed
-export const mockMatchFeedItems = [
+export const mockMatchFeedItems: MatchFeedItem[] = [
   {
     id: 1,
     type: "highlight",
@@ -46,8 +48,8 @@ export const mockMatchFeedItems = [
 ];
 
 // Mock sponsors
-export const sponsors = [
-  { name: "Pickleville Sports", id: 1 },
-  { name: "Paddle Tech Pro", id: 2 },
-  { name: "Court Kings", id: 3 }
+export const sponsors: Sponsor[] = [
+  { id: 1, name: "Pickleville Sports" },
+  { id: 2, name: "Paddle Tech Pro" },
+  { id: 3, name: "Court Kings" }
 ];

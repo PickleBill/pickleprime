@@ -2,22 +2,28 @@
 import React from 'react';
 import { ChevronLeft, Clock } from 'lucide-react';
 
-interface ScoreboardHeaderProps {
+export interface ScoreboardHeaderProps {
   onBackClick: () => void;
-  player1Score: number;
-  player2Score: number;
+  player1Score?: number;
+  player2Score?: number;
   gameTime: number;
   currentSet: number;
-  player1Avatar: string;
-  player2Avatar: string;
-  player1Name: string;
-  player2Name: string;
+  player1Avatar?: string;
+  player2Avatar?: string;
+  player1Name?: string;
+  player2Name?: string;
 }
 
 const ScoreboardHeader: React.FC<ScoreboardHeaderProps> = ({
   onBackClick,
   gameTime,
-  currentSet
+  currentSet,
+  player1Score,
+  player2Score,
+  player1Avatar,
+  player2Avatar,
+  player1Name,
+  player2Name
 }) => {
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
@@ -47,6 +53,15 @@ const ScoreboardHeader: React.FC<ScoreboardHeaderProps> = ({
         <Clock className="w-4 h-4 text-white/70" />
         <span className="text-white/90 text-sm font-mono">{formatTime(gameTime)}</span>
       </div>
+
+      {player1Score !== undefined && player2Score !== undefined && (
+        <div className="ml-auto flex items-center gap-2">
+          <span className="text-white text-sm font-semibold">{player1Score}</span>
+          <span className="text-white/50">-</span>
+          <span className="text-white text-sm font-semibold">{player2Score}</span>
+          <span className="text-white/50 text-xs ml-1">Set {currentSet}</span>
+        </div>
+      )}
     </div>
   );
 };
