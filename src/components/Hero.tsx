@@ -3,11 +3,13 @@ import React, { useEffect, useRef, useState } from "react";
 import AnimatedButton from "./ui/AnimatedButton";
 import PlayerModal from "./ui/PlayerModal";
 import FacilityModal from "./ui/FacilityModal";
+import FuturePlayModal from "./ui/FuturePlayModal";
 
 const Hero = () => {
   const backgroundRef = useRef<HTMLDivElement>(null);
   const [showPlayerModal, setShowPlayerModal] = useState(false);
   const [showFacilityModal, setShowFacilityModal] = useState(false);
+  const [showFuturePlayModal, setShowFuturePlayModal] = useState(false);
   
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -74,10 +76,15 @@ const Hero = () => {
                 </AnimatedButton>
               </div>
               
-              {/* Second row: Schedule a Demo */}
+              {/* Second row: See the Future of Play button */}
               <div className="w-full sm:w-auto mt-4">
-                <AnimatedButton size="lg" withArrow>
-                  Schedule a Demo
+                <AnimatedButton 
+                  size="lg" 
+                  withArrow 
+                  onClick={() => setShowFuturePlayModal(true)}
+                  className="bg-gradient-to-r from-primary to-[#1a9dc3] hover:shadow-lg hover:shadow-primary/20 transition-all"
+                >
+                  See the Future of Play
                 </AnimatedButton>
               </div>
             </div>
@@ -115,6 +122,12 @@ const Hero = () => {
       <FacilityModal 
         isOpen={showFacilityModal}
         onClose={() => setShowFacilityModal(false)}
+      />
+
+      {/* Future of Play Modal */}
+      <FuturePlayModal
+        isOpen={showFuturePlayModal}
+        onClose={() => setShowFuturePlayModal(false)}
       />
     </section>
   );
