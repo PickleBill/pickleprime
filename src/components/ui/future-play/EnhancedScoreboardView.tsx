@@ -72,6 +72,9 @@ const EnhancedScoreboardView: React.FC<EnhancedScoreboardViewProps> = ({
   const greenTeamColor = "#176840"; // Darker green
   const blueTeamColor = "#0A4D73"; // Darker blue
   
+  // Carolina blue court color - lighter and brighter
+  const courtColor = "#33C3F0"; // Carolina blue shade
+  
   // Court boundaries for better bounce mechanics
   // Modified to reflect a more realistic pickleball court ratio (more elongated vertically)
   const courtBoundaries = {
@@ -484,13 +487,13 @@ const EnhancedScoreboardView: React.FC<EnhancedScoreboardViewProps> = ({
             {/* Dark gradient background */}
             <div className="absolute inset-0 bg-gradient-to-br from-[#092435] to-[#061620]"></div>
             
-            {/* Pickleball Court with proper colors - elongated vertically */}
+            {/* Pickleball Court with updated lighter blue color - elongated vertically */}
             <div className="absolute inset-2 rounded-lg overflow-hidden">
               {/* Green outer area - darker green */}
               <div className="absolute inset-0 bg-[#1E3B20]/90 shadow-inner"></div>
               
-              {/* Blue court area - elongated vertically */}
-              <div className="absolute inset-x-[15%] inset-y-[5%] bg-[#0A3A5C]/90 rounded-sm">
+              {/* Blue court area - elongated vertically with Carolina blue color */}
+              <div className="absolute inset-x-[15%] inset-y-[5%] bg-[#33C3F0]/90 rounded-sm">
                 {/* White lines */}
                 <div className="absolute inset-0 border border-white/90"></div>
                 
@@ -501,12 +504,12 @@ const EnhancedScoreboardView: React.FC<EnhancedScoreboardViewProps> = ({
                 
                 {/* Non-volley zone (kitchen) - top */}
                 <div className="absolute top-0 left-0 right-0 h-[42%] border-b border-white/90">
-                  <div className="absolute inset-0 bg-[#0A3A5C]/70"></div>
+                  <div className="absolute inset-0 bg-[#33C3F0]/70"></div>
                 </div>
                 
                 {/* Non-volley zone (kitchen) - bottom */}
                 <div className="absolute bottom-0 left-0 right-0 h-[42%] border-t border-white/90">
-                  <div className="absolute inset-0 bg-[#0A3A5C]/70"></div>
+                  <div className="absolute inset-0 bg-[#33C3F0]/70"></div>
                 </div>
                 
                 {/* Center line */}
@@ -977,8 +980,8 @@ const EnhancedScoreboardView: React.FC<EnhancedScoreboardViewProps> = ({
                 {/* Green outer area - darker green */}
                 <div className="absolute inset-0 bg-[#1E3B20]/90 shadow-inner"></div>
                 
-                {/* Blue court area - elongated vertically */}
-                <div className="absolute inset-x-[15%] inset-y-[5%] bg-[#0A3A5C]/90 rounded-sm">
+                {/* Blue court area with Carolina blue color - elongated vertically */}
+                <div className="absolute inset-x-[15%] inset-y-[5%] bg-[#33C3F0]/90 rounded-sm">
                   {/* White lines */}
                   <div className="absolute inset-0 border-2 border-white/90"></div>
                   
@@ -989,12 +992,12 @@ const EnhancedScoreboardView: React.FC<EnhancedScoreboardViewProps> = ({
                   
                   {/* Non-volley zone (kitchen) - top */}
                   <div className="absolute top-0 left-0 right-0 h-[42%] border-b-2 border-white/90">
-                    <div className="absolute inset-0 bg-[#0A3A5C]/70"></div>
+                    <div className="absolute inset-0 bg-[#33C3F0]/70"></div>
                   </div>
                   
                   {/* Non-volley zone (kitchen) - bottom */}
                   <div className="absolute bottom-0 left-0 right-0 h-[42%] border-t-2 border-white/90">
-                    <div className="absolute inset-0 bg-[#0A3A5C]/70"></div>
+                    <div className="absolute inset-0 bg-[#33C3F0]/70"></div>
                   </div>
                   
                   {/* Center line */}
@@ -1228,8 +1231,8 @@ const EnhancedScoreboardView: React.FC<EnhancedScoreboardViewProps> = ({
         </div>
       </div>
 
-      {/* Real-time Analytics Bar - moved above the sponsor footer and slightly overlapping */}
-      <div className="w-full px-6 py-3 bg-[#092435]/90 backdrop-blur-sm border-t border-[#1A4258]/50 flex items-center justify-between -mt-2 relative z-10 shadow-lg">
+      {/* Real-time Analytics Bar */}
+      <div className="w-full px-6 py-3 bg-[#092435]/90 backdrop-blur-sm border-t border-[#1A4258]/50 flex items-center justify-between relative z-10 shadow-lg">
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-3">
             <Activity className="w-5 h-5 text-[#1a9dc3]" />
@@ -1259,7 +1262,7 @@ const EnhancedScoreboardView: React.FC<EnhancedScoreboardViewProps> = ({
         </div>
       </div>
       
-      {/* Sponsor Footer - now below the real-time analytics bar */}
+      {/* Sponsor Footer */}
       <div className="w-full py-3 px-6 bg-[#092435]/70 backdrop-blur-sm border-t border-[#1A4258]/50 flex items-center justify-between">
         <div className="text-white/40 text-xs uppercase">
           Powered by SwingNet
