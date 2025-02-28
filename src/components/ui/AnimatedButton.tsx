@@ -4,10 +4,11 @@ import { cn } from "@/lib/utils";
 
 interface AnimatedButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: "primary" | "secondary" | "outline" | "ghost";
-  size?: "sm" | "md" | "lg";
+  variant?: "primary" | "secondary" | "outline" | "ghost" | "nav";
+  size?: "sm" | "md" | "lg" | "icon";
   children: React.ReactNode;
   withArrow?: boolean;
+  active?: boolean;
 }
 
 const AnimatedButton = ({
@@ -16,6 +17,7 @@ const AnimatedButton = ({
   className,
   children,
   withArrow = false,
+  active = false,
   ...props
 }: AnimatedButtonProps) => {
   const variants = {
@@ -27,12 +29,14 @@ const AnimatedButton = ({
       "bg-transparent text-primary border border-primary hover:bg-primary/5",
     ghost:
       "bg-transparent text-navy hover:bg-navy/5",
+    nav: "bg-transparent text-white/70 hover:text-white hover:bg-white/10 transition-all",
   };
 
   const sizes = {
     sm: "text-sm py-1.5 px-3",
     md: "text-base py-2 px-4",
     lg: "text-lg py-3 px-6",
+    icon: "p-2",
   };
 
   return (
@@ -41,6 +45,7 @@ const AnimatedButton = ({
         "relative rounded-md font-medium inline-flex items-center justify-center transition-all duration-300 overflow-hidden group",
         variants[variant],
         sizes[size],
+        active && "bg-white/10 text-white shadow-inner",
         className
       )}
       {...props}
