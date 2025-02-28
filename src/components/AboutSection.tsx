@@ -10,13 +10,12 @@ const AboutSection = () => {
   const [isTransitioning, setIsTransitioning] = useState(false);
   const carouselRef = useRef<HTMLDivElement>(null);
   
-  // Array of images for the carousel
+  // Array of images for the carousel - replaced with the new futuristic pickleball images
   const carouselImages = [
-    "/lovable-uploads/b772fd79-037c-4170-944c-392b4bdea72d.png",
-    "/lovable-uploads/c8c26cf4-e8ff-48db-b3ff-a497749005b2.png",
-    "/lovable-uploads/f6a5f1d2-6b3c-4940-bff5-e72057054635.png",
-    "/lovable-uploads/52327bfd-294c-46cf-abbc-598425b4ed4a.png",
-    "/lovable-uploads/7f9dd4fa-704a-467b-8951-44d38612abb5.png"
+    "/lovable-uploads/a469ffe2-05bd-4340-8c71-da69a4cbdd95.png",
+    "/lovable-uploads/67b6bd53-015e-4a77-9101-ff1fe896be05.png",
+    "/lovable-uploads/d1c55fc9-6562-4ad1-8eed-c7a547ac7b6b.png",
+    "/lovable-uploads/8f5ae5b0-f8bd-45e7-a099-e224539cb8d1.png"
   ];
 
   // Auto-scroll the carousel
@@ -71,7 +70,7 @@ const AboutSection = () => {
                   >
                     <img
                       src={image}
-                      alt={`Pickleball Technology ${index + 1}`}
+                      alt={`Futuristic Pickleball Technology ${index + 1}`}
                       className="w-full h-full object-cover"
                     />
                   </div>
