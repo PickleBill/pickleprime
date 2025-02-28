@@ -56,10 +56,10 @@ export const courtColors = {
 
 // Player configuration
 export const playerConfig = {
-  size: 5, // Reduced size by 60% from 12 to 5 pixels
+  size: 5.75, // Increased by 15% from 5 to 5.75 pixels
   team1Color: "#4CAF50", // Base color for team 1 (will be made more vibrant in component)
   team2Color: "#1A70C5", // Base color for team 2 (will be made more vibrant in component)
-  glowSize: 8, // Size of glow effect (reduced from 16)
+  glowSize: 9, // Size of glow effect (adjusted proportionally)
   glowOpacity: 0.4, // Glow opacity
   opacity: 0.9 // Adjusted opacity for player silhouettes
 };

@@ -33,6 +33,16 @@ const Players: React.FC<PlayersProps> = ({
       ? "rgba(74, 255, 94, 0.6)" // Bright green glow
       : "rgba(51, 195, 240, 0.6)"; // Bright blue glow
     
+    // Label background color - using team colors
+    const labelBgColor = teamId === 1 
+      ? "rgba(74, 255, 94, 0.8)" // Green team label background
+      : "rgba(51, 195, 240, 0.8)"; // Blue team label background
+    
+    // Label text color - darker for better contrast
+    const labelTextColor = teamId === 1 
+      ? "#004D00" // Dark green for green team labels
+      : "#003366"; // Dark blue for blue team labels
+    
     return (
       <div className="absolute" style={{ 
         left: `${position.x}%`, 
@@ -73,8 +83,12 @@ const Players: React.FC<PlayersProps> = ({
           
           {/* Player label */}
           <div 
-            className="absolute bottom-0 text-center text-[8px] font-bold text-white bg-black/50 rounded-sm px-1"
-            style={{ width: "100%" }}
+            className="absolute bottom-0 text-center text-[8px] font-bold rounded-sm px-1"
+            style={{ 
+              width: "100%", 
+              backgroundColor: labelBgColor,
+              color: labelTextColor
+            }}
           >
             {playerLabel}
           </div>
