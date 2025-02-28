@@ -130,6 +130,7 @@ const MobileScoreboardView: React.FC<MobileScoreboardViewProps> = ({
             <div className="mb-16"> {/* Bottom margin for footer */}
               <MatchFeed 
                 feedItems={matchFeedItems}
+                maxHeight="none" // Allow full height to show all items without scrolling
               />
             </div>
           </div>
@@ -167,13 +168,14 @@ const MobileScoreboardView: React.FC<MobileScoreboardViewProps> = ({
             <div className="h-[calc(34%-16px)]"> {/* Subtracting gap of 16px (4rem) */}
               <MatchFeed 
                 feedItems={matchFeedItems}
+                maxHeight="none" // Allow full height to show all items without scrolling
               />
             </div>
           </div>
         </div>
       </div>
 
-      {/* Fixed Footer */}
+      {/* Fixed Footer - Removed blue semi-circle by fixing the ScoreboardFooter component */}
       <div className="absolute bottom-0 left-0 right-0">
         <ScoreboardFooter 
           onHighlightClick={onHighlightClick}

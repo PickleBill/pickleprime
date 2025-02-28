@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Users2, BarChart2, Video, Trophy, Activity, Heart } from "lucide-react";
+import { Video, Award, BarChart2, Heart } from 'lucide-react';
 
 interface MatchFeedItem {
   id: number;
@@ -12,61 +12,81 @@ interface MatchFeedItem {
 
 interface MatchFeedProps {
   feedItems: MatchFeedItem[];
+  maxHeight?: string; // Optional prop to control the max height
 }
 
-const MatchFeed: React.FC<MatchFeedProps> = ({ feedItems }) => {
+const MatchFeed: React.FC<MatchFeedProps> = ({ 
+  feedItems,
+  maxHeight = "300px" // Default max height if not specified
+}) => {
+  // Helper function to get the appropriate icon for each feed item type
+  const getItemIcon = (type: string) => {
+    switch (type.toLowerCase()) {
+      case 'highlight':
+        return <Video className="w-5 h-5 text-[#33C3F0]" />;
+      case 'achievement':
+        return <Award className="w-5 h-5 text-[#F97316]" />;
+      case 'stat':
+        return <BarChart2 className="w-5 h-5 text-[#2BCB6E]" />;
+      default:
+        return <Video className="w-5 h-5 text-[#33C3F0]" />;
+    }
+  };
+
   return (
-    <div className="bg-[#092435] rounded-lg overflow-hidden border border-[#1A4258]/50 flex flex-col h-full">
-      <div className="py-1.5 px-3 flex items-center justify-between border-b border-[#1A4258]/50">
-        <span className="uppercase text-white font-semibold text-xs sm:text-sm">Match Feed</span>
-        <div className="flex items-center gap-2">
-          <button className="text-white/70 hover:text-white transition-colors">
-            <Users2 className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+    <div className="bg-navy-dark border border-white/5 rounded-lg">
+      {/* Feed Header */}
+      <div className="p-3 border-b border-white/10 flex items-center justify-between">
+        <h3 className="text-white font-semibold uppercase text-sm tracking-wider">Match Feed</h3>
+        <div className="flex gap-3">
+          <button className="text-white/50 hover:text-white">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M17 18a2 2 0 0 0-2-2H9a2 2 0 0 0-2 2"></path>
+              <rect width="18" height="18" x="3" y="3" rx="2"></rect>
+              <circle cx="12" cy="10" r="3"></circle>
+            </svg>
           </button>
-          <button className="text-white/70 hover:text-white transition-colors">
-            <BarChart2 className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+          <button className="text-white/50 hover:text-white">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="4" x2="20" y1="12" y2="12"></line>
+              <line x1="4" x2="20" y1="6" y2="6"></line>
+              <line x1="4" x2="20" y1="18" y2="18"></line>
+            </svg>
           </button>
         </div>
       </div>
       
-      <div className="max-h-[280px] sm:flex-1 overflow-y-auto p-2">
-        {feedItems.map(item => (
-          <div 
-            key={item.id} 
-            className="mb-2 bg-[#0A2B3D] rounded-lg overflow-hidden border border-[#1A4258]/30"
-          >
-            <div className="p-2 sm:p-3">
-              <div className="flex items-center justify-between mb-1">
-                <div className="flex items-center gap-1.5 sm:gap-2">
-                  {item.type === "highlight" ? (
-                    <Video className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-[#2BCB6E]" />
-                  ) : item.type === "achievement" ? (
-                    <Trophy className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-[#e89e25]" />
-                  ) : (
-                    <Activity className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-[#1a9dc3]" />
-                  )}
-                  <span className="uppercase text-[10px] sm:text-xs font-semibold text-white/80">
-                    {item.type === "highlight" ? "Highlight" : 
-                     item.type === "achievement" ? "Achievement" : "Stat Alert"}
-                  </span>
-                </div>
-                <span className="text-white/50 text-[10px] sm:text-xs">{item.time}</span>
+      {/* Feed Items - No max height to display all items */}
+      <div 
+        className="divide-y divide-white/5 overflow-auto" 
+        style={{ maxHeight: maxHeight }}
+      >
+        {feedItems.map((item) => (
+          <div key={item.id} className="p-3 hover:bg-white/5 transition-colors">
+            <div className="flex items-start gap-2 mb-1">
+              <div className="p-1.5 rounded-full bg-white/5">
+                {getItemIcon(item.type)}
               </div>
-              
-              <p className="text-white text-xs sm:text-sm mb-2">{item.content}</p>
-              
-              {item.type === "highlight" && (
-                <div className="flex items-center justify-between">
-                  <button className="flex items-center gap-1 text-white/60 hover:text-white text-[10px] sm:text-xs transition-colors">
-                    <Heart className="w-2.5 h-2.5 sm:w-3 sm:h-3" />
-                    <span>{item.likes}</span>
-                  </button>
-                  <button className="text-[10px] sm:text-xs py-0.5 sm:py-1 px-1.5 sm:px-2 bg-[#0C8068]/20 text-[#0C8068] rounded hover:bg-[#0C8068]/30 transition-colors">
-                    VIEW
-                  </button>
+              <div className="flex-1">
+                <div className="flex justify-between items-center mb-1">
+                  <span className="text-xs font-semibold text-white/70 uppercase tracking-wider">
+                    {item.type}
+                  </span>
+                  <span className="text-xs text-white/50">{item.time}</span>
                 </div>
-              )}
+                <p className="text-white text-sm">{item.content}</p>
+              </div>
             </div>
+            
+            {/* Likes section - only show if likes exist */}
+            {item.likes !== undefined && (
+              <div className="flex items-center gap-1 ml-10 text-xs text-white/50">
+                <button className="flex items-center gap-1 hover:text-white transition-colors">
+                  <Heart className="w-3.5 h-3.5" />
+                  <span>{item.likes}</span>
+                </button>
+              </div>
+            )}
           </div>
         ))}
       </div>
