@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from "react";
 import { Play, Video, Activity, Trophy, Zap, Heart, Award, BarChart2, ChevronRight, ChevronLeft, Users } from "lucide-react";
 import AnimatedButton from "./AnimatedButton";
@@ -17,6 +16,8 @@ const EcosystemScoreboardPreview: React.FC<EcosystemScoreboardPreviewProps> = ({
   const [ballDirection, setBallDirection] = useState({ x: 3, y: -3 }); // Faster ball movement
   const [activePillar, setActivePillar] = useState(0);
   const [activeView, setActiveView] = useState(0);
+  const [ballTrajectory, setBallTrajectory] = useState<{x: number, y: number}[]>([]);
+  const [ballVelocity, setBallVelocity] = useState(38);
   const courtRef = useRef<HTMLDivElement>(null);
   const carouselRef = useRef<HTMLDivElement>(null);
 
@@ -101,6 +102,11 @@ const EcosystemScoreboardPreview: React.FC<EcosystemScoreboardPreviewProps> = ({
         }
       }
       
+      // Randomly change ball velocity
+      if (Math.random() < 0.3) {
+        setBallVelocity(Math.floor(Math.random() * 20) + 30);
+      }
+      
       // Rotate through pillars faster
       setActivePillar(prev => (prev + 1) % pillars.length);
     }, 2000); // Reduced from 3000ms to 2000ms
@@ -117,7 +123,7 @@ const EcosystemScoreboardPreview: React.FC<EcosystemScoreboardPreviewProps> = ({
     return () => clearInterval(interval);
   }, []);
 
-  // Ball movement animation - faster updates
+  // Ball movement animation with trajectory tracking
   useEffect(() => {
     const courtElem = courtRef.current;
     if (!courtElem) return;
@@ -144,10 +150,21 @@ const EcosystemScoreboardPreview: React.FC<EcosystemScoreboardPreviewProps> = ({
           setBallDirection({ x: newDirX, y: newDirY });
         }
         
-        return { 
+        const newPos = { 
           x: nextX <= 0 ? 0 : nextX >= 100 ? 100 : nextX,
           y: nextY <= 0 ? 0 : nextY >= 100 ? 100 : nextY
         };
+        
+        // Add to trajectory (keeping last 10 points)
+        setBallTrajectory(prev => {
+          const newTrajectory = [...prev, newPos];
+          if (newTrajectory.length > 10) {
+            return newTrajectory.slice(newTrajectory.length - 10);
+          }
+          return newTrajectory;
+        });
+        
+        return newPos;
       });
     };
     
@@ -205,66 +222,104 @@ const EcosystemScoreboardPreview: React.FC<EcosystemScoreboardPreviewProps> = ({
         <div className="grid grid-cols-1 md:grid-cols-2 gap-0">
           {/* Court side */}
           <div className="relative h-64 p-6" ref={courtRef}>
-            {/* Court */}
-            <div className="absolute inset-4 rounded-lg border-2 border-[#0EA5E9]/60 overflow-hidden">
-              {/* Court background - brighter blue as requested */}
-              <div className="absolute inset-0 bg-[#0EA5E9]/10"></div> {/* Increased brightness */}
-              
-              {/* Court center line */}
-              <div className="absolute top-0 bottom-0 left-1/2 w-px bg-[#0EA5E9]/60"></div> {/* More visible lines */}
-              <div className="absolute top-1/2 left-0 right-0 h-px bg-[#0EA5E9]/60"></div>
-              
-              {/* Service boxes */}
-              <div className="absolute top-0 right-0 left-1/2 bottom-1/2 border-b border-l border-[#0EA5E9]/60"></div>
-              <div className="absolute top-0 left-0 right-1/2 bottom-1/2 border-b border-r border-[#0EA5E9]/60"></div>
-              <div className="absolute top-1/2 right-0 left-1/2 bottom-0 border-t border-l border-[#0EA5E9]/60"></div>
-              <div className="absolute top-1/2 left-0 right-1/2 bottom-0 border-t border-r border-[#0EA5E9]/60"></div>
-              
-              {/* Player positions */}
-              <div className="absolute bottom-1/4 left-1/4 w-4 h-4 rounded-full bg-[#1a9dc3]/90 border border-white/50 shadow-sm"></div>
-              <div className="absolute top-1/4 right-1/4 w-4 h-4 rounded-full bg-primary/90 border border-white/50 shadow-sm"></div>
-              
-              {/* Animated ball */}
-              <div 
-                className="absolute w-3 h-3 rounded-full bg-white shadow-md"
-                style={{ 
-                  left: `${ballPosition.x}%`, 
-                  top: `${ballPosition.y}%`,
-                  transform: 'translate(-50%, -50%)',
-                  transition: 'left 0.05s linear, top 0.05s linear'
-                }}
-              ></div>
-              
-              {/* Ball trail - extended for more visibility */}
-              <div 
-                className="absolute w-3 h-3 rounded-full bg-white/20 blur-sm"
-                style={{ 
-                  left: `${ballPosition.x - ballDirection.x * 2}%`, 
-                  top: `${ballPosition.y - ballDirection.y * 2}%`,
-                  transform: 'translate(-50%, -50%)'
-                }}
-              ></div>
-              <div 
-                className="absolute w-2 h-2 rounded-full bg-white/10 blur-sm"
-                style={{ 
-                  left: `${ballPosition.x - ballDirection.x * 4}%`, 
-                  top: `${ballPosition.y - ballDirection.y * 4}%`,
-                  transform: 'translate(-50%, -50%)'
-                }}
-              ></div>
-              
-              {/* Shot meter */}
-              <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 bg-navy-dark/80 backdrop-blur-sm px-2 py-1 rounded text-xs text-white/90 border border-white/10 flex items-center gap-1">
-                <Zap className="w-3 h-3 text-[#0EA5E9]" />
-                <span>{Math.floor(Math.random() * 20) + 30} mph</span>
+            {/* Court Background - Green outer area */}
+            <div className="absolute inset-4 rounded-lg overflow-hidden bg-[#4CAF50]/30">
+              {/* Blue court area */}
+              <div className="absolute inset-1 rounded-md bg-[#0EA5E9]">
+                {/* White lines */}
+                <div className="absolute inset-0 border-2 border-white"></div>
+                
+                {/* Kitchen area (non-volley zone) - slightly different color */}
+                <div className="absolute top-0 left-0 right-0 h-[20%] border-b-2 border-white bg-[#0EA5E9]/90"></div>
+                <div className="absolute bottom-0 left-0 right-0 h-[20%] border-t-2 border-white bg-[#0EA5E9]/90"></div>
+                
+                {/* Center line */}
+                <div className="absolute top-0 bottom-0 left-1/2 w-0.5 bg-white -translate-x-[0.5px]"></div>
+                
+                {/* Service boxes */}
+                <div className="absolute top-0 right-0 left-1/2 bottom-1/2 border-b-2 border-l-2 border-white"></div>
+                <div className="absolute top-0 left-0 right-1/2 bottom-1/2 border-b-2 border-r-2 border-white"></div>
+                <div className="absolute top-1/2 right-0 left-1/2 bottom-0 border-t-2 border-l-2 border-white"></div>
+                <div className="absolute top-1/2 left-0 right-1/2 bottom-0 border-t-2 border-r-2 border-white"></div>
+                
+                {/* Net visualization */}
+                <div className="absolute top-[48%] bottom-[48%] left-0 right-0 bg-black/20 backdrop-blur-[1px]">
+                  <div className="h-full w-full border-t border-b border-white/70 bg-white/10 flex items-center justify-center">
+                    <div className="absolute left-0 right-0 h-[1px] border-dashed border-t border-white/80"></div>
+                  </div>
+                </div>
+                
+                {/* Player positions */}
+                <div className="absolute bottom-[15%] left-[25%] w-4 h-4 rounded-full bg-[#1a9dc3]/90 border border-white/50 shadow-sm text-[8px] font-bold text-white flex items-center justify-center">P1</div>
+                <div className="absolute top-[15%] right-[25%] w-4 h-4 rounded-full bg-primary/90 border border-white/50 shadow-sm text-[8px] font-bold text-white flex items-center justify-center">P2</div>
               </div>
             </div>
             
+            {/* Ball trajectory line */}
+            {ballTrajectory.length > 1 && (
+              <svg className="absolute inset-4 z-10 pointer-events-none" viewBox="0 0 100 100" preserveAspectRatio="none">
+                <path 
+                  d={`M${ballTrajectory.map(point => `${point.x} ${point.y}`).join(' L')}`}
+                  fill="none" 
+                  stroke="#2BCB6E" 
+                  strokeWidth="0.5" 
+                  strokeDasharray="2 1"
+                  className="animate-pulse"
+                />
+              </svg>
+            )}
+            
+            {/* Animated ball with trail effect */}
+            <div 
+              className="absolute z-20 w-3 h-3 rounded-full bg-white shadow-md"
+              style={{ 
+                left: `calc(${ballPosition.x}% + 1rem)`, 
+                top: `calc(${ballPosition.y}% + 1.5rem)`,
+                transform: 'translate(-50%, -50%)',
+                transition: 'left 0.05s linear, top 0.05s linear'
+              }}
+            ></div>
+            
+            {/* Ball trails for more dynamic movement */}
+            <div 
+              className="absolute z-10 w-3 h-3 rounded-full bg-white/20 blur-sm"
+              style={{ 
+                left: `calc(${ballTrajectory[ballTrajectory.length - 2]?.x || ballPosition.x}% + 1rem)`, 
+                top: `calc(${ballTrajectory[ballTrajectory.length - 2]?.y || ballPosition.y}% + 1.5rem)`,
+                transform: 'translate(-50%, -50%)'
+              }}
+            ></div>
+            <div 
+              className="absolute z-10 w-2 h-2 rounded-full bg-white/10 blur-sm"
+              style={{ 
+                left: `calc(${ballTrajectory[ballTrajectory.length - 3]?.x || ballPosition.x}% + 1rem)`, 
+                top: `calc(${ballTrajectory[ballTrajectory.length - 3]?.y || ballPosition.y}% + 1.5rem)`,
+                transform: 'translate(-50%, -50%)'
+              }}
+            ></div>
+            
+            {/* Shot velocity indicator */}
+            <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 bg-navy-dark/80 backdrop-blur-sm px-2 py-1 rounded text-xs text-white/90 border border-white/10 flex items-center gap-1 z-20">
+              <Zap className="w-3 h-3 text-[#0EA5E9]" />
+              <span>{ballVelocity} mph</span>
+            </div>
+            
             {/* Score overlay */}
-            <div className="absolute top-2 left-1/2 transform -translate-x-1/2 flex items-center gap-3 bg-navy-dark/80 backdrop-blur-sm px-3 py-1 rounded-full border border-white/10">
+            <div className="absolute top-2 left-1/2 transform -translate-x-1/2 flex items-center gap-3 bg-navy-dark/80 backdrop-blur-sm px-3 py-1 rounded-full border border-white/10 z-20">
               <span className="text-[#1a9dc3] font-bold text-lg">{player1Score}</span>
               <span className="text-white/50">-</span>
               <span className="text-primary font-bold text-lg">{player2Score}</span>
+            </div>
+            
+            {/* Futuristic overlay elements */}
+            <div className="absolute top-1/3 left-1/4 bg-navy-dark/30 backdrop-blur-[1px] px-1.5 py-0.5 rounded border border-white/5 text-[8px] text-white/90 flex items-center gap-0.5 z-10">
+              <span className="w-1 h-1 bg-[#1a9dc3] rounded-full"></span>
+              <span>P1</span>
+            </div>
+            
+            <div className="absolute bottom-1/3 right-1/4 bg-navy-dark/30 backdrop-blur-[1px] px-1.5 py-0.5 rounded border border-white/5 text-[8px] text-white/90 flex items-center gap-0.5 z-10">
+              <span className="w-1 h-1 bg-primary rounded-full"></span>
+              <span>P2</span>
             </div>
           </div>
           
