@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from "react";
-import EnhancedScoreboardView from "@/components/ui/future-play/EnhancedScoreboardView";
+import ScoreboardViewContainer from "@/components/ui/future-play/scoreboard";
 import { useNavigate } from "react-router-dom";
 
 const Scoreboard = () => {
@@ -69,7 +69,7 @@ const Scoreboard = () => {
 
   return (
     <div className="h-screen flex flex-col bg-navy-dark">
-      <EnhancedScoreboardView 
+      <ScoreboardViewContainer 
         onBackClick={handleBackClick}
         onHighlightClick={triggerHighlight}
         showHighlight={showHighlight}
