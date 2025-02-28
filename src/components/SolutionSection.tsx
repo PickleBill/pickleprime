@@ -6,7 +6,8 @@ import FacilityModal from "./ui/FacilityModal";
 import PlayerModal from "./ui/PlayerModal";
 import DashboardModal from "./ui/DashboardModal";
 import FuturePlayModal from "./ui/FuturePlayModal";
-import LiveScoreboardPreview from "./ui/LiveScoreboardPreview";
+import FuturePlayContent from "./ui/FuturePlayContent";
+import { Building, Users, BarChart2 } from "lucide-react";
 
 const SolutionSection = () => {
   const [showFacilityModal, setShowFacilityModal] = useState(false);
@@ -38,8 +39,12 @@ const SolutionSection = () => {
               "Integrated point-of-sale system",
               "Member management & analytics"
             ]}
-            icon="/lovable-uploads/c8c26cf4-e8ff-48db-b3ff-a497749005b2.png"
+            icon={<Building className="w-6 h-6" />}
+            iconBgColor="#2BCB6E20"
+            iconColor="#2BCB6E"
             primaryColor="primary"
+            className="from-primary/5 to-primary/0 hover:from-primary/10 hover:to-primary/5"
+            buttonText="View Facility Dashboard"
             onClick={() => setShowFacilityModal(true)}
           />
 
@@ -52,8 +57,12 @@ const SolutionSection = () => {
               "Social connections & match finding",
               "League & tournament participation"
             ]}
-            icon="/lovable-uploads/c35d445c-43d1-4719-a56f-dc693c4903f1.png"
+            icon={<Users className="w-6 h-6" />}
+            iconBgColor="#0EA5E920"
+            iconColor="#0EA5E9"
             primaryColor="teal"
+            className="from-teal-500/5 to-teal-500/0 hover:from-teal-500/10 hover:to-teal-500/5"
+            buttonText="View Player App"
             onClick={() => setShowPlayerModal(true)}
           />
 
@@ -66,13 +75,17 @@ const SolutionSection = () => {
               "Member engagement tracking",
               "Financial performance metrics"
             ]}
-            icon="/lovable-uploads/d1c55fc9-6562-4ad1-8eed-c7a547ac7b6b.png"
+            icon={<BarChart2 className="w-6 h-6" />}
+            iconBgColor="#8B5CF620"
+            iconColor="#8B5CF6"
             primaryColor="purple"
+            className="from-purple-500/5 to-purple-500/0 hover:from-purple-500/10 hover:to-purple-500/5"
+            buttonText="Explore Dashboard"
             onClick={() => setShowDashboardModal(true)}
           />
         </div>
 
-        {/* New Future of Play Section with Scoreboard Preview */}
+        {/* New Future of Play Section with Embedded Content */}
         <div className="mt-16 border-t pt-16">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
             <div>
@@ -114,9 +127,13 @@ const SolutionSection = () => {
               </AnimatedButton>
             </div>
             
-            {/* Scoreboard Preview */}
+            {/* Embedded Future Play Content instead of Scoreboard Preview */}
             <div className="relative">
-              <LiveScoreboardPreview onLaunchFullView={() => setShowFuturePlayModal(true)} />
+              <FuturePlayContent onLaunchScoreboard={() => setShowFuturePlayModal(true)} />
+              
+              {/* Decorative elements */}
+              <div className="absolute -top-10 -right-10 w-20 h-20 bg-primary/5 rounded-full blur-xl -z-10"></div>
+              <div className="absolute -bottom-10 -left-10 w-20 h-20 bg-[#0EA5E9]/5 rounded-full blur-xl -z-10"></div>
             </div>
           </div>
         </div>
