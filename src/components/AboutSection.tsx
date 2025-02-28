@@ -1,8 +1,12 @@
 
-import React from "react";
+import React, { useState } from "react";
 import { ArrowRight } from "lucide-react";
+import AnimatedButton from "./ui/AnimatedButton";
+import DashboardModal from "./ui/DashboardModal";
 
 const AboutSection = () => {
+  const [showDashboard, setShowDashboard] = useState(false);
+
   return (
     <section id="about" className="bg-gray-50">
       <div className="container">
@@ -74,29 +78,43 @@ const AboutSection = () => {
               </div>
             </div>
 
-            <a
-              href="#solution"
-              className="inline-flex items-center text-primary font-medium hover:underline gap-1 group"
-            >
-              Discover our solution
-              <svg
-                className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
+            <div className="flex flex-wrap gap-4">
+              <AnimatedButton 
+                variant="primary"
+                size="md"
+                onClick={() => setShowDashboard(true)}
+                className="shadow-md"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M14 5l7 7m0 0l-7 7m7-7H3"
-                />
-              </svg>
-            </a>
+                See How it Works
+              </AnimatedButton>
+              
+              <a
+                href="#solution"
+                className="inline-flex items-center text-primary font-medium hover:underline gap-1 group py-2"
+              >
+                Discover our solution
+                <svg
+                  className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M14 5l7 7m0 0l-7 7m7-7H3"
+                  />
+                </svg>
+              </a>
+            </div>
           </div>
         </div>
       </div>
+
+      {/* Dashboard Modal */}
+      <DashboardModal isOpen={showDashboard} onClose={() => setShowDashboard(false)} />
     </section>
   );
 };
