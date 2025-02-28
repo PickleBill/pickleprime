@@ -26,52 +26,44 @@ const SolutionSection = () => {
     "/lovable-uploads/f73f8efb-cdd6-42c9-97ed-45ef8b69aad9.png"
   ];
 
-  // Total clip duration in seconds and frame rate constants
-  const totalDuration = 24; // seconds
+  // Total duration and number of images
+  const totalDuration = 24; // seconds for full cycle
   const imagesCount = slideImages.length;
-  const secondsPerImage = 3.5; // each image shows for 3.5 seconds
-  const progressPerFrame = 0.5; // progress increment per frame
-  const framesPerSecond = 20; // 50ms per frame = 20 frames per second
-  const frameDuration = 1000 / framesPerSecond; // 50ms
+  const secondsPerImage = totalDuration / imagesCount; // Distribute time evenly
   
-  // Calculated progress threshold for image change (in percentage)
-  const progressPerImage = (secondsPerImage / totalDuration) * 100;
-
-  // Simulate video progress when "playing" and cycle through images
+  // Simulate video progress when playing
   useEffect(() => {
     let interval: ReturnType<typeof setInterval>;
     
     if (isPlaying) {
-      let frameCounter = 0;
-      
       interval = setInterval(() => {
         setProgressWidth(prev => {
-          const newProgress = prev + progressPerFrame;
+          // Increment progress
+          const newProgress = prev + 0.5;
           
-          // Reset if we've reached the end
-          if (newProgress >= 100) {
-            setCurrentImageIndex(0);
-            return 0;
+          // Calculate when to switch images based on progress percentage
+          const progressPerImage = 100 / imagesCount;
+          const currentImagePosition = Math.floor(newProgress / progressPerImage);
+          
+          // Update image if needed
+          if (currentImagePosition !== Math.floor(prev / progressPerImage)) {
+            setCurrentImageIndex(currentImagePosition % imagesCount);
           }
           
-          // Increase frame counter and check if we need to change image
-          frameCounter++;
-          const framesPerImage = (secondsPerImage * framesPerSecond);
-          
-          if (frameCounter >= framesPerImage) {
-            frameCounter = 0;
-            setCurrentImageIndex(prevIndex => (prevIndex + 1) % imagesCount);
+          // Reset at the end
+          if (newProgress >= 100) {
+            return 0;
           }
           
           return newProgress;
         });
-      }, frameDuration);
+      }, 50); // Update every 50ms
     }
     
     return () => {
       if (interval) clearInterval(interval);
     };
-  }, [isPlaying, secondsPerImage, progressPerFrame, framesPerSecond, imagesCount]);
+  }, [isPlaying, imagesCount]);
 
   // Reset progress when stopped
   useEffect(() => {
@@ -206,7 +198,7 @@ const SolutionSection = () => {
               <div className="absolute inset-0 flex items-center justify-center z-30 pointer-events-none">
                 <button 
                   onClick={togglePlayPause}
-                  className="w-20 h-20 rounded-full bg-primary flex items-center justify-center text-white hover:bg-primary-dark transition-colors transform hover:scale-105 shadow-lg pointer-events-auto"
+                  className="w-20 h-20 rounded-full bg-green-500 flex items-center justify-center text-white hover:bg-green-600 transition-colors transform hover:scale-105 shadow-lg pointer-events-auto"
                 >
                   {isPlaying ? <Pause className="w-8 h-8" /> : <Play className="w-8 h-8 ml-1" />}
                 </button>
