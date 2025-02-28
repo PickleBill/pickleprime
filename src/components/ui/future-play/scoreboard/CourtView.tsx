@@ -39,55 +39,96 @@ const CourtView: React.FC<CourtViewProps> = ({
   // Render court components
   const renderCourtOutline = () => (
     <>
-      {/* Green boundary outside the court */}
-      <div className="absolute inset-0 rounded-lg bg-[#76C043]"></div>
+      {/* Blue background outside the court */}
+      <div className="absolute inset-0 rounded-lg" style={{ backgroundColor: courtColors.surface }}></div>
       
-      {/* Main court area */}
-      <div className="absolute inset-x-4 inset-y-4 bg-[#1A2D5A] rounded-lg">
-        {/* Court lines */}
-        <div className="absolute inset-0 flex flex-col"></div>
-      </div>
+      {/* White court boundary */}
+      <div className="absolute" style={{ 
+        top: `${courtBoundaries.top}%`, 
+        bottom: `${courtBoundaries.bottom - 100}%`,
+        left: `${courtBoundaries.left}%`,
+        right: `${courtBoundaries.right - 100}%`,
+        border: '2px solid white'
+      }}></div>
+    </>
+  );
+
+  // Render court areas
+  const renderCourtAreas = () => (
+    <>
+      {/* Top playing area (green) */}
+      <div className="absolute" style={{ 
+        top: `${courtBoundaries.top}%`, 
+        bottom: `${courtBoundaries.kitchenBottom}%`,
+        left: `${courtBoundaries.left}%`,
+        right: `${courtBoundaries.right - 100}%`,
+        backgroundColor: courtColors.playArea
+      }}></div>
+      
+      {/* Bottom playing area (green) */}
+      <div className="absolute" style={{ 
+        top: `${courtBoundaries.kitchenTop}%`, 
+        bottom: `${courtBoundaries.bottom - 100}%`,
+        left: `${courtBoundaries.left}%`,
+        right: `${courtBoundaries.right - 100}%`,
+        backgroundColor: courtColors.playArea
+      }}></div>
+      
+      {/* Non-volley zone (kitchen) - orange */}
+      <div className="absolute" style={{ 
+        top: `${courtBoundaries.kitchenBottom}%`, 
+        bottom: `${courtBoundaries.kitchenTop - 100}%`,
+        left: `${courtBoundaries.left}%`,
+        right: `${courtBoundaries.right - 100}%`,
+        backgroundColor: courtColors.kitchen
+      }}></div>
     </>
   );
 
   // Render court lines
   const renderCourtLines = () => (
-    <div className="absolute inset-0 flex flex-col">
-      {/* Middle line (net) */}
-      <div className="absolute top-0 bottom-0 left-1/2 w-0.5 bg-white transform -translate-x-1/2" />
+    <>
+      {/* Center line vertical (only visible in green areas) */}
+      <div className="absolute" style={{ 
+        top: `${courtBoundaries.top}%`, 
+        bottom: `${courtBoundaries.kitchenBottom}%`,
+        left: '50%',
+        width: '2px',
+        backgroundColor: 'white',
+        transform: 'translateX(-50%)'
+      }}></div>
       
-      {/* Kitchen (Non-volley zone) - top half */}
-      <div className="absolute top-[35%] left-0 right-0 h-0.5 bg-white" />
+      <div className="absolute" style={{ 
+        top: `${courtBoundaries.kitchenTop}%`, 
+        bottom: `${courtBoundaries.bottom - 100}%`,
+        left: '50%',
+        width: '2px',
+        backgroundColor: 'white',
+        transform: 'translateX(-50%)'
+      }}></div>
       
-      {/* Kitchen (Non-volley zone) - bottom half */}
-      <div className="absolute top-[65%] left-0 right-0 h-0.5 bg-white" />
-      
-      {/* Vertical sidelines */}
-      <div className="absolute top-0 bottom-0 left-[15%] w-0.5 bg-white/80" />
-      <div className="absolute top-0 bottom-0 right-[15%] w-0.5 bg-white/80" />
-      
-      {/* Kitchen coloring */}
-      <div className="absolute top-[35%] bottom-[35%] left-0 right-0 bg-[#0FA0CE] -z-10" />
-      
-      {/* Service lines */}
-      <div className="absolute top-[20%] left-[15%] right-[15%] h-0.5 bg-white/80" />
-      <div className="absolute top-[80%] left-[15%] right-[15%] h-0.5 bg-white/80" />
-      
-      {/* Centerline */}
-      <div className="absolute top-0 bottom-0 left-1/2 w-0.5 bg-white/80 transform -translate-x-1/2" />
-    </div>
+      {/* Net line */}
+      <div className="absolute" style={{ 
+        top: `${courtBoundaries.midLine}%`, 
+        height: '2px',
+        left: `${courtBoundaries.left}%`,
+        right: `${courtBoundaries.right - 100}%`,
+        backgroundColor: 'white',
+        transform: 'translateY(-50%)'
+      }}></div>
+    </>
   );
 
   // Render team labels
   const renderTeamLabels = () => (
     <>
       {/* Team Green label */}
-      <div className="absolute top-2 left-4 bg-[#76C043]/90 text-white px-3 py-1 rounded-md font-bold text-sm">
+      <div className="absolute top-2 left-4 bg-green-600/90 text-white px-3 py-1 rounded-md font-bold text-sm">
         {teamLabels.team1}
       </div>
       
       {/* Team Blue label */}
-      <div className="absolute bottom-2 right-4 bg-[#0FA0CE]/90 text-white px-3 py-1 rounded-md font-bold text-sm">
+      <div className="absolute bottom-2 right-4 bg-blue-600/90 text-white px-3 py-1 rounded-md font-bold text-sm">
         {teamLabels.team2}
       </div>
     </>
@@ -96,7 +137,7 @@ const CourtView: React.FC<CourtViewProps> = ({
   // Render a player with glow effect
   const renderPlayer = (position: Position, teamId: number, playerLabel: string) => {
     const teamColor = teamId === 1 ? playerConfig.team1Color : playerConfig.team2Color;
-    const glowColor = teamId === 1 ? "rgba(118, 192, 67, 0.5)" : "rgba(15, 160, 206, 0.5)";
+    const glowColor = teamId === 1 ? "rgba(76, 175, 80, 0.5)" : "rgba(26, 112, 197, 0.5)";
     
     return (
       <div className="absolute" style={{ 
@@ -217,6 +258,7 @@ const CourtView: React.FC<CourtViewProps> = ({
     <div className="relative w-full aspect-[4/3] bg-navy-dark rounded-lg overflow-hidden">
       {/* Court structure */}
       {renderCourtOutline()}
+      {renderCourtAreas()}
       {renderCourtLines()}
       {renderTeamLabels()}
       
