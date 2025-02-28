@@ -1,35 +1,5 @@
 
-// Player position type
-export interface PlayerPosition {
-  x: number;
-  y: number;
-  targetX: number;
-  targetY: number;
-}
-
-export interface MatchFeedItem {
-  id: number;
-  type: string;
-  content: string;
-  time: string;
-  likes?: number;
-}
-
-export interface Sponsor {
-  id: number;
-  name: string;
-}
-
-export interface PlayerStats {
-  name: string;
-  winRate: string;
-  topSpeed: string;
-  reactionTime: string;
-  shotAccuracy: string;
-  stamina: string;
-  spinRate: string;
-  avatar: string;
-}
+// Shared types for the scoreboard components
 
 export interface ScoreboardContainerProps {
   onBackClick: () => void;
@@ -42,16 +12,41 @@ export interface ScoreboardContainerProps {
   currentSet: number;
 }
 
-export interface MobileScoreboardProps extends ScoreboardContainerProps {
-  ballPosition: { x: number; y: number };
-  ballTrajectory: { x: number; y: number }[];
+export interface MobileScoreboardViewProps extends ScoreboardContainerProps {
+  ballPosition: { x: number, y: number };
+  ballTrajectory: Array<{ x: number, y: number }>;
   ballVelocity: number;
-  player1: PlayerPosition;
-  player2: PlayerPosition;
-  player3: PlayerPosition;
-  player4: PlayerPosition;
+  player1: { x: number, y: number };
+  player2: { x: number, y: number };
+  player3: { x: number, y: number };
+  player4: { x: number, y: number };
   player1Stats: PlayerStats;
   player2Stats: PlayerStats;
   matchFeedItems: MatchFeedItem[];
   sponsors: Sponsor[];
+}
+
+export interface PlayerStats {
+  name: string;
+  winRate: string;
+  topSpeed: string;
+  reactionTime: string;
+  shotAccuracy: string;
+  stamina?: string; // Optional
+  spinRate: string;
+  avatar: string;
+}
+
+export interface MatchFeedItem {
+  id: number;
+  type: 'highlight' | 'achievement' | 'stat';
+  content: string;
+  time: string;
+  likes?: number; // Optional for highlight items
+}
+
+export interface Sponsor {
+  id: number;
+  name: string;
+  logo?: string; // Optional
 }
