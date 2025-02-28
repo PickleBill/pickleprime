@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { courtBoundaries, courtColors, teamLabels } from '../constants/courtConfig';
 
@@ -19,7 +20,7 @@ const CourtSurface: React.FC = () => {
     }}></div>
   );
 
-  // Render court lines
+  // Render court lines and middle area
   const renderCourtLines = () => {
     // Calculate the positions of the vertical lines (31% from net to court edge)
     const leftEdge = courtBoundaries.courtLeft;
@@ -36,6 +37,16 @@ const CourtSurface: React.FC = () => {
     
     return (
       <>
+        {/* Render the greyish silver middle area */}
+        <div className="absolute" style={{ 
+          top: `${courtBoundaries.courtTop}%`, 
+          bottom: `${100 - courtBoundaries.courtBottom}%`,
+          left: `${leftLine1Position}%`,
+          right: `${100 - rightLine1Position}%`,
+          backgroundColor: "#9F9EA1", // Greyish silver color
+          zIndex: 1
+        }}></div>
+      
         {/* Center line (net) with shadow */}
         <div className="absolute" style={{ 
           top: `${courtBoundaries.courtTop}%`, 
@@ -44,7 +55,8 @@ const CourtSurface: React.FC = () => {
           width: `${courtBoundaries.netThickness}px`,
           backgroundColor: courtColors.lines,
           transform: 'translateX(-50%)',
-          boxShadow: `0 0 8px 4px ${courtColors.netShadow}`
+          boxShadow: `0 0 8px 4px ${courtColors.netShadow}`,
+          zIndex: 2
         }}></div>
         
         {/* Left vertical line at 31% from net */}
@@ -54,7 +66,8 @@ const CourtSurface: React.FC = () => {
           left: `${leftLine1Position}%`,
           width: '2px',
           backgroundColor: courtColors.lines,
-          transform: 'translateX(-50%)'
+          transform: 'translateX(-50%)',
+          zIndex: 2
         }}></div>
         
         {/* Right vertical line at 31% from net */}
@@ -64,14 +77,24 @@ const CourtSurface: React.FC = () => {
           left: `${rightLine1Position}%`,
           width: '2px',
           backgroundColor: courtColors.lines,
-          transform: 'translateX(-50%)'
+          transform: 'translateX(-50%)',
+          zIndex: 2
         }}></div>
         
-        {/* Horizontal center line across the entire court */}
+        {/* Horizontal center line only in the outer blue areas */}
         <div className="absolute" style={{ 
           top: `${(courtBoundaries.courtTop + courtBoundaries.courtBottom) / 2}%`, 
           height: '2px',
           left: `${courtBoundaries.courtLeft}%`,
+          right: `${100 - leftLine1Position}%`,
+          backgroundColor: courtColors.lines,
+          zIndex: 2
+        }}></div>
+        
+        <div className="absolute" style={{ 
+          top: `${(courtBoundaries.courtTop + courtBoundaries.courtBottom) / 2}%`, 
+          height: '2px',
+          left: `${rightLine1Position}%`,
           right: `${100 - courtBoundaries.courtRight}%`,
           backgroundColor: courtColors.lines,
           zIndex: 2
