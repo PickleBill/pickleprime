@@ -479,8 +479,8 @@ const EnhancedScoreboardView: React.FC<EnhancedScoreboardViewProps> = ({
           
           {/* Pickleball Court with proper colors - Modified with more padding and vertical extension */}
           <div className="absolute inset-4 rounded-lg overflow-hidden">
-            {/* Green outer area (pickleball court surroundings) - Increased padding */}
-            <div className="absolute inset-0 bg-[#F2FCE2] shadow-inner"></div>
+            {/* Green outer area (pickleball court surroundings) - Brighter green grass color */}
+            <div className="absolute inset-0 bg-[#8BC34A]/70 shadow-inner"></div>
             
             {/* Blue court area - Made more rectangular to reflect pickleball court dimensions */}
             <div className="absolute inset-[10%] bg-[#0EA5E9]/70 rounded-sm">
