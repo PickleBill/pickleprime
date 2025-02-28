@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useRef } from "react";
 import { Play, ChevronLeft, Activity, Trophy, Clock, Zap, Users2, Award, Heart, BarChart2, MessageSquare, Share2, Video, Image } from "lucide-react";
 import AnimatedButton from "../AnimatedButton";
@@ -11,6 +12,14 @@ interface EnhancedScoreboardViewProps {
   player1Score: number;
   player2Score: number;
   currentSet: number;
+}
+
+// Player position type
+interface PlayerPosition {
+  x: number;
+  y: number;
+  targetX: number;
+  targetY: number;
 }
 
 const EnhancedScoreboardView: React.FC<EnhancedScoreboardViewProps> = ({
@@ -29,6 +38,13 @@ const EnhancedScoreboardView: React.FC<EnhancedScoreboardViewProps> = ({
   const [ballTrajectory, setBallTrajectory] = useState<{x: number, y: number}[]>([]);
   const [ballVelocity, setBallVelocity] = useState(38);
   const [activeTab, setActiveTab] = useState("scoreboard");
+  
+  // State for player positions - now with 4 players (2 per side)
+  const [player1, setPlayer1] = useState<PlayerPosition>({ x: 25, y: 75, targetX: 25, targetY: 75 });
+  const [player2, setPlayer2] = useState<PlayerPosition>({ x: 75, y: 25, targetX: 75, targetY: 25 });
+  const [player3, setPlayer3] = useState<PlayerPosition>({ x: 15, y: 60, targetX: 15, targetY: 60 });
+  const [player4, setPlayer4] = useState<PlayerPosition>({ x: 85, y: 40, targetX: 85, targetY: 40 });
+  
   const [matchFeedItems, setMatchFeedItems] = useState([
     {
       id: 1,
@@ -58,7 +74,8 @@ const EnhancedScoreboardView: React.FC<EnhancedScoreboardViewProps> = ({
     bottom: 80, // Bottom court boundary (%)
     left: 5, // Left court boundary (%)
     right: 95, // Right court boundary (%)
-    net: { top: 48, bottom: 52 } // Net position (%)
+    net: { top: 48, bottom: 52 }, // Net position (%)
+    midLine: 50 // Middle line of the court (%)
   };
 
   // Ball movement animation with enhanced trajectory tracking
@@ -142,6 +159,28 @@ const EnhancedScoreboardView: React.FC<EnhancedScoreboardViewProps> = ({
           return newTrajectory;
         });
         
+        // Set new target for players when the ball moves significantly
+        if (Math.random() < 0.1) {
+          // If ball is on left side (player 1 & 3 side)
+          if (newPos.x < courtBoundaries.midLine) {
+            // Set target for player 1 or 3 to intercept based on position
+            if (newPos.y < courtBoundaries.net.top) {
+              setPlayer1(prev => ({ ...prev, targetX: newPos.x + 5, targetY: newPos.y + 5 }));
+            } else {
+              setPlayer3(prev => ({ ...prev, targetX: newPos.x + 5, targetY: newPos.y - 5 }));
+            }
+          } 
+          // If ball is on right side (player 2 & 4 side)
+          else {
+            // Set target for player 2 or 4 to intercept based on position
+            if (newPos.y < courtBoundaries.net.top) {
+              setPlayer2(prev => ({ ...prev, targetX: newPos.x - 5, targetY: newPos.y + 5 }));
+            } else {
+              setPlayer4(prev => ({ ...prev, targetX: newPos.x - 5, targetY: newPos.y - 5 }));
+            }
+          }
+        }
+        
         return newPos;
       });
     };
@@ -149,6 +188,121 @@ const EnhancedScoreboardView: React.FC<EnhancedScoreboardViewProps> = ({
     const animationInterval = setInterval(moveBall, 40);
     return () => clearInterval(animationInterval);
   }, [ballDirection, showHighlight]);
+
+  // Player movement animation - moves players toward their targets
+  useEffect(() => {
+    if (showHighlight) return;
+    
+    const moveInterval = setInterval(() => {
+      // Move player 1
+      setPlayer1(prev => {
+        const dirX = prev.targetX - prev.x;
+        const dirY = prev.targetY - prev.y;
+        const dist = Math.sqrt(dirX * dirX + dirY * dirY);
+        
+        // Only move if not too close to target
+        if (dist > 1) {
+          const moveSpeed = 1.2; // Adjust speed as needed
+          return {
+            ...prev,
+            x: prev.x + (dirX / dist) * moveSpeed,
+            y: prev.y + (dirY / dist) * moveSpeed
+          };
+        }
+        
+        return prev;
+      });
+      
+      // Move player 2
+      setPlayer2(prev => {
+        const dirX = prev.targetX - prev.x;
+        const dirY = prev.targetY - prev.y;
+        const dist = Math.sqrt(dirX * dirX + dirY * dirY);
+        
+        if (dist > 1) {
+          const moveSpeed = 1.2;
+          return {
+            ...prev,
+            x: prev.x + (dirX / dist) * moveSpeed,
+            y: prev.y + (dirY / dist) * moveSpeed
+          };
+        }
+        
+        return prev;
+      });
+      
+      // Move player 3
+      setPlayer3(prev => {
+        const dirX = prev.targetX - prev.x;
+        const dirY = prev.targetY - prev.y;
+        const dist = Math.sqrt(dirX * dirX + dirY * dirY);
+        
+        if (dist > 1) {
+          const moveSpeed = 1.1; // Slightly different speed for variety
+          return {
+            ...prev,
+            x: prev.x + (dirX / dist) * moveSpeed,
+            y: prev.y + (dirY / dist) * moveSpeed
+          };
+        }
+        
+        return prev;
+      });
+      
+      // Move player 4
+      setPlayer4(prev => {
+        const dirX = prev.targetX - prev.x;
+        const dirY = prev.targetY - prev.y;
+        const dist = Math.sqrt(dirX * dirX + dirY * dirY);
+        
+        if (dist > 1) {
+          const moveSpeed = 1.1;
+          return {
+            ...prev,
+            x: prev.x + (dirX / dist) * moveSpeed,
+            y: prev.y + (dirY / dist) * moveSpeed
+          };
+        }
+        
+        return prev;
+      });
+      
+      // Occasionally set new random targets for players to simulate positioning
+      if (Math.random() < 0.05) {
+        // Set new random targets within their respective court areas
+        
+        // Player 1 - Front left
+        setPlayer1(prev => ({
+          ...prev,
+          targetX: Math.random() * 20 + 15, // 15-35%
+          targetY: Math.random() * 15 + 25, // 25-40%
+        }));
+        
+        // Player 2 - Front right
+        setPlayer2(prev => ({
+          ...prev,
+          targetX: Math.random() * 20 + 65, // 65-85%
+          targetY: Math.random() * 15 + 25, // 25-40%
+        }));
+        
+        // Player 3 - Back left
+        setPlayer3(prev => ({
+          ...prev,
+          targetX: Math.random() * 20 + 15, // 15-35%
+          targetY: Math.random() * 15 + 60, // 60-75%
+        }));
+        
+        // Player 4 - Back right
+        setPlayer4(prev => ({
+          ...prev,
+          targetX: Math.random() * 20 + 65, // 65-85%
+          targetY: Math.random() * 15 + 60, // 60-75%
+        }));
+      }
+    }, 50);
+    
+    return () => clearInterval(moveInterval);
+  }, [showHighlight]);
 
   // Randomly change ball velocity and cause random direction changes
   useEffect(() => {
@@ -424,11 +578,17 @@ const EnhancedScoreboardView: React.FC<EnhancedScoreboardViewProps> = ({
             </>
           )}
           
-          {/* Player positions - enhanced with better colors and visual elements */}
-          {/* P1 Position */}
+          {/* Player positions - now with 4 players that move dynamically */}
+          {/* Team 1 - Left side (blue) */}
+          {/* Player 1 - Main player */}
           <div 
-            className="absolute bottom-[40%] left-[25%] flex items-center justify-center"
-            style={{ filter: 'drop-shadow(0 0 10px rgba(26, 157, 195, 0.5))' }}
+            className="absolute z-20 flex items-center justify-center transition-all duration-300"
+            style={{ 
+              left: `${player1.x}%`, 
+              top: `${player1.y}%`,
+              transform: 'translate(-50%, -50%)',
+              filter: 'drop-shadow(0 0 10px rgba(26, 157, 195, 0.5))'
+            }}
           >
             <div className="w-12 h-12 rounded-full flex items-center justify-center">
               <div className="absolute w-12 h-12 bg-[#1a9dc3]/40 rounded-full animate-pulse"></div>
@@ -438,15 +598,57 @@ const EnhancedScoreboardView: React.FC<EnhancedScoreboardViewProps> = ({
             </div>
           </div>
           
-          {/* P2 Position */}
+          {/* Player 3 - Second player on left side */}
           <div 
-            className="absolute top-[40%] right-[25%] flex items-center justify-center"
-            style={{ filter: 'drop-shadow(0 0 10px rgba(43, 203, 110, 0.5))' }}
+            className="absolute z-20 flex items-center justify-center transition-all duration-300"
+            style={{ 
+              left: `${player3.x}%`, 
+              top: `${player3.y}%`,
+              transform: 'translate(-50%, -50%)',
+              filter: 'drop-shadow(0 0 8px rgba(26, 157, 195, 0.4))'
+            }}
+          >
+            <div className="w-10 h-10 rounded-full flex items-center justify-center">
+              <div className="absolute w-10 h-10 bg-[#1a9dc3]/40 rounded-full animate-pulse"></div>
+              <div className="z-10 bg-[#1a9dc3] text-white text-xs font-bold w-7 h-7 rounded-full flex items-center justify-center border-2 border-white/70">
+                P3
+              </div>
+            </div>
+          </div>
+          
+          {/* Team 2 - Right side (green) */}
+          {/* Player 2 - Main player */}
+          <div 
+            className="absolute z-20 flex items-center justify-center transition-all duration-300"
+            style={{ 
+              left: `${player2.x}%`, 
+              top: `${player2.y}%`,
+              transform: 'translate(-50%, -50%)',
+              filter: 'drop-shadow(0 0 10px rgba(43, 203, 110, 0.5))'
+            }}
           >
             <div className="w-12 h-12 rounded-full flex items-center justify-center">
               <div className="absolute w-12 h-12 bg-primary/40 rounded-full animate-pulse"></div>
               <div className="z-10 bg-primary text-white text-xs font-bold w-8 h-8 rounded-full flex items-center justify-center border-2 border-white/70">
                 P2
+              </div>
+            </div>
+          </div>
+          
+          {/* Player 4 - Second player on right side */}
+          <div 
+            className="absolute z-20 flex items-center justify-center transition-all duration-300"
+            style={{ 
+              left: `${player4.x}%`, 
+              top: `${player4.y}%`,
+              transform: 'translate(-50%, -50%)',
+              filter: 'drop-shadow(0 0 8px rgba(43, 203, 110, 0.4))'
+            }}
+          >
+            <div className="w-10 h-10 rounded-full flex items-center justify-center">
+              <div className="absolute w-10 h-10 bg-primary/40 rounded-full animate-pulse"></div>
+              <div className="z-10 bg-primary text-white text-xs font-bold w-7 h-7 rounded-full flex items-center justify-center border-2 border-white/70">
+                P4
               </div>
             </div>
           </div>
@@ -459,6 +661,15 @@ const EnhancedScoreboardView: React.FC<EnhancedScoreboardViewProps> = ({
             <span className="text-[#1a9dc3] font-bold text-3xl">{player1Score}</span>
             <span className="text-white/50 text-2xl">-</span>
             <span className="text-primary font-bold text-3xl">{player2Score}</span>
+          </div>
+          
+          {/* Team labels for clarity */}
+          <div className="absolute top-20 left-6 bg-[#1a9dc3]/20 backdrop-blur-sm px-2 py-1 rounded text-xs text-white border border-[#1a9dc3]/30 z-10">
+            TEAM BLUE
+          </div>
+          
+          <div className="absolute top-20 right-6 bg-primary/20 backdrop-blur-sm px-2 py-1 rounded text-xs text-white border border-primary/30 z-10">
+            TEAM GREEN
           </div>
           
           {/* Real-time insights overlay at the bottom */}
