@@ -146,10 +146,10 @@ const MobileScoreboardView: React.FC<MobileScoreboardViewProps> = ({
             />
           </div>
           
-          {/* Right Column - Stacked Court View on top and Match Feed on bottom */}
+          {/* Right Column - Stacked Court View on top (66%) and Match Feed on bottom (33%) */}
           <div className="w-1/2 h-[calc(100%-40px)] flex flex-col gap-4">
-            {/* Court View - Upper right quadrant */}
-            <div className="h-1/2">
+            {/* Court View - Upper right quadrant - now 66% of height */}
+            <div className="h-[66%]">
               <CourtView 
                 ballPosition={ballPosition}
                 ballTrajectory={ballTrajectory}
@@ -163,8 +163,8 @@ const MobileScoreboardView: React.FC<MobileScoreboardViewProps> = ({
               />
             </div>
             
-            {/* Match Feed - Lower right quadrant */}
-            <div className="h-1/2">
+            {/* Match Feed - Lower right quadrant - now 33% of height */}
+            <div className="h-[calc(34%-16px)]"> {/* Subtracting gap of 16px (4rem) */}
               <MatchFeed 
                 feedItems={matchFeedItems}
               />
