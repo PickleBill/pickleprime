@@ -116,10 +116,10 @@ const SolutionSection = () => {
             Our 5-Pillar Solution
           </span>
           <h2 className="text-3xl md:text-4xl font-bold mb-6 text-navy">
-            Comprehensive Platform for the Next Generation of Racket Sports
+            Comprehensive Platform for the Next Generation of Racquet Sports
           </h2>
           <p className="text-gray-700">
-            We've built a complete ecosystem that transforms the racket sports experience for players, facility owners, coaches, and fans alike.
+            We've built a complete ecosystem that transforms the racquet sports experience for players, facility owners, coaches, and fans alike.
           </p>
         </div>
 

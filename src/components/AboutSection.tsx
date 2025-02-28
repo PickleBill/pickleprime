@@ -126,7 +126,7 @@ const AboutSection = () => {
               Our Vision
             </span>
             <h2 className="text-3xl md:text-4xl font-bold mb-6 text-navy">
-              The Ultimate Tech Layer for Racket Sports
+              The Ultimate Tech Layer for Racquet Sports
             </h2>
             <p className="text-gray-700 mb-6">
               PickleBills delivers a comprehensive AI and analytics platform for the rapidly growing pickleball and padel communities. We help facility operators create a hybrid digital to physical experience for their players, driving engagement and revenue.
