@@ -1,7 +1,8 @@
 
 import React, { useState, useEffect } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Activity } from "lucide-react";
 import AnimatedButton from "./ui/AnimatedButton";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -61,6 +62,13 @@ const Navbar = () => {
           >
             Team
           </a>
+          <Link
+            to="/scoreboard"
+            className="text-navy/80 hover:text-primary transition-colors duration-300 flex items-center gap-1.5"
+          >
+            <Activity className="w-4 h-4" />
+            <span>Live Scoreboard</span>
+          </Link>
           <AnimatedButton variant="primary" size="sm" withArrow>
             Get Started
           </AnimatedButton>
@@ -108,6 +116,14 @@ const Navbar = () => {
             >
               Team
             </a>
+            <Link
+              to="/scoreboard"
+              className="text-navy py-2 border-b border-gray-100 flex items-center gap-2"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              <Activity className="w-4 h-4" />
+              <span>Live Scoreboard</span>
+            </Link>
             <AnimatedButton
               variant="primary"
               size="sm"
