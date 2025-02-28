@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from "react";
 import { Play, ChevronLeft, Activity, Trophy, Clock, Zap, Users2, Award, Heart, BarChart2, MessageSquare, Share2, Video, Image } from "lucide-react";
 import AnimatedButton from "../AnimatedButton";
@@ -52,8 +51,17 @@ const EnhancedScoreboardView: React.FC<EnhancedScoreboardViewProps> = ({
     }
   ]);
   const courtRef = useRef<HTMLDivElement>(null);
+  
+  // Court boundaries for better bounce mechanics
+  const courtBoundaries = {
+    top: 20, // Top court boundary (%)
+    bottom: 80, // Bottom court boundary (%)
+    left: 5, // Left court boundary (%)
+    right: 95, // Right court boundary (%)
+    net: { top: 48, bottom: 52 } // Net position (%)
+  };
 
-  // Ball movement animation with trajectory tracking
+  // Ball movement animation with enhanced trajectory tracking
   useEffect(() => {
     if (showHighlight) return;
     
@@ -67,24 +75,62 @@ const EnhancedScoreboardView: React.FC<EnhancedScoreboardViewProps> = ({
         
         let newDirX = ballDirection.x;
         let newDirY = ballDirection.y;
+        let hitBoundary = false;
         
-        // Bounce off edges
-        if (nextX <= 0 || nextX >= 100) {
+        // Bounce off court boundaries with more realistic angles
+        if (nextX <= courtBoundaries.left || nextX >= courtBoundaries.right) {
           newDirX = -ballDirection.x;
+          hitBoundary = true;
+          
+          // Add some randomness to the y direction when hitting side walls
+          if (Math.random() > 0.5) {
+            newDirY = ballDirection.y + (Math.random() * 2 - 1);
+            // Keep y direction within reasonable bounds
+            newDirY = Math.max(-4, Math.min(4, newDirY));
+          }
         }
         
-        if (nextY <= 0 || nextY >= 100) {
+        if (nextY <= courtBoundaries.top || nextY >= courtBoundaries.bottom) {
           newDirY = -ballDirection.y;
+          hitBoundary = true;
+          
+          // Add some randomness to the x direction when hitting top/bottom walls
+          if (Math.random() > 0.5) {
+            newDirX = ballDirection.x + (Math.random() * 2 - 1);
+            // Keep x direction within reasonable bounds
+            newDirX = Math.max(-4, Math.min(4, newDirX));
+          }
         }
         
-        // Update direction
-        if (newDirX !== ballDirection.x || newDirY !== ballDirection.y) {
+        // Special case for net hits - bounce with more dramatic angle change
+        if ((prev.y < courtBoundaries.net.top && nextY >= courtBoundaries.net.top) || 
+            (prev.y > courtBoundaries.net.bottom && nextY <= courtBoundaries.net.bottom)) {
+          if (nextX > 40 && nextX < 60) {
+            newDirY = -ballDirection.y * 1.2; // Stronger vertical bounce
+            newDirX = ballDirection.x * 0.8; // Slight reduction in horizontal momentum
+            hitBoundary = true;
+          }
+        }
+        
+        // Update direction with occasional speed variations
+        if (hitBoundary) {
+          // Occasionally change ball speed after bouncing
+          if (Math.random() < 0.3) {
+            setBallVelocity(Math.floor(Math.random() * 15) + 30);
+            
+            // Apply a more dramatic direction change 20% of the time
+            if (Math.random() < 0.2) {
+              newDirX = newDirX * (0.8 + Math.random() * 0.4); // 0.8-1.2 multiplier
+              newDirY = newDirY * (0.8 + Math.random() * 0.4); // 0.8-1.2 multiplier
+            }
+          }
+          
           setBallDirection({ x: newDirX, y: newDirY });
         }
         
         const newPos = { 
-          x: nextX <= 0 ? 0 : nextX >= 100 ? 100 : nextX,
-          y: nextY <= 0 ? 0 : nextY >= 100 ? 100 : nextY
+          x: Math.max(courtBoundaries.left, Math.min(courtBoundaries.right, nextX)),
+          y: Math.max(courtBoundaries.top, Math.min(courtBoundaries.bottom, nextY))
         };
         
         // Add to trajectory (keeping last 12 points)
@@ -104,13 +150,24 @@ const EnhancedScoreboardView: React.FC<EnhancedScoreboardViewProps> = ({
     return () => clearInterval(animationInterval);
   }, [ballDirection, showHighlight]);
 
-  // Randomly change ball velocity
+  // Randomly change ball velocity and cause random direction changes
   useEffect(() => {
     if (showHighlight) return;
     
     const velocityInterval = setInterval(() => {
+      // Random velocity changes
       if (Math.random() < 0.2) {
         setBallVelocity(Math.floor(Math.random() * 15) + 25);
+      }
+      
+      // Occasional random direction change to simulate player hits
+      if (Math.random() < 0.1) {
+        setBallDirection(prev => {
+          // Create a new angle that's significantly different
+          const newX = (Math.random() * 6 - 3);
+          const newY = (Math.random() * 6 - 3);
+          return { x: newX, y: newY };
+        });
       }
     }, 2000);
     
@@ -325,27 +382,46 @@ const EnhancedScoreboardView: React.FC<EnhancedScoreboardViewProps> = ({
             {ballVelocity} mph
           </div>
           
-          {/* Animated ball with trail effect */}
+          {/* Animated pickleball - larger with yellow-green color */}
           <div 
-            className="absolute z-20 w-3 h-3 rounded-full bg-white shadow-[0_0_8px_rgba(255,255,255,0.8)]"
+            className="absolute z-20 w-5 h-5 rounded-full bg-gradient-to-b from-[#F2FCE2] to-[#FEF7CD] shadow-[0_0_8px_rgba(255,255,255,0.8)]"
             style={{ 
               left: `${ballPosition.x}%`, 
               top: `${ballPosition.y}%`,
               transform: 'translate(-50%, -50%)',
               transition: 'left 0.05s linear, top 0.05s linear'
             }}
-          ></div>
+          >
+            {/* Ball texture (holes pattern) */}
+            <div className="absolute inset-0 rounded-full overflow-hidden opacity-40">
+              <div className="absolute top-1/4 left-1/4 w-1 h-1 bg-black/20 rounded-full"></div>
+              <div className="absolute top-1/4 right-1/4 w-1 h-1 bg-black/20 rounded-full"></div>
+              <div className="absolute bottom-1/4 left-1/4 w-1 h-1 bg-black/20 rounded-full"></div>
+              <div className="absolute bottom-1/4 right-1/4 w-1 h-1 bg-black/20 rounded-full"></div>
+              <div className="absolute top-1/2 left-1/2 w-1 h-1 bg-black/20 rounded-full -translate-x-1/2 -translate-y-1/2"></div>
+            </div>
+          </div>
           
-          {/* Ball trails for more dynamic movement */}
+          {/* Ball trails for more dynamic movement - also colored like pickleballs */}
           {ballTrajectory.length > 2 && (
-            <div 
-              className="absolute z-10 w-3 h-3 rounded-full bg-white/20 blur-sm"
-              style={{ 
-                left: `${ballTrajectory[ballTrajectory.length - 2]?.x || ballPosition.x}%`, 
-                top: `${ballTrajectory[ballTrajectory.length - 2]?.y || ballPosition.y}%`,
-                transform: 'translate(-50%, -50%)'
-              }}
-            ></div>
+            <>
+              <div 
+                className="absolute z-10 w-5 h-5 rounded-full bg-gradient-to-b from-[#F2FCE2]/40 to-[#FEF7CD]/40 blur-sm"
+                style={{ 
+                  left: `${ballTrajectory[ballTrajectory.length - 2]?.x || ballPosition.x}%`, 
+                  top: `${ballTrajectory[ballTrajectory.length - 2]?.y || ballPosition.y}%`,
+                  transform: 'translate(-50%, -50%)'
+                }}
+              ></div>
+              <div 
+                className="absolute z-10 w-4 h-4 rounded-full bg-gradient-to-b from-[#F2FCE2]/20 to-[#FEF7CD]/20 blur-sm"
+                style={{ 
+                  left: `${ballTrajectory[ballTrajectory.length - 4]?.x || ballPosition.x}%`, 
+                  top: `${ballTrajectory[ballTrajectory.length - 4]?.y || ballPosition.y}%`,
+                  transform: 'translate(-50%, -50%)'
+                }}
+              ></div>
+            </>
           )}
           
           {/* Player positions - enhanced with better colors and visual elements */}
