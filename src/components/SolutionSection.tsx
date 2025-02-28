@@ -47,7 +47,7 @@ const SolutionSection = () => {
             Comprehensive Platform for the Next Generation of Racket Sports
           </h2>
           <p className="text-gray-700">
-            We've built a complete ecosystem that transforms the racket sports experience for players, facility owners, and investors alike.
+            We've built a complete ecosystem that transforms the racket sports experience for players, facility owners, coaches, and fans alike.
           </p>
         </div>
 

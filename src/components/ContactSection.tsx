@@ -1,7 +1,7 @@
 
 import React from "react";
 import AnimatedButton from "./ui/AnimatedButton";
-import { AtSign, Calendar, DollarSign } from "lucide-react";
+import { AtSign, Calendar, Users } from "lucide-react";
 
 const ContactSection = () => {
   return (
@@ -11,13 +11,13 @@ const ContactSection = () => {
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-10">
             <div className="lg:col-span-3">
               <span className="inline-block bg-primary/10 text-primary px-4 py-1 rounded-full text-sm font-medium mb-4">
-                Get Involved
+                Get Started
               </span>
               <h2 className="text-3xl md:text-4xl font-bold mb-6 text-navy">
-                Join the New Era of Racket Sports
+                Join the Next-Gen Racket Sports Experience
               </h2>
               <p className="text-gray-700 mb-8">
-                Whether you're a facility owner looking to enhance your offerings, an investor seeking the next big opportunity, or simply interested in learning more, we'd love to connect with you.
+                Whether you're a facility owner looking to enhance your offerings, a player wanting to elevate your game, or a coach seeking better tools, we'd love to connect with you.
               </p>
 
               <div className="space-y-6 mb-8">
@@ -28,19 +28,19 @@ const ContactSection = () => {
                   <div>
                     <h3 className="font-bold text-navy text-lg">Schedule a Demo</h3>
                     <p className="text-gray-600">
-                      See our technology in action and discover how it can transform your facility.
+                      See our technology in action and discover how it can transform your facility or play experience.
                     </p>
                   </div>
                 </div>
 
                 <div className="flex items-start gap-4">
                   <div className="shrink-0 bg-primary/10 p-3 rounded-lg">
-                    <DollarSign className="w-6 h-6 text-primary" />
+                    <Users className="w-6 h-6 text-primary" />
                   </div>
                   <div>
-                    <h3 className="font-bold text-navy text-lg">Invest Now</h3>
+                    <h3 className="font-bold text-navy text-lg">Request Player Access</h3>
                     <p className="text-gray-600">
-                      Join our $850k investment round and be part of the racket sports revolution.
+                      Get early access to our player features and analytics tools to improve your game.
                     </p>
                   </div>
                 </div>
@@ -95,8 +95,9 @@ const ContactSection = () => {
                     className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary/30 focus:border-primary focus:outline-none transition-all bg-white"
                   >
                     <option value="">Please select</option>
-                    <option value="facility">Implementing at my facility</option>
-                    <option value="invest">Investment opportunities</option>
+                    <option value="facility">For my facility</option>
+                    <option value="player">As a player</option>
+                    <option value="coach">As a coach</option>
                     <option value="demo">Scheduling a demo</option>
                     <option value="other">Other</option>
                   </select>

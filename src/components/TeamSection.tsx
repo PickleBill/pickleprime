@@ -15,7 +15,7 @@ const TeamSection = () => {
             Visionaries Behind PickleBills
           </h2>
           <p className="text-gray-700">
-            A team of experienced entrepreneurs, technologists, and sports industry veterans building the future of racket sports.
+            A team of experienced technologists, players, and sports industry veterans building the future of racket sports.
           </p>
         </div>
 
@@ -46,7 +46,7 @@ const TeamSection = () => {
               </svg>
             </div>
             <blockquote className="text-xl md:text-2xl font-medium text-navy mb-6">
-              "PickleBills has transformed our facility. The technology is seamless, our players love the highlight reels, and we've seen a 30% increase in repeat visits. The best part is the additional revenue stream with minimal overhead."
+              "PickleBills has transformed our facility. The technology is seamless, our players love the highlight reels, and we've seen a 30% increase in repeat visits. It's created a vibrant community around our courts."
             </blockquote>
             <div className="flex items-center justify-center">
               <div className="w-12 h-12 rounded-full overflow-hidden bg-gray-200 mr-4">

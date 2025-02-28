@@ -27,10 +27,10 @@ const AboutSection = () => {
               Our Vision
             </span>
             <h2 className="text-3xl md:text-4xl font-bold mb-6 text-navy">
-              Revolutionizing Racket Sports Without Building Courts
+              The Ultimate Tech Layer for Racket Sports
             </h2>
             <p className="text-gray-700 mb-6">
-              PickleBills is the Trackman of racket sports, delivering a comprehensive AI and analytics platform for the rapidly growing pickleball and padel communities. Our capital-light model provides facility owners with instant revenue streams while giving players the advanced analytics and social engagement they crave.
+              PickleBills delivers a comprehensive AI and analytics platform for the rapidly growing pickleball and padel communities. We help facility operators create a hybrid digital to physical experience for their players, driving engagement and revenue.
             </p>
 
             <div className="space-y-4 mb-8">
@@ -40,9 +40,9 @@ const AboutSection = () => {
                   <ArrowRight className="w-5 h-5 text-primary" />
                 </div>
                 <div>
-                  <h3 className="font-bold text-navy">Capital-Light Model</h3>
+                  <h3 className="font-bold text-navy">Tech-Enhanced Experience</h3>
                   <p className="text-gray-600 text-sm">
-                    Pure hardware + SaaS approach with zero facility ownership costs
+                    Transform any venue into an interactive, high-tech entertainment center
                   </p>
                 </div>
               </div>
@@ -53,9 +53,9 @@ const AboutSection = () => {
                   <ArrowRight className="w-5 h-5 text-primary" />
                 </div>
                 <div>
-                  <h3 className="font-bold text-navy">Massive Market Opportunity</h3>
+                  <h3 className="font-bold text-navy">Player Engagement</h3>
                   <p className="text-gray-600 text-sm">
-                    Serving 11M+ U.S. pickleball players with 21% CAGR
+                    Foster deeper loyalty through analytics, competition, and social sharing
                   </p>
                 </div>
               </div>
@@ -66,9 +66,9 @@ const AboutSection = () => {
                   <ArrowRight className="w-5 h-5 text-primary" />
                 </div>
                 <div>
-                  <h3 className="font-bold text-navy">Recurring Revenue</h3>
+                  <h3 className="font-bold text-navy">Revenue Generation</h3>
                   <p className="text-gray-600 text-sm">
-                    $1K-$2K MRR per club, plus premium user features & sponsor revenue
+                    New streams through premium features, sponsorships, and increased player retention
                   </p>
                 </div>
               </div>

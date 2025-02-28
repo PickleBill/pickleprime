@@ -17,7 +17,7 @@ const PillarCard = ({
   className,
 }: PillarCardProps) => {
   // Correctly dynamically get the icon component from Lucide
-  const LucideIcon = (LucideIcons as Record<string, React.ComponentType<{ className?: string }>>)[icon] || LucideIcons.Circle;
+  const LucideIcon = (LucideIcons as any)[icon] || LucideIcons.Circle;
 
   return (
     <div

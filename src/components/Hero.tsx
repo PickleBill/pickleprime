@@ -49,20 +49,20 @@ const Hero = () => {
         <div className="max-w-4xl mx-auto text-center">
           <div className="animate-slide-up">
             <span className="inline-block bg-primary/10 text-primary px-4 py-1 rounded-full text-sm font-medium mb-4">
-              The Future of Racket Sports
+              Transform Your Racket Sports Experience
             </span>
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight text-navy">
               <span className="text-gradient">AI-Powered</span> Analytics for Pickleball & Padel
             </h1>
             <p className="text-lg md:text-xl text-gray-700 mb-8 max-w-2xl mx-auto">
-              Revolutionizing racket sports with real-time analytics, instant highlights, and community engagement—without building a single court.
+              Upgrade any venue into a tech-enabled, social-entertainment hub — driving revenue, brand differentiation, and deeper player loyalty.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <AnimatedButton size="lg" withArrow>
                 Schedule a Demo
               </AnimatedButton>
               <AnimatedButton variant="outline" size="lg">
-                Invest Now
+                For Players
               </AnimatedButton>
             </div>
           </div>

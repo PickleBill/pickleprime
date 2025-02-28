@@ -53,7 +53,7 @@ const Navbar = () => {
             href="#market"
             className="text-navy/80 hover:text-primary transition-colors duration-300"
           >
-            Market
+            Benefits
           </a>
           <a
             href="#team"
@@ -62,7 +62,7 @@ const Navbar = () => {
             Team
           </a>
           <AnimatedButton variant="primary" size="sm" withArrow>
-            Get in Touch
+            Get Started
           </AnimatedButton>
         </nav>
 
@@ -99,7 +99,7 @@ const Navbar = () => {
               className="text-navy py-2 border-b border-gray-100"
               onClick={() => setIsMenuOpen(false)}
             >
-              Market
+              Benefits
             </a>
             <a
               href="#team"
@@ -117,7 +117,7 @@ const Navbar = () => {
                 document.getElementById("contact")?.scrollIntoView();
               }}
             >
-              Get in Touch
+              Get Started
             </AnimatedButton>
           </div>
         </div>

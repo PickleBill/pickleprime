@@ -16,7 +16,7 @@ const Footer = () => {
               </span>
             </div>
             <p className="text-white/70 max-w-md">
-              Revolutionizing racket sports with AI-powered analytics, instant highlight reels, and community engagement—without building a single court.
+              Transforming racket sports with AI-powered analytics, instant highlight reels, and community engagement — creating better experiences for facilities, players, coaches, and fans.
             </p>
           </div>
           
@@ -36,7 +36,7 @@ const Footer = () => {
               </li>
               <li>
                 <a href="#market" className="text-white/70 hover:text-primary transition-colors">
-                  Market
+                  Benefits
                 </a>
               </li>
               <li>
