@@ -1,5 +1,7 @@
+
 import React, { useState, useEffect, useRef } from "react";
-import { Play, ChevronLeft, Activity, Trophy, Clock, Zap, Users2, Award, Heart, BarChart2, MessageSquare, Share2, Video } from "lucide-react";
+import { Play, ChevronLeft, Activity, Trophy, Clock, Zap, Users2, Award, Heart, BarChart2, MessageSquare, Share2, Video, Image } from "lucide-react";
+import AnimatedButton from "../AnimatedButton";
 
 interface EnhancedScoreboardViewProps {
   onBackClick: () => void;
@@ -26,8 +28,29 @@ const EnhancedScoreboardView: React.FC<EnhancedScoreboardViewProps> = ({
   const [ballPosition, setBallPosition] = useState({ x: 25, y: 75 });
   const [ballDirection, setBallDirection] = useState({ x: 3, y: -3 });
   const [ballTrajectory, setBallTrajectory] = useState<{x: number, y: number}[]>([]);
-  const [ballVelocity, setBallVelocity] = useState(35);
-  const [activePillar, setActivePillar] = useState(2); // Start with Gamification selected
+  const [ballVelocity, setBallVelocity] = useState(38);
+  const [activeTab, setActiveTab] = useState("scoreboard");
+  const [matchFeedItems, setMatchFeedItems] = useState([
+    {
+      id: 1,
+      type: "highlight",
+      content: "Amazing cross-court winner by Alex!",
+      time: "00:34",
+      likes: 24
+    },
+    {
+      id: 2,
+      type: "achievement",
+      content: "Jordan reached 50+ mph serve for the first time!",
+      time: "01:12"
+    },
+    {
+      id: 3,
+      type: "stat",
+      content: "Alex winning 80% of rallies longer than 8 shots.",
+      time: "02:45"
+    }
+  ]);
   const courtRef = useRef<HTMLDivElement>(null);
 
   // Ball movement animation with trajectory tracking
@@ -100,75 +123,6 @@ const EnhancedScoreboardView: React.FC<EnhancedScoreboardViewProps> = ({
     return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
   };
 
-  // Pillar data
-  const pillars = [
-    {
-      id: 1,
-      title: "AI Video Capture & Highlights",
-      icon: <Video className="w-6 h-6" />,
-      color: "#2BCB6E",
-      description: "Smart cameras that track the action and generate instant highlight reels.",
-      bullets: [
-        "One-touch clip creation & sharing",
-        "Auto-tracking of key moments",
-        "Custom branding overlays",
-        "Social media integration"
-      ]
-    },
-    {
-      id: 2,
-      title: "Advanced Analytics",
-      icon: <Activity className="w-6 h-6" />,
-      color: "#1a9dc3",
-      description: "Real-time performance data to improve player skills and engagement.",
-      bullets: [
-        "Shot velocity & placement tracking",
-        "Performance improvement metrics",
-        "Skill level assessment",
-        "Personalized coaching insights"
-      ]
-    },
-    {
-      id: 3,
-      title: "Gamification",
-      icon: <Trophy className="w-6 h-6" />,
-      color: "#e89e25",
-      description: "Achievement systems and challenges that keep players engaged.",
-      bullets: [
-        "Skill-based achievements",
-        "Dynamic leaderboards",
-        "Weekly challenges & tournaments",
-        "Digital rewards & recognition"
-      ]
-    },
-    {
-      id: 4,
-      title: "Digital Displays & Fan Engagement",
-      icon: <BarChart2 className="w-6 h-6" />,
-      color: "#7b61ff",
-      description: "Interactive screens that enhance the on-court experience.",
-      bullets: [
-        "Live scorekeeping & replays",
-        "Sponsor integration opportunities",
-        "Fan engagement features",
-        "Digital signage solutions"
-      ]
-    },
-    {
-      id: 5,
-      title: "Community & Matchmaking",
-      icon: <Users2 className="w-6 h-6" />,
-      color: "#ff617b",
-      description: "Tools to connect players and build thriving racquet sports communities.",
-      bullets: [
-        "AI-powered skill matching",
-        "League & tournament management",
-        "Social connections & messaging",
-        "Community event planning"
-      ]
-    }
-  ];
-
   // Player stats
   const player1Stats = {
     name: "Alex Chen",
@@ -191,6 +145,12 @@ const EnhancedScoreboardView: React.FC<EnhancedScoreboardViewProps> = ({
     spinRate: "2100 rpm",
     avatar: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=150&h=150&crop=faces&auto=format&fit=crop"
   };
+
+  const sponsors = [
+    { name: "Pickleville Sports", id: 1 },
+    { name: "Paddle Tech Pro", id: 2 },
+    { name: "Court Kings", id: 3 }
+  ];
 
   if (showHighlight) {
     return (
@@ -249,30 +209,29 @@ const EnhancedScoreboardView: React.FC<EnhancedScoreboardViewProps> = ({
   }
 
   return (
-    <>
-      {/* Back button */}
-      <button 
-        onClick={onBackClick}
-        className="absolute top-5 left-5 z-20 px-4 py-2 bg-navy-light/50 hover:bg-navy-light border border-white/10 rounded-full text-white/80 flex items-center gap-2 backdrop-blur-sm transition-all"
-      >
-        <ChevronLeft className="w-4 h-4" />
-        <span>Back</span>
-      </button>
-
+    <div className="flex flex-col h-full bg-[#061620]">
       {/* Top Bar with logos, time, and indicators */}
-      <div className="w-full px-6 py-3 border-b border-white/10 flex items-center justify-between bg-navy-dark/70 backdrop-blur-sm">
-        <div className="flex items-center gap-3">
-          <span className="text-primary font-bold">SWINGNET</span>
-          <div className="w-px h-6 bg-white/20"></div>
-          <span className="text-white/70 text-sm">LIVE</span>
-          <span className="animate-pulse flex h-3 w-3 relative">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-3 w-3 bg-red-600"></span>
-          </span>
+      <div className="w-full px-6 py-3 flex items-center justify-between bg-[#092435]/70 backdrop-blur-sm border-b border-[#1A4258]/50">
+        <div className="flex items-center gap-4">
+          <button 
+            onClick={onBackClick}
+            className="px-4 py-2 bg-[#092435]/80 hover:bg-[#092435] border border-[#1A4258]/50 rounded-full text-white/80 flex items-center gap-2 backdrop-blur-sm transition-all"
+          >
+            <ChevronLeft className="w-4 h-4" />
+            <span>Back</span>
+          </button>
+          
+          <div className="flex items-center gap-2">
+            <span className="text-white/70 text-sm">LIVE</span>
+            <span className="animate-pulse flex h-3 w-3 relative">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-3 w-3 bg-red-600"></span>
+            </span>
+          </div>
         </div>
         
         <div className="flex items-center gap-4">
-          <div className="flex items-center gap-2 bg-navy-light/50 px-3 py-1 rounded-full border border-white/10">
+          <div className="flex items-center gap-2 bg-[#092435]/80 px-3 py-1 rounded-full border border-[#1A4258]/50">
             <Clock className="w-4 h-4 text-white/70" />
             <span className="text-white/90 text-sm font-mono">{formatTime(gameTime)}</span>
           </div>
@@ -285,28 +244,40 @@ const EnhancedScoreboardView: React.FC<EnhancedScoreboardViewProps> = ({
             <span className="text-white/60 text-sm">COURT 3</span>
           </div>
         </div>
+        
+        <div className="flex items-center gap-3">
+          <button className="p-2 rounded-full bg-[#092435]/80 border border-[#1A4258]/50 text-white/80 hover:bg-[#092435] transition-colors">
+            <Share2 className="w-5 h-5" />
+          </button>
+          <button className="p-2 rounded-full bg-[#092435]/80 border border-[#1A4258]/50 text-white/80 hover:bg-[#092435] transition-colors">
+            <MessageSquare className="w-5 h-5" />
+          </button>
+          <button className="px-4 py-2 rounded-full bg-[#0C8068]/20 text-[#0C8068] border border-[#0C8068]/30 hover:bg-[#0C8068]/30 transition-colors">
+            UPGRADE VIEW
+          </button>
+        </div>
       </div>
 
-      {/* Main Game View - Enhanced based on reference image */}
-      <div className="flex-1 flex flex-col md:flex-row p-4 md:p-6 gap-4 md:gap-6">
-        {/* Court Visualization (Left Side) - Enhanced based on reference */}
-        <div className="flex-1 relative bg-navy-dark rounded-2xl overflow-hidden border border-white/10 shadow-[0_0_15px_rgba(43,203,110,0.1)]" ref={courtRef}>
+      {/* Main Content */}
+      <div className="flex-1 flex gap-4 p-4">
+        {/* Left Side - Court View */}
+        <div className="flex-1 relative bg-[#092435] rounded-lg overflow-hidden border border-[#1A4258]/50" ref={courtRef}>
           {/* Dark gradient background */}
-          <div className="absolute inset-0 bg-gradient-to-br from-navy-dark to-navy-dark/90"></div>
+          <div className="absolute inset-0 bg-gradient-to-br from-[#092435] to-[#061620]"></div>
           
           {/* Pickleball Court with proper colors */}
           <div className="absolute inset-8 rounded-lg overflow-hidden">
             {/* Green outer area (pickleball court surroundings) */}
-            <div className="absolute inset-0 bg-[#4CAF50]/30 shadow-inner"></div>
+            <div className="absolute inset-0 bg-[#4CAF50]/20 shadow-inner"></div>
             
             {/* Blue court area */}
-            <div className="absolute inset-3 bg-[#0EA5E9]/80 rounded-sm">
+            <div className="absolute inset-3 bg-[#0EA5E9]/70 rounded-sm">
               {/* White lines */}
               <div className="absolute inset-0 border-2 border-white/90"></div>
               
               {/* Non-volley zone (kitchen) - top and bottom */}
-              <div className="absolute top-0 left-0 right-0 h-[22%] border-b-2 border-white/90 bg-[#0EA5E9]/90"></div>
-              <div className="absolute bottom-0 left-0 right-0 h-[22%] border-t-2 border-white/90 bg-[#0EA5E9]/90"></div>
+              <div className="absolute top-0 left-0 right-0 h-[22%] border-b-2 border-white/90 bg-[#0EA5E9]/80"></div>
+              <div className="absolute bottom-0 left-0 right-0 h-[22%] border-t-2 border-white/90 bg-[#0EA5E9]/80"></div>
               
               {/* Center line */}
               <div className="absolute top-0 bottom-0 left-1/2 w-0.5 bg-white/90 -translate-x-[0.25px]"></div>
@@ -342,6 +313,18 @@ const EnhancedScoreboardView: React.FC<EnhancedScoreboardViewProps> = ({
             </svg>
           )}
           
+          {/* Ball velocity indicator near the ball */}
+          <div 
+            className="absolute z-10 px-2 py-1 bg-[#092435]/80 text-white text-xs rounded backdrop-blur-sm border border-[#1A4258]/50"
+            style={{ 
+              left: `${ballPosition.x}%`,
+              top: `${ballPosition.y + 5}%`,
+              transform: 'translateX(-50%)'
+            }}
+          >
+            {ballVelocity} mph
+          </div>
+          
           {/* Animated ball with trail effect */}
           <div 
             className="absolute z-20 w-3 h-3 rounded-full bg-white shadow-[0_0_8px_rgba(255,255,255,0.8)]"
@@ -365,172 +348,267 @@ const EnhancedScoreboardView: React.FC<EnhancedScoreboardViewProps> = ({
             ></div>
           )}
           
-          {ballTrajectory.length > 3 && (
-            <div 
-              className="absolute z-10 w-2 h-2 rounded-full bg-white/10 blur-sm"
-              style={{ 
-                left: `${ballTrajectory[ballTrajectory.length - 3]?.x || ballPosition.x}%`, 
-                top: `${ballTrajectory[ballTrajectory.length - 3]?.y || ballPosition.y}%`,
-                transform: 'translate(-50%, -50%)'
-              }}
-            ></div>
-          )}
-          
           {/* Player positions - enhanced with better colors and visual elements */}
-          {/* P1 Top Left */}
+          {/* P1 Position */}
           <div 
-            className="absolute top-[25%] left-[25%] flex items-center justify-center"
+            className="absolute bottom-[40%] left-[25%] flex items-center justify-center"
             style={{ filter: 'drop-shadow(0 0 10px rgba(26, 157, 195, 0.5))' }}
           >
-            <div className="w-10 h-10 rounded-full flex items-center justify-center">
-              <div className="absolute w-10 h-10 bg-[#1a9dc3]/40 rounded-full animate-pulse"></div>
-              <div className="z-10 bg-[#1a9dc3] text-white text-xs font-bold w-7 h-7 rounded-full flex items-center justify-center border-2 border-white/70">
+            <div className="w-12 h-12 rounded-full flex items-center justify-center">
+              <div className="absolute w-12 h-12 bg-[#1a9dc3]/40 rounded-full animate-pulse"></div>
+              <div className="z-10 bg-[#1a9dc3] text-white text-xs font-bold w-8 h-8 rounded-full flex items-center justify-center border-2 border-white/70">
                 P1
               </div>
             </div>
           </div>
           
-          {/* P2 Top Right */}
+          {/* P2 Position */}
           <div 
-            className="absolute top-[25%] right-[25%] flex items-center justify-center"
+            className="absolute top-[40%] right-[25%] flex items-center justify-center"
             style={{ filter: 'drop-shadow(0 0 10px rgba(43, 203, 110, 0.5))' }}
           >
-            <div className="w-10 h-10 rounded-full flex items-center justify-center">
-              <div className="absolute w-10 h-10 bg-primary/40 rounded-full animate-pulse"></div>
-              <div className="z-10 bg-primary text-white text-xs font-bold w-7 h-7 rounded-full flex items-center justify-center border-2 border-white/70">
+            <div className="w-12 h-12 rounded-full flex items-center justify-center">
+              <div className="absolute w-12 h-12 bg-primary/40 rounded-full animate-pulse"></div>
+              <div className="z-10 bg-primary text-white text-xs font-bold w-8 h-8 rounded-full flex items-center justify-center border-2 border-white/70">
                 P2
               </div>
             </div>
-          </div>
-          
-          {/* P1 Bottom (Player Duplicate) */}
-          <div 
-            className="absolute bottom-[25%] left-[25%] flex items-center justify-center"
-            style={{ filter: 'drop-shadow(0 0 10px rgba(26, 157, 195, 0.5))' }}
-          >
-            <div className="w-10 h-10 rounded-full flex items-center justify-center">
-              <div className="absolute w-10 h-10 bg-[#1a9dc3]/40 rounded-full animate-pulse"></div>
-              <div className="z-10 bg-[#1a9dc3] text-white text-xs font-bold w-7 h-7 rounded-full flex items-center justify-center border-2 border-white/70">
-                P1
-              </div>
-            </div>
-          </div>
-          
-          {/* P2 Bottom (Player Duplicate) */}
-          <div 
-            className="absolute bottom-[25%] right-[25%] flex items-center justify-center"
-            style={{ filter: 'drop-shadow(0 0 10px rgba(43, 203, 110, 0.5))' }}
-          >
-            <div className="w-10 h-10 rounded-full flex items-center justify-center">
-              <div className="absolute w-10 h-10 bg-primary/40 rounded-full animate-pulse"></div>
-              <div className="z-10 bg-primary text-white text-xs font-bold w-7 h-7 rounded-full flex items-center justify-center border-2 border-white/70">
-                P2
-              </div>
-            </div>
-          </div>
-          
-          {/* Shot velocity indicator */}
-          <div 
-            className="absolute bottom-12 left-1/2 transform -translate-x-1/2 bg-navy-dark/80 backdrop-blur-sm px-4 py-2 rounded text-sm text-white/90 border border-white/10 flex items-center gap-2 z-20"
-            style={{ boxShadow: '0 0 15px rgba(26, 157, 195, 0.3)' }}
-          >
-            <Zap className="w-4 h-4 text-[#0EA5E9]" />
-            <span className="font-mono">{ballVelocity} mph</span>
           </div>
           
           {/* Score overlay */}
           <div 
-            className="absolute top-6 left-1/2 transform -translate-x-1/2 flex items-center gap-6 bg-navy-dark/80 backdrop-blur-sm px-6 py-3 rounded-full border border-white/10 z-20"
+            className="absolute top-6 left-1/2 transform -translate-x-1/2 flex items-center gap-8 bg-[#092435]/90 backdrop-blur-sm px-8 py-4 rounded-full border border-[#1A4258]/50 z-20"
             style={{ boxShadow: '0 0 20px rgba(0, 0, 0, 0.5)' }}
           >
-            <span className="text-[#1a9dc3] font-bold text-2xl">{player1Score}</span>
-            <span className="text-white/50 text-xl">-</span>
-            <span className="text-primary font-bold text-2xl">{player2Score}</span>
+            <span className="text-[#1a9dc3] font-bold text-3xl">{player1Score}</span>
+            <span className="text-white/50 text-2xl">-</span>
+            <span className="text-primary font-bold text-3xl">{player2Score}</span>
+          </div>
+          
+          {/* Real-time insights overlay at the bottom */}
+          <div className="absolute left-0 right-0 bottom-0 bg-[#092435]/90 backdrop-blur-sm border-t border-[#1A4258]/50 z-20">
+            <div className="p-4">
+              <div className="flex items-center justify-between mb-2">
+                <div className="flex items-center gap-2">
+                  <Activity className="w-4 h-4 text-[#1a9dc3]" />
+                  <h3 className="text-white uppercase font-semibold text-sm tracking-wide">Real-time insights</h3>
+                </div>
+                <span className="text-[#1a9dc3]/70 text-xs uppercase">Updating Live</span>
+              </div>
+              
+              <div className="grid grid-cols-3 gap-4">
+                <div className="bg-[#0A2B3D] p-3 rounded">
+                  <div className="flex items-center gap-2 mb-1">
+                    <Zap className="w-4 h-4 text-[#1a9dc3]" />
+                    <span className="text-white/70 text-xs uppercase">Rally Length</span>
+                  </div>
+                  <div className="text-white text-lg font-bold">12 SHOTS</div>
+                  <div className="text-[#2BCB6E] text-xs">+2 FROM AVG</div>
+                </div>
+                
+                <div className="bg-[#0A2B3D] p-3 rounded">
+                  <div className="flex items-center gap-2 mb-1">
+                    <Zap className="w-4 h-4 text-[#1a9dc3]" />
+                    <span className="text-white/70 text-xs uppercase">Top Speed</span>
+                  </div>
+                  <div className="text-white text-lg font-bold">52 MPH</div>
+                  <div className="text-[#2BCB6E] text-xs">NEW MATCH HIGH</div>
+                </div>
+                
+                <div className="bg-[#0A2B3D] p-3 rounded">
+                  <div className="flex items-center gap-2 mb-1">
+                    <Activity className="w-4 h-4 text-[#1a9dc3]" />
+                    <span className="text-white/70 text-xs uppercase">Shot Selection</span>
+                  </div>
+                  <div className="text-white text-lg font-bold">DINKS: 65%</div>
+                  <div className="text-[#e89e25] text-xs">DRIVES: 35%</div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
         
-        {/* Right Side Panel - Feature Display */}
-        <div className="w-full md:w-96 bg-navy-dark/90 rounded-2xl overflow-hidden border border-white/10 flex flex-col">
-          {/* Feature header */}
-          <div className="p-6 border-b border-white/10 flex items-center gap-4">
-            <div className="p-3 rounded-full" style={{ backgroundColor: `${pillars[activePillar].color}20` }}>
-              <div style={{ color: pillars[activePillar].color }}>
-                {pillars[activePillar].icon}
+        {/* Right Side Panel */}
+        <div className="w-96 flex flex-col gap-4">
+          {/* Live Scoreboard */}
+          <div className="bg-[#092435] rounded-lg overflow-hidden border border-[#1A4258]/50 flex flex-col">
+            <div className="bg-[#0C8068] py-3 px-4 uppercase text-white font-semibold">
+              Live Scoreboard
+            </div>
+            
+            <div className="p-4 flex flex-col">
+              {/* Player Scores */}
+              <div className="flex items-center justify-between mb-6">
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-[#1a9dc3]">
+                    <img src={player1Stats.avatar} alt={player1Stats.name} className="w-full h-full object-cover" />
+                  </div>
+                  <span className="text-white text-sm">{player1Stats.name}</span>
+                </div>
+                
+                <div className="flex items-center gap-6">
+                  <span className="text-[#1a9dc3] text-5xl font-bold">9</span>
+                  <span className="text-white/50">-</span>
+                  <span className="text-primary text-5xl font-bold">5</span>
+                </div>
+                
+                <div className="flex items-center gap-3">
+                  <span className="text-white text-sm">{player2Stats.name}</span>
+                  <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-primary">
+                    <img src={player2Stats.avatar} alt={player2Stats.name} className="w-full h-full object-cover" />
+                  </div>
+                </div>
+              </div>
+              
+              {/* Set Score */}
+              <div className="bg-[#0A2B3D] px-4 py-2 rounded-lg flex items-center justify-center mb-4">
+                <span className="text-white text-sm mr-2">SET 1:</span>
+                <span className="text-[#1a9dc3] font-bold mr-1">11</span>
+                <span className="text-white/50 mr-1">-</span>
+                <span className="text-primary font-bold">9</span>
+              </div>
+              
+              {/* Stats Comparison */}
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-white text-sm">{player1Stats.topSpeed}</span>
+                  <div className="w-32 h-2 bg-[#0A2B3D] rounded-full overflow-hidden mx-2">
+                    <div className="h-full bg-[#1a9dc3] rounded-full" style={{ width: '47%' }}></div>
+                  </div>
+                  <span className="text-white text-sm">{player2Stats.topSpeed}</span>
+                </div>
+                
+                <div className="flex items-center justify-between">
+                  <span className="text-white text-sm">{player1Stats.shotAccuracy}</span>
+                  <div className="w-32 h-2 bg-[#0A2B3D] rounded-full overflow-hidden mx-2">
+                    <div className="h-full bg-[#1a9dc3] rounded-full" style={{ width: '92%' }}></div>
+                  </div>
+                  <span className="text-white text-sm">{player2Stats.shotAccuracy}</span>
+                </div>
+                
+                <div className="flex items-center justify-between">
+                  <span className="text-white text-sm">{player1Stats.spinRate}</span>
+                  <div className="w-32 h-2 bg-[#0A2B3D] rounded-full overflow-hidden mx-2">
+                    <div className="h-full bg-[#1a9dc3] rounded-full" style={{ width: '45%' }}></div>
+                  </div>
+                  <span className="text-white text-sm">{player2Stats.spinRate}</span>
+                </div>
               </div>
             </div>
-            <div>
-              <h3 className="text-white text-xl font-bold">{pillars[activePillar].title}</h3>
-              <p className="text-white/70 text-sm">{pillars[activePillar].description}</p>
+          </div>
+          
+          {/* Match Feed */}
+          <div className="flex-1 bg-[#092435] rounded-lg overflow-hidden border border-[#1A4258]/50 flex flex-col">
+            <div className="py-3 px-4 flex items-center justify-between border-b border-[#1A4258]/50">
+              <span className="uppercase text-white font-semibold">Match Feed</span>
+              <div className="flex items-center gap-2">
+                <button className="text-white/70 hover:text-white transition-colors">
+                  <Users2 className="w-4 h-4" />
+                </button>
+                <button className="text-white/70 hover:text-white transition-colors">
+                  <BarChart2 className="w-4 h-4" />
+                </button>
+              </div>
             </div>
-          </div>
-          
-          {/* Feature detail */}
-          <div className="flex-1 p-6">
-            <ul className="space-y-4">
-              {pillars[activePillar].bullets.map((bullet, index) => (
-                <li key={index} className="flex items-start gap-3">
-                  <div 
-                    className="w-1.5 h-1.5 rounded-full mt-2"
-                    style={{ backgroundColor: pillars[activePillar].color }}
-                  ></div>
-                  <span className="text-white/80">{bullet}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-          
-          {/* Navigation dots for features */}
-          <div className="px-6 pb-6 flex justify-center">
-            <div className="flex gap-2">
-              {pillars.map((pillar, index) => (
-                <button
-                  key={index}
-                  className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
-                    index === activePillar 
-                      ? 'bg-white' 
-                      : 'bg-white/20 hover:bg-white/50'
-                  }`}
-                  onClick={() => setActivePillar(index)}
-                />
+            
+            <div className="flex-1 overflow-y-auto p-2">
+              {matchFeedItems.map(item => (
+                <div 
+                  key={item.id} 
+                  className="mb-2 bg-[#0A2B3D] rounded-lg overflow-hidden border border-[#1A4258]/30"
+                >
+                  <div className="p-3">
+                    <div className="flex items-center justify-between mb-1">
+                      <div className="flex items-center gap-2">
+                        {item.type === "highlight" ? (
+                          <Video className="w-4 h-4 text-[#2BCB6E]" />
+                        ) : item.type === "achievement" ? (
+                          <Trophy className="w-4 h-4 text-[#e89e25]" />
+                        ) : (
+                          <Activity className="w-4 h-4 text-[#1a9dc3]" />
+                        )}
+                        <span className="uppercase text-xs font-semibold text-white/80">
+                          {item.type === "highlight" ? "Highlight" : 
+                           item.type === "achievement" ? "Achievement" : "Stat Alert"}
+                        </span>
+                      </div>
+                      <span className="text-white/50 text-xs">{item.time}</span>
+                    </div>
+                    
+                    <p className="text-white text-sm mb-2">{item.content}</p>
+                    
+                    {item.type === "highlight" && (
+                      <div className="flex items-center justify-between">
+                        <button className="flex items-center gap-1 text-white/60 hover:text-white text-xs transition-colors">
+                          <Heart className="w-3 h-3" />
+                          <span>{item.likes}</span>
+                        </button>
+                        <button className="text-xs py-1 px-2 bg-[#0C8068]/20 text-[#0C8068] rounded hover:bg-[#0C8068]/30 transition-colors">
+                          CLICK TO VIEW
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                </div>
               ))}
             </div>
           </div>
         </div>
       </div>
-
-      {/* Bottom bar with stats */}
-      <div className="w-full p-4 border-t border-white/10 bg-navy-dark/80 backdrop-blur-sm">
-        <div className="flex items-center justify-between gap-6">
-          <div className="flex items-center gap-4">
-            <div className="p-2 rounded-full bg-[#1a9dc3]/20">
-              <Activity className="w-4 h-4 text-[#1a9dc3]" />
-            </div>
+      
+      {/* Sponsor Footer */}
+      <div className="w-full py-3 px-6 bg-[#092435]/70 backdrop-blur-sm border-t border-[#1A4258]/50 flex items-center justify-between">
+        <div className="text-white/40 text-xs uppercase">
+          Powered by SwingNet
+        </div>
+        
+        <div className="flex items-center gap-2">
+          <span className="text-white/40 text-xs uppercase mr-2">Sponsored by</span>
+          <div className="flex items-center gap-6">
+            {sponsors.map(sponsor => (
+              <span key={sponsor.id} className="text-white/80 uppercase text-sm">{sponsor.name}</span>
+            ))}
+          </div>
+        </div>
+        
+        <div className="flex items-center gap-2">
+          <div className="w-6 h-1 bg-primary rounded-full"></div>
+          <div className="w-6 h-1 bg-white/30 rounded-full"></div>
+          <div className="w-6 h-1 bg-white/30 rounded-full"></div>
+        </div>
+      </div>
+      
+      {/* Bottom action bar */}
+      <div className="w-full px-6 py-3 bg-[#092435]/90 backdrop-blur-sm border-t border-[#1A4258]/50 flex items-center justify-between">
+        <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
+            <Activity className="w-5 h-5 text-[#1a9dc3]" />
             <div>
               <div className="flex items-center gap-2">
-                <h4 className="text-white text-sm font-medium">REAL-TIME ANALYTICS</h4>
+                <h4 className="text-white text-sm font-medium uppercase">Real-time Analytics</h4>
                 <span className="animate-pulse flex h-1.5 w-1.5 rounded-full bg-[#1a9dc3]"></span>
               </div>
               <p className="text-white/60 text-xs">Shot accuracy: 92% | Rally length: 8.3 | Top speed: 52 mph</p>
             </div>
           </div>
+        </div>
+        
+        <div className="flex gap-3">
+          <button 
+            className="py-1.5 px-3 rounded bg-[#0C8068]/20 text-[#0C8068] text-sm flex items-center gap-1.5 hover:bg-[#0C8068]/30 transition-colors"
+            onClick={onHighlightClick}
+          >
+            <Video className="w-4 h-4" />
+            <span>View Highlights</span>
+          </button>
           
-          <div className="flex gap-4">
-            <button 
-              className="py-1.5 px-3 rounded bg-primary/10 text-primary text-sm flex items-center gap-1.5 hover:bg-primary/20 transition-colors"
-              onClick={onHighlightClick}
-            >
-              <Video className="w-4 h-4" />
-              <span>View Highlights</span>
-            </button>
-            
-            <button className="py-1.5 px-3 rounded bg-white/10 text-white/80 text-sm flex items-center gap-1.5 hover:bg-white/20 transition-colors">
-              <Share2 className="w-4 h-4" />
-              <span>Share</span>
-            </button>
-          </div>
+          <button className="py-1.5 px-3 rounded bg-white/10 text-white/80 text-sm flex items-center gap-1.5 hover:bg-white/20 transition-colors">
+            <Share2 className="w-4 h-4" />
+            <span>Share</span>
+          </button>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
