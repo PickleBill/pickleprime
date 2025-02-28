@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect, useRef } from "react";
-import { Play, ChevronLeft, Activity, Trophy, Clock, Zap, Users2, Award, Heart, BarChart2, MessageSquare, Share2, Video, Image } from "lucide-react";
+import { Play, ChevronLeft, Activity, Trophy, Clock, Zap, Users2, Award, Heart, BarChart2, MessageSquare, Share2, Video, Image, Target } from "lucide-react";
 import AnimatedButton from "../AnimatedButton";
 
 interface EnhancedScoreboardViewProps {
@@ -40,10 +40,10 @@ const EnhancedScoreboardView: React.FC<EnhancedScoreboardViewProps> = ({
   const [activeTab, setActiveTab] = useState("scoreboard");
   
   // State for player positions - now with 4 players (2 per side)
-  const [player1, setPlayer1] = useState<PlayerPosition>({ x: 25, y: 75, targetX: 25, targetY: 75 });
-  const [player2, setPlayer2] = useState<PlayerPosition>({ x: 75, y: 25, targetX: 75, targetY: 25 });
-  const [player3, setPlayer3] = useState<PlayerPosition>({ x: 15, y: 60, targetX: 15, targetY: 60 });
-  const [player4, setPlayer4] = useState<PlayerPosition>({ x: 85, y: 40, targetX: 85, targetY: 40 });
+  const [player1, setPlayer1] = useState<PlayerPosition>({ x: 25, y: 40, targetX: 25, targetY: 40 });
+  const [player2, setPlayer2] = useState<PlayerPosition>({ x: 75, y: 40, targetX: 75, targetY: 40 });
+  const [player3, setPlayer3] = useState<PlayerPosition>({ x: 25, y: 60, targetX: 25, targetY: 60 });
+  const [player4, setPlayer4] = useState<PlayerPosition>({ x: 75, y: 60, targetX: 75, targetY: 60 });
   
   const [matchFeedItems, setMatchFeedItems] = useState([
     {
@@ -68,13 +68,17 @@ const EnhancedScoreboardView: React.FC<EnhancedScoreboardViewProps> = ({
   ]);
   const courtRef = useRef<HTMLDivElement>(null);
   
+  // Updated team colors
+  const greenTeamColor = "#176840"; // Darker green
+  const blueTeamColor = "#0A4D73"; // Darker blue
+  
   // Court boundaries for better bounce mechanics
   // Modified to reflect a more realistic pickleball court ratio (more elongated vertically)
   const courtBoundaries = {
-    top: 15, // Top court boundary (%) - moved up slightly
-    bottom: 85, // Bottom court boundary (%) - moved down slightly
-    left: 10, // Left court boundary (%)
-    right: 90, // Right court boundary (%)
+    top: 10, // Top court boundary (%)
+    bottom: 90, // Bottom court boundary (%)
+    left: 15, // Left court boundary (%)
+    right: 85, // Right court boundary (%)
     net: { top: 48, bottom: 52 }, // Net position (%)
     midLine: 50 // Middle line of the court (%)
   };
@@ -164,7 +168,7 @@ const EnhancedScoreboardView: React.FC<EnhancedScoreboardViewProps> = ({
         if (Math.random() < 0.1) {
           // If ball is on left side (player 1 & 3 side)
           if (newPos.x < courtBoundaries.midLine) {
-            // Set target for player 1 or 3 to intercept based on position
+            // Set target for player 1 (green team) or 3 (blue team) to intercept based on position
             if (newPos.y < courtBoundaries.net.top) {
               setPlayer1(prev => ({ ...prev, targetX: newPos.x + 5, targetY: newPos.y + 5 }));
             } else {
@@ -173,7 +177,7 @@ const EnhancedScoreboardView: React.FC<EnhancedScoreboardViewProps> = ({
           } 
           // If ball is on right side (player 2 & 4 side)
           else {
-            // Set target for player 2 or 4 to intercept based on position
+            // Set target for player 2 (green team) or 4 (blue team) to intercept based on position
             if (newPos.y < courtBoundaries.net.top) {
               setPlayer2(prev => ({ ...prev, targetX: newPos.x - 5, targetY: newPos.y + 5 }));
             } else {
@@ -272,28 +276,28 @@ const EnhancedScoreboardView: React.FC<EnhancedScoreboardViewProps> = ({
       if (Math.random() < 0.05) {
         // Set new random targets within their respective court areas - adjusted for new court dimensions
         
-        // Player 1 - Front left
+        // Player 1 - Green team top left
         setPlayer1(prev => ({
           ...prev,
           targetX: Math.random() * 20 + 15, // 15-35%
           targetY: Math.random() * 20 + 20, // 20-40%
         }));
         
-        // Player 2 - Front right
+        // Player 2 - Green team top right
         setPlayer2(prev => ({
           ...prev,
           targetX: Math.random() * 20 + 65, // 65-85%
           targetY: Math.random() * 20 + 20, // 20-40%
         }));
         
-        // Player 3 - Back left
+        // Player 3 - Blue team bottom left
         setPlayer3(prev => ({
           ...prev,
           targetX: Math.random() * 20 + 15, // 15-35%
           targetY: Math.random() * 20 + 60, // 60-80%
         }));
         
-        // Player 4 - Back right
+        // Player 4 - Blue team bottom right
         setPlayer4(prev => ({
           ...prev,
           targetX: Math.random() * 20 + 65, // 65-85%
@@ -470,386 +474,755 @@ const EnhancedScoreboardView: React.FC<EnhancedScoreboardViewProps> = ({
         </div>
       </div>
 
-      {/* Main Content - adjusted to be slightly more compressed */}
-      <div className="flex-1 flex gap-4 p-4 pb-0">
-        {/* Left Side - Court View - slightly reduced height */}
-        <div className="flex-1 relative bg-[#092435] rounded-lg overflow-hidden border border-[#1A4258]/50 h-[calc(100%-40px)]" ref={courtRef}>
-          {/* Dark gradient background */}
-          <div className="absolute inset-0 bg-gradient-to-br from-[#092435] to-[#061620]"></div>
-          
-          {/* Pickleball Court with proper colors - Modified with more padding and vertical extension */}
-          <div className="absolute inset-4 rounded-lg overflow-hidden">
-            {/* Green outer area (pickleball court surroundings) - Brighter green grass color */}
-            <div className="absolute inset-0 bg-[#8BC34A]/70 shadow-inner"></div>
+      {/* Main Content - using the new desktop layout with 50/50 split and court/feed in different proportions */}
+      <div className="flex-1 flex flex-col sm:flex-row gap-4 p-4 pb-0">
+        {/* Mobile Layout - Stacked vertically */}
+        <div className="flex-1 flex flex-col gap-4 sm:hidden">
+          {/* Court View */}
+          <div className="flex-1 relative bg-[#092435] rounded-lg overflow-hidden border border-[#1A4258]/50">
+            {/* Same court content as below, but in a stacked layout for mobile */}
+            {/* Dark gradient background */}
+            <div className="absolute inset-0 bg-gradient-to-br from-[#092435] to-[#061620]"></div>
             
-            {/* Blue court area - Made more rectangular to reflect pickleball court dimensions */}
-            <div className="absolute inset-[10%] bg-[#0EA5E9]/70 rounded-sm">
-              {/* White lines */}
-              <div className="absolute inset-0 border-2 border-white/90"></div>
+            {/* Pickleball Court with proper colors - elongated vertically */}
+            <div className="absolute inset-2 rounded-lg overflow-hidden">
+              {/* Green outer area - darker green */}
+              <div className="absolute inset-0 bg-[#1E3B20]/90 shadow-inner"></div>
               
-              {/* Net area - center gray strip */}
-              <div className="absolute top-[48%] bottom-[48%] left-0 right-0 bg-black/30 backdrop-blur-[1px]">
-                <div className="h-full w-full border-t border-b border-white/90 bg-white/10"></div>
-              </div>
-              
-              {/* Non-volley zone (kitchen) - top - extending about 2x the height of the net */}
-              <div className="absolute top-0 left-0 right-0 h-[42%] border-b-2 border-white/90">
-                <div className="absolute inset-0 bg-[#0EA5E9]/50"></div>
-              </div>
-              
-              {/* Non-volley zone (kitchen) - bottom - extending about 2x the height of the net */}
-              <div className="absolute bottom-0 left-0 right-0 h-[42%] border-t-2 border-white/90">
-                <div className="absolute inset-0 bg-[#0EA5E9]/50"></div>
-              </div>
-              
-              {/* Center line */}
-              <div className="absolute top-0 bottom-0 left-1/2 w-0.5 bg-white/90 -translate-x-[0.25px]"></div>
-            </div>
-            
-            {/* Additional green court borders - to create more authentic pickleball court look */}
-            <div className="absolute inset-0 pointer-events-none">
-              <div className="absolute inset-[8%] border-4 border-[#4CAF50]/30 rounded-sm"></div>
-            </div>
-          </div>
-          
-          {/* Ball trajectory line - enhanced with glowing effect */}
-          {ballTrajectory.length > 1 && (
-            <svg className="absolute inset-0 z-10 pointer-events-none" viewBox="0 0 100 100" preserveAspectRatio="none">
-              {/* Glowing trajectory effect - blur under */}
-              <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
-                <feGaussianBlur stdDeviation="1.5" result="blur" />
-                <feMerge>
-                  <feMergeNode in="blur" />
-                  <feMergeNode in="SourceGraphic" />
-                </feMerge>
-              </filter>
-              
-              <path 
-                d={`M${ballTrajectory.map(point => `${point.x} ${point.y}`).join(' L')}`}
-                fill="none" 
-                stroke="#2BCB6E" 
-                strokeWidth="0.8" 
-                strokeDasharray="2 1"
-                filter="url(#glow)"
-                className="animate-pulse"
-              />
-            </svg>
-          )}
-          
-          {/* Ball velocity indicator near the ball */}
-          <div 
-            className="absolute z-10 px-2 py-1 bg-[#092435]/80 text-white text-xs rounded backdrop-blur-sm border border-[#1A4258]/50"
-            style={{ 
-              left: `${ballPosition.x}%`,
-              top: `${ballPosition.y + 5}%`,
-              transform: 'translateX(-50%)'
-            }}
-          >
-            {ballVelocity} mph
-          </div>
-          
-          {/* Animated pickleball - larger with yellow-green color */}
-          <div 
-            className="absolute z-20 w-5 h-5 rounded-full bg-gradient-to-b from-[#F2FCE2] to-[#FEF7CD] shadow-[0_0_8px_rgba(255,255,255,0.8)]"
-            style={{ 
-              left: `${ballPosition.x}%`, 
-              top: `${ballPosition.y}%`,
-              transform: 'translate(-50%, -50%)',
-              transition: 'left 0.05s linear, top 0.05s linear'
-            }}
-          >
-            {/* Ball texture (holes pattern) */}
-            <div className="absolute inset-0 rounded-full overflow-hidden opacity-40">
-              <div className="absolute top-1/4 left-1/4 w-1 h-1 bg-black/20 rounded-full"></div>
-              <div className="absolute top-1/4 right-1/4 w-1 h-1 bg-black/20 rounded-full"></div>
-              <div className="absolute bottom-1/4 left-1/4 w-1 h-1 bg-black/20 rounded-full"></div>
-              <div className="absolute bottom-1/4 right-1/4 w-1 h-1 bg-black/20 rounded-full"></div>
-              <div className="absolute top-1/2 left-1/2 w-1 h-1 bg-black/20 rounded-full -translate-x-1/2 -translate-y-1/2"></div>
-            </div>
-          </div>
-          
-          {/* Ball trails for more dynamic movement - also colored like pickleballs */}
-          {ballTrajectory.length > 2 && (
-            <>
-              <div 
-                className="absolute z-10 w-5 h-5 rounded-full bg-gradient-to-b from-[#F2FCE2]/40 to-[#FEF7CD]/40 blur-sm"
-                style={{ 
-                  left: `${ballTrajectory[ballTrajectory.length - 2]?.x || ballPosition.x}%`, 
-                  top: `${ballTrajectory[ballTrajectory.length - 2]?.y || ballPosition.y}%`,
-                  transform: 'translate(-50%, -50%)'
-                }}
-              ></div>
-              <div 
-                className="absolute z-10 w-4 h-4 rounded-full bg-gradient-to-b from-[#F2FCE2]/20 to-[#FEF7CD]/20 blur-sm"
-                style={{ 
-                  left: `${ballTrajectory[ballTrajectory.length - 4]?.x || ballPosition.x}%`, 
-                  top: `${ballTrajectory[ballTrajectory.length - 4]?.y || ballPosition.y}%`,
-                  transform: 'translate(-50%, -50%)'
-                }}
-              ></div>
-            </>
-          )}
-          
-          {/* Player positions - now with 4 players that move dynamically */}
-          {/* Team 1 - Left side (blue) */}
-          {/* Player 1 - Main player */}
-          <div 
-            className="absolute z-20 flex items-center justify-center transition-all duration-300"
-            style={{ 
-              left: `${player1.x}%`, 
-              top: `${player1.y}%`,
-              transform: 'translate(-50%, -50%)',
-              filter: 'drop-shadow(0 0 10px rgba(26, 157, 195, 0.5))'
-            }}
-          >
-            <div className="w-12 h-12 rounded-full flex items-center justify-center">
-              <div className="absolute w-12 h-12 bg-[#1a9dc3]/40 rounded-full animate-pulse"></div>
-              <div className="z-10 bg-[#1a9dc3] text-white text-xs font-bold w-8 h-8 rounded-full flex items-center justify-center border-2 border-white/70">
-                P1
-              </div>
-            </div>
-          </div>
-          
-          {/* Player 3 - Second player on left side */}
-          <div 
-            className="absolute z-20 flex items-center justify-center transition-all duration-300"
-            style={{ 
-              left: `${player3.x}%`, 
-              top: `${player3.y}%`,
-              transform: 'translate(-50%, -50%)',
-              filter: 'drop-shadow(0 0 8px rgba(26, 157, 195, 0.4))'
-            }}
-          >
-            <div className="w-10 h-10 rounded-full flex items-center justify-center">
-              <div className="absolute w-10 h-10 bg-[#1a9dc3]/40 rounded-full animate-pulse"></div>
-              <div className="z-10 bg-[#1a9dc3] text-white text-xs font-bold w-7 h-7 rounded-full flex items-center justify-center border-2 border-white/70">
-                P3
-              </div>
-            </div>
-          </div>
-          
-          {/* Team 2 - Right side (green) */}
-          {/* Player 2 - Main player */}
-          <div 
-            className="absolute z-20 flex items-center justify-center transition-all duration-300"
-            style={{ 
-              left: `${player2.x}%`, 
-              top: `${player2.y}%`,
-              transform: 'translate(-50%, -50%)',
-              filter: 'drop-shadow(0 0 10px rgba(43, 203, 110, 0.5))'
-            }}
-          >
-            <div className="w-12 h-12 rounded-full flex items-center justify-center">
-              <div className="absolute w-12 h-12 bg-primary/40 rounded-full animate-pulse"></div>
-              <div className="z-10 bg-primary text-white text-xs font-bold w-8 h-8 rounded-full flex items-center justify-center border-2 border-white/70">
-                P2
-              </div>
-            </div>
-          </div>
-          
-          {/* Player 4 - Second player on right side */}
-          <div 
-            className="absolute z-20 flex items-center justify-center transition-all duration-300"
-            style={{ 
-              left: `${player4.x}%`, 
-              top: `${player4.y}%`,
-              transform: 'translate(-50%, -50%)',
-              filter: 'drop-shadow(0 0 8px rgba(43, 203, 110, 0.4))'
-            }}
-          >
-            <div className="w-10 h-10 rounded-full flex items-center justify-center">
-              <div className="absolute w-10 h-10 bg-primary/40 rounded-full animate-pulse"></div>
-              <div className="z-10 bg-primary text-white text-xs font-bold w-7 h-7 rounded-full flex items-center justify-center border-2 border-white/70">
-                P4
-              </div>
-            </div>
-          </div>
-          
-          {/* Score overlay */}
-          <div 
-            className="absolute top-6 left-1/2 transform -translate-x-1/2 flex items-center gap-8 bg-[#092435]/90 backdrop-blur-sm px-8 py-4 rounded-full border border-[#1A4258]/50 z-20"
-            style={{ boxShadow: '0 0 20px rgba(0, 0, 0, 0.5)' }}
-          >
-            <span className="text-[#1a9dc3] font-bold text-3xl">{player1Score}</span>
-            <span className="text-white/50 text-2xl">-</span>
-            <span className="text-primary font-bold text-3xl">{player2Score}</span>
-          </div>
-          
-          {/* Team labels for clarity */}
-          <div className="absolute top-20 left-6 bg-[#1a9dc3]/20 backdrop-blur-sm px-2 py-1 rounded text-xs text-white border border-[#1a9dc3]/30 z-10">
-            TEAM BLUE
-          </div>
-          
-          <div className="absolute top-20 right-6 bg-primary/20 backdrop-blur-sm px-2 py-1 rounded text-xs text-white border border-primary/30 z-10">
-            TEAM GREEN
-          </div>
-          
-          {/* Real-time insights overlay at the bottom */}
-          <div className="absolute left-0 right-0 bottom-0 bg-[#092435]/90 backdrop-blur-sm border-t border-[#1A4258]/50 z-20">
-            <div className="p-4">
-              <div className="flex items-center justify-between mb-2">
-                <div className="flex items-center gap-2">
-                  <Activity className="w-4 h-4 text-[#1a9dc3]" />
-                  <h3 className="text-white uppercase font-semibold text-sm tracking-wide">Real-time insights</h3>
-                </div>
-                <span className="text-[#1a9dc3]/70 text-xs uppercase">Updating Live</span>
-              </div>
-              
-              <div className="grid grid-cols-3 gap-4">
-                <div className="bg-[#0A2B3D] p-3 rounded">
-                  <div className="flex items-center gap-2 mb-1">
-                    <Zap className="w-4 h-4 text-[#1a9dc3]" />
-                    <span className="text-white/70 text-xs uppercase">Rally Length</span>
-                  </div>
-                  <div className="text-white text-lg font-bold">12 SHOTS</div>
-                  <div className="text-[#2BCB6E] text-xs">+2 FROM AVG</div>
+              {/* Blue court area - elongated vertically */}
+              <div className="absolute inset-x-[15%] inset-y-[5%] bg-[#0A3A5C]/90 rounded-sm">
+                {/* White lines */}
+                <div className="absolute inset-0 border border-white/90"></div>
+                
+                {/* Net area - center gray strip */}
+                <div className="absolute top-[48%] bottom-[48%] left-0 right-0 bg-black/40 backdrop-blur-[1px]">
+                  <div className="h-full w-full border-t border-b border-white/90 bg-white/10"></div>
                 </div>
                 
-                <div className="bg-[#0A2B3D] p-3 rounded">
-                  <div className="flex items-center gap-2 mb-1">
-                    <Zap className="w-4 h-4 text-[#1a9dc3]" />
-                    <span className="text-white/70 text-xs uppercase">Top Speed</span>
-                  </div>
-                  <div className="text-white text-lg font-bold">52 MPH</div>
-                  <div className="text-[#2BCB6E] text-xs">NEW MATCH HIGH</div>
+                {/* Non-volley zone (kitchen) - top */}
+                <div className="absolute top-0 left-0 right-0 h-[42%] border-b border-white/90">
+                  <div className="absolute inset-0 bg-[#0A3A5C]/70"></div>
                 </div>
                 
-                <div className="bg-[#0A2B3D] p-3 rounded">
-                  <div className="flex items-center gap-2 mb-1">
-                    <Activity className="w-4 h-4 text-[#1a9dc3]" />
-                    <span className="text-white/70 text-xs uppercase">Shot Selection</span>
-                  </div>
-                  <div className="text-white text-lg font-bold">DINKS: 65%</div>
-                  <div className="text-[#e89e25] text-xs">DRIVES: 35%</div>
+                {/* Non-volley zone (kitchen) - bottom */}
+                <div className="absolute bottom-0 left-0 right-0 h-[42%] border-t border-white/90">
+                  <div className="absolute inset-0 bg-[#0A3A5C]/70"></div>
+                </div>
+                
+                {/* Center line */}
+                <div className="absolute top-0 bottom-0 left-1/2 w-[1px] bg-white/90 -translate-x-[0.5px]"></div>
+              </div>
+              
+              {/* Additional green court borders */}
+              <div className="absolute inset-0 pointer-events-none">
+                <div className="absolute inset-x-[13%] inset-y-[3%] border-2 border-[#2A4F2D]/50 rounded-sm"></div>
+              </div>
+            </div>
+            
+            {/* Ball trajectory line - enhanced with glowing effect */}
+            {ballTrajectory.length > 1 && (
+              <svg className="absolute inset-0 z-10 pointer-events-none" viewBox="0 0 100 100" preserveAspectRatio="none">
+                {/* Glowing trajectory effect - blur under */}
+                <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+                  <feGaussianBlur stdDeviation="1.5" result="blur" />
+                  <feMerge>
+                    <feMergeNode in="blur" />
+                    <feMergeNode in="SourceGraphic" />
+                  </feMerge>
+                </filter>
+                
+                <path 
+                  d={`M${ballTrajectory.map(point => `${point.x} ${point.y}`).join(' L')}`}
+                  fill="none" 
+                  stroke="#2BCB6E" 
+                  strokeWidth="0.8" 
+                  strokeDasharray="2 1"
+                  filter="url(#glow)"
+                  className="animate-pulse"
+                />
+              </svg>
+            )}
+            
+            {/* Ball velocity indicator near the ball */}
+            <div 
+              className="absolute z-10 px-1.5 py-0.5 bg-[#092435]/80 text-white text-[10px] rounded backdrop-blur-sm border border-[#1A4258]/50"
+              style={{ 
+                left: `${ballPosition.x}%`,
+                top: `${ballPosition.y + 5}%`,
+                transform: 'translateX(-50%)'
+              }}
+            >
+              {ballVelocity} mph
+            </div>
+            
+            {/* Animated pickleball */}
+            <div 
+              className="absolute z-20 w-4 h-4 rounded-full bg-gradient-to-b from-[#F2FCE2] to-[#FEF7CD] shadow-[0_0_8px_rgba(255,255,255,0.8)]"
+              style={{ 
+                left: `${ballPosition.x}%`, 
+                top: `${ballPosition.y}%`,
+                transform: 'translate(-50%, -50%)',
+                transition: 'left 0.05s linear, top 0.05s linear'
+              }}
+            >
+              {/* Ball texture (holes pattern) */}
+              <div className="absolute inset-0 rounded-full overflow-hidden opacity-40">
+                <div className="absolute top-1/4 left-1/4 w-0.5 h-0.5 bg-black/20 rounded-full"></div>
+                <div className="absolute top-1/4 right-1/4 w-0.5 h-0.5 bg-black/20 rounded-full"></div>
+                <div className="absolute bottom-1/4 left-1/4 w-0.5 h-0.5 bg-black/20 rounded-full"></div>
+                <div className="absolute bottom-1/4 right-1/4 w-0.5 h-0.5 bg-black/20 rounded-full"></div>
+                <div className="absolute top-1/2 left-1/2 w-0.5 h-0.5 bg-black/20 rounded-full -translate-x-1/2 -translate-y-1/2"></div>
+              </div>
+            </div>
+            
+            {/* Ball trails for more dynamic movement */}
+            {ballTrajectory.length > 2 && (
+              <>
+                <div 
+                  className="absolute z-10 w-4 h-4 rounded-full bg-gradient-to-b from-[#F2FCE2]/40 to-[#FEF7CD]/40 blur-sm"
+                  style={{ 
+                    left: `${ballTrajectory[ballTrajectory.length - 2]?.x || ballPosition.x}%`, 
+                    top: `${ballTrajectory[ballTrajectory.length - 2]?.y || ballPosition.y}%`,
+                    transform: 'translate(-50%, -50%)'
+                  }}
+                ></div>
+                <div 
+                  className="absolute z-10 w-3 h-3 rounded-full bg-gradient-to-b from-[#F2FCE2]/20 to-[#FEF7CD]/20 blur-sm"
+                  style={{ 
+                    left: `${ballTrajectory[ballTrajectory.length - 4]?.x || ballPosition.x}%`, 
+                    top: `${ballTrajectory[ballTrajectory.length - 4]?.y || ballPosition.y}%`,
+                    transform: 'translate(-50%, -50%)'
+                  }}
+                ></div>
+              </>
+            )}
+            
+            {/* Player positions - Green Team (1 & 2) on top, Blue Team (3 & 4) on bottom */}
+            {/* Player 1 - Green team, top left */}
+            <div 
+              className="absolute z-20 flex items-center justify-center transition-all duration-300"
+              style={{ 
+                left: `${player1.x}%`, 
+                top: `25%`,
+                transform: 'translate(-50%, -50%)',
+                filter: 'drop-shadow(0 0 10px rgba(43, 203, 110, 0.8))'
+              }}
+            >
+              <div className="w-6 h-6 rounded-full flex items-center justify-center">
+                <div className="absolute w-full h-full bg-[#176840]/70 rounded-full animate-pulse"></div>
+                <div className="z-10 bg-[#176840] text-white text-[8px] font-bold w-4 h-4 rounded-full flex items-center justify-center border-[1px] border-white/70">
+                  P1
                 </div>
               </div>
             </div>
+            
+            {/* Player 2 - Green team, top right */}
+            <div 
+              className="absolute z-20 flex items-center justify-center transition-all duration-300"
+              style={{ 
+                left: `${player2.x}%`, 
+                top: `25%`,
+                transform: 'translate(-50%, -50%)',
+                filter: 'drop-shadow(0 0 10px rgba(43, 203, 110, 0.8))'
+              }}
+            >
+              <div className="w-6 h-6 rounded-full flex items-center justify-center">
+                <div className="absolute w-full h-full bg-[#176840]/70 rounded-full animate-pulse"></div>
+                <div className="z-10 bg-[#176840] text-white text-[8px] font-bold w-4 h-4 rounded-full flex items-center justify-center border-[1px] border-white/70">
+                  P2
+                </div>
+              </div>
+            </div>
+            
+            {/* Player 3 - Blue team, bottom left */}
+            <div 
+              className="absolute z-20 flex items-center justify-center transition-all duration-300"
+              style={{ 
+                left: `${player3.x}%`, 
+                top: `75%`,
+                transform: 'translate(-50%, -50%)',
+                filter: 'drop-shadow(0 0 8px rgba(26, 157, 195, 0.8))'
+              }}
+            >
+              <div className="w-5 h-5 rounded-full flex items-center justify-center">
+                <div className="absolute w-full h-full bg-[#0A4D73]/70 rounded-full animate-pulse"></div>
+                <div className="z-10 bg-[#0A4D73] text-white text-[8px] font-bold w-3 h-3 rounded-full flex items-center justify-center border-[1px] border-white/70">
+                  P3
+                </div>
+              </div>
+            </div>
+            
+            {/* Player 4 - Blue team, bottom right */}
+            <div 
+              className="absolute z-20 flex items-center justify-center transition-all duration-300"
+              style={{ 
+                left: `${player4.x}%`, 
+                top: `75%`,
+                transform: 'translate(-50%, -50%)',
+                filter: 'drop-shadow(0 0 8px rgba(26, 157, 195, 0.8))'
+              }}
+            >
+              <div className="w-5 h-5 rounded-full flex items-center justify-center">
+                <div className="absolute w-full h-full bg-[#0A4D73]/70 rounded-full animate-pulse"></div>
+                <div className="z-10 bg-[#0A4D73] text-white text-[8px] font-bold w-3 h-3 rounded-full flex items-center justify-center border-[1px] border-white/70">
+                  P4
+                </div>
+              </div>
+            </div>
+            
+            {/* Mobile score overlay */}
+            <div 
+              className="absolute top-3 left-1/2 transform -translate-x-1/2 flex items-center gap-4 bg-[#092435]/90 backdrop-blur-sm px-4 py-2 rounded-full border border-[#1A4258]/50 z-20"
+              style={{ boxShadow: '0 0 20px rgba(0, 0, 0, 0.5)' }}
+            >
+              <span className="text-[#176840] font-bold text-2xl">{player1Score}</span>
+              <span className="text-white/50 text-xl">-</span>
+              <span className="text-[#0A4D73] font-bold text-2xl">{player2Score}</span>
+            </div>
+            
+            {/* Team labels for clarity - Mobile */}
+            <div className="absolute top-12 left-2 bg-[#176840]/30 backdrop-blur-sm px-1.5 py-0.5 rounded text-[10px] text-white border border-[#176840]/40 z-10">
+              TEAM GREEN
+            </div>
+            
+            <div className="absolute bottom-12 right-2 bg-[#0A4D73]/30 backdrop-blur-sm px-1.5 py-0.5 rounded text-[10px] text-white border border-[#0A4D73]/40 z-10">
+              TEAM BLUE
+            </div>
           </div>
-        </div>
-        
-        {/* Right Side Panel - slightly reduced height */}
-        <div className="w-96 flex flex-col gap-4 h-[calc(100%-40px)]">
-          {/* Live Scoreboard */}
+          
+          {/* Mobile Scoreboard */}
           <div className="bg-[#092435] rounded-lg overflow-hidden border border-[#1A4258]/50 flex flex-col">
-            <div className="bg-[#0C8068] py-3 px-4 uppercase text-white font-semibold">
+            <div className="bg-[#0C8068] py-1.5 px-3 uppercase text-white font-semibold text-xs">
               Live Scoreboard
             </div>
             
-            <div className="p-4 flex flex-col">
-              {/* Player Scores */}
-              <div className="flex items-center justify-between mb-6">
-                <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-[#1a9dc3]">
+            <div className="p-3 flex flex-col">
+              {/* Mobile Player Info */}
+              <div className="flex items-center justify-between mb-2">
+                <div className="flex items-center gap-1.5">
+                  <div className="w-6 h-6 rounded-full overflow-hidden border-[1.5px] border-[#176840]">
                     <img src={player1Stats.avatar} alt={player1Stats.name} className="w-full h-full object-cover" />
                   </div>
-                  <span className="text-white text-sm">{player1Stats.name}</span>
+                  <span className="text-white text-xs">{player1Stats.name}</span>
                 </div>
                 
-                <div className="flex items-center gap-6">
-                  <span className="text-[#1a9dc3] text-5xl font-bold">9</span>
-                  <span className="text-white/50">-</span>
-                  <span className="text-primary text-5xl font-bold">5</span>
-                </div>
-                
-                <div className="flex items-center gap-3">
-                  <span className="text-white text-sm">{player2Stats.name}</span>
-                  <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-primary">
+                <div className="flex items-center gap-1.5">
+                  <span className="text-white text-xs">{player2Stats.name}</span>
+                  <div className="w-6 h-6 rounded-full overflow-hidden border-[1.5px] border-[#0A4D73]">
                     <img src={player2Stats.avatar} alt={player2Stats.name} className="w-full h-full object-cover" />
                   </div>
                 </div>
               </div>
               
               {/* Set Score */}
-              <div className="bg-[#0A2B3D] px-4 py-2 rounded-lg flex items-center justify-center mb-4">
-                <span className="text-white text-sm mr-2">SET 1:</span>
-                <span className="text-[#1a9dc3] font-bold mr-1">11</span>
+              <div className="bg-[#0A2B3D] px-2 py-1.5 rounded-lg flex items-center justify-center mb-2">
+                <span className="text-white text-xs mr-2">SET 1:</span>
+                <span className="text-[#176840] font-bold text-sm mr-1">11</span>
                 <span className="text-white/50 mr-1">-</span>
-                <span className="text-primary font-bold">9</span>
+                <span className="text-[#0A4D73] font-bold text-sm">9</span>
               </div>
               
-              {/* Stats Comparison */}
-              <div className="space-y-3">
+              {/* Mobile Stats Comparison */}
+              <div className="space-y-1.5">
                 <div className="flex items-center justify-between">
-                  <span className="text-white text-sm">{player1Stats.topSpeed}</span>
-                  <div className="w-32 h-2 bg-[#0A2B3D] rounded-full overflow-hidden mx-2">
-                    <div className="h-full bg-[#1a9dc3] rounded-full" style={{ width: '47%' }}></div>
+                  <span className="text-white text-xs">{player1Stats.topSpeed}</span>
+                  <div className="w-16 h-1 bg-[#0A2B3D] rounded-full overflow-hidden mx-2">
+                    <div className="h-full bg-[#176840] rounded-full" style={{ width: '47%' }}></div>
                   </div>
-                  <span className="text-white text-sm">{player2Stats.topSpeed}</span>
+                  <span className="text-white text-xs">{player2Stats.topSpeed}</span>
                 </div>
                 
                 <div className="flex items-center justify-between">
-                  <span className="text-white text-sm">{player1Stats.shotAccuracy}</span>
-                  <div className="w-32 h-2 bg-[#0A2B3D] rounded-full overflow-hidden mx-2">
-                    <div className="h-full bg-[#1a9dc3] rounded-full" style={{ width: '92%' }}></div>
+                  <span className="text-white text-xs">{player1Stats.shotAccuracy}</span>
+                  <div className="w-16 h-1 bg-[#0A2B3D] rounded-full overflow-hidden mx-2">
+                    <div className="h-full bg-[#176840] rounded-full" style={{ width: '92%' }}></div>
                   </div>
-                  <span className="text-white text-sm">{player2Stats.shotAccuracy}</span>
+                  <span className="text-white text-xs">{player2Stats.shotAccuracy}</span>
                 </div>
                 
                 <div className="flex items-center justify-between">
-                  <span className="text-white text-sm">{player1Stats.spinRate}</span>
-                  <div className="w-32 h-2 bg-[#0A2B3D] rounded-full overflow-hidden mx-2">
-                    <div className="h-full bg-[#1a9dc3] rounded-full" style={{ width: '45%' }}></div>
+                  <span className="text-white text-xs">{player1Stats.spinRate}</span>
+                  <div className="w-16 h-1 bg-[#0A2B3D] rounded-full overflow-hidden mx-2">
+                    <div className="h-full bg-[#176840] rounded-full" style={{ width: '45%' }}></div>
                   </div>
-                  <span className="text-white text-sm">{player2Stats.spinRate}</span>
+                  <span className="text-white text-xs">{player2Stats.spinRate}</span>
                 </div>
               </div>
             </div>
           </div>
           
-          {/* Match Feed */}
-          <div className="flex-1 bg-[#092435] rounded-lg overflow-hidden border border-[#1A4258]/50 flex flex-col">
-            <div className="py-3 px-4 flex items-center justify-between border-b border-[#1A4258]/50">
-              <span className="uppercase text-white font-semibold">Match Feed</span>
+          {/* Mobile Match Feed */}
+          <div className="bg-[#092435] rounded-lg overflow-hidden border border-[#1A4258]/50 flex flex-col mb-16">
+            <div className="py-1.5 px-3 flex items-center justify-between border-b border-[#1A4258]/50">
+              <span className="uppercase text-white font-semibold text-xs">Match Feed</span>
               <div className="flex items-center gap-2">
                 <button className="text-white/70 hover:text-white transition-colors">
-                  <Users2 className="w-4 h-4" />
+                  <Users2 className="w-3.5 h-3.5" />
                 </button>
                 <button className="text-white/70 hover:text-white transition-colors">
-                  <BarChart2 className="w-4 h-4" />
+                  <BarChart2 className="w-3.5 h-3.5" />
                 </button>
               </div>
             </div>
             
-            <div className="flex-1 overflow-y-auto p-2">
+            <div className="max-h-[200px] overflow-y-auto p-2">
               {matchFeedItems.map(item => (
                 <div 
                   key={item.id} 
                   className="mb-2 bg-[#0A2B3D] rounded-lg overflow-hidden border border-[#1A4258]/30"
                 >
-                  <div className="p-3">
+                  <div className="p-2">
                     <div className="flex items-center justify-between mb-1">
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-1.5">
                         {item.type === "highlight" ? (
-                          <Video className="w-4 h-4 text-[#2BCB6E]" />
+                          <Video className="w-3 h-3 text-[#2BCB6E]" />
                         ) : item.type === "achievement" ? (
-                          <Trophy className="w-4 h-4 text-[#e89e25]" />
+                          <Trophy className="w-3 h-3 text-[#e89e25]" />
                         ) : (
-                          <Activity className="w-4 h-4 text-[#1a9dc3]" />
+                          <Activity className="w-3 h-3 text-[#1a9dc3]" />
                         )}
-                        <span className="uppercase text-xs font-semibold text-white/80">
+                        <span className="uppercase text-[10px] font-semibold text-white/80">
                           {item.type === "highlight" ? "Highlight" : 
                            item.type === "achievement" ? "Achievement" : "Stat Alert"}
                         </span>
                       </div>
-                      <span className="text-white/50 text-xs">{item.time}</span>
+                      <span className="text-white/50 text-[10px]">{item.time}</span>
                     </div>
                     
-                    <p className="text-white text-sm mb-2">{item.content}</p>
+                    <p className="text-white text-xs mb-2">{item.content}</p>
                     
                     {item.type === "highlight" && (
                       <div className="flex items-center justify-between">
-                        <button className="flex items-center gap-1 text-white/60 hover:text-white text-xs transition-colors">
-                          <Heart className="w-3 h-3" />
+                        <button className="flex items-center gap-1 text-white/60 hover:text-white text-[10px] transition-colors">
+                          <Heart className="w-2.5 h-2.5" />
                           <span>{item.likes}</span>
                         </button>
-                        <button className="text-xs py-1 px-2 bg-[#0C8068]/20 text-[#0C8068] rounded hover:bg-[#0C8068]/30 transition-colors">
-                          CLICK TO VIEW
+                        <button className="text-[10px] py-0.5 px-1.5 bg-[#0C8068]/20 text-[#0C8068] rounded hover:bg-[#0C8068]/30 transition-colors">
+                          VIEW
                         </button>
                       </div>
                     )}
                   </div>
                 </div>
               ))}
+            </div>
+          </div>
+        </div>
+        
+        {/* Desktop Layout - Two-column with scoreboard (50%) on left, and court+feed stacked on right (50%) */}
+        <div className="hidden sm:flex w-full h-[calc(100%-40px)]">
+          {/* Left Column - Scoreboard (50%) */}
+          <div className="w-1/2 pr-2">
+            <div className="bg-[#092435] rounded-lg overflow-hidden border border-[#1A4258]/50 flex flex-col h-full">
+              <div className="bg-[#0C8068] py-1.5 px-3 uppercase text-white font-semibold text-sm">
+                Match Statistics
+              </div>
+              
+              <div className="p-4 flex flex-col flex-1 overflow-auto">
+                {/* Score Display */}
+                <div className="flex items-center justify-between mb-6">
+                  <div className="flex items-center gap-3">
+                    <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-[#176840]">
+                      <img src={player1Stats.avatar} alt={player1Stats.name} className="w-full h-full object-cover" />
+                    </div>
+                    <div>
+                      <h3 className="text-white font-semibold mb-1">{player1Stats.name}</h3>
+                      <div className="flex items-center gap-1 text-[#176840]/80 text-xs">
+                        <Activity className="w-3 h-3" />
+                        <span>Win Rate: {player1Stats.winRate}</span>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-center gap-5">
+                    <span className="text-[#176840] text-5xl font-bold">{player1Score}</span>
+                    <span className="text-white/50 text-2xl">-</span>
+                    <span className="text-[#0A4D73] text-5xl font-bold">{player2Score}</span>
+                  </div>
+                  
+                  <div className="flex items-center gap-3">
+                    <div>
+                      <h3 className="text-white font-semibold mb-1 text-right">{player2Stats.name}</h3>
+                      <div className="flex items-center justify-end gap-1 text-[#0A4D73]/80 text-xs">
+                        <Activity className="w-3 h-3" />
+                        <span>Win Rate: {player2Stats.winRate}</span>
+                      </div>
+                    </div>
+                    <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-[#0A4D73]">
+                      <img src={player2Stats.avatar} alt={player2Stats.name} className="w-full h-full object-cover" />
+                    </div>
+                  </div>
+                </div>
+                
+                {/* Set Score */}
+                <div className="bg-[#0A2B3D] px-3 py-2 rounded-lg flex items-center justify-center mb-4">
+                  <span className="text-white text-sm mr-2">SET 1:</span>
+                  <span className="text-[#176840] font-bold text-base mr-1">11</span>
+                  <span className="text-white/50 mr-1">-</span>
+                  <span className="text-[#0A4D73] font-bold text-base">9</span>
+                </div>
+                
+                {/* Extended Stats */}
+                <div className="grid grid-cols-2 gap-4 my-4">
+                  <div className="bg-[#0A2B3D] p-3 rounded">
+                    <div className="flex items-center gap-2 mb-2">
+                      <Zap className="w-4 h-4 text-[#1a9dc3]" />
+                      <span className="text-white/70 text-xs uppercase">Top Speed</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-[#176840] font-bold">{player1Stats.topSpeed}</span>
+                      <span className="text-white/50 text-xs">vs</span>
+                      <span className="text-[#0A4D73] font-bold">{player2Stats.topSpeed}</span>
+                    </div>
+                  </div>
+                  
+                  <div className="bg-[#0A2B3D] p-3 rounded">
+                    <div className="flex items-center gap-2 mb-2">
+                      <Target className="w-4 h-4 text-[#1a9dc3]" />
+                      <span className="text-white/70 text-xs uppercase">Accuracy</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-[#176840] font-bold">{player1Stats.shotAccuracy}</span>
+                      <span className="text-white/50 text-xs">vs</span>
+                      <span className="text-[#0A4D73] font-bold">{player2Stats.shotAccuracy}</span>
+                    </div>
+                  </div>
+                  
+                  <div className="bg-[#0A2B3D] p-3 rounded">
+                    <div className="flex items-center gap-2 mb-2">
+                      <Activity className="w-4 h-4 text-[#1a9dc3]" />
+                      <span className="text-white/70 text-xs uppercase">Spin Rate</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-[#176840] font-bold">{player1Stats.spinRate}</span>
+                      <span className="text-white/50 text-xs">vs</span>
+                      <span className="text-[#0A4D73] font-bold">{player2Stats.spinRate}</span>
+                    </div>
+                  </div>
+                  
+                  <div className="bg-[#0A2B3D] p-3 rounded">
+                    <div className="flex items-center gap-2 mb-2">
+                      <Zap className="w-4 h-4 text-[#1a9dc3]" />
+                      <span className="text-white/70 text-xs uppercase">Reaction Time</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-[#176840] font-bold">{player1Stats.reactionTime}</span>
+                      <span className="text-white/50 text-xs">vs</span>
+                      <span className="text-[#0A4D73] font-bold">{player2Stats.reactionTime}</span>
+                    </div>
+                  </div>
+                </div>
+                
+                {/* Shot Distribution Chart */}
+                <div className="mt-4">
+                  <h3 className="text-white text-sm font-semibold mb-2">Shot Distribution</h3>
+                  <div className="bg-[#0A2B3D] rounded p-4 flex items-center justify-center">
+                    <div className="w-full">
+                      {/* Shot types */}
+                      <div className="flex justify-between items-center mb-2">
+                        <span className="text-white/70 text-xs">Dinks</span>
+                        <span className="text-white/70 text-xs">65%</span>
+                      </div>
+                      <div className="w-full h-2 bg-[#061620] rounded-full mb-3">
+                        <div className="h-full bg-[#176840] rounded-full" style={{ width: '65%' }}></div>
+                      </div>
+                      
+                      <div className="flex justify-between items-center mb-2">
+                        <span className="text-white/70 text-xs">Drives</span>
+                        <span className="text-white/70 text-xs">24%</span>
+                      </div>
+                      <div className="w-full h-2 bg-[#061620] rounded-full mb-3">
+                        <div className="h-full bg-[#0A4D73] rounded-full" style={{ width: '24%' }}></div>
+                      </div>
+                      
+                      <div className="flex justify-between items-center mb-2">
+                        <span className="text-white/70 text-xs">Volleys</span>
+                        <span className="text-white/70 text-xs">11%</span>
+                      </div>
+                      <div className="w-full h-2 bg-[#061620] rounded-full">
+                        <div className="h-full bg-[#e89e25] rounded-full" style={{ width: '11%' }}></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                {/* Win Probability */}
+                <div className="mt-6 bg-[#0A2B3D] rounded p-3">
+                  <h3 className="text-white text-sm font-semibold mb-2">Win Probability</h3>
+                  <div className="flex items-center">
+                    <div className="flex-1 text-[#176840] font-bold text-right pr-2">Alex</div>
+                    <div className="w-40 h-3 bg-[#061620] rounded-full overflow-hidden">
+                      <div className="h-full bg-[#176840] rounded-l-full" style={{ width: '65%' }}></div>
+                      <div className="h-full bg-[#0A4D73] rounded-r-full absolute right-0" style={{ width: '35%' }}></div>
+                    </div>
+                    <div className="flex-1 text-[#0A4D73] font-bold pl-2">Jordan</div>
+                  </div>
+                  <div className="flex justify-center mt-1">
+                    <span className="text-white/70 text-xs">65% - 35%</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          {/* Right Column - Stacked Court View (66%) and Match Feed (33%) */}
+          <div className="w-1/2 flex flex-col gap-4 pl-2">
+            {/* Court View - Upper right - 66% of height */}
+            <div className="h-[66%] relative bg-[#092435] rounded-lg overflow-hidden border border-[#1A4258]/50" ref={courtRef}>
+              {/* Dark gradient background */}
+              <div className="absolute inset-0 bg-gradient-to-br from-[#092435] to-[#061620]"></div>
+              
+              {/* Pickleball Court with proper colors - elongated vertically */}
+              <div className="absolute inset-4 rounded-lg overflow-hidden">
+                {/* Green outer area - darker green */}
+                <div className="absolute inset-0 bg-[#1E3B20]/90 shadow-inner"></div>
+                
+                {/* Blue court area - elongated vertically */}
+                <div className="absolute inset-x-[15%] inset-y-[5%] bg-[#0A3A5C]/90 rounded-sm">
+                  {/* White lines */}
+                  <div className="absolute inset-0 border-2 border-white/90"></div>
+                  
+                  {/* Net area - center gray strip */}
+                  <div className="absolute top-[48%] bottom-[48%] left-0 right-0 bg-black/40 backdrop-blur-[1px]">
+                    <div className="h-full w-full border-t border-b border-white/90 bg-white/10"></div>
+                  </div>
+                  
+                  {/* Non-volley zone (kitchen) - top */}
+                  <div className="absolute top-0 left-0 right-0 h-[42%] border-b-2 border-white/90">
+                    <div className="absolute inset-0 bg-[#0A3A5C]/70"></div>
+                  </div>
+                  
+                  {/* Non-volley zone (kitchen) - bottom */}
+                  <div className="absolute bottom-0 left-0 right-0 h-[42%] border-t-2 border-white/90">
+                    <div className="absolute inset-0 bg-[#0A3A5C]/70"></div>
+                  </div>
+                  
+                  {/* Center line */}
+                  <div className="absolute top-0 bottom-0 left-1/2 w-0.5 bg-white/90 -translate-x-[0.25px]"></div>
+                </div>
+                
+                {/* Additional green court borders */}
+                <div className="absolute inset-0 pointer-events-none">
+                  <div className="absolute inset-x-[13%] inset-y-[3%] border-2 border-[#2A4F2D]/50 rounded-sm"></div>
+                </div>
+              </div>
+              
+              {/* Ball trajectory line - enhanced with glowing effect */}
+              {ballTrajectory.length > 1 && (
+                <svg className="absolute inset-0 z-10 pointer-events-none" viewBox="0 0 100 100" preserveAspectRatio="none">
+                  {/* Glowing trajectory effect - blur under */}
+                  <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+                    <feGaussianBlur stdDeviation="1.5" result="blur" />
+                    <feMerge>
+                      <feMergeNode in="blur" />
+                      <feMergeNode in="SourceGraphic" />
+                    </feMerge>
+                  </filter>
+                  
+                  <path 
+                    d={`M${ballTrajectory.map(point => `${point.x} ${point.y}`).join(' L')}`}
+                    fill="none" 
+                    stroke="#2BCB6E" 
+                    strokeWidth="0.8" 
+                    strokeDasharray="2 1"
+                    filter="url(#glow)"
+                    className="animate-pulse"
+                  />
+                </svg>
+              )}
+              
+              {/* Ball velocity indicator near the ball */}
+              <div 
+                className="absolute z-10 px-2 py-1 bg-[#092435]/80 text-white text-xs rounded backdrop-blur-sm border border-[#1A4258]/50"
+                style={{ 
+                  left: `${ballPosition.x}%`,
+                  top: `${ballPosition.y + 5}%`,
+                  transform: 'translateX(-50%)'
+                }}
+              >
+                {ballVelocity} mph
+              </div>
+              
+              {/* Animated pickleball */}
+              <div 
+                className="absolute z-20 w-5 h-5 rounded-full bg-gradient-to-b from-[#F2FCE2] to-[#FEF7CD] shadow-[0_0_8px_rgba(255,255,255,0.8)]"
+                style={{ 
+                  left: `${ballPosition.x}%`, 
+                  top: `${ballPosition.y}%`,
+                  transform: 'translate(-50%, -50%)',
+                  transition: 'left 0.05s linear, top 0.05s linear'
+                }}
+              >
+                {/* Ball texture (holes pattern) */}
+                <div className="absolute inset-0 rounded-full overflow-hidden opacity-40">
+                  <div className="absolute top-1/4 left-1/4 w-1 h-1 bg-black/20 rounded-full"></div>
+                  <div className="absolute top-1/4 right-1/4 w-1 h-1 bg-black/20 rounded-full"></div>
+                  <div className="absolute bottom-1/4 left-1/4 w-1 h-1 bg-black/20 rounded-full"></div>
+                  <div className="absolute bottom-1/4 right-1/4 w-1 h-1 bg-black/20 rounded-full"></div>
+                  <div className="absolute top-1/2 left-1/2 w-1 h-1 bg-black/20 rounded-full -translate-x-1/2 -translate-y-1/2"></div>
+                </div>
+              </div>
+              
+              {/* Ball trails for more dynamic movement */}
+              {ballTrajectory.length > 2 && (
+                <>
+                  <div 
+                    className="absolute z-10 w-5 h-5 rounded-full bg-gradient-to-b from-[#F2FCE2]/40 to-[#FEF7CD]/40 blur-sm"
+                    style={{ 
+                      left: `${ballTrajectory[ballTrajectory.length - 2]?.x || ballPosition.x}%`, 
+                      top: `${ballTrajectory[ballTrajectory.length - 2]?.y || ballPosition.y}%`,
+                      transform: 'translate(-50%, -50%)'
+                    }}
+                  ></div>
+                  <div 
+                    className="absolute z-10 w-4 h-4 rounded-full bg-gradient-to-b from-[#F2FCE2]/20 to-[#FEF7CD]/20 blur-sm"
+                    style={{ 
+                      left: `${ballTrajectory[ballTrajectory.length - 4]?.x || ballPosition.x}%`, 
+                      top: `${ballTrajectory[ballTrajectory.length - 4]?.y || ballPosition.y}%`,
+                      transform: 'translate(-50%, -50%)'
+                    }}
+                  ></div>
+                </>
+              )}
+              
+              {/* Player positions - Green Team (1 & 2) on top, Blue Team (3 & 4) on bottom */}
+              {/* Player 1 - Green team, top left */}
+              <div 
+                className="absolute z-20 flex items-center justify-center transition-all duration-300"
+                style={{ 
+                  left: `${player1.x}%`, 
+                  top: `25%`,
+                  transform: 'translate(-50%, -50%)',
+                  filter: 'drop-shadow(0 0 10px rgba(43, 203, 110, 0.8))'
+                }}
+              >
+                <div className="w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center">
+                  <div className="absolute w-full h-full bg-[#176840]/70 rounded-full animate-pulse"></div>
+                  <div className="z-10 bg-[#176840] text-white text-xs font-bold w-7 h-7 md:w-8 md:h-8 rounded-full flex items-center justify-center border-2 border-white/70">
+                    P1
+                  </div>
+                </div>
+              </div>
+              
+              {/* Player 2 - Green team, top right */}
+              <div 
+                className="absolute z-20 flex items-center justify-center transition-all duration-300"
+                style={{ 
+                  left: `${player2.x}%`, 
+                  top: `25%`,
+                  transform: 'translate(-50%, -50%)',
+                  filter: 'drop-shadow(0 0 10px rgba(43, 203, 110, 0.8))'
+                }}
+              >
+                <div className="w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center">
+                  <div className="absolute w-full h-full bg-[#176840]/70 rounded-full animate-pulse"></div>
+                  <div className="z-10 bg-[#176840] text-white text-xs font-bold w-7 h-7 md:w-8 md:h-8 rounded-full flex items-center justify-center border-2 border-white/70">
+                    P2
+                  </div>
+                </div>
+              </div>
+              
+              {/* Player 3 - Blue team, bottom left */}
+              <div 
+                className="absolute z-20 flex items-center justify-center transition-all duration-300"
+                style={{ 
+                  left: `${player3.x}%`, 
+                  top: `75%`,
+                  transform: 'translate(-50%, -50%)',
+                  filter: 'drop-shadow(0 0 8px rgba(26, 157, 195, 0.8))'
+                }}
+              >
+                <div className="w-8 h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center">
+                  <div className="absolute w-full h-full bg-[#0A4D73]/70 rounded-full animate-pulse"></div>
+                  <div className="z-10 bg-[#0A4D73] text-white text-xs font-bold w-5 h-5 md:w-7 md:h-7 rounded-full flex items-center justify-center border-2 border-white/70">
+                    P3
+                  </div>
+                </div>
+              </div>
+              
+              {/* Player 4 - Blue team, bottom right */}
+              <div 
+                className="absolute z-20 flex items-center justify-center transition-all duration-300"
+                style={{ 
+                  left: `${player4.x}%`, 
+                  top: `75%`,
+                  transform: 'translate(-50%, -50%)',
+                  filter: 'drop-shadow(0 0 8px rgba(26, 157, 195, 0.8))'
+                }}
+              >
+                <div className="w-8 h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center">
+                  <div className="absolute w-full h-full bg-[#0A4D73]/70 rounded-full animate-pulse"></div>
+                  <div className="z-10 bg-[#0A4D73] text-white text-xs font-bold w-5 h-5 md:w-7 md:h-7 rounded-full flex items-center justify-center border-2 border-white/70">
+                    P4
+                  </div>
+                </div>
+              </div>
+              
+              {/* Team labels for clarity */}
+              <div className="absolute top-12 left-3 bg-[#176840]/30 backdrop-blur-sm px-2 py-1 rounded text-xs text-white border border-[#176840]/40 z-10">
+                TEAM GREEN
+              </div>
+              
+              <div className="absolute bottom-12 right-3 bg-[#0A4D73]/30 backdrop-blur-sm px-2 py-1 rounded text-xs text-white border border-[#0A4D73]/40 z-10">
+                TEAM BLUE
+              </div>
+            </div>
+            
+            {/* Match Feed - Lower right - 33% of height (less the gap) */}
+            <div className="h-[calc(34%-16px)] bg-[#092435] rounded-lg overflow-hidden border border-[#1A4258]/50 flex flex-col">
+              <div className="py-1.5 px-3 flex items-center justify-between border-b border-[#1A4258]/50">
+                <span className="uppercase text-white font-semibold text-sm">Match Feed</span>
+                <div className="flex items-center gap-2">
+                  <button className="text-white/70 hover:text-white transition-colors">
+                    <Users2 className="w-4 h-4" />
+                  </button>
+                  <button className="text-white/70 hover:text-white transition-colors">
+                    <BarChart2 className="w-4 h-4" />
+                  </button>
+                </div>
+              </div>
+              
+              <div className="flex-1 overflow-y-auto p-2">
+                {matchFeedItems.map(item => (
+                  <div 
+                    key={item.id} 
+                    className="mb-2 bg-[#0A2B3D] rounded-lg overflow-hidden border border-[#1A4258]/30"
+                  >
+                    <div className="p-3">
+                      <div className="flex items-center justify-between mb-1">
+                        <div className="flex items-center gap-2">
+                          {item.type === "highlight" ? (
+                            <Video className="w-3.5 h-3.5 text-[#2BCB6E]" />
+                          ) : item.type === "achievement" ? (
+                            <Trophy className="w-3.5 h-3.5 text-[#e89e25]" />
+                          ) : (
+                            <Activity className="w-3.5 h-3.5 text-[#1a9dc3]" />
+                          )}
+                          <span className="uppercase text-xs font-semibold text-white/80">
+                            {item.type === "highlight" ? "Highlight" : 
+                             item.type === "achievement" ? "Achievement" : "Stat Alert"}
+                          </span>
+                        </div>
+                        <span className="text-white/50 text-xs">{item.time}</span>
+                      </div>
+                      
+                      <p className="text-white text-sm mb-2">{item.content}</p>
+                      
+                      {item.type === "highlight" && (
+                        <div className="flex items-center justify-between">
+                          <button className="flex items-center gap-1 text-white/60 hover:text-white text-xs transition-colors">
+                            <Heart className="w-3 h-3" />
+                            <span>{item.likes}</span>
+                          </button>
+                          <button className="text-xs py-1 px-2 bg-[#0C8068]/20 text-[#0C8068] rounded hover:bg-[#0C8068]/30 transition-colors">
+                            VIEW
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
