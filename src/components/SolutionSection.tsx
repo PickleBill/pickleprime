@@ -15,6 +15,24 @@ const SolutionSection = () => {
   const [showDashboardModal, setShowDashboardModal] = useState(false);
   const [showFuturePlayModal, setShowFuturePlayModal] = useState(false);
 
+  // Direct launch to scoreboard instead of showing the intermediate modal
+  const handleFuturePlayClick = () => {
+    // Skip modal step and directly show the scoreboard view
+    const modal = document.createElement('div');
+    modal.style.display = 'none';
+    document.body.appendChild(modal);
+    
+    setShowFuturePlayModal(true);
+    
+    // This ensures we're opening directly to the scoreboard view inside the modal
+    setTimeout(() => {
+      const playButton = document.querySelector('[aria-label="Launch Digital Scoreboard"]');
+      if (playButton && playButton instanceof HTMLElement) {
+        playButton.click();
+      }
+    }, 100);
+  };
+
   return (
     <section id="solution" className="py-16 md:py-24 bg-white">
       <div className="container">
@@ -122,14 +140,14 @@ const SolutionSection = () => {
                   </span>
                 </li>
               </ul>
-              <AnimatedButton onClick={() => setShowFuturePlayModal(true)} size="lg">
-                Explore The Future of Play
+              <AnimatedButton onClick={handleFuturePlayClick} size="lg">
+                Experience Live Scoreboard
               </AnimatedButton>
             </div>
             
             {/* Embedded Future Play Content instead of Scoreboard Preview */}
             <div className="relative">
-              <FuturePlayContent onLaunchScoreboard={() => setShowFuturePlayModal(true)} />
+              <FuturePlayContent onLaunchScoreboard={handleFuturePlayClick} />
               
               {/* Decorative elements */}
               <div className="absolute -top-10 -right-10 w-20 h-20 bg-primary/5 rounded-full blur-xl -z-10"></div>

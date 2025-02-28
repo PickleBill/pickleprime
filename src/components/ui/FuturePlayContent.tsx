@@ -113,6 +113,33 @@ const FuturePlayContent: React.FC<FuturePlayContentProps> = ({ onLaunchScoreboar
         ))}
       </div>
       
+      {/* Animated data flow visualization (green flashing lines) */}
+      <div className="relative h-8 my-4 overflow-hidden">
+        <div className="absolute inset-0 flex items-center">
+          <div className="w-full h-px bg-primary/20"></div>
+        </div>
+        <div className="absolute inset-y-0 left-0" style={{ animation: 'slideRight 8s linear infinite' }}>
+          <div className="flex items-center gap-12">
+            {[...Array(10)].map((_, i) => (
+              <div 
+                key={i} 
+                className="w-16 h-1 bg-gradient-to-r from-transparent via-primary to-transparent rounded-full"
+              ></div>
+            ))}
+          </div>
+        </div>
+        <style jsx>{`
+          @keyframes slideRight {
+            0% {
+              transform: translateX(-100%);
+            }
+            100% {
+              transform: translateX(100%);
+            }
+          }
+        `}</style>
+      </div>
+      
       {/* Live Scoreboard Preview */}
       <div className="flex flex-col items-center justify-center relative bg-navy-light/30 rounded-lg p-4 border border-white/10 mb-4">
         <div className="flex flex-col text-center mb-3">
