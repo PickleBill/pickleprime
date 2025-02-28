@@ -1,12 +1,5 @@
 import { useState, useEffect } from "react";
-
-// Player position type
-interface PlayerPosition {
-  x: number;
-  y: number;
-  targetX: number;
-  targetY: number;
-}
+import { Position, BallTrajectory, PlayerPosition } from "../types";
 
 // Court boundaries for better bounce mechanics
 const courtBoundaries = {
@@ -20,9 +13,9 @@ const courtBoundaries = {
 
 export function useGameAnimations(showHighlight: boolean) {
   // State for ball animation
-  const [ballPosition, setBallPosition] = useState({ x: 25, y: 75 });
+  const [ballPosition, setBallPosition] = useState<Position>({ x: 25, y: 75 });
   const [ballDirection, setBallDirection] = useState({ x: 3, y: -3 });
-  const [ballTrajectory, setBallTrajectory] = useState<{x: number, y: number}[]>([]);
+  const [ballTrajectory, setBallTrajectory] = useState<BallTrajectory>({ endX: 30, endY: 70 });
   const [ballVelocity, setBallVelocity] = useState(38);
   
   // State for player positions - now with 4 players (2 per side)
@@ -100,13 +93,10 @@ export function useGameAnimations(showHighlight: boolean) {
           y: Math.max(courtBoundaries.top, Math.min(courtBoundaries.bottom, nextY))
         };
         
-        // Add to trajectory (keeping last 12 points)
-        setBallTrajectory(prev => {
-          const newTrajectory = [...prev, newPos];
-          if (newTrajectory.length > 12) {
-            return newTrajectory.slice(newTrajectory.length - 12);
-          }
-          return newTrajectory;
+        // Update trajectory
+        setBallTrajectory({
+          endX: newPos.x + newDirX * 5,
+          endY: newPos.y + newDirY * 5
         });
         
         // Set new target for players when the ball moves significantly
@@ -144,7 +134,6 @@ export function useGameAnimations(showHighlight: boolean) {
     if (showHighlight) return;
     
     const moveInterval = setInterval(() => {
-      // Move players by implementing the same movement logic previously used
       // Player 1
       setPlayer1(prev => {
         const dirX = prev.targetX - prev.x;

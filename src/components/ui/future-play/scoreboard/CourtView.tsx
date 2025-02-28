@@ -22,26 +22,32 @@ const CourtView: React.FC<CourtViewProps> = ({
   player4
 }) => {
   return (
-    <div className="relative w-full aspect-[5/6] bg-[#2B82B5] rounded-lg overflow-hidden">
-      {/* Court lines */}
-      <div className="absolute inset-0 flex flex-col">
-        {/* Middle line */}
-        <div className="absolute top-0 bottom-0 left-1/2 w-0.5 bg-white/80 transform -translate-x-1/2" />
-        
-        {/* Non-volley zone line (Kitchen) - top half */}
-        <div className="absolute top-[30%] left-0 right-0 h-0.5 bg-white/80" />
-        
-        {/* Non-volley zone line (Kitchen) - bottom half */}
-        <div className="absolute top-[70%] left-0 right-0 h-0.5 bg-white/80" />
-        
-        {/* Horizontal center line */}
-        <div className="absolute top-1/2 left-0 right-0 h-0.5 bg-white/80" />
-        
-        {/* Service court boxes - lines */}
-        <div className="absolute top-0 left-1/4 bottom-1/2 w-0.5 bg-white/80" />
-        <div className="absolute top-0 right-1/4 bottom-1/2 w-0.5 bg-white/80" />
-        <div className="absolute top-1/2 left-1/4 bottom-0 w-0.5 bg-white/80" />
-        <div className="absolute top-1/2 right-1/4 bottom-0 w-0.5 bg-white/80" />
+    <div className="relative w-full aspect-[5/6] bg-[#5FAEDC] rounded-lg overflow-hidden">
+      {/* Green buffer outside the lines */}
+      <div className="absolute inset-x-2 inset-y-2 bg-[#1B4D2B] rounded"></div>
+      
+      {/* Court area */}
+      <div className="absolute inset-x-6 inset-y-6 bg-[#5FAEDC] rounded-md">
+        {/* Court lines */}
+        <div className="absolute inset-0 flex flex-col">
+          {/* Middle line */}
+          <div className="absolute top-0 bottom-0 left-1/2 w-0.5 bg-white/80 transform -translate-x-1/2" />
+          
+          {/* Non-volley zone line (Kitchen) - top half */}
+          <div className="absolute top-[30%] left-0 right-0 h-0.5 bg-white/80" />
+          
+          {/* Non-volley zone line (Kitchen) - bottom half */}
+          <div className="absolute top-[70%] left-0 right-0 h-0.5 bg-white/80" />
+          
+          {/* Horizontal center line */}
+          <div className="absolute top-1/2 left-0 right-0 h-0.5 bg-white/80" />
+          
+          {/* Service court boxes - lines */}
+          <div className="absolute top-0 left-1/4 bottom-1/2 w-0.5 bg-white/80" />
+          <div className="absolute top-0 right-1/4 bottom-1/2 w-0.5 bg-white/80" />
+          <div className="absolute top-1/2 left-1/4 bottom-0 w-0.5 bg-white/80" />
+          <div className="absolute top-1/2 right-1/4 bottom-0 w-0.5 bg-white/80" />
+        </div>
       </div>
       
       {/* Players */}

@@ -17,6 +17,13 @@ export interface ScoreboardHeaderProps {
 const ScoreboardHeader: React.FC<ScoreboardHeaderProps> = ({
   onBackClick,
   gameTime,
+  player1Score = 0,
+  player2Score = 0,
+  currentSet = 1,
+  player1Avatar,
+  player2Avatar,
+  player1Name = "Team Green",
+  player2Name = "Team Blue"
 }) => {
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
@@ -45,6 +52,15 @@ const ScoreboardHeader: React.FC<ScoreboardHeaderProps> = ({
       <div className="flex items-center gap-2 ml-4">
         <Clock className="w-4 h-4 text-white/70" />
         <span className="text-white/90 text-sm font-mono">{formatTime(gameTime)}</span>
+      </div>
+      
+      <div className="ml-auto flex items-center gap-3">
+        <div className="flex items-center">
+          <span className="text-[#176840] font-bold mr-2">{player1Score}</span>
+          <span className="text-white/50">-</span>
+          <span className="text-[#0A4D73] font-bold ml-2">{player2Score}</span>
+        </div>
+        <span className="text-white/50 text-sm">SET {currentSet}</span>
       </div>
     </div>
   );

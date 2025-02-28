@@ -49,11 +49,14 @@ const MobileScoreboardView: React.FC<MobileScoreboardViewProps> = ({
       <ScoreboardHeader 
         onBackClick={onBackClick}
         gameTime={gameTime}
+        player1Score={player1Score}
+        player2Score={player2Score}
+        currentSet={currentSet}
       />
       
-      {/* Main content */}
-      <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-4 p-4 overflow-y-auto">
-        {/* Stats panel */}
+      {/* Main content - 50/50 split */}
+      <div className="flex-1 grid grid-cols-2 gap-4 p-4 overflow-y-auto">
+        {/* Left Panel - Scoreboard Stats */}
         <div className="bg-navy-dark rounded-lg overflow-hidden border border-white/10 shadow-lg">
           <div className="py-2 px-3 bg-[#00A67E] text-white">
             <h3 className="font-medium text-sm">MATCH STATISTICS</h3>
@@ -77,9 +80,9 @@ const MobileScoreboardView: React.FC<MobileScoreboardViewProps> = ({
               </div>
               
               <div className="flex items-center gap-1">
-                <span className="text-[#176840] text-4xl font-bold">9</span>
+                <span className="text-[#176840] text-4xl font-bold">{player1Score}</span>
                 <span className="text-white/50 text-xl">-</span>
-                <span className="text-[#0A4D73] text-4xl font-bold">5</span>
+                <span className="text-[#0A4D73] text-4xl font-bold">{player2Score}</span>
               </div>
               
               <div className="flex items-center gap-2">
@@ -99,7 +102,7 @@ const MobileScoreboardView: React.FC<MobileScoreboardViewProps> = ({
             
             {/* Current Set */}
             <div className="flex justify-center mb-6 text-white/70">
-              <span className="text-sm">SET 1: <span className="text-[#5eead4]">11</span> - <span className="text-[#5eead4]">9</span></span>
+              <span className="text-sm">SET {currentSet}: <span className="text-[#5eead4]">11</span> - <span className="text-[#5eead4]">9</span></span>
             </div>
             
             {/* Stats Comparisons */}
@@ -168,7 +171,7 @@ const MobileScoreboardView: React.FC<MobileScoreboardViewProps> = ({
                     <span className="text-white/90 text-xs">65%</span>
                   </div>
                   <div className="h-2 bg-navy/80 rounded-full overflow-hidden">
-                    <div className="h-full bg-[#176840]" style={{ width: '65%' }}></div>
+                    <div className="h-full bg-gradient-to-r from-[#176840] to-[#3DD598]" style={{ width: '65%' }}></div>
                   </div>
                 </div>
                 
@@ -178,7 +181,7 @@ const MobileScoreboardView: React.FC<MobileScoreboardViewProps> = ({
                     <span className="text-white/90 text-xs">24%</span>
                   </div>
                   <div className="h-2 bg-navy/80 rounded-full overflow-hidden">
-                    <div className="h-full bg-[#0A4D73]" style={{ width: '24%' }}></div>
+                    <div className="h-full bg-gradient-to-r from-[#0A4D73] to-[#0EA5E9]" style={{ width: '24%' }}></div>
                   </div>
                 </div>
                 
@@ -188,7 +191,7 @@ const MobileScoreboardView: React.FC<MobileScoreboardViewProps> = ({
                     <span className="text-white/90 text-xs">11%</span>
                   </div>
                   <div className="h-2 bg-navy/80 rounded-full overflow-hidden">
-                    <div className="h-full bg-[#F97316]" style={{ width: '11%' }}></div>
+                    <div className="h-full bg-gradient-to-r from-[#F97316] to-[#FDBA74]" style={{ width: '11%' }}></div>
                   </div>
                 </div>
               </div>
@@ -199,15 +202,15 @@ const MobileScoreboardView: React.FC<MobileScoreboardViewProps> = ({
               <h4 className="text-white/90 text-sm mb-2">Win Probability</h4>
               
               <div className="flex items-center text-xs text-white/70 mb-1">
-                <span className="flex-1">Alex</span>
-                <span className="flex-1 text-right">Jordan</span>
+                <span className="flex-1">Team Green</span>
+                <span className="flex-1 text-right">Team Blue</span>
               </div>
               
               <div className="h-4 bg-navy/80 rounded-full overflow-hidden flex">
-                <div className="h-full bg-[#176840] flex items-center justify-end px-1.5" style={{ width: '65%' }}>
+                <div className="h-full bg-gradient-to-r from-[#176840] to-[#3DD598] flex items-center justify-end px-1.5" style={{ width: '65%' }}>
                   <span className="text-white text-[10px] font-bold">65%</span>
                 </div>
-                <div className="h-full bg-[#0A4D73] flex items-center justify-start px-1.5" style={{ width: '35%' }}>
+                <div className="h-full bg-gradient-to-r from-[#3182CE] to-[#0A4D73] flex items-center justify-start px-1.5" style={{ width: '35%' }}>
                   <span className="text-white text-[10px] font-bold">35%</span>
                 </div>
               </div>
@@ -216,21 +219,22 @@ const MobileScoreboardView: React.FC<MobileScoreboardViewProps> = ({
             {/* Footer Stats Summary */}
             <div className="mt-6 pt-4 border-t border-white/10 flex items-center text-xs text-white/60">
               <Zap className="w-3 h-3 mr-1 text-[#F97316]" />
-              <span>Shot accuracy: 92% | Speed: 52 mph</span>
+              <span>Current ball speed: {Math.round(ballVelocity)} mph</span>
             </div>
           </div>
         </div>
         
-        {/* Right Panel with Court View and Match Feed */}
+        {/* Right Panel with Court View (66%) and Match Feed (33%) */}
         <div className="flex flex-col h-full space-y-4">
-          {/* Court View Panel */}
-          <div className="bg-[#1B4D2B] rounded-lg overflow-hidden border border-white/10 shadow-lg flex-1">
-            <div className="py-2 px-3 bg-[#0F3017] text-white flex items-center justify-between">
+          {/* Court View Panel - 66% height */}
+          <div className="bg-[#1B4D2B] rounded-lg overflow-hidden border border-white/10 shadow-lg flex-2" style={{ height: "66%" }}>
+            <div className="py-2 px-3 bg-[#176840] text-white flex items-center justify-between">
               <h3 className="font-medium text-sm">TEAM GREEN</h3>
-              <div className="text-right text-xs text-white/70">TEAM BLUE</div>
+              <div className="text-right text-xs text-white/70">vs</div>
+              <div className="text-right text-xs text-white font-medium">TEAM BLUE</div>
             </div>
             
-            <div className="p-3">
+            <div className="p-3 h-full">
               <CourtView 
                 ballPosition={ballPosition}
                 ballTrajectory={ballTrajectory}
@@ -243,8 +247,8 @@ const MobileScoreboardView: React.FC<MobileScoreboardViewProps> = ({
             </div>
           </div>
           
-          {/* Match Feed Panel */}
-          <div className="bg-navy-dark rounded-lg overflow-hidden border border-white/10 shadow-lg">
+          {/* Match Feed Panel - 33% height */}
+          <div className="bg-navy-dark rounded-lg overflow-hidden border border-white/10 shadow-lg flex-1" style={{ height: "33%" }}>
             <div className="py-2 px-3 bg-[#1E3A8A] text-white flex items-center justify-between">
               <h3 className="font-medium text-sm">MATCH FEED</h3>
               <div className="flex items-center gap-2">
@@ -257,7 +261,7 @@ const MobileScoreboardView: React.FC<MobileScoreboardViewProps> = ({
               </div>
             </div>
             
-            <div className="overflow-y-auto max-h-60">
+            <div className="overflow-y-auto" style={{ maxHeight: "calc(100% - 40px)" }}>
               <MatchFeed matchFeedItems={matchFeedItems} />
             </div>
           </div>
