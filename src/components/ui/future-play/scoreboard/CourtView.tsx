@@ -75,8 +75,8 @@ const CourtView: React.FC<CourtViewProps> = ({
     
     return (
       <div className="absolute" style={{ 
-        left: `${position.x * 100}%`, 
-        top: `${position.y * 100}%`,
+        left: `${position.x}%`, 
+        top: `${position.y}%`,
         transform: 'translate(-50%, -50%)',
       }}>
         {/* Glow effect */}
@@ -112,8 +112,8 @@ const CourtView: React.FC<CourtViewProps> = ({
   // Render the ball with glow effect
   const renderBall = () => (
     <div className="absolute" style={{ 
-      left: `${ballPosition.x * 100}%`, 
-      top: `${ballPosition.y * 100}%`,
+      left: `${ballPosition.x}%`, 
+      top: `${ballPosition.y}%`,
       transform: 'translate(-50%, -50%)',
     }}>
       {/* Glow effect */}
@@ -148,7 +148,7 @@ const CourtView: React.FC<CourtViewProps> = ({
   const renderBallTrajectory = () => (
     <svg className="absolute inset-0 w-full h-full overflow-visible pointer-events-none">
       <path
-        d={`M ${ballPosition.x * 100}% ${ballPosition.y * 100}% L ${ballTrajectory.endX * 100}% ${ballTrajectory.endY * 100}%`}
+        d={`M ${ballPosition.x}% ${ballPosition.y}% L ${ballTrajectory.endX}% ${ballTrajectory.endY}%`}
         stroke={ballConfig.trajectoryColor}
         strokeWidth="3"
         strokeDasharray="5,5"
