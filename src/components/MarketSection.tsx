@@ -81,7 +81,7 @@ const MarketSection = () => {
             <div className="relative">
               <div className="rounded-xl overflow-hidden shadow-xl border border-white/10">
                 <img
-                  src="/placeholder.svg"
+                  src="https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?auto=format&fit=crop&q=80"
                   alt="PickleBills Business Model"
                   className="w-full h-auto"
                 />

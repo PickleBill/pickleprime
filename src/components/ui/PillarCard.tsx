@@ -1,7 +1,7 @@
 
 import React from "react";
 import { cn } from "@/lib/utils";
-import * as Icons from "lucide-react";
+import * as LucideIcons from "lucide-react";
 
 interface PillarCardProps {
   title: string;
@@ -16,8 +16,8 @@ const PillarCard = ({
   icon,
   className,
 }: PillarCardProps) => {
-  // Dynamically get the icon component
-  const IconComponent = Icons[icon as keyof typeof Icons] || Icons.Circle;
+  // Correctly dynamically get the icon component from Lucide
+  const LucideIcon = (LucideIcons as Record<string, React.ComponentType<{ className?: string }>>)[icon] || LucideIcons.Circle;
 
   return (
     <div
@@ -28,7 +28,7 @@ const PillarCard = ({
     >
       <div className="flex flex-col items-start h-full">
         <div className="bg-primary/10 rounded-lg p-3 mb-4 text-primary">
-          <IconComponent className="w-6 h-6" />
+          <LucideIcon className="w-6 h-6" />
         </div>
         <h3 className="text-xl font-bold text-navy mb-2 group-hover:text-primary transition-colors">
           {title}
