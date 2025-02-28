@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from "react";
-import { X, Video, Activity, Trophy, Monitor, Users, Play, ChevronLeft, ChevronRight, Clock, Lightning, Zap, Users2, Award, Heart, BarChart2, MessageSquare, Share2 } from "lucide-react";
+import { X, Video, Activity, Trophy, Monitor, Users, Play, ChevronLeft, ChevronRight, Clock, Zap, Users2, Award, Heart, BarChart2, MessageSquare, Share2 } from "lucide-react";
 import AnimatedButton from "./AnimatedButton";
 
 interface FuturePlayModalProps {
@@ -284,7 +284,7 @@ const FuturePlayModal = ({ isOpen, onClose }: FuturePlayModalProps) => {
               
               {/* Highlight overlay data */}
               <div className="absolute top-10 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-primary/80 to-[#1a9dc3]/80 text-white px-8 py-2 rounded-full font-bold backdrop-blur-sm border border-white/20 text-lg flex items-center gap-3">
-                <Lightning className="w-5 h-5" />
+                <Zap className="w-5 h-5" />
                 INSTANT HIGHLIGHT DETECTED
               </div>
               
@@ -377,7 +377,7 @@ const FuturePlayModal = ({ isOpen, onClose }: FuturePlayModalProps) => {
                   <div className="grid grid-cols-3 gap-4">
                     <div className="bg-navy-light/50 rounded-lg p-3">
                       <div className="flex items-center gap-2 mb-1">
-                        <Lightning className="w-4 h-4 text-[#1a9dc3]" />
+                        <Zap className="w-4 h-4 text-[#1a9dc3]" />
                         <span className="text-white/70 text-xs">RALLY LENGTH</span>
                       </div>
                       <div className="text-white font-bold">12 SHOTS</div>
