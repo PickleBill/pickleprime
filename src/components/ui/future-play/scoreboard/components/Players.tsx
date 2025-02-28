@@ -150,10 +150,10 @@ const Players: React.FC<PlayersProps> = ({
 
   return (
     <>
-      {renderPlayer(player1, 1, "P1", 0)}
-      {renderPlayer(player2, 1, "P2", 1)}
-      {renderPlayer(player3, 2, "P3", 0)}
-      {renderPlayer(player4, 2, "P4", 1)}
+      {renderPlayer(player1, 1, "P1", 0)} {/* Green team player 1 - top left */}
+      {renderPlayer(player2, 1, "P2", 1)} {/* Green team player 2 - bottom left */}
+      {renderPlayer(player3, 2, "P3", 0)} {/* Blue team player 3 - top right */}
+      {renderPlayer(player4, 2, "P4", 1)} {/* Blue team player 4 - bottom right */}
     </>
   );
 };

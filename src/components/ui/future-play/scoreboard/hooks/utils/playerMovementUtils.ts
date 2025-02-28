@@ -29,55 +29,55 @@ export function setPlayerTargetsBasedOnBall(
   setPlayer3: (fn: (prev: PlayerPosition) => PlayerPosition) => void,
   setPlayer4: (fn: (prev: PlayerPosition) => PlayerPosition) => void
 ): void {
-  // If ball is on left side (player 1 & 3 side)
+  // If ball is on left side (player 1 & 2 side now)
   if (ballPosition.x < courtBoundaries.midLine) {
-    // Set target for player 1 or 3 to intercept based on position
+    // Set target for player 1 or 2 to intercept based on position
     if (ballPosition.y < courtBoundaries.net.top) {
       setPlayer1(prev => ({ ...prev, targetX: ballPosition.x + 5, targetY: ballPosition.y + 5 }));
     } else {
-      setPlayer3(prev => ({ ...prev, targetX: ballPosition.x + 5, targetY: ballPosition.y - 5 }));
+      setPlayer2(prev => ({ ...prev, targetX: ballPosition.x + 5, targetY: ballPosition.y - 5 }));
     }
   } 
-  // If ball is on right side (player 2 & 4 side)
+  // If ball is on right side (player 3 & 4 side now)
   else {
-    // Set target for player 2 or 4 to intercept based on position
+    // Set target for player 3 or 4 to intercept based on position
     if (ballPosition.y < courtBoundaries.net.top) {
-      setPlayer2(prev => ({ ...prev, targetX: ballPosition.x - 5, targetY: ballPosition.y + 5 }));
+      setPlayer3(prev => ({ ...prev, targetX: ballPosition.x - 5, targetY: ballPosition.y + 5 }));
     } else {
       setPlayer4(prev => ({ ...prev, targetX: ballPosition.x - 5, targetY: ballPosition.y - 5 }));
     }
   }
 }
 
-// Generate random court positions for players
+// Generate random court positions for players with updated team positions
 export function generateRandomPlayerPositions(
   setPlayer1: (fn: (prev: PlayerPosition) => PlayerPosition) => void,
   setPlayer2: (fn: (prev: PlayerPosition) => PlayerPosition) => void,
   setPlayer3: (fn: (prev: PlayerPosition) => PlayerPosition) => void,
   setPlayer4: (fn: (prev: PlayerPosition) => PlayerPosition) => void
 ): void {
-  // Player 1 - Front left
+  // Player 1 - Front left (green team)
   setPlayer1(prev => ({
     ...prev,
     targetX: Math.random() * 20 + 15, // 15-35%
     targetY: Math.random() * 20 + 20, // 20-40%
   }));
   
-  // Player 2 - Front right
+  // Player 2 - Back left (green team, moved from right to left)
   setPlayer2(prev => ({
-    ...prev,
-    targetX: Math.random() * 20 + 65, // 65-85%
-    targetY: Math.random() * 20 + 20, // 20-40%
-  }));
-  
-  // Player 3 - Back left
-  setPlayer3(prev => ({
     ...prev,
     targetX: Math.random() * 20 + 15, // 15-35%
     targetY: Math.random() * 20 + 60, // 60-80%
   }));
   
-  // Player 4 - Back right
+  // Player 3 - Front right (blue team, moved from left to right)
+  setPlayer3(prev => ({
+    ...prev,
+    targetX: Math.random() * 20 + 65, // 65-85%
+    targetY: Math.random() * 20 + 20, // 20-40%
+  }));
+  
+  // Player 4 - Back right (blue team)
   setPlayer4(prev => ({
     ...prev,
     targetX: Math.random() * 20 + 65, // 65-85%
