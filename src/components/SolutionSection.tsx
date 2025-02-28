@@ -10,31 +10,31 @@ const SolutionSection = () => {
   const [showHighlightModal, setShowHighlightModal] = useState(false);
   const [showDashboard, setShowDashboard] = useState(false);
 
-  // Sample highlight images/videos data
+  // Sample highlight images/videos data with updated URLs
   const highlightContent = [
     {
       id: 1,
       type: "image",
-      url: "https://images.unsplash.com/photo-1599579133515-8d31998bd508?q=80",
-      caption: "Perfect backhand winner"
+      url: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=800",
+      caption: "AI-powered analytics dashboard"
     },
     {
       id: 2,
       type: "image",
-      url: "https://images.unsplash.com/photo-1599579133540-36c7875e09c4?q=80",
-      caption: "Analytics in action"
+      url: "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?q=80&w=800",
+      caption: "Performance data visualization"
     },
     {
       id: 3,
       type: "image",
-      url: "https://images.unsplash.com/photo-1574271143515-5cddf8da19be?q=80",
+      url: "https://images.unsplash.com/photo-1574271143515-5cddf8da19be?q=80&w=800",
       caption: "Incredible rally point"
     },
     {
       id: 4,
       type: "image", 
-      url: "https://images.unsplash.com/photo-1587280501635-eae4e23dfd79?q=80",
-      caption: "Match-winning smash"
+      url: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=800",
+      caption: "Real-time motion tracking"
     }
   ];
 
