@@ -35,11 +35,11 @@ const MatchFeed: React.FC<MatchFeedProps> = ({ matchFeedItems }) => {
             
             <p className="text-white text-xs mb-2">{item.content}</p>
             
-            {item.type === "highlight" && item.likes !== undefined && (
+            {item.type === "highlight" && (
               <div className="flex items-center justify-between">
                 <button className="flex items-center gap-1 text-white/60 hover:text-white text-[10px] transition-colors">
                   <Heart className="w-2.5 h-2.5" />
-                  <span>{item.likes}</span>
+                  <span>{item.likes || 24}</span>
                 </button>
                 <button className="text-[10px] py-0.5 px-1.5 bg-[#0C8068]/20 text-[#0C8068] rounded hover:bg-[#0C8068]/30 transition-colors">
                   VIEW
