@@ -156,30 +156,22 @@ const FuturePlayModal = ({ isOpen, onClose }: FuturePlayModalProps) => {
 
         {/* Main Content */}
         <div className="relative p-4 md:p-8 overflow-auto max-h-[calc(90vh-12rem)]">
-          {/* Play Button - Big and centered above the central statement */}
-          <div className={`flex justify-center mb-6 ${animationComplete ? 'opacity-100 scale-100' : 'opacity-0 scale-50'} transition-all duration-700`}>
-            <button 
-              className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-primary hover:bg-primary-dark shadow-lg shadow-primary/20 flex items-center justify-center transition-all duration-300 hover:scale-105"
-              aria-label="Launch Digital Scoreboard"
-            >
-              <Play className="w-8 h-8 md:w-10 md:h-10 text-white fill-white" />
-            </button>
-          </div>
-          
-          {/* Central Statement */}
-          <div className={`text-center max-w-3xl mx-auto mb-10 ${animationComplete ? 'opacity-100 transform-none' : 'opacity-0 translate-y-4'} transition-all duration-1000`}>
-            <p className="text-white/80 text-base md:text-lg leading-relaxed">
-              "We didn't just design a scheduling app; we built a full engagement ecosystem. 
-              From highlight reels to analytics that keep players obsessed, 
-              to interactive scoreboards for sponsor revenue— 
-              it's a holistic flywheel of user attraction, revenue generation, and brand loyalty."
-            </p>
-          </div>
-
-          {/* Pillars Circle Layout */}
-          <div className="relative">
+          {/* Pillars layout moved up */}
+          <div className="relative mb-6">
+            {/* Overlay Play Button (centered absolute positioning) */}
+            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20">
+              <div className={`${animationComplete ? 'opacity-100 scale-100' : 'opacity-0 scale-50'} transition-all duration-700`}>
+                <button 
+                  className="w-20 h-20 md:w-24 md:h-24 rounded-full bg-primary/90 hover:bg-primary shadow-lg shadow-primary/20 flex items-center justify-center transition-all duration-300 hover:scale-105 backdrop-blur-sm"
+                  aria-label="Launch Digital Scoreboard"
+                >
+                  <Play className="w-10 h-10 md:w-12 md:h-12 text-white fill-white" />
+                </button>
+              </div>
+            </div>
+            
             {/* Pillars in a circle layout */}
-            <div className="grid grid-cols-1 md:grid-cols-5 gap-4 md:gap-6 mb-8 relative">
+            <div className="grid grid-cols-1 md:grid-cols-5 gap-4 md:gap-6 relative">
               {pillars.map((pillar, index) => {
                 // Calculate delay for sequential animation
                 const animationDelay = 200 + (index * 150);
@@ -293,9 +285,19 @@ const FuturePlayModal = ({ isOpen, onClose }: FuturePlayModalProps) => {
             </div>
           </div>
           
+          {/* Central Statement - moved below the data flow */}
+          <div className={`text-center max-w-3xl mx-auto mt-4 mb-8 ${animationComplete ? 'opacity-100 transform-none' : 'opacity-0 translate-y-4'} transition-all duration-1000`}>
+            <p className="text-white/60 text-sm md:text-base leading-relaxed">
+              "We didn't just design a scheduling app; we built a full engagement ecosystem. 
+              From highlight reels to analytics that keep players obsessed, 
+              to interactive scoreboards for sponsor revenue— 
+              it's a holistic flywheel of user attraction, revenue generation, and brand loyalty."
+            </p>
+          </div>
+          
           {/* Bottom content */}
           <div className="text-center mb-4">
-            <p className="text-white/60 text-sm max-w-2xl mx-auto">
+            <p className="text-white/50 text-xs max-w-2xl mx-auto">
               Our holistic platform creates a powerful network effect: more players generate more content, 
               which attracts more sponsors, driving more revenue for facilities and enabling greater innovation.
             </p>
