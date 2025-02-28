@@ -1,12 +1,11 @@
 
 import React from 'react';
-import { Zap } from 'lucide-react';
 
 interface PlayerPosition {
   x: number;
   y: number;
-  targetX?: number;
-  targetY?: number;
+  targetX: number;
+  targetY: number;
 }
 
 interface CourtViewProps {
@@ -17,8 +16,7 @@ interface CourtViewProps {
   player2: PlayerPosition;
   player3: PlayerPosition;
   player4: PlayerPosition;
-  player1Score: number;
-  player2Score: number;
+  courtColor: string;
 }
 
 const CourtView: React.FC<CourtViewProps> = ({
@@ -29,181 +27,228 @@ const CourtView: React.FC<CourtViewProps> = ({
   player2,
   player3,
   player4,
-  player1Score,
-  player2Score
+  courtColor = "#33C3F0"
 }) => {
-  // Carolina blue court color
-  const courtColor = "#33C3F0";
-  
+  // Team colors
+  const greenTeamColor = "#176840"; // Darker green
+  const blueTeamColor = "#0A4D73"; // Darker blue
+
   return (
-    <div className="relative w-full h-full aspect-[4/3] rounded-lg overflow-hidden border border-white/10 bg-[#071a27]">
-      {/* Court outer area (green) */}
-      <div className="absolute inset-4 rounded-lg overflow-hidden bg-[#1E3B20]/90 shadow-inner">
-        {/* Court area (Carolina blue) */}
+    <div className="relative w-full h-full">
+      {/* Dark gradient background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-navy-dark to-navy-darker"></div>
+      
+      {/* Pickleball Court with updated Carolina blue color */}
+      <div className="absolute inset-4 rounded-lg overflow-hidden">
+        {/* Green outer area - darker green */}
+        <div className="absolute inset-0 bg-[#1E3B20]/90 shadow-inner"></div>
+        
+        {/* Court area with Carolina blue color */}
         <div 
-          className="absolute rounded-sm"
-          style={{ 
-            inset: "5% 15%", 
-            backgroundColor: courtColor,
-            opacity: 0.9
-          }}
+          className="absolute inset-x-[15%] inset-y-[5%] rounded-sm"
+          style={{ backgroundColor: `${courtColor}/90` }}
         >
           {/* White lines */}
           <div className="absolute inset-0 border-2 border-white/90"></div>
           
-          {/* Net */}
-          <div className="absolute top-[48%] bottom-[48%] left-0 right-0 bg-white/20 backdrop-blur-[1px]">
-            <div className="h-full w-full border-t border-b border-white/80"></div>
+          {/* Net area - center gray strip */}
+          <div className="absolute top-[48%] bottom-[48%] left-0 right-0 bg-black/40 backdrop-blur-[1px]">
+            <div className="h-full w-full border-t border-b border-white/90 bg-white/10"></div>
           </div>
           
           {/* Non-volley zone (kitchen) - top */}
           <div className="absolute top-0 left-0 right-0 h-[42%] border-b-2 border-white/90">
             <div 
-              className="absolute"
-              style={{ 
-                inset: 0, 
-                backgroundColor: courtColor,
-                opacity: 0.7
-              }}
+              className="absolute inset-0"
+              style={{ backgroundColor: `${courtColor}/70` }}
             ></div>
           </div>
           
           {/* Non-volley zone (kitchen) - bottom */}
           <div className="absolute bottom-0 left-0 right-0 h-[42%] border-t-2 border-white/90">
             <div 
-              className="absolute"
-              style={{ 
-                inset: 0, 
-                backgroundColor: courtColor,
-                opacity: 0.7
-              }}
+              className="absolute inset-0"
+              style={{ backgroundColor: `${courtColor}/70` }}
             ></div>
           </div>
           
           {/* Center line */}
-          <div className="absolute top-0 bottom-0 left-1/2 w-0.5 bg-white/90 -translate-x-[0.5px]"></div>
+          <div className="absolute top-0 bottom-0 left-1/2 w-0.5 bg-white/90 -translate-x-[0.25px]"></div>
+        </div>
+        
+        {/* Additional green court borders */}
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute inset-x-[13%] inset-y-[3%] border-2 border-[#2A4F2D]/50 rounded-sm"></div>
         </div>
       </div>
       
-      {/* Ball trajectory line */}
+      {/* Ball trajectory line - enhanced with glowing effect */}
       {ballTrajectory.length > 1 && (
         <svg className="absolute inset-0 z-10 pointer-events-none" viewBox="0 0 100 100" preserveAspectRatio="none">
+          {/* Glowing trajectory effect - blur under */}
+          <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="1.5" result="blur" />
+            <feMerge>
+              <feMergeNode in="blur" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+          
           <path 
             d={`M${ballTrajectory.map(point => `${point.x} ${point.y}`).join(' L')}`}
             fill="none" 
             stroke="#2BCB6E" 
-            strokeWidth="0.5" 
+            strokeWidth="0.8" 
             strokeDasharray="2 1"
+            filter="url(#glow)"
             className="animate-pulse"
           />
         </svg>
       )}
       
-      {/* Player positions */}
+      {/* Ball velocity indicator near the ball */}
       <div 
-        className="absolute z-20 w-6 h-6 rounded-full bg-[#0A4D73] border-2 border-white flex items-center justify-center text-[10px] font-bold text-white"
+        className="absolute z-10 px-1.5 py-0.5 bg-navy-dark/80 text-white text-[10px] rounded backdrop-blur-sm border border-white/10"
         style={{ 
-          left: `${player1.x}%`, 
-          top: `${player1.y}%`,
-          transform: 'translate(-50%, -50%)',
-          boxShadow: '0 0 0 2px rgba(255,255,255,0.1), 0 0 10px rgba(0,0,0,0.5)'
+          left: `${ballPosition.x}%`,
+          top: `${ballPosition.y + 5}%`,
+          transform: 'translateX(-50%)'
         }}
       >
-        P1
+        {ballVelocity} mph
       </div>
       
+      {/* Animated pickleball */}
       <div 
-        className="absolute z-20 w-6 h-6 rounded-full bg-[#4D1A0A] border-2 border-white flex items-center justify-center text-[10px] font-bold text-white"
+        className="absolute z-20 w-4 h-4 rounded-full bg-gradient-to-b from-[#F2FCE2] to-[#FEF7CD] shadow-[0_0_8px_rgba(255,255,255,0.8)]"
         style={{ 
-          left: `${player2.x}%`, 
-          top: `${player2.y}%`,
+          left: `${ballPosition.x}%`, 
+          top: `${ballPosition.y}%`,
           transform: 'translate(-50%, -50%)',
-          boxShadow: '0 0 0 2px rgba(255,255,255,0.1), 0 0 10px rgba(0,0,0,0.5)'
+          transition: 'left 0.05s linear, top 0.05s linear'
         }}
       >
-        P2
+        {/* Ball texture (holes pattern) */}
+        <div className="absolute inset-0 rounded-full overflow-hidden opacity-40">
+          <div className="absolute top-1/4 left-1/4 w-0.5 h-0.5 bg-black/20 rounded-full"></div>
+          <div className="absolute top-1/4 right-1/4 w-0.5 h-0.5 bg-black/20 rounded-full"></div>
+          <div className="absolute bottom-1/4 left-1/4 w-0.5 h-0.5 bg-black/20 rounded-full"></div>
+          <div className="absolute bottom-1/4 right-1/4 w-0.5 h-0.5 bg-black/20 rounded-full"></div>
+          <div className="absolute top-1/2 left-1/2 w-0.5 h-0.5 bg-black/20 rounded-full -translate-x-1/2 -translate-y-1/2"></div>
+        </div>
       </div>
       
-      <div 
-        className="absolute z-20 w-6 h-6 rounded-full bg-[#0A4D73] border-2 border-white flex items-center justify-center text-[10px] font-bold text-white"
-        style={{ 
-          left: `${player3.x}%`, 
-          top: `${player3.y}%`,
-          transform: 'translate(-50%, -50%)',
-          boxShadow: '0 0 0 2px rgba(255,255,255,0.1), 0 0 10px rgba(0,0,0,0.5)'
-        }}
-      >
-        P3
-      </div>
-      
-      <div 
-        className="absolute z-20 w-6 h-6 rounded-full bg-[#4D1A0A] border-2 border-white flex items-center justify-center text-[10px] font-bold text-white"
-        style={{ 
-          left: `${player4.x}%`, 
-          top: `${player4.y}%`,
-          transform: 'translate(-50%, -50%)',
-          boxShadow: '0 0 0 2px rgba(255,255,255,0.1), 0 0 10px rgba(0,0,0,0.5)'
-        }}
-      >
-        P4
-      </div>
-      
-      {/* Ball with trail effect */}
+      {/* Ball trails for more dynamic movement */}
       {ballTrajectory.length > 2 && (
         <>
           <div 
-            className="absolute z-10 w-3 h-3 rounded-full blur-sm"
-            style={{ 
-              left: `${ballTrajectory[ballTrajectory.length - 3]?.x || ballPosition.x}%`, 
-              top: `${ballTrajectory[ballTrajectory.length - 3]?.y || ballPosition.y}%`,
-              transform: 'translate(-50%, -50%)',
-              backgroundColor: 'rgba(255, 255, 255, 0.2)'
-            }}
-          ></div>
-          <div 
-            className="absolute z-10 w-4 h-4 rounded-full blur-sm"
+            className="absolute z-10 w-4 h-4 rounded-full bg-gradient-to-b from-[#F2FCE2]/40 to-[#FEF7CD]/40 blur-sm"
             style={{ 
               left: `${ballTrajectory[ballTrajectory.length - 2]?.x || ballPosition.x}%`, 
               top: `${ballTrajectory[ballTrajectory.length - 2]?.y || ballPosition.y}%`,
-              transform: 'translate(-50%, -50%)',
-              backgroundColor: 'rgba(255, 255, 255, 0.4)'
+              transform: 'translate(-50%, -50%)'
+            }}
+          ></div>
+          <div 
+            className="absolute z-10 w-3 h-3 rounded-full bg-gradient-to-b from-[#F2FCE2]/20 to-[#FEF7CD]/20 blur-sm"
+            style={{ 
+              left: `${ballTrajectory[ballTrajectory.length - 4]?.x || ballPosition.x}%`, 
+              top: `${ballTrajectory[ballTrajectory.length - 4]?.y || ballPosition.y}%`,
+              transform: 'translate(-50%, -50%)'
             }}
           ></div>
         </>
       )}
       
-      {/* Animated ball */}
+      {/* Player positions - Restore original positions */}
+      {/* Player 1 - Green team, top left */}
       <div 
-        className="absolute z-30 w-5 h-5 rounded-full bg-white shadow-md"
+        className="absolute z-20 flex items-center justify-center transition-all duration-300"
         style={{ 
-          left: `${ballPosition.x}%`, 
-          top: `${ballPosition.y}%`,
+          left: `${player1.x}%`, 
+          top: `${player1.y}%`,
           transform: 'translate(-50%, -50%)',
-          transition: 'left 0.05s linear, top 0.05s linear',
-          boxShadow: '0 0 10px rgba(255,255,255,0.5)'
+          filter: 'drop-shadow(0 0 10px rgba(43, 203, 110, 0.8))'
         }}
-      ></div>
+      >
+        <div className="w-6 h-6 rounded-full flex items-center justify-center">
+          <div className="absolute w-full h-full bg-[#176840]/70 rounded-full animate-pulse"></div>
+          <div className="z-10 bg-[#176840] text-white text-[8px] font-bold w-4 h-4 rounded-full flex items-center justify-center border-[1px] border-white/70">
+            P1
+          </div>
+        </div>
+      </div>
       
-      {/* Shot velocity indicator */}
-      <div className="absolute bottom-3 left-1/2 transform -translate-x-1/2 bg-navy-dark/80 backdrop-blur-sm px-2 py-1 rounded text-xs text-white/90 border border-white/10 flex items-center gap-1 z-20">
-        <Zap className="w-3 h-3 text-[#33C3F0]" />
-        <span>{ballVelocity} mph</span>
+      {/* Player 2 - Green team, top right */}
+      <div 
+        className="absolute z-20 flex items-center justify-center transition-all duration-300"
+        style={{ 
+          left: `${player2.x}%`, 
+          top: `${player2.y}%`,
+          transform: 'translate(-50%, -50%)',
+          filter: 'drop-shadow(0 0 10px rgba(43, 203, 110, 0.8))'
+        }}
+      >
+        <div className="w-6 h-6 rounded-full flex items-center justify-center">
+          <div className="absolute w-full h-full bg-[#176840]/70 rounded-full animate-pulse"></div>
+          <div className="z-10 bg-[#176840] text-white text-[8px] font-bold w-4 h-4 rounded-full flex items-center justify-center border-[1px] border-white/70">
+            P2
+          </div>
+        </div>
+      </div>
+      
+      {/* Player 3 - Blue team, bottom left */}
+      <div 
+        className="absolute z-20 flex items-center justify-center transition-all duration-300"
+        style={{ 
+          left: `${player3.x}%`, 
+          top: `${player3.y}%`,
+          transform: 'translate(-50%, -50%)',
+          filter: 'drop-shadow(0 0 8px rgba(26, 157, 195, 0.8))'
+        }}
+      >
+        <div className="w-5 h-5 rounded-full flex items-center justify-center">
+          <div className="absolute w-full h-full bg-[#0A4D73]/70 rounded-full animate-pulse"></div>
+          <div className="z-10 bg-[#0A4D73] text-white text-[8px] font-bold w-3 h-3 rounded-full flex items-center justify-center border-[1px] border-white/70">
+            P3
+          </div>
+        </div>
+      </div>
+      
+      {/* Player 4 - Blue team, bottom right */}
+      <div 
+        className="absolute z-20 flex items-center justify-center transition-all duration-300"
+        style={{ 
+          left: `${player4.x}%`, 
+          top: `${player4.y}%`,
+          transform: 'translate(-50%, -50%)',
+          filter: 'drop-shadow(0 0 8px rgba(26, 157, 195, 0.8))'
+        }}
+      >
+        <div className="w-5 h-5 rounded-full flex items-center justify-center">
+          <div className="absolute w-full h-full bg-[#0A4D73]/70 rounded-full animate-pulse"></div>
+          <div className="z-10 bg-[#0A4D73] text-white text-[8px] font-bold w-3 h-3 rounded-full flex items-center justify-center border-[1px] border-white/70">
+            P3
+          </div>
+        </div>
       </div>
       
       {/* Score overlay */}
-      <div className="absolute top-2 left-1/2 transform -translate-x-1/2 flex items-center gap-3 bg-navy-dark/80 backdrop-blur-sm px-3 py-1 rounded-full border border-white/10 z-20">
-        <span className="text-[#0A4D73] font-bold text-lg">{player1Score}</span>
-        <span className="text-white/50">-</span>
-        <span className="text-[#4D1A0A] font-bold text-lg">{player2Score}</span>
+      <div className="absolute top-3 left-1/2 transform -translate-x-1/2 bg-navy-dark/80 backdrop-blur-sm px-3 py-1.5 rounded-full border border-white/10 z-20">
+        <div className="flex items-center gap-3">
+          <span className="text-[#176840] font-bold text-lg">Green</span>
+          <span className="text-white/50 text-sm">vs</span>
+          <span className="text-[#0A4D73] font-bold text-lg">Blue</span>
+        </div>
       </div>
       
-      {/* Team labels */}
-      <div className="absolute top-2 left-2 bg-[#0A4D73]/80 backdrop-blur-sm px-2 py-1 rounded text-xs text-white font-semibold z-20">
+      {/* Team labels for clarity */}
+      <div className="absolute top-3 left-3 bg-[#176840]/30 backdrop-blur-sm px-1.5 py-0.5 rounded text-[10px] text-white border border-[#176840]/40 z-10">
+        TEAM GREEN
+      </div>
+      
+      <div className="absolute bottom-3 right-3 bg-[#0A4D73]/30 backdrop-blur-sm px-1.5 py-0.5 rounded text-[10px] text-white border border-[#0A4D73]/40 z-10">
         TEAM BLUE
-      </div>
-      
-      <div className="absolute top-2 right-2 bg-[#4D1A0A]/80 backdrop-blur-sm px-2 py-1 rounded text-xs text-white font-semibold z-20">
-        TEAM RED
       </div>
     </div>
   );
