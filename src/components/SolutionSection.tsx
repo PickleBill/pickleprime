@@ -1,14 +1,46 @@
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PillarCard from "./ui/PillarCard";
 import { pillars } from "@/assets/data";
-import { X } from "lucide-react";
+import { X, Play, Pause } from "lucide-react";
 import DashboardModal from "./ui/DashboardModal";
 
 const SolutionSection = () => {
   // State for handling the highlight reel modal and dashboard modal
   const [showHighlightModal, setShowHighlightModal] = useState(false);
   const [showDashboard, setShowDashboard] = useState(false);
+  
+  // Video player simulation state
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [progressWidth, setProgressWidth] = useState(0);
+
+  // Simulate video progress when "playing"
+  useEffect(() => {
+    let interval: ReturnType<typeof setInterval>;
+    
+    if (isPlaying) {
+      interval = setInterval(() => {
+        setProgressWidth(prev => {
+          if (prev >= 100) {
+            setIsPlaying(false);
+            return 0;
+          }
+          return prev + 0.5;
+        });
+      }, 50);
+    }
+    
+    return () => {
+      if (interval) clearInterval(interval);
+    };
+  }, [isPlaying]);
+
+  // Reset progress when stopped
+  useEffect(() => {
+    if (!isPlaying && progressWidth === 100) {
+      setTimeout(() => setProgressWidth(0), 500);
+    }
+  }, [isPlaying, progressWidth]);
 
   // Sample highlight images/videos data with updated URLs
   const highlightContent = [
@@ -37,6 +69,11 @@ const SolutionSection = () => {
       caption: "Real-time motion tracking"
     }
   ];
+
+  const togglePlayPause = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setIsPlaying(prev => !prev);
+  };
 
   return (
     <section id="solution" className="bg-white">
@@ -69,7 +106,7 @@ const SolutionSection = () => {
           ))}
         </div>
 
-        {/* Example feature showcase */}
+        {/* Example feature showcase with simulated video player */}
         <div className="mt-20 bg-gray-50 rounded-2xl overflow-hidden shadow-sm border border-gray-100">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             <div className="p-8 lg:p-12 flex flex-col justify-center">
@@ -101,22 +138,48 @@ const SolutionSection = () => {
               <img
                 src="/lovable-uploads/d57ab558-dee0-4f1a-a7ba-17e0a656629e.png"
                 alt="Pickleball Action Shot"
-                className="w-full h-full object-cover object-center"
+                className={`w-full h-full object-cover object-center transition-opacity duration-300 ${isPlaying ? 'opacity-90' : 'opacity-100'}`}
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-navy/30 to-transparent"></div>
+              
+              {/* Video player overlay */}
+              <div className="absolute inset-0 bg-gradient-to-t from-navy/50 to-transparent"></div>
+              
+              {/* Video controls */}
+              <div className="absolute bottom-0 left-0 right-0 p-4">
+                {/* Progress bar */}
+                <div className="h-1 w-full bg-white/30 rounded-full mb-3">
+                  <div 
+                    className="h-full bg-primary rounded-full transition-all duration-100 ease-linear"
+                    style={{ width: `${progressWidth}%` }}
+                  ></div>
+                </div>
+                
+                {/* Controls */}
+                <div className="flex items-center justify-between">
+                  <button 
+                    onClick={togglePlayPause}
+                    className="w-10 h-10 rounded-full bg-white flex items-center justify-center text-primary hover:bg-white/90 transition-colors"
+                  >
+                    {isPlaying ? <Pause className="w-5 h-5" /> : <Play className="w-5 h-5 ml-0.5" />}
+                  </button>
+                  
+                  <div className="text-xs text-white font-medium backdrop-blur-sm bg-black/30 px-2 py-1 rounded">
+                    {Math.floor(progressWidth / 100 * 24)}s / 24s
+                  </div>
+                </div>
+              </div>
+              
+              {/* Highlight reel button */}
               <div 
-                className="absolute bottom-4 left-4 right-4 bg-white/90 backdrop-blur-sm p-4 rounded-lg shadow-lg cursor-pointer transition-transform hover:scale-105"
+                className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm p-3 rounded-lg shadow-lg cursor-pointer transition-transform hover:scale-105"
                 onClick={() => setShowHighlightModal(true)}
               >
-                <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-full bg-primary flex items-center justify-center text-white">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <div className="flex items-center gap-2">
+                  <div className="text-sm font-medium text-navy">View Highlights</div>
+                  <div className="w-6 h-6 rounded-full bg-primary flex items-center justify-center text-white">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M5 3l14 9-14 9V3z" fill="currentColor"/>
                     </svg>
-                  </div>
-                  <div>
-                    <div className="text-sm font-medium text-navy">Amazing shot!</div>
-                    <div className="text-xs text-gray-500">Tap to view highlight reels</div>
                   </div>
                 </div>
               </div>
