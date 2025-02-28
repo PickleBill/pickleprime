@@ -31,7 +31,8 @@ const CourtSurface: React.FC = () => {
       left: `${courtBoundaries.courtLeft}%`,
       right: `${100 - courtBoundaries.courtRight}%`,
       backgroundColor: courtColors.court,
-      border: `2px solid ${courtColors.lines}`
+      border: `2px solid ${courtColors.lines}`,
+      zIndex: 1
     }}></div>
   );
 
@@ -52,14 +53,14 @@ const CourtSurface: React.FC = () => {
     
     return (
       <>
-        {/* Render the greyish silver middle area */}
+        {/* Render the greyish silver middle area - placed with lower z-index */}
         <div className="absolute" style={{ 
           top: `${courtBoundaries.courtTop}%`, 
           bottom: `${100 - courtBoundaries.courtBottom}%`,
           left: `${leftLine1Position}%`,
           right: `${100 - rightLine1Position}%`,
           backgroundColor: "#9F9EA1", // Greyish silver color
-          zIndex: 1
+          zIndex: 0
         }}></div>
       
         {/* Center line (net) with shadow */}
