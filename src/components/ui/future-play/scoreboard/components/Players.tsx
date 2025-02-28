@@ -16,10 +16,22 @@ const Players: React.FC<PlayersProps> = ({
   player3,
   player4
 }) => {
+  // Function to get more vibrant neon colors for each player
+  const getPlayerColor = (teamId: number, playerIndex: number) => {
+    // More vibrant neon colors
+    const team1Colors = ["#4AFF5E", "#33FF99"]; // Bright neon green variations
+    const team2Colors = ["#33C3F0", "#1EAEDB"]; // Bright neon blue variations
+    
+    const playerColors = teamId === 1 ? team1Colors : team2Colors;
+    return playerColors[playerIndex % playerColors.length];
+  };
+  
   // Render a player with silhouette style
-  const renderPlayer = (position: Position, teamId: number, playerLabel: string) => {
-    const teamColor = teamId === 1 ? playerConfig.team1Color : playerConfig.team2Color;
-    const glowColor = teamId === 1 ? "rgba(76, 175, 80, 0.5)" : "rgba(26, 112, 197, 0.5)";
+  const renderPlayer = (position: Position, teamId: number, playerLabel: string, playerIndex: number) => {
+    const playerColor = getPlayerColor(teamId, playerIndex);
+    const glowColor = teamId === 1 
+      ? "rgba(74, 255, 94, 0.6)" // Bright green glow
+      : "rgba(51, 195, 240, 0.6)"; // Bright blue glow
     
     return (
       <div className="absolute" style={{ 
@@ -50,11 +62,12 @@ const Players: React.FC<PlayersProps> = ({
           style={{ 
             width: `${playerConfig.size * 1.2}rem`,
             height: `${playerConfig.size * 1.6}rem`, // Taller for full body silhouette
-            zIndex: 10
+            zIndex: 10,
+            opacity: playerConfig.opacity // Apply opacity setting
           }}
         >
           {/* SVG silhouette of a pickleball player */}
-          <div className="w-full h-full" style={{ color: teamColor }}>
+          <div className="w-full h-full" style={{ color: playerColor }}>
             {getPlayerSilhouette(teamId, playerLabel)}
           </div>
           
@@ -125,10 +138,10 @@ const Players: React.FC<PlayersProps> = ({
 
   return (
     <>
-      {renderPlayer(player1, 1, "P1")}
-      {renderPlayer(player2, 1, "P2")}
-      {renderPlayer(player3, 2, "P3")}
-      {renderPlayer(player4, 2, "P4")}
+      {renderPlayer(player1, 1, "P1", 0)}
+      {renderPlayer(player2, 1, "P2", 1)}
+      {renderPlayer(player3, 2, "P3", 0)}
+      {renderPlayer(player4, 2, "P4", 1)}
     </>
   );
 };
