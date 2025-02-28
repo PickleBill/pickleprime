@@ -118,7 +118,7 @@ const FuturePlayContent: React.FC<FuturePlayContentProps> = ({ onLaunchScoreboar
         <div className="absolute inset-0 flex items-center">
           <div className="w-full h-px bg-primary/20"></div>
         </div>
-        <div className="absolute inset-y-0 left-0" style={{ animation: 'slideRight 8s linear infinite' }}>
+        <div className="absolute inset-y-0 left-0 animate-[dataFlow_8s_linear_infinite]">
           <div className="flex items-center gap-12">
             {[...Array(10)].map((_, i) => (
               <div 
@@ -128,16 +128,20 @@ const FuturePlayContent: React.FC<FuturePlayContentProps> = ({ onLaunchScoreboar
             ))}
           </div>
         </div>
-        <style jsx>{`
-          @keyframes slideRight {
-            0% {
-              transform: translateX(-100%);
+        
+        {/* Add animation to global styles with a standard style tag */}
+        <style>
+          {`
+            @keyframes dataFlow {
+              0% {
+                transform: translateX(-100%);
+              }
+              100% {
+                transform: translateX(100%);
+              }
             }
-            100% {
-              transform: translateX(100%);
-            }
-          }
-        `}</style>
+          `}
+        </style>
       </div>
       
       {/* Live Scoreboard Preview */}
