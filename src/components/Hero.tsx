@@ -1,9 +1,13 @@
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import AnimatedButton from "./ui/AnimatedButton";
+import PlayerModal from "./ui/PlayerModal";
+import FacilityModal from "./ui/FacilityModal";
 
 const Hero = () => {
   const backgroundRef = useRef<HTMLDivElement>(null);
+  const [showPlayerModal, setShowPlayerModal] = useState(false);
+  const [showFacilityModal, setShowFacilityModal] = useState(false);
   
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -49,7 +53,7 @@ const Hero = () => {
         <div className="max-w-4xl mx-auto text-center">
           <div className="animate-slide-up">
             <span className="inline-block bg-primary/10 text-primary px-4 py-1 rounded-full text-sm font-medium mb-4">
-              Transform Your Racket Sports Experience
+              Transform Your Racquet Sports Experience
             </span>
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight text-navy">
               <span className="text-gradient">AI-Powered</span> Analytics for Pickleball & Padel
@@ -57,13 +61,20 @@ const Hero = () => {
             <p className="text-lg md:text-xl text-gray-700 mb-8 max-w-2xl mx-auto">
               Upgrade any venue into a tech-enabled, social-entertainment hub — driving revenue, brand differentiation, and deeper player loyalty.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <AnimatedButton size="lg" withArrow>
-                Schedule a Demo
-              </AnimatedButton>
-              <AnimatedButton variant="outline" size="lg">
-                For Players
-              </AnimatedButton>
+            <div className="flex flex-col space-y-4 sm:space-y-0 sm:flex-row sm:justify-center">
+              <div className="w-full sm:w-auto">
+                <AnimatedButton size="lg" withArrow>
+                  Schedule a Demo
+                </AnimatedButton>
+              </div>
+              <div className="w-full sm:w-auto flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3">
+                <AnimatedButton variant="outline" size="lg" onClick={() => setShowPlayerModal(true)}>
+                  For Players
+                </AnimatedButton>
+                <AnimatedButton variant="outline" size="lg" onClick={() => setShowFacilityModal(true)}>
+                  For Facilities
+                </AnimatedButton>
+              </div>
             </div>
           </div>
         </div>
@@ -88,6 +99,18 @@ const Hero = () => {
           </svg>
         </div>
       </div>
+
+      {/* Player Modal */}
+      <PlayerModal 
+        isOpen={showPlayerModal}
+        onClose={() => setShowPlayerModal(false)}
+      />
+
+      {/* Facility Modal */}
+      <FacilityModal 
+        isOpen={showFacilityModal}
+        onClose={() => setShowFacilityModal(false)}
+      />
     </section>
   );
 };
