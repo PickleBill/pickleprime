@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { courtBoundaries, courtColors, teamLabels } from '../constants/courtConfig';
 
@@ -33,9 +32,7 @@ const CourtSurface: React.FC = () => {
     
     // Calculate the position at 31% of that distance
     const leftLine1Position = netPos - (distanceToLeftEdge * 0.31);
-    const leftLine2Position = netPos - (distanceToLeftEdge * 0.62);
     const rightLine1Position = netPos + (distanceToRightEdge * 0.31);
-    const rightLine2Position = netPos + (distanceToRightEdge * 0.62);
     
     return (
       <>
@@ -50,7 +47,7 @@ const CourtSurface: React.FC = () => {
           boxShadow: `0 0 8px 4px ${courtColors.netShadow}`
         }}></div>
         
-        {/* Left vertical lines at 31% and 62% from net */}
+        {/* Left vertical line at 31% from net */}
         <div className="absolute" style={{ 
           top: `${courtBoundaries.courtTop}%`, 
           bottom: `${100 - courtBoundaries.courtBottom}%`,
@@ -60,29 +57,11 @@ const CourtSurface: React.FC = () => {
           transform: 'translateX(-50%)'
         }}></div>
         
-        <div className="absolute" style={{ 
-          top: `${courtBoundaries.courtTop}%`, 
-          bottom: `${100 - courtBoundaries.courtBottom}%`,
-          left: `${leftLine2Position}%`,
-          width: '2px',
-          backgroundColor: courtColors.lines,
-          transform: 'translateX(-50%)'
-        }}></div>
-        
-        {/* Right vertical lines at 31% and 62% from net */}
+        {/* Right vertical line at 31% from net */}
         <div className="absolute" style={{ 
           top: `${courtBoundaries.courtTop}%`, 
           bottom: `${100 - courtBoundaries.courtBottom}%`,
           left: `${rightLine1Position}%`,
-          width: '2px',
-          backgroundColor: courtColors.lines,
-          transform: 'translateX(-50%)'
-        }}></div>
-        
-        <div className="absolute" style={{ 
-          top: `${courtBoundaries.courtTop}%`, 
-          bottom: `${100 - courtBoundaries.courtBottom}%`,
-          left: `${rightLine2Position}%`,
           width: '2px',
           backgroundColor: courtColors.lines,
           transform: 'translateX(-50%)'
