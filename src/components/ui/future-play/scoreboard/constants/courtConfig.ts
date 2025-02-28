@@ -5,17 +5,17 @@ export const courtBoundaries = {
   bottom: 90, // Bottom court boundary (%)
   left: 15, // Left court boundary (%)
   right: 85, // Right court boundary (%)
-  net: { top: 49, bottom: 51 }, // Net position (%)
-  midLine: 50, // Middle line of the court (%)
-  kitchenTop: 35, // Non-volley zone top line (%)
-  kitchenBottom: 65, // Non-volley zone bottom line (%)
+  midLine: 50, // Middle horizontal line (%)
+  centerLine: 50, // Center vertical line (%)
+  kitchenLeft: 36, // Kitchen left boundary (%)
+  kitchenRight: 64, // Kitchen right boundary (%)
 };
 
-// Court colors based on the image
+// Court colors based on the reference image
 export const courtColors = {
-  surface: "#1A70C5", // Main court surface color (blue)
-  kitchen: "#E6A639", // Non-volley zone color (orange/gold)
-  playArea: "#4CAF50", // Playing area color (green)
+  surface: "#A7CC7B", // Outer court surface color (light green)
+  kitchen: "#81D4E3", // Kitchen/central zone color (light blue)
+  quadrant: "#5B9BD5", // Quadrant color (darker blue)
   lines: "white", // Court line color
   boundary: "#FFFFFF", // Outer boundary color (white)
   team1: "#4CAF50", // Team 1 color (green)
@@ -34,7 +34,7 @@ export const playerConfig = {
 // Ball configuration
 export const ballConfig = {
   size: 5, // Size of ball in pixels
-  color: "#FFFFFF", // Ball color (white)
+  color: "#FFEB3B", // Ball color (yellow)
   borderColor: "#F0F0F0", // Ball border color
   trajectoryColor: "#4CAF50", // Ball trajectory line color (green)
   trailColor: "#4CAF50", // Ball trail color (green)
