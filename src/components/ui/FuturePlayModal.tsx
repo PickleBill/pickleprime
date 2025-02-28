@@ -44,13 +44,13 @@ const FuturePlayModal = ({ isOpen, onClose }: FuturePlayModalProps) => {
       interval = setInterval(() => {
         setGameTime(prev => prev + 1);
         
-        // Increased chance to trigger a highlight (from 0.01 to 0.05)
-        if (Math.random() < 0.05) {
+        // Random chance to trigger a highlight
+        if (Math.random() < 0.01) {
           triggerHighlight();
         }
         
-        // Increased chance for score to increase (from 0.05 to 0.15)
-        if (Math.random() < 0.15) {
+        // Random chance for score to increase (for demo purposes)
+        if (Math.random() < 0.05) {
           if (Math.random() > 0.5) {
             setPlayer1Score(prev => prev + 1);
           } else {
@@ -63,7 +63,7 @@ const FuturePlayModal = ({ isOpen, onClose }: FuturePlayModalProps) => {
     return () => clearInterval(interval);
   }, [showScoreboard, showHighlight]);
   
-  // Highlight timer effect - made it faster (from 50ms to 35ms)
+  // Highlight timer effect
   useEffect(() => {
     let interval: NodeJS.Timeout;
     
@@ -76,7 +76,7 @@ const FuturePlayModal = ({ isOpen, onClose }: FuturePlayModalProps) => {
           }
           return prev + 1;
         });
-      }, 35);
+      }, 50);
     }
     
     return () => clearInterval(interval);
