@@ -88,7 +88,8 @@ const MobileScoreboardView: React.FC<MobileScoreboardViewProps> = ({
   }
 
   return (
-    <div className="flex flex-col h-full bg-[#061620] overflow-auto">
+    <div className="flex flex-col h-full bg-[#061620] overflow-hidden">
+      {/* Fixed Header */}
       <ScoreboardHeader 
         onBackClick={onBackClick}
         gameTime={gameTime}
@@ -100,35 +101,47 @@ const MobileScoreboardView: React.FC<MobileScoreboardViewProps> = ({
         player2Name={player2Stats.name}
       />
 
-      <div className="flex flex-col flex-1 p-3 gap-3 sm:flex-row sm:p-4 overflow-auto">
-        <CourtView 
-          ballPosition={ballPosition}
-          ballTrajectory={ballTrajectory}
-          ballVelocity={ballVelocity}
-          player1={player1}
-          player2={player2}
-          player3={player3}
-          player4={player4}
-          player1Score={player1Score}
-          player2Score={player2Score}
-        />
+      {/* Main Content - Scrollable Area */}
+      <div className="flex flex-col flex-1 overflow-auto">
+        {/* Court View - Positioned at top for mobile */}
+        <div className="px-2 pt-2">
+          <CourtView 
+            ballPosition={ballPosition}
+            ballTrajectory={ballTrajectory}
+            ballVelocity={ballVelocity}
+            player1={player1}
+            player2={player2}
+            player3={player3}
+            player4={player4}
+            player1Score={player1Score}
+            player2Score={player2Score}
+          />
+        </div>
         
-        <div className="w-full sm:w-96 flex flex-col gap-3 sm:h-[calc(100%-40px)]">
+        {/* Stats and Feed - Stacked vertically on mobile */}
+        <div className="p-2 space-y-2">
+          {/* Scoreboard Stats - Compact version for mobile */}
           <ScoreboardStats 
             player1Stats={player1Stats}
             player2Stats={player2Stats}
           />
           
-          <MatchFeed 
-            feedItems={matchFeedItems}
-          />
+          {/* Match Feed - Takes remaining space */}
+          <div className="mb-16"> {/* Add bottom margin to ensure footer doesn't overlap */}
+            <MatchFeed 
+              feedItems={matchFeedItems}
+            />
+          </div>
         </div>
       </div>
 
-      <ScoreboardFooter 
-        onHighlightClick={onHighlightClick}
-        sponsors={sponsors}
-      />
+      {/* Fixed Footer */}
+      <div className="absolute bottom-0 left-0 right-0">
+        <ScoreboardFooter 
+          onHighlightClick={onHighlightClick}
+          sponsors={sponsors}
+        />
+      </div>
     </div>
   );
 };
