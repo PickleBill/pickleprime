@@ -35,6 +35,7 @@ export interface PlayerStats {
   topSpeed: string;
   spinRate: string;
   reactionTime: string;
+  stamina?: string; // Optional field for backward compatibility
 }
 
 export interface ScoreboardContainerProps {
@@ -59,5 +60,10 @@ export interface MobileScoreboardViewProps extends ScoreboardContainerProps {
   player1Stats: PlayerStats;
   player2Stats: PlayerStats;
   matchFeedItems: MatchFeedItem[];
-  sponsors: string[];
+  sponsors: Sponsor[];
+}
+
+export interface Sponsor {
+  id: number;
+  name: string;
 }

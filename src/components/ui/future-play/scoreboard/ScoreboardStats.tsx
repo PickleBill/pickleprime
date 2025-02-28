@@ -40,7 +40,7 @@ const ScoreboardStats: React.FC<ScoreboardStatsProps> = ({
   
   // Calculate comparison percentages
   const [speedP1, speedP2] = getPercentage(player1Stats.topSpeed, player2Stats.topSpeed, 'speed');
-  const [accuracyP1, accuracyP2] = getPercentage(player1Stats.shotAccuracy, player2Stats.shotAccuracy, 'accuracy');
+  const [accuracyP1, accuracyP2] = getPercentage(player1Stats.accuracy, player2Stats.accuracy, 'accuracy');
   const [spinP1, spinP2] = getPercentage(player1Stats.spinRate, player2Stats.spinRate, 'spin');
   const [reactionP1, reactionP2] = getPercentage(player1Stats.reactionTime, player2Stats.reactionTime, 'reaction');
   
@@ -110,12 +110,12 @@ const ScoreboardStats: React.FC<ScoreboardStatsProps> = ({
           {/* Shot Accuracy Comparison */}
           <div>
             <div className="flex items-center justify-between mb-1">
-              <span className="text-[#176840] text-xs font-medium">{player1Stats.shotAccuracy}</span>
+              <span className="text-[#176840] text-xs font-medium">{player1Stats.accuracy}</span>
               <div className="flex items-center gap-1">
                 <Target className="w-3.5 h-3.5 text-[#8B5CF6]" />
                 <span className="text-white/80 text-xs font-medium">Accuracy</span>
               </div>
-              <span className="text-[#0A4D73] text-xs font-medium">{player2Stats.shotAccuracy}</span>
+              <span className="text-[#0A4D73] text-xs font-medium">{player2Stats.accuracy}</span>
             </div>
             <div className="h-2.5 bg-navy/80 rounded-full overflow-hidden flex">
               <div 
