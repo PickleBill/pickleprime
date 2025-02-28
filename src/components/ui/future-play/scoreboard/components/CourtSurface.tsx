@@ -20,31 +20,6 @@ const CourtSurface: React.FC = () => {
     }}></div>
   );
 
-  // Render kitchen/non-volley zones (7' from net on each side)
-  const renderKitchen = () => (
-    <>
-      {/* Top kitchen */}
-      <div className="absolute" style={{ 
-        top: `${courtBoundaries.courtTop}%`, 
-        bottom: `${100 - courtBoundaries.kitchenTop}%`,
-        left: `${courtBoundaries.courtLeft}%`,
-        right: `${100 - courtBoundaries.courtRight}%`,
-        backgroundColor: courtColors.kitchen,
-        borderBottom: `2px solid ${courtColors.lines}`
-      }}></div>
-      
-      {/* Bottom kitchen */}
-      <div className="absolute" style={{ 
-        top: `${courtBoundaries.kitchenBottom}%`, 
-        bottom: `${100 - courtBoundaries.courtBottom}%`,
-        left: `${courtBoundaries.courtLeft}%`,
-        right: `${100 - courtBoundaries.courtRight}%`,
-        backgroundColor: courtColors.kitchen,
-        borderTop: `2px solid ${courtColors.lines}`
-      }}></div>
-    </>
-  );
-
   // Render court lines
   const renderCourtLines = () => (
     <>
@@ -57,24 +32,6 @@ const CourtSurface: React.FC = () => {
         backgroundColor: courtColors.lines,
         transform: 'translateX(-50%)',
         boxShadow: `0 0 8px 4px ${courtColors.netShadow}`
-      }}></div>
-      
-      {/* Vertical centerline in each court half */}
-      <div className="absolute" style={{ 
-        top: `${courtBoundaries.courtTop}%`, 
-        bottom: `${100 - courtBoundaries.courtBottom}%`,
-        left: `${(courtBoundaries.courtLeft + courtBoundaries.netPosition) / 2}%`,
-        width: '2px',
-        backgroundColor: courtColors.lines,
-        transform: 'translateX(-50%)'
-      }}></div>
-      <div className="absolute" style={{ 
-        top: `${courtBoundaries.courtTop}%`, 
-        bottom: `${100 - courtBoundaries.courtBottom}%`,
-        left: `${(courtBoundaries.courtRight + courtBoundaries.netPosition) / 2}%`,
-        width: '2px',
-        backgroundColor: courtColors.lines,
-        transform: 'translateX(-50%)'
       }}></div>
       
       {/* Horizontal center line across the entire court */}
@@ -108,7 +65,6 @@ const CourtSurface: React.FC = () => {
     <div className="relative w-full h-full">
       {renderBufferArea()}
       {renderMainCourt()}
-      {renderKitchen()}
       {renderCourtLines()}
       {renderTeamLabels()}
     </div>
