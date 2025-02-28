@@ -26,33 +26,52 @@ const SolutionSection = () => {
     "/lovable-uploads/f73f8efb-cdd6-42c9-97ed-45ef8b69aad9.png"
   ];
 
+  // Total clip duration in seconds and frame rate constants
+  const totalDuration = 24; // seconds
+  const imagesCount = slideImages.length;
+  const secondsPerImage = 3.5; // each image shows for 3.5 seconds
+  const progressPerFrame = 0.5; // progress increment per frame
+  const framesPerSecond = 20; // 50ms per frame = 20 frames per second
+  const frameDuration = 1000 / framesPerSecond; // 50ms
+  
+  // Calculated progress threshold for image change (in percentage)
+  const progressPerImage = (secondsPerImage / totalDuration) * 100;
+
   // Simulate video progress when "playing" and cycle through images
   useEffect(() => {
     let interval: ReturnType<typeof setInterval>;
     
     if (isPlaying) {
+      let frameCounter = 0;
+      
       interval = setInterval(() => {
         setProgressWidth(prev => {
-          if (prev >= 100) {
-            // Instead of stopping, we'll loop through images
-            setCurrentImageIndex((currentImageIndex + 1) % slideImages.length);
+          const newProgress = prev + progressPerFrame;
+          
+          // Reset if we've reached the end
+          if (newProgress >= 100) {
+            setCurrentImageIndex(0);
             return 0;
           }
           
-          // Change image every ~14.3% of progress (for 7 images)
-          if (prev % 14.3 === 0 && prev > 0) {
-            setCurrentImageIndex((currentImageIndex + 1) % slideImages.length);
+          // Increase frame counter and check if we need to change image
+          frameCounter++;
+          const framesPerImage = (secondsPerImage * framesPerSecond);
+          
+          if (frameCounter >= framesPerImage) {
+            frameCounter = 0;
+            setCurrentImageIndex(prevIndex => (prevIndex + 1) % imagesCount);
           }
           
-          return prev + 0.5;
+          return newProgress;
         });
-      }, 50);
+      }, frameDuration);
     }
     
     return () => {
       if (interval) clearInterval(interval);
     };
-  }, [isPlaying, currentImageIndex, slideImages.length]);
+  }, [isPlaying, secondsPerImage, progressPerFrame, framesPerSecond, imagesCount]);
 
   // Reset progress when stopped
   useEffect(() => {
@@ -206,7 +225,7 @@ const SolutionSection = () => {
                 {/* Controls */}
                 <div className="flex items-center justify-end">
                   <div className="text-xs text-white font-medium backdrop-blur-sm bg-black/30 px-2 py-1 rounded">
-                    {Math.floor(progressWidth / 100 * 24)}s / 24s
+                    {Math.floor(progressWidth / 100 * totalDuration)}s / {totalDuration}s
                   </div>
                 </div>
               </div>
