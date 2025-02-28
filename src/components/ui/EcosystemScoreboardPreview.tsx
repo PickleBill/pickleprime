@@ -367,19 +367,19 @@ const EcosystemScoreboardPreview: React.FC<EcosystemScoreboardPreviewProps> = ({
               </div>
             ))}
           </div>
-        </div>
-        
-        {/* Call to action overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-navy-dark via-navy-dark/50 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-end p-4">
-          <AnimatedButton onClick={onLaunchFullView} size="sm" className="mb-2">
-            <span className="flex items-center gap-1">
-              <Play className="w-4 h-4" />
-              Experience the Future of Play
-            </span>
-          </AnimatedButton>
-          <p className="text-white/50 text-xs text-center max-w-xs">
-            Explore our comprehensive ecosystem that transforms racquet sports with digital innovation
-          </p>
+          
+          {/* Button placed at the bottom of the carousel */}
+          <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 z-10">
+            <AnimatedButton onClick={onLaunchFullView} size="sm">
+              <div className="flex items-center gap-1">
+                <Play className="w-4 h-4" />
+                <span>Experience the Future of Play</span>
+              </div>
+            </AnimatedButton>
+            <p className="text-white/50 text-xs text-center mt-2">
+              Explore our comprehensive ecosystem that transforms racquet sports with digital innovation
+            </p>
+          </div>
         </div>
       </div>
     </div>

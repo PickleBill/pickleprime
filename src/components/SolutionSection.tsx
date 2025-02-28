@@ -140,9 +140,14 @@ const SolutionSection = () => {
                   </span>
                 </li>
               </ul>
-              <AnimatedButton onClick={handleFuturePlayClick} size="lg">
-                Experience Live Scoreboard
-              </AnimatedButton>
+              <div className="text-center">
+                <AnimatedButton onClick={handleFuturePlayClick} size="lg">
+                  Explore The Future of Play
+                </AnimatedButton>
+                <p className="text-gray-500 text-sm mt-3 max-w-md mx-auto">
+                  Explore our comprehensive ecosystem that transforms racquet sports with digital innovation
+                </p>
+              </div>
             </div>
             
             {/* Embedded Future Play Content instead of Scoreboard Preview */}
