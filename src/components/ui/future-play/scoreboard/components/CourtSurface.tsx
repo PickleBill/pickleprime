@@ -77,20 +77,14 @@ const CourtSurface: React.FC = () => {
         transform: 'translateX(-50%)'
       }}></div>
       
-      {/* Service lines */}
+      {/* Horizontal center line across the entire court */}
       <div className="absolute" style={{ 
-        top: `${courtBoundaries.courtTop + courtBoundaries.serviceLinePosition}%`, 
+        top: `${(courtBoundaries.courtTop + courtBoundaries.courtBottom) / 2}%`, 
         height: '2px',
         left: `${courtBoundaries.courtLeft}%`,
-        right: `${100 - courtBoundaries.netPosition}%`,
-        backgroundColor: courtColors.lines
-      }}></div>
-      <div className="absolute" style={{ 
-        top: `${courtBoundaries.courtBottom - courtBoundaries.serviceLinePosition}%`, 
-        height: '2px',
-        left: `${courtBoundaries.netPosition}%`,
         right: `${100 - courtBoundaries.courtRight}%`,
-        backgroundColor: courtColors.lines
+        backgroundColor: courtColors.lines,
+        zIndex: 2
       }}></div>
     </>
   );
