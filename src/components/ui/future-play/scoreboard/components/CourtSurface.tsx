@@ -6,13 +6,12 @@ const CourtSurface: React.FC = () => {
   // Light teal-blue color for the court
   const tealBlueColor = "#33C3F0"; // Bright teal-blue color
   
-  // Scale and position the court to be 5% smaller with even spacing
-  const courtScale = 0.95; // 95% of original size (5% smaller)
-  const paddingTop = 2.5; // Add 2.5% padding to top to pull court up
-  const paddingBottom = 2.5; // Add 2.5% padding to bottom 
-  const paddingX = 2.5; // Add 2.5% padding to sides
+  // Scale and position the court to be 7% smaller with even spacing
+  const paddingTop = 3.5; // Add 3.5% padding to top 
+  const paddingBottom = 3.5; // Add 3.5% padding to bottom 
+  const paddingX = 3.5; // Add 3.5% padding to sides
   
-  // Render main court with extended dimensions that fill the entire container
+  // Render main court with dimensions that fill the container minus padding
   const renderMainCourt = () => (
     <div className="absolute" style={{ 
       top: `${paddingTop}%`,
@@ -27,12 +26,12 @@ const CourtSurface: React.FC = () => {
 
   // Render court lines and middle area with adjusted positions
   const renderCourtLines = () => {
-    // Calculate the positions of the vertical lines (31% from net to court edge)
-    const netPos = 50; // Net is in the middle
+    // Net is in the middle
+    const netPos = 50; 
     
-    // Calculate the position at 31% from the net to the edges
-    const leftLine1Position = paddingX + ((50 - paddingX) * 0.31);
-    const rightLine1Position = 100 - paddingX - ((50 - paddingX) * 0.31);
+    // Calculate the position at exactly 31% from the net to each side
+    const leftLine1Position = netPos - (netPos - paddingX) * 0.31;
+    const rightLine1Position = netPos + (100 - netPos - paddingX) * 0.31;
     
     return (
       <>
@@ -102,7 +101,7 @@ const CourtSurface: React.FC = () => {
     );
   };
 
-  // Render team labels - adjusted positions to account for extended court
+  // Render team labels - adjusted positions to account for court size
   const renderTeamLabels = () => (
     <>
       {/* Team Green label */}
