@@ -1,4 +1,3 @@
-
 import { Position, BallTrajectory } from "../../types";
 import { courtBoundaries } from "../../constants/courtConfig";
 
@@ -17,29 +16,22 @@ export function calculateNextBallPosition(
   let newDirY = direction.y;
   let hitBoundary = false;
   
-  // Bounce off court boundaries with more realistic angles
+  // Bounce off left and right court boundaries (side walls)
   if (nextX <= courtBoundaries.left || nextX >= courtBoundaries.right) {
     newDirX = -direction.x;
     hitBoundary = true;
     
-    // Add some randomness to the y direction when hitting side walls
-    if (Math.random() > 0.5) {
-      newDirY = direction.y + (Math.random() * 2 - 1);
-      // Keep y direction within reasonable bounds
-      newDirY = Math.max(-4, Math.min(4, newDirY));
-    }
+    // Add some slight randomness to the y direction when hitting side walls
+    // to make the ball movement more natural
+    newDirY = direction.y + (Math.random() * 1 - 0.5);
+    // Keep y direction within reasonable bounds
+    newDirY = Math.max(-2, Math.min(2, newDirY));
   }
   
+  // Bounce off top and bottom court boundaries (baseline)
   if (nextY <= courtBoundaries.top || nextY >= courtBoundaries.bottom) {
     newDirY = -direction.y;
     hitBoundary = true;
-    
-    // Add some randomness to the x direction when hitting top/bottom walls
-    if (Math.random() > 0.5) {
-      newDirX = direction.x + (Math.random() * 2 - 1);
-      // Keep x direction within reasonable bounds
-      newDirX = Math.max(-4, Math.min(4, newDirX));
-    }
   }
   
   // Special case for net hits - bounce with more dramatic angle change
@@ -52,17 +44,12 @@ export function calculateNextBallPosition(
     }
   }
   
-  // Update direction with occasional speed variations
+  // Update direction when hitting a boundary
   if (hitBoundary) {
-    // Occasionally change ball speed after bouncing
+    // Adjust velocity after bouncing
     if (Math.random() < 0.3) {
-      setBallVelocity(Math.floor(Math.random() * 15) + 30);
-      
-      // Apply a more dramatic direction change 20% of the time
-      if (Math.random() < 0.2) {
-        newDirX = newDirX * (0.8 + Math.random() * 0.4); // 0.8-1.2 multiplier
-        newDirY = newDirY * (0.8 + Math.random() * 0.4); // 0.8-1.2 multiplier
-      }
+      // Keep velocity in a good range for a visible but not too fast ball
+      setBallVelocity(Math.floor(Math.random() * 10) + 35);
     }
     
     setBallDirection({ x: newDirX, y: newDirY });
@@ -86,7 +73,9 @@ export function calculateNextBallPosition(
 
 // Create random direction changes to simulate player hits
 export function createRandomDirectionChange(): { x: number, y: number } {
-  const newX = (Math.random() * 6 - 3);
-  const newY = (Math.random() * 6 - 3);
-  return { x: newX, y: newY };
+  // Ensure the ball primarily moves horizontally (left to right and back)
+  // with a stronger x component
+  const dirX = (Math.random() > 0.5 ? 1 : -1) * (Math.random() * 2 + 2); // Stronger horizontal movement
+  const dirY = (Math.random() * 2 - 1); // Smaller vertical component
+  return { x: dirX, y: dirY };
 }

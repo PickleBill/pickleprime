@@ -10,72 +10,57 @@ interface BallProps {
 }
 
 const Ball: React.FC<BallProps> = ({ ballPosition, ballTrajectory, ballVelocity }) => {
-  // Render the ball trail
+  // Render a blended gradient trail instead of individual dots
   const renderBallTrail = () => {
-    const segments = ballConfig.trailLength;
-    const trailElements = [];
-    
-    // Calculate direction from trajectory if available, or use default
+    // Calculate direction from trajectory
     const dx = ballTrajectory.dx || (ballTrajectory.endX - ballPosition.x) / 5;
     const dy = ballTrajectory.dy || (ballTrajectory.endY - ballPosition.y) / 5;
     
-    for (let i = 1; i <= segments; i++) {
-      const trailOpacity = 1 - (i / segments);
-      const trailSize = ballConfig.size * (1 - i / (segments * 2));
-      
-      // Calculate trail segment position based on trajectory
-      const trailX = ballPosition.x - (dx * i * (ballVelocity / 10));
-      const trailY = ballPosition.y - (dy * i * (ballVelocity / 10));
-      
-      trailElements.push(
-        <div 
-          key={`trail-${i}`}
-          className="absolute rounded-full"
-          style={{
-            width: `${trailSize}px`,
-            height: `${trailSize}px`,
-            backgroundColor: ballConfig.trailColor,
-            opacity: trailOpacity,
-            left: `${trailX}%`,
-            top: `${trailY}%`,
-            transform: 'translate(-50%, -50%)',
-            zIndex: 2
-          }}
-        />
-      );
-    }
+    // Normalize the direction to get a unit vector
+    const magnitude = Math.sqrt(dx * dx + dy * dy);
+    const normalizedDx = dx / magnitude;
+    const normalizedDy = dy / magnitude;
     
-    return trailElements;
-  };
-  
-  // Render the ball trajectory line
-  const renderTrajectoryLine = () => (
-    <div
-      className="absolute"
-      style={{
-        left: `${ballPosition.x}%`,
-        top: `${ballPosition.y}%`,
-        width: '1px',
-        height: '1px',
-        zIndex: 1
-      }}
-    >
+    // Calculate the trail length based on velocity
+    const trailLength = ballVelocity * 0.4;
+    
+    // Get the start position of the trail (behind the ball)
+    const trailStartX = ballPosition.x - normalizedDx * trailLength;
+    const trailStartY = ballPosition.y - normalizedDy * trailLength;
+    
+    return (
       <div
+        className="absolute"
         style={{
-          position: 'absolute',
-          width: '1px',
-          height: '40px',
-          backgroundColor: ballConfig.trajectoryColor,
-          opacity: 0.3,
-          transformOrigin: 'top',
-          transform: `rotate(${Math.atan2(
-            ballTrajectory.endY - ballPosition.y,
-            ballTrajectory.endX - ballPosition.x
-          ) * (180 / Math.PI)}deg)`
+          left: 0,
+          top: 0,
+          width: '100%',
+          height: '100%',
+          zIndex: 2,
+          pointerEvents: 'none',
         }}
-      />
-    </div>
-  );
+      >
+        <svg width="100%" height="100%" style={{ position: 'absolute' }}>
+          <defs>
+            <linearGradient id="trailGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor={ballConfig.trailColor} stopOpacity="0" />
+              <stop offset="100%" stopColor={ballConfig.trailColor} stopOpacity="0.7" />
+            </linearGradient>
+          </defs>
+          <line
+            x1={`${trailStartX}%`}
+            y1={`${trailStartY}%`}
+            x2={`${ballPosition.x}%`}
+            y2={`${ballPosition.y}%`}
+            stroke="url(#trailGradient)"
+            strokeWidth={ballConfig.size * 0.8}
+            strokeLinecap="round"
+            transform={`rotate(${Math.atan2(dy, dx) * 180 / Math.PI}, ${ballPosition.x}, ${ballPosition.y})`}
+          />
+        </svg>
+      </div>
+    );
+  };
   
   // Render the main ball
   const renderBall = () => (
@@ -98,7 +83,6 @@ const Ball: React.FC<BallProps> = ({ ballPosition, ballTrajectory, ballVelocity 
   return (
     <>
       {renderBallTrail()}
-      {renderTrajectoryLine()}
       {renderBall()}
     </>
   );
