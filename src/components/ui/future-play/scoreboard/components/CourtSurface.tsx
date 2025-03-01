@@ -7,14 +7,14 @@ const CourtSurface: React.FC = () => {
   const tealBlueColor = "#33C3F0"; // Bright teal-blue color
   // Dark navy color for the outer areas
   const darkNavyColor = "#0a192f"; // Dark navy blue color
-  // Vibrant grass color for the buffer area
-  const grassColor = "#4CAF50"; // Medium vibrant grass green color
+  // Darker grass color for the buffer area
+  const grassColor = "#2E8B57"; // Changed to a darker shade of green (SeaGreen)
   
   // Scale and position the court to be 7% smaller with even spacing
-  // We're extending left and right buffer by 10% (-5% on each side)
+  // We're extending left and right buffer by 12% (-6% on each side)
   const paddingTop = 3.5; // Add 3.5% padding to top 
   const paddingBottom = 5; // Increase bottom padding to 5% to show more of the bottom area
-  const paddingX = -5; // Changed from 3.5% to -5% to extend buffer beyond edges
+  const paddingX = -12; // Changed from -5% to -12% to extend buffer beyond edges by 12%
   
   // Render the grass buffer that fills the entire container
   const renderGrassBuffer = () => (
