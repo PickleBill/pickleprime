@@ -20,11 +20,6 @@ const Scoreboard = () => {
       interval = setInterval(() => {
         setGameTime(prev => prev + 1);
         
-        // Increased chance to trigger highlights for a more dynamic demo
-        if (Math.random() < 0.02) {
-          triggerHighlight();
-        }
-        
         // Increased chance for score to increase for a more dynamic demo
         if (Math.random() < 0.07) {
           if (Math.random() > 0.5) {

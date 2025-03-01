@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { 
   ChevronLeft, Activity, Trophy, 
@@ -277,33 +276,35 @@ const MobileScoreboardView: React.FC<MobileScoreboardViewProps> = ({
         </div>
       </div>
       
-      {/* Footer with actions and sponsors */}
-      <div className="w-full bg-navy-light/60 backdrop-blur-sm border-t border-white/10 px-3 py-2 flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <Activity className="w-4 h-4 text-[#F97316]" />
-          <span className="text-white/70 text-xs">LIVE</span>
-        </div>
-        
-        <div className="flex items-center gap-2">
-          <button 
-            onClick={onHighlightClick}
-            className="flex items-center gap-1 py-1 px-2 bg-[#0C8068]/30 text-[#10B981] rounded text-xs hover:bg-[#0C8068]/40 transition-colors"
-          >
-            <Video className="w-3 h-3" />
-            <span>Highlights</span>
-          </button>
+      {/* Footer with actions and sponsors - increased height */}
+      <div className="w-full bg-navy-light/60 backdrop-blur-sm border-t border-white/10 px-3 py-4">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <Activity className="w-5 h-5 text-[#F97316]" />
+            <span className="text-white/80 text-sm">LIVE</span>
+          </div>
           
-          <button 
-            onClick={() => setShowPlayerModal(true)}
-            className="flex items-center gap-1 py-1 px-2 bg-[#0FA0CE]/30 text-[#0FA0CE] rounded text-xs hover:bg-[#0FA0CE]/40 transition-colors"
-          >
-            <User className="w-3 h-3" />
-            <span>Player Profile</span>
-          </button>
-          
-          <button className="p-1 rounded bg-navy/50 text-white/70 hover:bg-navy/70 transition-colors">
-            <Share2 className="w-4 h-4" />
-          </button>
+          <div className="flex items-center gap-3">
+            <button 
+              onClick={onHighlightClick}
+              className="flex items-center gap-2 py-2 px-4 bg-[#0C8068] text-white rounded text-sm font-medium hover:bg-[#0C8068]/90 transition-colors shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
+            >
+              <Video className="w-4 h-4" />
+              <span>Highlights</span>
+            </button>
+            
+            <button 
+              onClick={() => setShowPlayerModal(true)}
+              className="flex items-center gap-2 py-2 px-4 bg-[#0FA0CE] text-white rounded text-sm font-medium hover:bg-[#0FA0CE]/90 transition-colors shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
+            >
+              <User className="w-4 h-4" />
+              <span>Player Profile</span>
+            </button>
+            
+            <button className="p-2 rounded-full bg-navy/70 text-white/80 hover:bg-navy/90 hover:text-white transition-colors">
+              <Share2 className="w-5 h-5" />
+            </button>
+          </div>
         </div>
       </div>
       
