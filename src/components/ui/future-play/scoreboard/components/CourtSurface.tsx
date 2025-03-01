@@ -8,13 +8,12 @@ const CourtSurface: React.FC = () => {
   // Dark navy color for the outer areas
   const darkNavyColor = "#0a192f"; // Dark navy blue color
   // Darker grass color for the buffer area
-  const grassColor = "#2E8B57"; // Changed to a darker shade of green (SeaGreen)
+  const grassColor = "#2E8B57"; // Darker shade of green (SeaGreen)
   
-  // Scale and position the court to be 7% smaller with even spacing
-  // We're extending left and right buffer by 12% (-6% on each side)
+  // Scale and position the court to be centered
   const paddingTop = 3.5; // Add 3.5% padding to top 
   const paddingBottom = 5; // Increase bottom padding to 5% to show more of the bottom area
-  const paddingX = -12; // Changed from -5% to -12% to extend buffer beyond edges by 12%
+  const paddingX = 0; // Set to 0 to make buffer extend to the edges
   
   // Render the grass buffer that fills the entire container
   const renderGrassBuffer = () => (
@@ -29,9 +28,9 @@ const CourtSurface: React.FC = () => {
     <div className="absolute" style={{ 
       top: `${paddingTop}%`,
       bottom: `${paddingBottom}%`,
-      left: `${Math.abs(paddingX)}%`, // Use positive value for positioning
-      right: `${Math.abs(paddingX)}%`, // Use positive value for positioning
-      backgroundColor: darkNavyColor, // Changed to dark navy for the main court (4 square boxes)
+      left: `${paddingX}%`, 
+      right: `${paddingX}%`,
+      backgroundColor: darkNavyColor, // Dark navy for the main court (4 square boxes)
       border: `2px solid ${courtColors.lines}`,
       zIndex: 1
     }}></div>
@@ -42,19 +41,20 @@ const CourtSurface: React.FC = () => {
     // Net is in the middle
     const netPos = 50; 
     
-    // Recalculate the position based on the new paddingX value
-    const leftLine1Position = netPos - (netPos - Math.abs(paddingX)) * 0.31;
-    const rightLine1Position = netPos + (100 - netPos - Math.abs(paddingX)) * 0.31;
+    // Calculate positions for vertical lines - maintain the same proportions
+    const courtWidthPercent = 100 - (paddingX * 2);
+    const leftLine1Position = (netPos - (netPos - paddingX) * 0.31);
+    const rightLine1Position = (netPos + (100 - netPos - paddingX) * 0.31);
     
     return (
       <>
-        {/* Light teal blue inside area between the lines (kitchen) - changed from dark to light */}
+        {/* Light teal blue inside area between the lines (kitchen) */}
         <div className="absolute" style={{ 
           top: `${paddingTop}%`, 
           bottom: `${paddingBottom}%`,
           left: `${leftLine1Position}%`,
           right: `${100 - rightLine1Position}%`,
-          backgroundColor: tealBlueColor, // Changed to teal blue for the inside vertical rectangle
+          backgroundColor: tealBlueColor, // Teal blue for the inside vertical rectangle
           zIndex: 2 // Increased z-index to ensure it appears above the dark background
         }}></div>
         
@@ -96,7 +96,7 @@ const CourtSurface: React.FC = () => {
         <div className="absolute" style={{ 
           top: `50%`, 
           height: '2px',
-          left: `${Math.abs(paddingX)}%`,
+          left: `${paddingX}%`,
           right: `${100 - leftLine1Position}%`,
           backgroundColor: courtColors.lines,
           zIndex: 3 // Higher z-index
@@ -106,7 +106,7 @@ const CourtSurface: React.FC = () => {
           top: `50%`, 
           height: '2px',
           left: `${rightLine1Position}%`,
-          right: `${Math.abs(paddingX)}%`,
+          right: `${paddingX}%`,
           backgroundColor: courtColors.lines,
           zIndex: 3 // Higher z-index
         }}></div>
