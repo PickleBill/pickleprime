@@ -36,13 +36,13 @@ const CourtSurface: React.FC = () => {
     
     return (
       <>
-        {/* Blue inside area between the lines */}
+        {/* Dark navy blue inside area between the lines */}
         <div className="absolute" style={{ 
           top: `0%`, 
           bottom: `0%`,
           left: `${leftLine1Position}%`,
           right: `${100 - rightLine1Position}%`,
-          backgroundColor: "#0EA5E9", // Ocean blue color for inside the lines
+          backgroundColor: "#0a192f", // Dark navy blue color for inside the lines
           zIndex: 0
         }}></div>
       
