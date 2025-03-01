@@ -30,13 +30,11 @@ const CourtView: React.FC<CourtViewProps> = ({
       height: "100%",
       maxWidth: "100%",
       maxHeight: "100%",
-      backgroundColor: '#1A1F2C', // Match the panel background color
+      marginTop: "-5%", // Adjusted to shift up by 2% (from -3% to -5%)
+      backgroundColor: '#2E8B57', // Match the darker grass color
       borderRadius: '0.5rem',
       overflow: 'hidden',
-      padding: '8px',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center'
+      paddingBottom: '5px'
     }}>
       <CourtSurface />
       
