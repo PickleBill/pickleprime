@@ -1,6 +1,5 @@
 
 import React, { useState } from "react";
-import ScoreboardHeader from "./ScoreboardHeader";
 import HighlightView from "./HighlightView";
 import PlayerModal from "../../PlayerModal";
 import SponsorsBanner from "./components/SponsorsBanner";
@@ -50,11 +49,9 @@ const MobileScoreboardView: React.FC<MobileScoreboardViewProps> = ({
         onClose={() => setShowPlayerModal(false)} 
       />
       
-      {/* Top sponsors banner */}
-      <SponsorsBanner sponsors={sponsors} />
-      
-      {/* Header with back button, live indicator and time */}
-      <ScoreboardHeader 
+      {/* Top sponsors banner with back button and score */}
+      <SponsorsBanner 
+        sponsors={sponsors} 
         onBackClick={onBackClick}
         gameTime={gameTime}
         player1Score={player1Score}
