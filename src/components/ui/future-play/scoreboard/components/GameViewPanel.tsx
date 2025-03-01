@@ -28,9 +28,9 @@ const GameViewPanel: React.FC<GameViewPanelProps> = ({
 }) => {
   return (
     <div className="flex flex-col h-full space-y-4">
-      {/* Court View Panel - 60% height (with updated background color) */}
-      <div className="bg-[#0EA5E9] rounded-lg overflow-hidden border border-white/10 shadow-lg flex-2" style={{ height: "60%" }}>
-        <div className="py-2 px-3 bg-[#0C8068] text-white flex items-center justify-between">
+      {/* Court View Panel - 60% height (with updated background color to purple) */}
+      <div className="bg-[#9b87f5] rounded-lg overflow-hidden border border-white/10 shadow-lg flex-2" style={{ height: "60%" }}>
+        <div className="py-2 px-3 bg-[#8B5CF6] text-white flex items-center justify-between">
           <h3 className="font-medium text-sm">TEAM GREEN</h3>
           <div className="text-right text-xs text-white/70">vs</div>
           <div className="text-right text-xs text-white font-medium">TEAM BLUE</div>
