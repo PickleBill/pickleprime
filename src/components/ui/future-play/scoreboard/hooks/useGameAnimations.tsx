@@ -18,7 +18,7 @@ export const useGameAnimations = (showHighlight: boolean = false) => {
     player2,
     player3,
     player4
-  } = usePlayerAnimation(ballPosition, showHighlight);
+  } = usePlayerAnimation(ballPosition);
   
   return {
     ballPosition,
