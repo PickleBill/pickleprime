@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { courtBoundaries, courtColors, teamLabels } from '../constants/courtConfig';
 
@@ -139,4 +138,3 @@ const CourtSurface: React.FC = () => {
 };
 
 export default CourtSurface;
-

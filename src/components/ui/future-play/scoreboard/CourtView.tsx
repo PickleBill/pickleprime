@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Position, BallTrajectory } from './types';
 import CourtSurface from './components/CourtSurface';
@@ -26,22 +25,18 @@ const CourtView: React.FC<CourtViewProps> = ({
 }) => {
   return (
     <div className="relative w-full h-full" style={{ 
-      // Shrink by 8% and move up by 10%
-      maxWidth: "92%",
-      maxHeight: "92%",
+      width: "100%",
+      height: "100%",
+      maxWidth: "100%",
+      maxHeight: "100%",
       marginTop: "-10%",
-      marginLeft: "auto",
-      marginRight: "auto",
-      backgroundColor: '#4CAF50', // Match the grass color to ensure consistent coloring
+      backgroundColor: '#4CAF50', // Match the grass color
       borderRadius: '0.5rem',
       overflow: 'hidden',
-      // Add padding-bottom to create more space
       paddingBottom: '5px'
     }}>
-      {/* Court structure */}
       <CourtSurface />
       
-      {/* Players */}
       <Players 
         player1={player1}
         player2={player2}
@@ -49,7 +44,6 @@ const CourtView: React.FC<CourtViewProps> = ({
         player4={player4}
       />
       
-      {/* Ball and trajectory */}
       <Ball 
         ballPosition={ballPosition}
         ballTrajectory={ballTrajectory}
@@ -60,4 +54,3 @@ const CourtView: React.FC<CourtViewProps> = ({
 };
 
 export default CourtView;
-
