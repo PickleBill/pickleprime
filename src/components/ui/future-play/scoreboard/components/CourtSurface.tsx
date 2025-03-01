@@ -36,69 +36,68 @@ const CourtSurface: React.FC = () => {
     }}></div>
   );
 
-  // Render court lines and middle area with adjusted positions
+  // Render court lines and middle area with properly adjusted positions
   const renderCourtLines = () => {
-    // Net is in the middle
-    const netPos = 50; 
+    // Net position is in the middle
+    const netPos = 50;
     
-    // Calculate positions for vertical kitchen lines at exactly 31% from center net
-    const leftKitchenLine = netPos - 31;   // 31% left from center net
-    const rightKitchenLine = netPos + 31;  // 31% right from center net
+    // Kitchen lines are exactly 7' from the net on each side (31% from center in our percentage-based layout)
+    const kitchenWidth = 31; // 31% of the court width on each side of the net
+    const leftKitchenLine = netPos - kitchenWidth;
+    const rightKitchenLine = netPos + kitchenWidth;
     
     return (
       <>
-        {/* Light teal blue inside area between the lines (kitchen) */}
+        {/* Light teal blue center area (kitchen zone) */}
         <div className="absolute" style={{ 
-          top: `${paddingTop + 5}%`, // Add 5% top padding (10% / 2)
-          bottom: `${paddingBottom + 5}%`, // Add 5% bottom padding (10% / 2)
+          top: `${paddingTop + 5}%`,
+          bottom: `${paddingBottom + 5}%`,
           left: `${leftKitchenLine}%`,
           right: `${100 - rightKitchenLine}%`,
-          backgroundColor: tealBlueColor, // Teal blue for the inside vertical rectangle
-          zIndex: 2 // Increased z-index to ensure it appears above the dark background
+          backgroundColor: tealBlueColor,
+          zIndex: 2
         }}></div>
         
         {/* Center line (net) with shadow */}
         <div className="absolute" style={{ 
-          top: `${paddingTop + 5}%`, // Add 5% top padding (10% / 2)
-          bottom: `${paddingBottom + 5}%`, // Add 5% bottom padding (10% / 2)
-          left: `50%`,
+          top: `${paddingTop + 5}%`,
+          bottom: `${paddingBottom + 5}%`,
+          left: `${netPos}%`,
           width: `${courtBoundaries.netThickness}px`,
           backgroundColor: courtColors.lines,
           transform: 'translateX(-50%)',
           boxShadow: `0 0 8px 4px ${courtColors.netShadow}`,
-          zIndex: 3 // Higher z-index to appear above the blue
+          zIndex: 3
         }}></div>
         
-        {/* Left vertical line at 31% from net */}
+        {/* Left kitchen line - exactly 31% from center net */}
         <div className="absolute" style={{ 
-          top: `${paddingTop + 5}%`, // Add 5% top padding (10% / 2)
-          bottom: `${paddingBottom + 5}%`, // Add 5% bottom padding (10% / 2)
+          top: `${paddingTop + 5}%`,
+          bottom: `${paddingBottom + 5}%`,
           left: `${leftKitchenLine}%`,
           width: '2px',
           backgroundColor: courtColors.lines,
-          transform: 'translateX(-50%)',
-          zIndex: 3 // Higher z-index to appear above the blue
+          zIndex: 3
         }}></div>
         
-        {/* Right vertical line at 31% from net */}
+        {/* Right kitchen line - exactly 31% from center net */}
         <div className="absolute" style={{ 
-          top: `${paddingTop + 5}%`, // Add 5% top padding (10% / 2)
-          bottom: `${paddingBottom + 5}%`, // Add 5% bottom padding (10% / 2)
+          top: `${paddingTop + 5}%`,
+          bottom: `${paddingBottom + 5}%`,
           left: `${rightKitchenLine}%`,
           width: '2px',
           backgroundColor: courtColors.lines,
-          transform: 'translateX(-50%)',
-          zIndex: 3 // Higher z-index to appear above the blue
+          zIndex: 3
         }}></div>
         
-        {/* Horizontal center line only in the outer areas */}
+        {/* Horizontal center line in the outer areas */}
         <div className="absolute" style={{ 
           top: `50%`, 
           height: '2px',
           left: `${paddingX}%`,
           right: `${100 - leftKitchenLine}%`,
           backgroundColor: courtColors.lines,
-          zIndex: 3 // Higher z-index
+          zIndex: 3
         }}></div>
         
         <div className="absolute" style={{ 
@@ -107,13 +106,13 @@ const CourtSurface: React.FC = () => {
           left: `${rightKitchenLine}%`,
           right: `${paddingX}%`,
           backgroundColor: courtColors.lines,
-          zIndex: 3 // Higher z-index
+          zIndex: 3
         }}></div>
       </>
     );
   };
 
-  // Render team labels - adjusted positions to account for court size
+  // Render team labels
   const renderTeamLabels = () => (
     <>
       {/* Team Green label */}
