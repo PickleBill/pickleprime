@@ -76,40 +76,44 @@ const ScoreboardStats: React.FC<ScoreboardStatsProps> = ({
         </div>
         
         <div className="space-y-4">
-          {/* Top Speed Comparison */}
+          {/* Top Speed Comparison - higher is better */}
           <StatComparison
             player1Value={player1Stats.topSpeed}
             player2Value={player2Stats.topSpeed}
             label="Top Speed"
             icon={<Zap className="w-3.5 h-3.5 text-[#F97316]" />}
             color={vibrantColors.accent}
+            highestValueWins={true}
           />
           
-          {/* Shot Accuracy Comparison */}
+          {/* Shot Accuracy Comparison - higher is better */}
           <StatComparison
             player1Value={player1Stats.accuracy}
             player2Value={player2Stats.accuracy}
             label="Accuracy"
             icon={<Target className="w-3.5 h-3.5 text-[#8B5CF6]" />}
             color={vibrantColors.secondary}
+            highestValueWins={true}
           />
           
-          {/* Spin Rate Comparison */}
+          {/* Spin Rate Comparison - higher is better */}
           <StatComparison
             player1Value={player1Stats.spinRate}
             player2Value={player2Stats.spinRate}
             label="Spin Rate"
             icon={<Activity className="w-3.5 h-3.5 text-[#0EA5E9]" />}
             color={vibrantColors.primary}
+            highestValueWins={true}
           />
           
-          {/* Reaction Time Comparison */}
+          {/* Reaction Time Comparison - lower is better */}
           <StatComparison
             player1Value={player1Stats.reactionTime}
             player2Value={player2Stats.reactionTime}
             label="Reaction"
             icon={<Clock className="w-3.5 h-3.5 text-[#D946EF]" />}
             color="#D946EF"
+            highestValueWins={false}
           />
         </div>
         
