@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { 
   ChevronLeft, Activity, Trophy, 
-  Clock, Zap, BarChart2, Share2, Video
+  Clock, Zap, BarChart2, Share2, Video, User
 } from "lucide-react";
 import ScoreboardHeader from "./ScoreboardHeader";
 import ScoreboardFooter from "./ScoreboardFooter";
@@ -11,6 +11,7 @@ import CourtView from "./CourtView";
 import MatchFeed from "./MatchFeed";
 import ScoreboardStats from "./ScoreboardStats";
 import { MobileScoreboardViewProps } from "./types";
+import PlayerModal from "../../PlayerModal";
 
 const MobileScoreboardView: React.FC<MobileScoreboardViewProps> = ({
   onBackClick,
@@ -33,6 +34,8 @@ const MobileScoreboardView: React.FC<MobileScoreboardViewProps> = ({
   matchFeedItems,
   sponsors
 }) => {
+  const [showPlayerModal, setShowPlayerModal] = useState(false);
+  
   // If highlight is shown, display the highlight view
   if (showHighlight) {
     return (
@@ -45,6 +48,12 @@ const MobileScoreboardView: React.FC<MobileScoreboardViewProps> = ({
   
   return (
     <div className="flex flex-col h-full">
+      {/* Player Modal */}
+      <PlayerModal 
+        isOpen={showPlayerModal} 
+        onClose={() => setShowPlayerModal(false)} 
+      />
+      
       {/* Header with back button, live indicator and time */}
       <ScoreboardHeader 
         onBackClick={onBackClick}
@@ -282,6 +291,14 @@ const MobileScoreboardView: React.FC<MobileScoreboardViewProps> = ({
           >
             <Video className="w-3 h-3" />
             <span>Highlights</span>
+          </button>
+          
+          <button 
+            onClick={() => setShowPlayerModal(true)}
+            className="flex items-center gap-1 py-1 px-2 bg-[#0FA0CE]/30 text-[#0FA0CE] rounded text-xs hover:bg-[#0FA0CE]/40 transition-colors"
+          >
+            <User className="w-3 h-3" />
+            <span>Player Profile</span>
           </button>
           
           <button className="p-1 rounded bg-navy/50 text-white/70 hover:bg-navy/70 transition-colors">
