@@ -30,7 +30,9 @@ const CourtView: React.FC<CourtViewProps> = ({
       maxWidth: "100%",
       backgroundColor: '#0EA5E9', // Matching the new teal blue color
       borderRadius: '0.5rem',
-      overflow: 'hidden'
+      overflow: 'hidden',
+      // Add padding-bottom to create more space
+      paddingBottom: '5px'
     }}>
       {/* Court structure */}
       <CourtSurface />

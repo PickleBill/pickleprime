@@ -8,7 +8,7 @@ const CourtSurface: React.FC = () => {
   
   // Scale and position the court to be 7% smaller with even spacing
   const paddingTop = 3.5; // Add 3.5% padding to top 
-  const paddingBottom = 3.5; // Add 3.5% padding to bottom 
+  const paddingBottom = 5; // Increase bottom padding to 5% to show more of the bottom area
   const paddingX = 3.5; // Add 3.5% padding to sides
   
   // Render main court with dimensions that fill the container minus padding
