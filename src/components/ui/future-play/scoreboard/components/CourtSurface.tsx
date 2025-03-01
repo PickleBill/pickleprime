@@ -19,7 +19,7 @@ const CourtSurface: React.FC = () => {
   // Render main court with extended dimensions that fill the entire container
   const renderMainCourt = () => (
     <div className="absolute inset-0" style={{ 
-      backgroundColor: courtColors.court,
+      backgroundColor: "#2a6243", // Darker forest green color but still light enough to maintain visibility
       border: `2px solid ${courtColors.lines}`,
       zIndex: 1
     }}></div>
