@@ -10,39 +10,15 @@ const CourtSurface: React.FC = () => {
   const originalLeft = courtBoundaries.courtLeft;
   const originalRight = courtBoundaries.courtRight;
   
-  // Extend court in all directions by 20%
-  const extendedTop = originalTop - (originalTop * extendBy);
-  const extendedBottom = originalBottom + ((100 - originalBottom) * extendBy);
-  const extendedLeft = originalLeft - (originalLeft * extendBy);
-  const extendedRight = originalRight + ((100 - originalRight) * extendBy);
+  // Extend court to fill the entire container
+  const extendedTop = 0; // Extended to the top edge
+  const extendedBottom = 100; // Extended to the bottom edge
+  const extendedLeft = 0; // Extended to the left edge
+  const extendedRight = 100; // Extended to the right edge
   
-  // Render buffer area (now smaller due to court extension and further reduced by 10%)
-  const renderBufferArea = () => {
-    // Calculate buffer size reduction (50% smaller - increased from 40%)
-    const bufferReduction = 0.5;
-    const topBuffer = courtBoundaries.courtTop * bufferReduction;
-    const bottomBuffer = courtBoundaries.courtBottom * bufferReduction;
-    const leftBuffer = courtBoundaries.courtLeft * bufferReduction;
-    const rightBuffer = courtBoundaries.courtRight * bufferReduction;
-    
-    return (
-      <div className="absolute rounded-lg" style={{ 
-        top: `${topBuffer}%`,
-        bottom: `${topBuffer}%`,
-        left: `${leftBuffer}%`,
-        right: `${leftBuffer}%`,
-        backgroundColor: '#0EA5E9' // Updated buffer color to ocean blue
-      }}></div>
-    );
-  };
-
-  // Render main court with extended dimensions
+  // Render main court with extended dimensions that fill the entire container
   const renderMainCourt = () => (
-    <div className="absolute" style={{ 
-      top: `${extendedTop}%`, 
-      bottom: `${100 - extendedBottom}%`,
-      left: `${extendedLeft}%`,
-      right: `${100 - extendedRight}%`,
+    <div className="absolute inset-0" style={{ 
       backgroundColor: courtColors.court,
       border: `2px solid ${courtColors.lines}`,
       zIndex: 1
@@ -52,24 +28,18 @@ const CourtSurface: React.FC = () => {
   // Render court lines and middle area with adjusted positions
   const renderCourtLines = () => {
     // Calculate the positions of the vertical lines (31% from net to court edge)
-    const leftEdge = extendedLeft;
-    const rightEdge = extendedRight;
     const netPos = courtBoundaries.netPosition;
     
-    // Calculate distance from net to each edge
-    const distanceToLeftEdge = netPos - leftEdge;
-    const distanceToRightEdge = rightEdge - netPos;
-    
-    // Calculate the position at 31% of that distance
-    const leftLine1Position = netPos - (distanceToLeftEdge * 0.31);
-    const rightLine1Position = netPos + (distanceToRightEdge * 0.31);
+    // Calculate the position at 31% from the net to the edges
+    const leftLine1Position = netPos - (netPos * 0.31);
+    const rightLine1Position = netPos + ((100 - netPos) * 0.31);
     
     return (
       <>
         {/* Render the greyish silver middle area - placed with lower z-index */}
         <div className="absolute" style={{ 
-          top: `${extendedTop}%`, 
-          bottom: `${100 - extendedBottom}%`,
+          top: `0%`, 
+          bottom: `0%`,
           left: `${leftLine1Position}%`,
           right: `${100 - rightLine1Position}%`,
           backgroundColor: "#9F9EA1", // Greyish silver color
@@ -78,8 +48,8 @@ const CourtSurface: React.FC = () => {
       
         {/* Center line (net) with shadow */}
         <div className="absolute" style={{ 
-          top: `${extendedTop}%`, 
-          bottom: `${100 - extendedBottom}%`,
+          top: `0%`, 
+          bottom: `0%`,
           left: `${courtBoundaries.netPosition}%`,
           width: `${courtBoundaries.netThickness}px`,
           backgroundColor: courtColors.lines,
@@ -90,8 +60,8 @@ const CourtSurface: React.FC = () => {
         
         {/* Left vertical line at 31% from net */}
         <div className="absolute" style={{ 
-          top: `${extendedTop}%`, 
-          bottom: `${100 - extendedBottom}%`,
+          top: `0%`, 
+          bottom: `0%`,
           left: `${leftLine1Position}%`,
           width: '2px',
           backgroundColor: courtColors.lines,
@@ -101,8 +71,8 @@ const CourtSurface: React.FC = () => {
         
         {/* Right vertical line at 31% from net */}
         <div className="absolute" style={{ 
-          top: `${extendedTop}%`, 
-          bottom: `${100 - extendedBottom}%`,
+          top: `0%`, 
+          bottom: `0%`,
           left: `${rightLine1Position}%`,
           width: '2px',
           backgroundColor: courtColors.lines,
@@ -112,19 +82,19 @@ const CourtSurface: React.FC = () => {
         
         {/* Horizontal center line only in the outer blue areas */}
         <div className="absolute" style={{ 
-          top: `${(extendedTop + extendedBottom) / 2}%`, 
+          top: `50%`, 
           height: '2px',
-          left: `${extendedLeft}%`,
+          left: `0%`,
           right: `${100 - leftLine1Position}%`,
           backgroundColor: courtColors.lines,
           zIndex: 2
         }}></div>
         
         <div className="absolute" style={{ 
-          top: `${(extendedTop + extendedBottom) / 2}%`, 
+          top: `50%`, 
           height: '2px',
           left: `${rightLine1Position}%`,
-          right: `${100 - extendedRight}%`,
+          right: `0%`,
           backgroundColor: courtColors.lines,
           zIndex: 2
         }}></div>
@@ -149,7 +119,6 @@ const CourtSurface: React.FC = () => {
 
   return (
     <div className="relative w-full h-full">
-      {renderBufferArea()}
       {renderMainCourt()}
       {renderCourtLines()}
       {renderTeamLabels()}
