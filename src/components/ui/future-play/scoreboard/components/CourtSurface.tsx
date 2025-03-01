@@ -10,26 +10,31 @@ const CourtSurface: React.FC = () => {
   // Darker grass color for the buffer area
   const grassColor = "#2E8B57"; // Darker shade of green (SeaGreen)
   
-  // Scale and position the court to be centered - shrink by 10%
-  const paddingTop = 1.5; // Reduced by 2% from previous 3.5%
-  const paddingBottom = 7; // Increased by 2% from previous 5%
-  const paddingX = 0; // Remove horizontal padding to extend green area to edges
+  // Scale and position the court to be centered - shrink by 9%
+  const paddingTop = 4.5; // Added padding to center the court
+  const paddingBottom = 4.5; // Added padding to center the court
+  const paddingSides = 4.5; // Added side padding for horizontal centering
   
-  // Render the grass buffer that fills the entire container
+  // Render the grass buffer that fills the container minus padding (9% shrink)
   const renderGrassBuffer = () => (
-    <div className="absolute inset-0" style={{ 
+    <div className="absolute" style={{ 
+      top: `${paddingTop}%`,
+      bottom: `${paddingBottom}%`,
+      left: `${paddingSides}%`,
+      right: `${paddingSides}%`,
       backgroundColor: grassColor,
+      borderRadius: "0.5rem",
       zIndex: 0
     }}></div>
   );
   
-  // Render main court with dimensions that fill the container minus padding - shrunk by 10%
+  // Render main court with dimensions that fill the container minus padding - shrunk by 9%
   const renderMainCourt = () => (
     <div className="absolute" style={{ 
-      top: `${paddingTop + 5}%`, // Add 5% top padding (10% / 2)
-      bottom: `${paddingBottom + 5}%`, // Add 5% bottom padding (10% / 2)
-      left: `${paddingX + 5}%`, 
-      right: `${paddingX + 5}%`,
+      top: `${paddingTop + 5}%`, 
+      bottom: `${paddingBottom + 5}%`, 
+      left: `${paddingSides + 5}%`, 
+      right: `${paddingSides + 5}%`,
       backgroundColor: darkNavyColor, // Dark navy for the main court
       border: `2px solid ${courtColors.lines}`,
       zIndex: 1
@@ -53,8 +58,8 @@ const CourtSurface: React.FC = () => {
         <div className="absolute" style={{ 
           top: `${paddingTop + 5}%`,
           bottom: `${paddingBottom + 5}%`,
-          left: `${leftKitchenLine}%`,
-          right: `${100 - rightKitchenLine}%`,
+          left: `${paddingSides + leftKitchenLine}%`,
+          right: `${paddingSides + (100 - rightKitchenLine)}%`,
           backgroundColor: tealBlueColor,
           zIndex: 2
         }}></div>
@@ -63,7 +68,7 @@ const CourtSurface: React.FC = () => {
         <div className="absolute" style={{ 
           top: `${paddingTop + 5}%`,
           bottom: `${paddingBottom + 5}%`,
-          left: `${netPos}%`,
+          left: `${50}%`,
           width: `${courtBoundaries.netThickness}px`,
           backgroundColor: courtColors.lines,
           transform: 'translateX(-50%)',
@@ -75,7 +80,7 @@ const CourtSurface: React.FC = () => {
         <div className="absolute" style={{ 
           top: `${paddingTop + 5}%`,
           bottom: `${paddingBottom + 5}%`,
-          left: `${leftKitchenLine}%`,
+          left: `${paddingSides + leftKitchenLine}%`,
           width: '2px',
           backgroundColor: courtColors.lines,
           zIndex: 3
@@ -85,7 +90,7 @@ const CourtSurface: React.FC = () => {
         <div className="absolute" style={{ 
           top: `${paddingTop + 5}%`,
           bottom: `${paddingBottom + 5}%`,
-          left: `${rightKitchenLine}%`,
+          left: `${paddingSides + rightKitchenLine}%`,
           width: '2px',
           backgroundColor: courtColors.lines,
           zIndex: 3
@@ -95,8 +100,8 @@ const CourtSurface: React.FC = () => {
         <div className="absolute" style={{ 
           top: `50%`, 
           height: '2px',
-          left: `${paddingX + 5}%`,
-          right: `${100 - leftKitchenLine}%`,
+          left: `${paddingSides + 5}%`,
+          right: `${paddingSides + (100 - leftKitchenLine)}%`,
           backgroundColor: courtColors.lines,
           zIndex: 3
         }}></div>
@@ -104,8 +109,8 @@ const CourtSurface: React.FC = () => {
         <div className="absolute" style={{ 
           top: `50%`, 
           height: '2px',
-          left: `${rightKitchenLine}%`,
-          right: `${paddingX + 5}%`,
+          left: `${paddingSides + rightKitchenLine}%`,
+          right: `${paddingSides + 5}%`,
           backgroundColor: courtColors.lines,
           zIndex: 3
         }}></div>
