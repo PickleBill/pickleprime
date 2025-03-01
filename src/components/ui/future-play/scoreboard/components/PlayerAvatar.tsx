@@ -20,7 +20,7 @@ const PlayerAvatar: React.FC<PlayerAvatarProps> = ({ name, winRate, avatar, colo
       )}
       
       <div className={`w-10 h-10 rounded-full overflow-hidden border-2 ring-2 ${rightAlign ? 'order-last' : ''}`} 
-           style={{ borderColor: color, ringColor: `${color}30` }}>
+           style={{ borderColor: color, boxShadow: `0 0 0 2px ${color}30` }}>
         <img 
           src={avatar} 
           alt={name} 

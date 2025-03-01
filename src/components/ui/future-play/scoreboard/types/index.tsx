@@ -25,6 +25,18 @@ export interface BallTrajectory {
 }
 
 // Main Scoreboard Container Props
+export interface ScoreboardContainerProps {
+  onBackClick?: () => void;
+  onHighlightClick?: () => void;
+  showHighlight?: boolean;
+  highlightTimer?: number;
+  gameTime?: number;
+  player1Score?: number;
+  player2Score?: number;
+  currentSet?: number;
+}
+
+// Main Scoreboard View Props
 export interface ScoreboardViewProps {
   onBackClick: () => void;
   onHighlightClick: () => void;
