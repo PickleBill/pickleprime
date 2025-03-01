@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { courtBoundaries, courtColors, teamLabels } from '../constants/courtConfig';
 
