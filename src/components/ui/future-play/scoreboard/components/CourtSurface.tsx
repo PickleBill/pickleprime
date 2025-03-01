@@ -34,9 +34,12 @@ const CourtSurface: React.FC = () => {
     const leftLine1Position = netPos - (netPos * 0.31);
     const rightLine1Position = netPos + ((100 - netPos) * 0.31);
     
+    // Light teal-blue color for the court boxes
+    const tealBlueColor = "#33C3F0"; // Bright teal-blue color
+    
     return (
       <>
-        {/* Dark navy blue inside area between the lines */}
+        {/* Dark navy blue inside area between the lines (kitchen) */}
         <div className="absolute" style={{ 
           top: `0%`, 
           bottom: `0%`,
@@ -44,6 +47,46 @@ const CourtSurface: React.FC = () => {
           right: `${100 - rightLine1Position}%`,
           backgroundColor: "#0a192f", // Dark navy blue color for inside the lines
           zIndex: 2 // Increased z-index to ensure it appears above the green background
+        }}></div>
+        
+        {/* Top-left box with teal blue */}
+        <div className="absolute" style={{ 
+          top: `0%`, 
+          bottom: `50%`,
+          left: `0%`,
+          right: `${100 - leftLine1Position}%`,
+          backgroundColor: tealBlueColor,
+          zIndex: 1.5
+        }}></div>
+        
+        {/* Bottom-left box with teal blue */}
+        <div className="absolute" style={{ 
+          top: `50%`, 
+          bottom: `0%`,
+          left: `0%`,
+          right: `${100 - leftLine1Position}%`,
+          backgroundColor: tealBlueColor,
+          zIndex: 1.5
+        }}></div>
+        
+        {/* Top-right box with teal blue */}
+        <div className="absolute" style={{ 
+          top: `0%`, 
+          bottom: `50%`,
+          left: `${rightLine1Position}%`,
+          right: `0%`,
+          backgroundColor: tealBlueColor,
+          zIndex: 1.5
+        }}></div>
+        
+        {/* Bottom-right box with teal blue */}
+        <div className="absolute" style={{ 
+          top: `50%`, 
+          bottom: `0%`,
+          left: `${rightLine1Position}%`,
+          right: `0%`,
+          backgroundColor: tealBlueColor,
+          zIndex: 1.5
         }}></div>
       
         {/* Center line (net) with shadow */}
@@ -127,3 +170,4 @@ const CourtSurface: React.FC = () => {
 };
 
 export default CourtSurface;
+
