@@ -11,9 +11,9 @@ const CourtSurface: React.FC = () => {
   const grassColor = "#2E8B57"; // Darker shade of green (SeaGreen)
   
   // Scale and position the court to be centered - shrink by 10%
-  const paddingTop = 3.5; // Keep top padding
-  const paddingBottom = 5; // Keep bottom padding
-  const paddingX = 5; // Add 5% padding on each side (extra green space)
+  const paddingTop = 1.5; // Reduced by 2% from previous 3.5%
+  const paddingBottom = 7; // Increased by 2% from previous 5%
+  const paddingX = 0; // Remove horizontal padding to extend green area to edges
   
   // Render the grass buffer that fills the entire container
   const renderGrassBuffer = () => (
@@ -28,8 +28,8 @@ const CourtSurface: React.FC = () => {
     <div className="absolute" style={{ 
       top: `${paddingTop + 5}%`, // Add 5% top padding (10% / 2)
       bottom: `${paddingBottom + 5}%`, // Add 5% bottom padding (10% / 2)
-      left: `${paddingX}%`, 
-      right: `${paddingX}%`,
+      left: `${paddingX + 5}%`, 
+      right: `${paddingX + 5}%`,
       backgroundColor: darkNavyColor, // Dark navy for the main court
       border: `2px solid ${courtColors.lines}`,
       zIndex: 1
@@ -95,7 +95,7 @@ const CourtSurface: React.FC = () => {
         <div className="absolute" style={{ 
           top: `50%`, 
           height: '2px',
-          left: `${paddingX}%`,
+          left: `${paddingX + 5}%`,
           right: `${100 - leftKitchenLine}%`,
           backgroundColor: courtColors.lines,
           zIndex: 3
@@ -105,7 +105,7 @@ const CourtSurface: React.FC = () => {
           top: `50%`, 
           height: '2px',
           left: `${rightKitchenLine}%`,
-          right: `${paddingX}%`,
+          right: `${paddingX + 5}%`,
           backgroundColor: courtColors.lines,
           zIndex: 3
         }}></div>
