@@ -81,3 +81,12 @@ export const teamLabels = {
   team1: "TEAM GREEN",
   team2: "TEAM BLUE"
 };
+
+// Export the combined court configuration
+export const courtConfig = {
+  bounds: courtBoundaries,
+  colors: courtColors,
+  player: playerConfig,
+  ball: ballConfig,
+  teams: teamLabels
+};

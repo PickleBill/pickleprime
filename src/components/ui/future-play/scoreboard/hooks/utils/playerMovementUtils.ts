@@ -1,3 +1,4 @@
+
 import { PlayerPosition, Position } from "../../types";
 
 interface MovementOptions {
@@ -54,3 +55,36 @@ function getZoneBoundaries(zone: string) {
       return { minX: 0, maxX: 100, minY: 0, maxY: 100 };
   }
 }
+
+// Update all player positions
+export const updatePlayerPositions = (
+  player1: PlayerPosition, 
+  player2: PlayerPosition, 
+  player3: PlayerPosition, 
+  player4: PlayerPosition, 
+  ballPosition: Position,
+  courtConfig: any
+) => {
+  // Apply movement logic to each player
+  const newPlayer1 = calculatePlayerMovement(player1, ballPosition, {
+    restrictedZone: 'top-left',
+    reaction: 0.08
+  });
+  
+  const newPlayer2 = calculatePlayerMovement(player2, ballPosition, {
+    restrictedZone: 'top-right',
+    reaction: 0.05
+  });
+  
+  const newPlayer3 = calculatePlayerMovement(player3, ballPosition, {
+    restrictedZone: 'bottom-left',
+    reaction: 0.06
+  });
+  
+  const newPlayer4 = calculatePlayerMovement(player4, ballPosition, {
+    restrictedZone: 'bottom-right',
+    reaction: 0.07
+  });
+  
+  return { newPlayer1, newPlayer2, newPlayer3, newPlayer4 };
+};

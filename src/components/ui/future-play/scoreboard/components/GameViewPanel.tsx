@@ -1,6 +1,6 @@
 
 import React from "react";
-import { Position, BallTrajectory } from "../types";
+import { Position, BallTrajectory, PlayerPosition } from "../types";
 import CourtView from "../CourtView";
 import MatchFeed from "../MatchFeed";
 import { BarChart2, Activity } from "lucide-react";
@@ -9,10 +9,10 @@ interface GameViewPanelProps {
   ballPosition: Position;
   ballTrajectory: BallTrajectory;
   ballVelocity: number;
-  player1: Position;
-  player2: Position;
-  player3: Position;
-  player4: Position;
+  player1: PlayerPosition;
+  player2: PlayerPosition;
+  player3: PlayerPosition;
+  player4: PlayerPosition;
   matchFeedItems: any[];
 }
 
@@ -40,7 +40,6 @@ const GameViewPanel: React.FC<GameViewPanelProps> = ({
           <CourtView 
             ballPosition={ballPosition}
             ballTrajectory={ballTrajectory}
-            ballVelocity={ballVelocity}
             player1={player1}
             player2={player2}
             player3={player3}
