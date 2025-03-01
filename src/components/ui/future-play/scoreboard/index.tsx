@@ -22,14 +22,6 @@ const ScoreboardViewContainer: React.FC<ScoreboardContainerProps> = (props) => {
   return (
     <MobileScoreboardView
       {...props}
-      onBackClick={props.onBackClick || (() => {})}
-      onHighlightClick={props.onHighlightClick || (() => {})}
-      showHighlight={props.showHighlight || false}
-      highlightTimer={props.highlightTimer || 75}
-      gameTime={props.gameTime || 345}
-      player1Score={props.player1Score || 7}
-      player2Score={props.player2Score || 5}
-      currentSet={props.currentSet || 1}
       ballPosition={ballPosition}
       ballTrajectory={ballTrajectory}
       ballVelocity={ballVelocity}

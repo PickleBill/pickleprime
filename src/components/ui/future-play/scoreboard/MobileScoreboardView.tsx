@@ -1,35 +1,13 @@
 
-import React, { useRef } from "react";
-import SponsorsBanner from "./components/SponsorsBanner";
-import CourtView from "./CourtView";
+import React, { useState } from "react";
+import ScoreboardHeader from "./ScoreboardHeader";
 import HighlightView from "./HighlightView";
-import ScoreboardStats from "./ScoreboardStats";
-import MatchFeed from "./MatchFeed";
-import ScoreboardFooter from "./ScoreboardFooter";
-import FooterStats from "./components/FooterStats";
-import { PlayerPosition, BallTrajectory } from "./types";
-
-interface MobileScoreboardViewProps {
-  onBackClick: () => void;
-  onHighlightClick: () => void;
-  showHighlight: boolean;
-  highlightTimer: number;
-  gameTime: number;
-  player1Score: number;
-  player2Score: number;
-  currentSet: number;
-  ballPosition: { x: number; y: number };
-  ballTrajectory: BallTrajectory;
-  ballVelocity: number;
-  player1: PlayerPosition;
-  player2: PlayerPosition;
-  player3: PlayerPosition;
-  player4: PlayerPosition;
-  player1Stats: any;
-  player2Stats: any;
-  matchFeedItems: any[];
-  sponsors: { name: string; id: number }[];
-}
+import PlayerModal from "../../PlayerModal";
+import SponsorsBanner from "./components/SponsorsBanner";
+import StatsPanel from "./components/StatsPanel";
+import GameViewPanel from "./components/GameViewPanel";
+import ActionFooter from "./components/ActionFooter";
+import { MobileScoreboardViewProps } from "./types";
 
 const MobileScoreboardView: React.FC<MobileScoreboardViewProps> = ({
   onBackClick,
@@ -52,66 +30,67 @@ const MobileScoreboardView: React.FC<MobileScoreboardViewProps> = ({
   matchFeedItems,
   sponsors
 }) => {
-  const courtRef = useRef<HTMLDivElement>(null);
-
-  // For rendering the highlight view or main game view
+  const [showPlayerModal, setShowPlayerModal] = useState(false);
+  
+  // If highlight is shown, display the highlight view
   if (showHighlight) {
     return (
       <HighlightView 
         highlightTimer={highlightTimer}
-        onBackClick={onBackClick} 
+        onBackClick={onBackClick}
       />
     );
   }
-
+  
   return (
     <div className="flex flex-col h-full">
-      {/* Updated Sponsors Banner - now with combined header functionality */}
-      <SponsorsBanner 
-        sponsors={sponsors} 
+      {/* Player Modal */}
+      <PlayerModal 
+        isOpen={showPlayerModal} 
+        onClose={() => setShowPlayerModal(false)} 
+      />
+      
+      {/* Top sponsors banner */}
+      <SponsorsBanner sponsors={sponsors} />
+      
+      {/* Header with back button, live indicator and time */}
+      <ScoreboardHeader 
         onBackClick={onBackClick}
         gameTime={gameTime}
         player1Score={player1Score}
         player2Score={player2Score}
         currentSet={currentSet}
       />
-
-      {/* Main Game View */}
-      <div className="flex-1 flex flex-col overflow-hidden">
-        {/* Court Display */}
-        <div 
-          ref={courtRef}
-          className="relative h-[40vh] md:h-[45vh] bg-navy-dark border-b border-navy-light/20"
-        >
-          <CourtView
-            ballPosition={ballPosition}
-            ballTrajectory={ballTrajectory}
-            player1={player1}
-            player2={player2}
-            player3={player3}
-            player4={player4}
-          />
-          <FooterStats ballVelocity={ballVelocity} />
-        </div>
-
-        {/* Stats and Feed Section */}
-        <div className="flex-1 overflow-y-auto bg-navy-dark/90">
-          {/* Player Stats */}
-          <ScoreboardStats 
-            player1Stats={player1Stats}
-            player2Stats={player2Stats}
-          />
-          
-          {/* Match Feed */}
-          <MatchFeed 
-            matchFeedItems={matchFeedItems} 
-          />
-        </div>
+      
+      {/* Main content - 50/50 split */}
+      <div className="flex-1 grid grid-cols-2 gap-4 p-4 overflow-y-auto">
+        {/* Left Panel - Scoreboard Stats */}
+        <StatsPanel 
+          player1Stats={player1Stats}
+          player2Stats={player2Stats}
+          player1Score={player1Score}
+          player2Score={player2Score}
+          currentSet={currentSet}
+          ballVelocity={ballVelocity}
+        />
+        
+        {/* Right Panel with Court View and Match Feed */}
+        <GameViewPanel 
+          ballPosition={ballPosition}
+          ballTrajectory={ballTrajectory}
+          ballVelocity={ballVelocity}
+          player1={player1}
+          player2={player2}
+          player3={player3}
+          player4={player4}
+          matchFeedItems={matchFeedItems}
+        />
       </div>
-
-      {/* Footer Actions */}
-      <ScoreboardFooter
-        onViewHighlights={onHighlightClick}
+      
+      {/* Footer with actions */}
+      <ActionFooter 
+        onHighlightClick={onHighlightClick}
+        onPlayerProfileClick={() => setShowPlayerModal(true)}
       />
     </div>
   );

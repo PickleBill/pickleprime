@@ -1,67 +1,34 @@
 
 import React from "react";
-import { ChevronLeft, Clock } from "lucide-react";
-import { Sponsor } from "../types";
+import { Activity } from "lucide-react";
 
 interface SponsorsBannerProps {
-  sponsors: Sponsor[];
-  onBackClick: () => void;
-  gameTime: number;
-  player1Score: number;
-  player2Score: number;
-  currentSet: number;
+  sponsors: { name: string; id: number }[];
 }
 
-const SponsorsBanner: React.FC<SponsorsBannerProps> = ({
-  sponsors,
-  onBackClick,
-  gameTime,
-  player1Score,
-  player2Score,
-  currentSet
-}) => {
-  const formatTime = (seconds: number) => {
-    const mins = Math.floor(seconds / 60);
-    const secs = seconds % 60;
-    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-  };
-
+const SponsorsBanner: React.FC<SponsorsBannerProps> = ({ sponsors }) => {
   return (
-    <div className="w-full px-4 py-3 bg-[#E5DEFF] flex items-center justify-between relative z-10 border-b border-indigo-200">
-      <div className="flex items-center gap-3">
-        <button 
-          onClick={onBackClick}
-          className="p-2 rounded-full bg-white/80 hover:bg-white text-indigo-800 transition-colors border border-indigo-200"
-        >
-          <ChevronLeft className="w-4 h-4" />
-        </button>
-        
-        <div className="hidden sm:flex items-center gap-4 text-indigo-900/70 text-sm">
-          {sponsors.map(sponsor => (
-            <span key={sponsor.id}>{sponsor.name}</span>
-          ))}
-        </div>
+    <div className="w-full px-4 py-2 bg-[#E5DEFF] flex items-center justify-between border-b border-white/10">
+      <div className="flex items-center gap-2">
+        <Activity className="w-4 h-4 text-[#F97316]" />
+        <span className="text-navy-dark/80 text-sm font-medium">LIVE</span>
       </div>
       
-      <div className="flex items-center gap-4">
-        <div className="flex items-center gap-2 bg-white/80 px-3 py-1.5 rounded-full text-indigo-900 border border-indigo-200">
-          <Clock className="w-4 h-4 text-indigo-600" />
-          <span className="font-mono">{formatTime(gameTime)}</span>
+      <div className="flex items-center gap-6">
+        <div className="flex items-center gap-1 text-navy-dark/70 text-xs">
+          <span>SPONSORED BY</span>
         </div>
-        
-        <div className="bg-white text-indigo-900 font-bold px-4 py-1.5 rounded-xl border border-indigo-200">
-          <span>SET {currentSet}</span>
-          <span className="mx-2">•</span>
-          <span className="text-green-600">{player1Score}</span>
-          <span className="mx-1">-</span>
-          <span className="text-blue-600">{player2Score}</span>
-        </div>
-      </div>
-      
-      <div className="hidden sm:flex items-center gap-3">
-        <div className="px-3 py-1.5 bg-white/80 text-indigo-900 rounded-full text-sm border border-indigo-200">
-          LIVE
-          <span className="inline-flex ml-2 h-2 w-2 rounded-full bg-red-500"></span>
+        <div className="flex items-center gap-5">
+          <img 
+            src="/lovable-uploads/f4783ae6-927e-4dc0-a01c-3cb8466f4062.png" 
+            alt="Joola" 
+            className="h-7 w-auto object-contain"
+          />
+          <img 
+            src="/lovable-uploads/73338dad-0d30-4c2b-a39b-b4c1f13ebe72.png" 
+            alt="Fanatics" 
+            className="h-7 w-auto object-contain"
+          />
         </div>
       </div>
     </div>
