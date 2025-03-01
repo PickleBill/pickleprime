@@ -10,10 +10,10 @@ const CourtSurface: React.FC = () => {
   // Darker grass color for the buffer area
   const grassColor = "#2E8B57"; // Darker shade of green (SeaGreen)
   
-  // Scale and position the court to be centered
-  const paddingTop = 3.5; // Add 3.5% padding to top 
-  const paddingBottom = 5; // Increase bottom padding to 5% to show more of the bottom area
-  const paddingX = 0; // Set to 0 to make buffer extend to the edges
+  // Scale and position the court to be centered - shrink by 10%
+  const paddingTop = 3.5; // Keep top padding
+  const paddingBottom = 5; // Keep bottom padding
+  const paddingX = 5; // Add 5% padding on each side (extra green space)
   
   // Render the grass buffer that fills the entire container
   const renderGrassBuffer = () => (
@@ -23,11 +23,11 @@ const CourtSurface: React.FC = () => {
     }}></div>
   );
   
-  // Render main court with dimensions that fill the container minus padding
+  // Render main court with dimensions that fill the container minus padding - shrunk by 10%
   const renderMainCourt = () => (
     <div className="absolute" style={{ 
-      top: `${paddingTop}%`,
-      bottom: `${paddingBottom}%`,
+      top: `${paddingTop + 5}%`, // Add 5% top padding (10% / 2)
+      bottom: `${paddingBottom + 5}%`, // Add 5% bottom padding (10% / 2)
       left: `${paddingX}%`, 
       right: `${paddingX}%`,
       backgroundColor: darkNavyColor, // Dark navy for the main court (4 square boxes)
@@ -41,17 +41,17 @@ const CourtSurface: React.FC = () => {
     // Net is in the middle
     const netPos = 50; 
     
-    // Calculate positions for vertical lines - maintain the same proportions
+    // Calculate positions for vertical lines - maintain the same proportions but account for 10% shrink
     const courtWidthPercent = 100 - (paddingX * 2);
-    const leftLine1Position = (netPos - (netPos - paddingX) * 0.31);
-    const rightLine1Position = (netPos + (100 - netPos - paddingX) * 0.31);
+    const leftLine1Position = paddingX + (netPos - paddingX) * 0.31;
+    const rightLine1Position = 100 - paddingX - (100 - netPos - paddingX) * 0.31;
     
     return (
       <>
         {/* Light teal blue inside area between the lines (kitchen) */}
         <div className="absolute" style={{ 
-          top: `${paddingTop}%`, 
-          bottom: `${paddingBottom}%`,
+          top: `${paddingTop + 5}%`, // Add 5% top padding (10% / 2)
+          bottom: `${paddingBottom + 5}%`, // Add 5% bottom padding (10% / 2)
           left: `${leftLine1Position}%`,
           right: `${100 - rightLine1Position}%`,
           backgroundColor: tealBlueColor, // Teal blue for the inside vertical rectangle
@@ -60,8 +60,8 @@ const CourtSurface: React.FC = () => {
         
         {/* Center line (net) with shadow */}
         <div className="absolute" style={{ 
-          top: `${paddingTop}%`, 
-          bottom: `${paddingBottom}%`,
+          top: `${paddingTop + 5}%`, // Add 5% top padding (10% / 2)
+          bottom: `${paddingBottom + 5}%`, // Add 5% bottom padding (10% / 2)
           left: `50%`,
           width: `${courtBoundaries.netThickness}px`,
           backgroundColor: courtColors.lines,
@@ -72,8 +72,8 @@ const CourtSurface: React.FC = () => {
         
         {/* Left vertical line at 31% from net */}
         <div className="absolute" style={{ 
-          top: `${paddingTop}%`, 
-          bottom: `${paddingBottom}%`,
+          top: `${paddingTop + 5}%`, // Add 5% top padding (10% / 2)
+          bottom: `${paddingBottom + 5}%`, // Add 5% bottom padding (10% / 2)
           left: `${leftLine1Position}%`,
           width: '2px',
           backgroundColor: courtColors.lines,
@@ -83,8 +83,8 @@ const CourtSurface: React.FC = () => {
         
         {/* Right vertical line at 31% from net */}
         <div className="absolute" style={{ 
-          top: `${paddingTop}%`, 
-          bottom: `${paddingBottom}%`,
+          top: `${paddingTop + 5}%`, // Add 5% top padding (10% / 2)
+          bottom: `${paddingBottom + 5}%`, // Add 5% bottom padding (10% / 2)
           left: `${rightLine1Position}%`,
           width: '2px',
           backgroundColor: courtColors.lines,
