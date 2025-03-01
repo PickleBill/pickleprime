@@ -30,7 +30,7 @@ const CourtSurface: React.FC = () => {
       bottom: `${paddingBottom + 5}%`, // Add 5% bottom padding (10% / 2)
       left: `${paddingX}%`, 
       right: `${paddingX}%`,
-      backgroundColor: darkNavyColor, // Dark navy for the main court (4 square boxes)
+      backgroundColor: darkNavyColor, // Dark navy for the main court
       border: `2px solid ${courtColors.lines}`,
       zIndex: 1
     }}></div>
@@ -41,8 +41,9 @@ const CourtSurface: React.FC = () => {
     // Net position is in the middle
     const netPos = 50;
     
-    // Kitchen lines are exactly 7' from the net on each side (31% from center in our percentage-based layout)
-    const kitchenWidth = 31; // 31% of the court width on each side of the net
+    // According to the diagram, the kitchen width is 213cm on each side of the net
+    // Out of the total 1341cm, this is approximately 16% of the total width from the net
+    const kitchenWidth = 16; // 16% of the court width on each side of the net
     const leftKitchenLine = netPos - kitchenWidth;
     const rightKitchenLine = netPos + kitchenWidth;
     
@@ -70,7 +71,7 @@ const CourtSurface: React.FC = () => {
           zIndex: 3
         }}></div>
         
-        {/* Left kitchen line - exactly 31% from center net */}
+        {/* Left kitchen line */}
         <div className="absolute" style={{ 
           top: `${paddingTop + 5}%`,
           bottom: `${paddingBottom + 5}%`,
@@ -80,7 +81,7 @@ const CourtSurface: React.FC = () => {
           zIndex: 3
         }}></div>
         
-        {/* Right kitchen line - exactly 31% from center net */}
+        {/* Right kitchen line */}
         <div className="absolute" style={{ 
           top: `${paddingTop + 5}%`,
           bottom: `${paddingBottom + 5}%`,
