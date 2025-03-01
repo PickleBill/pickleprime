@@ -26,8 +26,12 @@ const CourtView: React.FC<CourtViewProps> = ({
 }) => {
   return (
     <div className="relative w-full h-full" style={{ 
-      // Maintaining the aspect ratio while filling the container
-      maxWidth: "100%",
+      // Shrink by 8% and move up by 10%
+      maxWidth: "92%",
+      maxHeight: "92%",
+      marginTop: "-10%",
+      marginLeft: "auto",
+      marginRight: "auto",
       backgroundColor: '#0EA5E9', // Matching the new teal blue color
       borderRadius: '0.5rem',
       overflow: 'hidden',
