@@ -42,7 +42,6 @@ const CourtSurface: React.FC = () => {
     const netPos = 50; 
     
     // Calculate positions for vertical kitchen lines at exactly 31% from center net
-    // Note: These are now correctly positioned at 31% from the net, not from edges
     const leftKitchenLine = netPos - 31;   // 31% left from center net
     const rightKitchenLine = netPos + 31;  // 31% right from center net
     
