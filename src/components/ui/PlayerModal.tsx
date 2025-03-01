@@ -1,4 +1,3 @@
-
 import React from "react";
 import { X, Trophy, Calendar, BarChart2, Users, Activity } from "lucide-react";
 
@@ -12,25 +11,25 @@ const PlayerModal = ({ isOpen, onClose }: PlayerModalProps) => {
 
   return (
     <div className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4 animate-fade-in">
-      <div className="bg-white rounded-xl w-full max-w-5xl max-h-[98vh] overflow-hidden flex flex-col">
-        {/* Header */}
-        <div className="sticky top-0 bg-white p-4 border-b flex items-center justify-between z-10">
-          <h3 className="text-xl font-bold text-navy">PickleBills Player Dashboard</h3>
+      <div className="bg-[#0FA0CE]/10 rounded-xl w-full max-w-5xl max-h-[98vh] overflow-hidden flex flex-col">
+        {/* Header - Updated to blue color */}
+        <div className="sticky top-0 bg-[#0FA0CE] p-4 border-b border-white/10 flex items-center justify-between z-10">
+          <h3 className="text-xl font-bold text-white">PickleBills Player Dashboard</h3>
           <button 
             onClick={onClose}
-            className="p-2 rounded-full hover:bg-gray-100 transition-colors"
+            className="p-2 rounded-full hover:bg-[#0FA0CE]/80 transition-colors"
             aria-label="Close"
           >
-            <X className="w-5 h-5" />
+            <X className="w-5 h-5 text-white" />
           </button>
         </div>
         
-        {/* Content */}
+        {/* Content - Updated background color with a blue tint */}
         <div className="flex-1 overflow-auto">
           {/* Dashboard Preview */}
-          <div className="border-b border-gray-200">
-            <div className="relative bg-navy/5 h-28 md:h-52">
-              <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-navy/20"></div>
+          <div className="border-b border-[#0FA0CE]/20">
+            <div className="relative bg-[#0FA0CE]/5 h-28 md:h-52">
+              <div className="absolute inset-0 bg-gradient-to-r from-[#0FA0CE]/20 to-[#0FA0CE]/10"></div>
               <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-white to-transparent h-16"></div>
               <div className="container relative h-full flex items-end">
                 <div className="absolute bottom-0 left-6 transform translate-y-1/2 bg-white rounded-full p-1 shadow-lg border-2 border-white">
@@ -66,12 +65,12 @@ const PlayerModal = ({ isOpen, onClose }: PlayerModalProps) => {
           {/* Stats Overview */}
           <div className="py-6 bg-white">
             <div className="container">
-              <h3 className="text-lg font-semibold mb-4 text-navy">Performance Stats</h3>
+              <h3 className="text-lg font-semibold mb-4 text-[#0FA0CE]">Performance Stats</h3>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 <div className="bg-white border border-gray-100 rounded-xl shadow-sm p-4">
                   <div className="flex items-center gap-3 mb-2">
-                    <div className="p-2 bg-primary/10 rounded-full">
-                      <Trophy className="w-5 h-5 text-primary" />
+                    <div className="p-2 bg-[#0FA0CE]/10 rounded-full">
+                      <Trophy className="w-5 h-5 text-[#0FA0CE]" />
                     </div>
                     <span className="text-sm font-medium text-gray-600">Win Rate</span>
                   </div>
@@ -83,8 +82,8 @@ const PlayerModal = ({ isOpen, onClose }: PlayerModalProps) => {
                 
                 <div className="bg-white border border-gray-100 rounded-xl shadow-sm p-4">
                   <div className="flex items-center gap-3 mb-2">
-                    <div className="p-2 bg-primary/10 rounded-full">
-                      <Activity className="w-5 h-5 text-primary" />
+                    <div className="p-2 bg-[#0FA0CE]/10 rounded-full">
+                      <Activity className="w-5 h-5 text-[#0FA0CE]" />
                     </div>
                     <span className="text-sm font-medium text-gray-600">Avg Points</span>
                   </div>
@@ -96,8 +95,8 @@ const PlayerModal = ({ isOpen, onClose }: PlayerModalProps) => {
                 
                 <div className="bg-white border border-gray-100 rounded-xl shadow-sm p-4">
                   <div className="flex items-center gap-3 mb-2">
-                    <div className="p-2 bg-primary/10 rounded-full">
-                      <Calendar className="w-5 h-5 text-primary" />
+                    <div className="p-2 bg-[#0FA0CE]/10 rounded-full">
+                      <Calendar className="w-5 h-5 text-[#0FA0CE]" />
                     </div>
                     <span className="text-sm font-medium text-gray-600">Sessions</span>
                   </div>
@@ -109,8 +108,8 @@ const PlayerModal = ({ isOpen, onClose }: PlayerModalProps) => {
                 
                 <div className="bg-white border border-gray-100 rounded-xl shadow-sm p-4">
                   <div className="flex items-center gap-3 mb-2">
-                    <div className="p-2 bg-primary/10 rounded-full">
-                      <BarChart2 className="w-5 h-5 text-primary" />
+                    <div className="p-2 bg-[#0FA0CE]/10 rounded-full">
+                      <BarChart2 className="w-5 h-5 text-[#0FA0CE]" />
                     </div>
                     <span className="text-sm font-medium text-gray-600">Rating</span>
                   </div>
@@ -123,10 +122,10 @@ const PlayerModal = ({ isOpen, onClose }: PlayerModalProps) => {
             </div>
           </div>
           
-          {/* Recent Activity */}
-          <div className="py-6 bg-gray-50">
+          {/* Recent Activity - Changed background to lighter blue */}
+          <div className="py-6 bg-[#0FA0CE]/5">
             <div className="container">
-              <h3 className="text-lg font-semibold mb-4 text-navy">Recent Matches</h3>
+              <h3 className="text-lg font-semibold mb-4 text-[#0FA0CE]">Recent Matches</h3>
               <div className="bg-white rounded-xl overflow-hidden border border-gray-100 shadow-sm">
                 {/* Match 1 */}
                 <div className="border-b border-gray-100 p-4">
@@ -184,7 +183,7 @@ const PlayerModal = ({ isOpen, onClose }: PlayerModalProps) => {
               </div>
               
               <div className="mt-4 text-center">
-                <button className="text-primary font-medium hover:underline text-sm">
+                <button className="text-[#0FA0CE] font-medium hover:underline text-sm">
                   View All Match History
                 </button>
               </div>
@@ -195,8 +194,8 @@ const PlayerModal = ({ isOpen, onClose }: PlayerModalProps) => {
           <div className="py-6 bg-white">
             <div className="container">
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg font-semibold text-navy">Upcoming Reservations</h3>
-                <button className="text-primary text-sm font-medium hover:underline">Book a Court</button>
+                <h3 className="text-lg font-semibold text-[#0FA0CE]">Upcoming Reservations</h3>
+                <button className="text-[#0FA0CE] text-sm font-medium hover:underline">Book a Court</button>
               </div>
               
               <div className="bg-gray-50 rounded-xl overflow-hidden border border-gray-100 shadow-sm p-6 text-center">
@@ -212,12 +211,12 @@ const PlayerModal = ({ isOpen, onClose }: PlayerModalProps) => {
             </div>
           </div>
           
-          {/* Friends & Community */}
-          <div className="py-6 bg-gray-50">
+          {/* Friends & Community - Changed background to lighter blue */}
+          <div className="py-6 bg-[#0FA0CE]/5">
             <div className="container">
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg font-semibold text-navy">Friends & Community</h3>
-                <button className="text-primary text-sm font-medium hover:underline">Find Players</button>
+                <h3 className="text-lg font-semibold text-[#0FA0CE]">Friends & Community</h3>
+                <button className="text-[#0FA0CE] text-sm font-medium hover:underline">Find Players</button>
               </div>
               
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -272,12 +271,12 @@ const PlayerModal = ({ isOpen, onClose }: PlayerModalProps) => {
           </div>
         </div>
         
-        {/* Footer */}
-        <div className="border-t p-4 bg-gray-50">
+        {/* Footer - Updated to match the lighter blue background */}
+        <div className="border-t border-[#0FA0CE]/20 p-4 bg-[#0FA0CE]/5">
           <div className="flex justify-end">
             <button 
               onClick={onClose}
-              className="bg-primary hover:bg-primary-dark text-white px-5 py-2 rounded-md transition-colors"
+              className="bg-[#0FA0CE] hover:bg-[#0FA0CE]/80 text-white px-5 py-2 rounded-md transition-colors"
             >
               Close Preview
             </button>
