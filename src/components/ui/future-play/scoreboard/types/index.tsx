@@ -1,4 +1,6 @@
 
+import { ReactNode } from "react";
+
 // Player position type
 export interface PlayerPosition {
   x: number;
@@ -23,14 +25,14 @@ export interface BallTrajectory {
 }
 
 // Main Scoreboard Container Props
-export interface ScoreboardContainerProps {
-  onBackClick?: () => void;
-  onHighlightClick?: () => void;
-  showHighlight?: boolean;
-  highlightTimer?: number;
-  gameTime?: number;
-  player1Score?: number;
-  player2Score?: number;
+export interface ScoreboardViewProps {
+  onBackClick: () => void;
+  onHighlightClick: () => void;
+  showHighlight: boolean;
+  highlightTimer: number;
+  gameTime: number;
+  player1Score: number;
+  player2Score: number;
   currentSet?: number;
 }
 

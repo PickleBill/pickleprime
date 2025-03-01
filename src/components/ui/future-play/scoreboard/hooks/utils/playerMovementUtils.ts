@@ -1,86 +1,56 @@
-
 import { PlayerPosition, Position } from "../../types";
-import { courtBoundaries } from "../../constants/courtConfig";
 
-// Move player towards target with given speed
-export function movePlayerTowardsTarget(
+interface MovementOptions {
+  restrictedZone: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
+  reaction: number;
+}
+
+// Calculate new player positions based on ball position
+export const calculatePlayerMovement = (
   player: PlayerPosition, 
-  moveSpeed: number
-): PlayerPosition {
-  const dirX = player.targetX - player.x;
-  const dirY = player.targetY - player.y;
-  const dist = Math.sqrt(dirX * dirX + dirY * dirY);
+  ball: Position, 
+  options: MovementOptions
+): PlayerPosition => {
+  // Determine boundaries based on player's zone
+  const boundaries = getZoneBoundaries(options.restrictedZone);
   
-  if (dist > 1) {
-    return {
-      ...player,
-      x: player.x + (dirX / dist) * moveSpeed,
-      y: player.y + (dirY / dist) * moveSpeed
-    };
-  }
-  return player;
-}
+  // Calculate target position (where player wants to go)
+  // Players will try to move toward the ball, but within their zone
+  let targetX = Math.max(boundaries.minX, Math.min(boundaries.maxX, ball.x));
+  let targetY = Math.max(boundaries.minY, Math.min(boundaries.maxY, ball.y));
+  
+  // Add natural variance so players don't perfectly track the ball
+  targetX += (Math.random() - 0.5) * 5;
+  targetY += (Math.random() - 0.5) * 5;
+  
+  // Keep within zone boundaries
+  targetX = Math.max(boundaries.minX, Math.min(boundaries.maxX, targetX));
+  targetY = Math.max(boundaries.minY, Math.min(boundaries.maxY, targetY));
+  
+  // Move player toward target with reaction delay
+  const newX = player.x + (targetX - player.x) * options.reaction;
+  const newY = player.y + (targetY - player.y) * options.reaction;
+  
+  return {
+    x: newX,
+    y: newY,
+    targetX,
+    targetY
+  };
+};
 
-// Set targets for players based on ball position
-export function setPlayerTargetsBasedOnBall(
-  ballPosition: Position,
-  setPlayer1: (fn: (prev: PlayerPosition) => PlayerPosition) => void,
-  setPlayer2: (fn: (prev: PlayerPosition) => PlayerPosition) => void,
-  setPlayer3: (fn: (prev: PlayerPosition) => PlayerPosition) => void,
-  setPlayer4: (fn: (prev: PlayerPosition) => PlayerPosition) => void
-): void {
-  // If ball is on left side (player 1 & 2 side now)
-  if (ballPosition.x < courtBoundaries.midLine) {
-    // Set target for player 1 or 2 to intercept based on position
-    if (ballPosition.y < courtBoundaries.net.top) {
-      setPlayer1(prev => ({ ...prev, targetX: ballPosition.x + 5, targetY: ballPosition.y + 5 }));
-    } else {
-      setPlayer2(prev => ({ ...prev, targetX: ballPosition.x + 5, targetY: ballPosition.y - 5 }));
-    }
-  } 
-  // If ball is on right side (player 3 & 4 side now)
-  else {
-    // Set target for player 3 or 4 to intercept based on position
-    if (ballPosition.y < courtBoundaries.net.top) {
-      setPlayer3(prev => ({ ...prev, targetX: ballPosition.x - 5, targetY: ballPosition.y + 5 }));
-    } else {
-      setPlayer4(prev => ({ ...prev, targetX: ballPosition.x - 5, targetY: ballPosition.y - 5 }));
-    }
+// Define court boundaries for each zone
+function getZoneBoundaries(zone: string) {
+  switch(zone) {
+    case 'top-left':
+      return { minX: 10, maxX: 40, minY: 10, maxY: 40 };
+    case 'top-right':
+      return { minX: 60, maxX: 90, minY: 10, maxY: 40 };
+    case 'bottom-left':
+      return { minX: 10, maxX: 40, minY: 60, maxY: 90 };
+    case 'bottom-right':
+      return { minX: 60, maxX: 90, minY: 60, maxY: 90 };
+    default:
+      return { minX: 0, maxX: 100, minY: 0, maxY: 100 };
   }
-}
-
-// Generate random court positions for players with updated team positions
-export function generateRandomPlayerPositions(
-  setPlayer1: (fn: (prev: PlayerPosition) => PlayerPosition) => void,
-  setPlayer2: (fn: (prev: PlayerPosition) => PlayerPosition) => void,
-  setPlayer3: (fn: (prev: PlayerPosition) => PlayerPosition) => void,
-  setPlayer4: (fn: (prev: PlayerPosition) => PlayerPosition) => void
-): void {
-  // Player 1 - Front left (green team)
-  setPlayer1(prev => ({
-    ...prev,
-    targetX: Math.random() * 20 + 15, // 15-35%
-    targetY: Math.random() * 20 + 20, // 20-40%
-  }));
-  
-  // Player 2 - Back left (green team, moved from right to left)
-  setPlayer2(prev => ({
-    ...prev,
-    targetX: Math.random() * 20 + 15, // 15-35%
-    targetY: Math.random() * 20 + 60, // 60-80%
-  }));
-  
-  // Player 3 - Front right (blue team, moved from left to right)
-  setPlayer3(prev => ({
-    ...prev,
-    targetX: Math.random() * 20 + 65, // 65-85%
-    targetY: Math.random() * 20 + 20, // 20-40%
-  }));
-  
-  // Player 4 - Back right (blue team)
-  setPlayer4(prev => ({
-    ...prev,
-    targetX: Math.random() * 20 + 65, // 65-85%
-    targetY: Math.random() * 20 + 60, // 60-80%
-  }));
 }

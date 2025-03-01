@@ -1,23 +1,17 @@
 
-import React from 'react';
+import React from "react";
 
 interface PlayerAvatarProps {
   name: string;
-  avatar: string;
   winRate: string;
+  avatar: string;
   color: string;
   rightAlign?: boolean;
 }
 
-const PlayerAvatar: React.FC<PlayerAvatarProps> = ({
-  name,
-  avatar,
-  winRate,
-  color,
-  rightAlign = false
-}) => {
+const PlayerAvatar: React.FC<PlayerAvatarProps> = ({ name, winRate, avatar, color, rightAlign = false }) => {
   return (
-    <div className="flex items-center gap-2">
+    <div className={`flex items-center gap-3 ${rightAlign ? 'flex-row-reverse' : ''}`}>
       {rightAlign && (
         <div>
           <div className={`text-white text-sm font-semibold ${rightAlign ? 'text-right' : ''}`}>{name}</div>
@@ -30,7 +24,7 @@ const PlayerAvatar: React.FC<PlayerAvatarProps> = ({
         <img 
           src={avatar} 
           alt={name} 
-          className="w-full h-full object-cover" 
+          className="w-full h-full object-cover"
         />
       </div>
       
