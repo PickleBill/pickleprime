@@ -19,7 +19,7 @@ const CourtSurface: React.FC = () => {
   // Render main court with extended dimensions that fill the entire container
   const renderMainCourt = () => (
     <div className="absolute inset-0" style={{ 
-      backgroundColor: "#2a6243", // Darker forest green color but still light enough to maintain visibility
+      backgroundColor: "#2a6243", // Darker forest green color for the outer buffer area
       border: `2px solid ${courtColors.lines}`,
       zIndex: 1
     }}></div>
@@ -36,13 +36,13 @@ const CourtSurface: React.FC = () => {
     
     return (
       <>
-        {/* Render the greyish silver middle area - placed with lower z-index */}
+        {/* Blue inside area between the lines */}
         <div className="absolute" style={{ 
           top: `0%`, 
           bottom: `0%`,
           left: `${leftLine1Position}%`,
           right: `${100 - rightLine1Position}%`,
-          backgroundColor: "#9F9EA1", // Greyish silver color
+          backgroundColor: "#0EA5E9", // Ocean blue color for inside the lines
           zIndex: 0
         }}></div>
       
