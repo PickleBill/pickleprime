@@ -12,7 +12,7 @@ const PlayerModal = ({ isOpen, onClose }: PlayerModalProps) => {
 
   return (
     <div className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4 animate-fade-in">
-      <div className="bg-white rounded-xl w-full max-w-5xl max-h-[95vh] overflow-hidden flex flex-col">
+      <div className="bg-white rounded-xl w-full max-w-5xl max-h-[98vh] overflow-hidden flex flex-col">
         {/* Header */}
         <div className="sticky top-0 bg-white p-4 border-b flex items-center justify-between z-10">
           <h3 className="text-xl font-bold text-navy">PickleBills Player Dashboard</h3>
@@ -29,7 +29,7 @@ const PlayerModal = ({ isOpen, onClose }: PlayerModalProps) => {
         <div className="flex-1 overflow-auto">
           {/* Dashboard Preview */}
           <div className="border-b border-gray-200">
-            <div className="relative bg-navy/5 h-24 md:h-48">
+            <div className="relative bg-navy/5 h-28 md:h-52">
               <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-navy/20"></div>
               <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-white to-transparent h-16"></div>
               <div className="container relative h-full flex items-end">
