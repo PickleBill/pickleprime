@@ -32,7 +32,7 @@ const CourtView: React.FC<CourtViewProps> = ({
       marginTop: "-10%",
       marginLeft: "auto",
       marginRight: "auto",
-      backgroundColor: '#0EA5E9', // Matching the new teal blue color
+      backgroundColor: '#4CAF50', // Match the grass color to ensure consistent coloring
       borderRadius: '0.5rem',
       overflow: 'hidden',
       // Add padding-bottom to create more space
@@ -60,3 +60,4 @@ const CourtView: React.FC<CourtViewProps> = ({
 };
 
 export default CourtView;
+

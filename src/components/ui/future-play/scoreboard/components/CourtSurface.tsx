@@ -7,11 +7,21 @@ const CourtSurface: React.FC = () => {
   const tealBlueColor = "#33C3F0"; // Bright teal-blue color
   // Dark navy color for the outer areas
   const darkNavyColor = "#0a192f"; // Dark navy blue color
+  // Vibrant grass color for the buffer area
+  const grassColor = "#4CAF50"; // Medium vibrant grass green color
   
   // Scale and position the court to be 7% smaller with even spacing
   const paddingTop = 3.5; // Add 3.5% padding to top 
   const paddingBottom = 5; // Increase bottom padding to 5% to show more of the bottom area
   const paddingX = 3.5; // Add 3.5% padding to sides
+  
+  // Render the grass buffer that fills the entire container
+  const renderGrassBuffer = () => (
+    <div className="absolute inset-0" style={{ 
+      backgroundColor: grassColor,
+      zIndex: 0
+    }}></div>
+  );
   
   // Render main court with dimensions that fill the container minus padding
   const renderMainCourt = () => (
@@ -120,6 +130,7 @@ const CourtSurface: React.FC = () => {
 
   return (
     <div className="relative w-full h-full">
+      {renderGrassBuffer()}
       {renderMainCourt()}
       {renderCourtLines()}
       {renderTeamLabels()}
@@ -128,3 +139,4 @@ const CourtSurface: React.FC = () => {
 };
 
 export default CourtSurface;
+
