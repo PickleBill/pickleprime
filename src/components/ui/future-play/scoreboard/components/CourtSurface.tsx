@@ -5,6 +5,8 @@ import { courtBoundaries, courtColors, teamLabels } from '../constants/courtConf
 const CourtSurface: React.FC = () => {
   // Light teal-blue color for the court
   const tealBlueColor = "#33C3F0"; // Bright teal-blue color
+  // Dark navy color for the outer areas
+  const darkNavyColor = "#0a192f"; // Dark navy blue color
   
   // Scale and position the court to be 7% smaller with even spacing
   const paddingTop = 3.5; // Add 3.5% padding to top 
@@ -18,7 +20,7 @@ const CourtSurface: React.FC = () => {
       bottom: `${paddingBottom}%`,
       left: `${paddingX}%`,
       right: `${paddingX}%`,
-      backgroundColor: tealBlueColor, // Teal blue for the main court background
+      backgroundColor: darkNavyColor, // Changed to dark navy for the main court (4 square boxes)
       border: `2px solid ${courtColors.lines}`,
       zIndex: 1
     }}></div>
@@ -35,14 +37,14 @@ const CourtSurface: React.FC = () => {
     
     return (
       <>
-        {/* Dark navy blue inside area between the lines (kitchen) */}
+        {/* Light teal blue inside area between the lines (kitchen) - changed from dark to light */}
         <div className="absolute" style={{ 
           top: `${paddingTop}%`, 
           bottom: `${paddingBottom}%`,
           left: `${leftLine1Position}%`,
           right: `${100 - rightLine1Position}%`,
-          backgroundColor: "#0a192f", // Dark navy blue color for inside the lines
-          zIndex: 2 // Increased z-index to ensure it appears above the teal background
+          backgroundColor: tealBlueColor, // Changed to teal blue for the inside vertical rectangle
+          zIndex: 2 // Increased z-index to ensure it appears above the dark background
         }}></div>
         
         {/* Center line (net) with shadow */}
