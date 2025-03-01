@@ -30,7 +30,7 @@ const CourtView: React.FC<CourtViewProps> = ({
       height: "100%",
       maxWidth: "100%",
       maxHeight: "100%",
-      marginTop: "-10%",
+      marginTop: "-6%", // Changed from -10% to -6% to move the court down by 4%
       backgroundColor: '#4CAF50', // Match the grass color
       borderRadius: '0.5rem',
       overflow: 'hidden',

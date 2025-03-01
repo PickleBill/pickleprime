@@ -11,9 +11,10 @@ const CourtSurface: React.FC = () => {
   const grassColor = "#4CAF50"; // Medium vibrant grass green color
   
   // Scale and position the court to be 7% smaller with even spacing
+  // We're extending left and right buffer by 10% (-5% on each side)
   const paddingTop = 3.5; // Add 3.5% padding to top 
   const paddingBottom = 5; // Increase bottom padding to 5% to show more of the bottom area
-  const paddingX = 3.5; // Add 3.5% padding to sides
+  const paddingX = -5; // Changed from 3.5% to -5% to extend buffer beyond edges
   
   // Render the grass buffer that fills the entire container
   const renderGrassBuffer = () => (
@@ -28,8 +29,8 @@ const CourtSurface: React.FC = () => {
     <div className="absolute" style={{ 
       top: `${paddingTop}%`,
       bottom: `${paddingBottom}%`,
-      left: `${paddingX}%`,
-      right: `${paddingX}%`,
+      left: `${Math.abs(paddingX)}%`, // Use positive value for positioning
+      right: `${Math.abs(paddingX)}%`, // Use positive value for positioning
       backgroundColor: darkNavyColor, // Changed to dark navy for the main court (4 square boxes)
       border: `2px solid ${courtColors.lines}`,
       zIndex: 1
@@ -41,9 +42,9 @@ const CourtSurface: React.FC = () => {
     // Net is in the middle
     const netPos = 50; 
     
-    // Calculate the position at exactly 31% from the net to each side
-    const leftLine1Position = netPos - (netPos - paddingX) * 0.31;
-    const rightLine1Position = netPos + (100 - netPos - paddingX) * 0.31;
+    // Recalculate the position based on the new paddingX value
+    const leftLine1Position = netPos - (netPos - Math.abs(paddingX)) * 0.31;
+    const rightLine1Position = netPos + (100 - netPos - Math.abs(paddingX)) * 0.31;
     
     return (
       <>
@@ -95,7 +96,7 @@ const CourtSurface: React.FC = () => {
         <div className="absolute" style={{ 
           top: `50%`, 
           height: '2px',
-          left: `${paddingX}%`,
+          left: `${Math.abs(paddingX)}%`,
           right: `${100 - leftLine1Position}%`,
           backgroundColor: courtColors.lines,
           zIndex: 3 // Higher z-index
@@ -105,7 +106,7 @@ const CourtSurface: React.FC = () => {
           top: `50%`, 
           height: '2px',
           left: `${rightLine1Position}%`,
-          right: `${paddingX}%`,
+          right: `${Math.abs(paddingX)}%`,
           backgroundColor: courtColors.lines,
           zIndex: 3 // Higher z-index
         }}></div>
