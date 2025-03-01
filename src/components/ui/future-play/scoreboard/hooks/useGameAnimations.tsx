@@ -1,22 +1,25 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useBallAnimation } from "./useBallAnimation";
 import { usePlayerAnimation } from "./usePlayerAnimation";
+import { PlayerPosition, BallTrajectory } from "../types";
 
-export function useGameAnimations(showHighlight: boolean) {
-  // Use our modular hooks for player and ball animations
-  const { player1, player2, player3, player4, setPlayer1, setPlayer2, setPlayer3, setPlayer4 } = 
-    usePlayerAnimation(showHighlight);
+export const useGameAnimations = (showHighlight: boolean = false) => {
+  // Ball animation state
+  const {
+    ballPosition,
+    ballTrajectory,
+    ballVelocity
+  } = useBallAnimation(showHighlight);
   
-  const { ballPosition, ballTrajectory, ballVelocity } = 
-    useBallAnimation(
-      showHighlight,
-      setPlayer1,
-      setPlayer2,
-      setPlayer3,
-      setPlayer4
-    );
-
+  // Player positions using the hook
+  const {
+    player1,
+    player2,
+    player3,
+    player4
+  } = usePlayerAnimation(ballPosition, showHighlight);
+  
   return {
     ballPosition,
     ballTrajectory,
@@ -26,4 +29,4 @@ export function useGameAnimations(showHighlight: boolean) {
     player3,
     player4
   };
-}
+};

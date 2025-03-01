@@ -7,7 +7,7 @@ import ScoreboardStats from "./ScoreboardStats";
 import MatchFeed from "./MatchFeed";
 import ScoreboardFooter from "./ScoreboardFooter";
 import FooterStats from "./components/FooterStats";
-import { PlayerPosition } from "./types";
+import { PlayerPosition, BallTrajectory } from "./types";
 
 interface MobileScoreboardViewProps {
   onBackClick: () => void;
@@ -19,7 +19,7 @@ interface MobileScoreboardViewProps {
   player2Score: number;
   currentSet: number;
   ballPosition: { x: number; y: number };
-  ballTrajectory: { x: number; y: number }[];
+  ballTrajectory: BallTrajectory;
   ballVelocity: number;
   player1: PlayerPosition;
   player2: PlayerPosition;
@@ -58,7 +58,8 @@ const MobileScoreboardView: React.FC<MobileScoreboardViewProps> = ({
   if (showHighlight) {
     return (
       <HighlightView 
-        highlightTimer={highlightTimer} 
+        highlightTimer={highlightTimer}
+        onBackClick={onBackClick} 
       />
     );
   }
@@ -109,8 +110,8 @@ const MobileScoreboardView: React.FC<MobileScoreboardViewProps> = ({
       </div>
 
       {/* Footer Actions */}
-      <ScoreboardFooter 
-        onHighlightClick={onHighlightClick} 
+      <ScoreboardFooter
+        onViewHighlights={onHighlightClick}
       />
     </div>
   );

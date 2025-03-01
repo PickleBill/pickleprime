@@ -1,43 +1,32 @@
 
-import React from 'react';
-import { Position, BallTrajectory } from './types';
-import CourtSurface from './components/CourtSurface';
-import Players from './components/Players';
-import Ball from './components/Ball';
+import React from "react";
+import { PlayerPosition, BallTrajectory } from "./types";
+import Ball from "./components/Ball";
+import CourtSurface from "./components/CourtSurface";
+import Players from "./components/Players";
 
 interface CourtViewProps {
-  ballPosition: Position;
+  ballPosition: { x: number; y: number };
   ballTrajectory: BallTrajectory;
-  ballVelocity: number;
-  player1: Position;
-  player2: Position;
-  player3: Position;
-  player4: Position;
+  player1: PlayerPosition;
+  player2: PlayerPosition;
+  player3: PlayerPosition;
+  player4: PlayerPosition;
 }
 
 const CourtView: React.FC<CourtViewProps> = ({
   ballPosition,
   ballTrajectory,
-  ballVelocity,
   player1,
   player2,
   player3,
   player4
 }) => {
   return (
-    <div className="relative w-full h-full" style={{ 
-      width: "100%",
-      height: "100%",
-      maxWidth: "100%",
-      maxHeight: "100%",
-      marginTop: "-5%", // Adjusted to shift up by 2% (from -3% to -5%)
-      backgroundColor: '#2E8B57', // Match the darker grass color
-      borderRadius: '0.5rem',
-      overflow: 'hidden',
-      paddingBottom: '5px'
-    }}>
+    <div className="relative h-full w-full">
       <CourtSurface />
       
+      {/* Players */}
       <Players 
         player1={player1}
         player2={player2}
@@ -45,10 +34,10 @@ const CourtView: React.FC<CourtViewProps> = ({
         player4={player4}
       />
       
-      <Ball 
-        ballPosition={ballPosition}
-        ballTrajectory={ballTrajectory}
-        ballVelocity={ballVelocity}
+      {/* Ball and trajectory */}
+      <Ball
+        position={ballPosition}
+        trajectory={ballTrajectory}
       />
     </div>
   );
