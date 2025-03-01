@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { 
   ChevronLeft, Activity, Trophy, 
@@ -52,6 +53,32 @@ const MobileScoreboardView: React.FC<MobileScoreboardViewProps> = ({
         isOpen={showPlayerModal} 
         onClose={() => setShowPlayerModal(false)} 
       />
+      
+      {/* Top sponsors bar with light purple background */}
+      <div className="w-full px-4 py-2 bg-[#E5DEFF] flex items-center justify-between border-b border-white/10">
+        <div className="flex items-center gap-2">
+          <Activity className="w-4 h-4 text-[#F97316]" />
+          <span className="text-navy-dark/80 text-sm font-medium">LIVE</span>
+        </div>
+        
+        <div className="flex items-center gap-6">
+          <div className="flex items-center gap-1 text-navy-dark/70 text-xs">
+            <span>SPONSORED BY</span>
+          </div>
+          <div className="flex items-center gap-5">
+            <img 
+              src="/lovable-uploads/f4783ae6-927e-4dc0-a01c-3cb8466f4062.png" 
+              alt="Joola" 
+              className="h-7 w-auto object-contain"
+            />
+            <img 
+              src="/lovable-uploads/73338dad-0d30-4c2b-a39b-b4c1f13ebe72.png" 
+              alt="Fanatics" 
+              className="h-7 w-auto object-contain"
+            />
+          </div>
+        </div>
+      </div>
       
       {/* Header with back button, live indicator and time */}
       <ScoreboardHeader 
@@ -276,39 +303,30 @@ const MobileScoreboardView: React.FC<MobileScoreboardViewProps> = ({
         </div>
       </div>
       
-      {/* Footer with actions and sponsors - increased height */}
-      <div className="w-full bg-navy-light/60 backdrop-blur-sm border-t border-white/10 px-3 py-4">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Activity className="w-5 h-5 text-[#F97316]" />
-            <span className="text-white/80 text-sm">LIVE</span>
-          </div>
+      {/* Footer with actions - increased height, larger buttons */}
+      <div className="w-full bg-navy-light/60 backdrop-blur-sm border-t border-white/10 px-3 py-6">
+        <div className="flex items-center justify-center gap-6">
+          <button 
+            onClick={onHighlightClick}
+            className="flex items-center gap-2 py-3 px-6 bg-[#0C8068] text-white rounded-md text-base font-medium hover:bg-[#0C8068]/90 transition-colors shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
+          >
+            <Video className="w-5 h-5" />
+            <span>View Highlights</span>
+          </button>
           
-          <div className="flex items-center gap-3">
-            <button 
-              onClick={onHighlightClick}
-              className="flex items-center gap-2 py-2 px-4 bg-[#0C8068] text-white rounded text-sm font-medium hover:bg-[#0C8068]/90 transition-colors shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
-            >
-              <Video className="w-4 h-4" />
-              <span>Highlights</span>
-            </button>
-            
-            <button 
-              onClick={() => setShowPlayerModal(true)}
-              className="flex items-center gap-2 py-2 px-4 bg-[#0FA0CE] text-white rounded text-sm font-medium hover:bg-[#0FA0CE]/90 transition-colors shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
-            >
-              <User className="w-4 h-4" />
-              <span>Player Profile</span>
-            </button>
-            
-            <button className="p-2 rounded-full bg-navy/70 text-white/80 hover:bg-navy/90 hover:text-white transition-colors">
-              <Share2 className="w-5 h-5" />
-            </button>
-          </div>
+          <button 
+            onClick={() => setShowPlayerModal(true)}
+            className="flex items-center gap-2 py-3 px-6 bg-[#0FA0CE] text-white rounded-md text-base font-medium hover:bg-[#0FA0CE]/90 transition-colors shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
+          >
+            <User className="w-5 h-5" />
+            <span>Player Profile</span>
+          </button>
+          
+          <button className="p-3 rounded-full bg-navy/70 text-white/80 hover:bg-navy/90 hover:text-white transition-colors">
+            <Share2 className="w-6 h-6" />
+          </button>
         </div>
       </div>
-      
-      <ScoreboardFooter sponsors={sponsors} />
     </div>
   );
 };
