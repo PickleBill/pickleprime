@@ -43,7 +43,7 @@ const CourtSurface: React.FC = () => {
           left: `${leftLine1Position}%`,
           right: `${100 - rightLine1Position}%`,
           backgroundColor: "#0a192f", // Dark navy blue color for inside the lines
-          zIndex: 0
+          zIndex: 2 // Increased z-index to ensure it appears above the green background
         }}></div>
       
         {/* Center line (net) with shadow */}
@@ -55,7 +55,7 @@ const CourtSurface: React.FC = () => {
           backgroundColor: courtColors.lines,
           transform: 'translateX(-50%)',
           boxShadow: `0 0 8px 4px ${courtColors.netShadow}`,
-          zIndex: 2
+          zIndex: 3 // Higher z-index to appear above the blue
         }}></div>
         
         {/* Left vertical line at 31% from net */}
@@ -66,7 +66,7 @@ const CourtSurface: React.FC = () => {
           width: '2px',
           backgroundColor: courtColors.lines,
           transform: 'translateX(-50%)',
-          zIndex: 2
+          zIndex: 3 // Higher z-index to appear above the blue
         }}></div>
         
         {/* Right vertical line at 31% from net */}
@@ -77,7 +77,7 @@ const CourtSurface: React.FC = () => {
           width: '2px',
           backgroundColor: courtColors.lines,
           transform: 'translateX(-50%)',
-          zIndex: 2
+          zIndex: 3 // Higher z-index to appear above the blue
         }}></div>
         
         {/* Horizontal center line only in the outer blue areas */}
@@ -87,7 +87,7 @@ const CourtSurface: React.FC = () => {
           left: `0%`,
           right: `${100 - leftLine1Position}%`,
           backgroundColor: courtColors.lines,
-          zIndex: 2
+          zIndex: 3 // Higher z-index
         }}></div>
         
         <div className="absolute" style={{ 
@@ -96,7 +96,7 @@ const CourtSurface: React.FC = () => {
           left: `${rightLine1Position}%`,
           right: `0%`,
           backgroundColor: courtColors.lines,
-          zIndex: 2
+          zIndex: 3 // Higher z-index
         }}></div>
       </>
     );
@@ -106,12 +106,12 @@ const CourtSurface: React.FC = () => {
   const renderTeamLabels = () => (
     <>
       {/* Team Green label */}
-      <div className="absolute top-2 left-4 bg-green-600/90 text-white px-3 py-1 rounded-md font-bold text-sm">
+      <div className="absolute top-2 left-4 bg-green-600/90 text-white px-3 py-1 rounded-md font-bold text-sm z-10">
         {teamLabels.team1}
       </div>
       
       {/* Team Blue label */}
-      <div className="absolute bottom-2 right-4 bg-blue-600/90 text-white px-3 py-1 rounded-md font-bold text-sm">
+      <div className="absolute bottom-2 right-4 bg-blue-600/90 text-white px-3 py-1 rounded-md font-bold text-sm z-10">
         {teamLabels.team2}
       </div>
     </>
