@@ -25,9 +25,9 @@ const CourtView: React.FC<CourtViewProps> = ({
   player4
 }) => {
   return (
-    <div className="relative w-full" style={{ 
-      // Aspect ratio of the court is 30' x 60' = 1:2, reduced by 10% in height
-      aspectRatio: '2/0.9', // Changed from 2/1 to 2/0.9 to reduce height by 10%
+    <div className="relative w-full h-full" style={{ 
+      // Maintaining the aspect ratio while filling the container
+      maxWidth: "100%",
       backgroundColor: '#92D36E', // Match the buffer color
       borderRadius: '0.5rem',
       overflow: 'hidden'

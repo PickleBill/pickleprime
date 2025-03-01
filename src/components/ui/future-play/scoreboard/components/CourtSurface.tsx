@@ -31,7 +31,7 @@ const CourtSurface: React.FC = () => {
         bottom: `${topBuffer}%`,
         left: `${leftBuffer}%`,
         right: `${leftBuffer}%`,
-        backgroundColor: courtColors.buffer
+        backgroundColor: '#0EA5E9' // Updated buffer color to ocean blue
       }}></div>
     );
   };
