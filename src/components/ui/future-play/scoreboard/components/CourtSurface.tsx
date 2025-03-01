@@ -41,10 +41,10 @@ const CourtSurface: React.FC = () => {
     // Net is in the middle
     const netPos = 50; 
     
-    // Calculate positions for vertical lines - maintain the same proportions but account for 10% shrink
-    const courtWidthPercent = 100 - (paddingX * 2);
-    const leftLine1Position = paddingX + (netPos - paddingX) * 0.31;
-    const rightLine1Position = 100 - paddingX - (100 - netPos - paddingX) * 0.31;
+    // Calculate positions for vertical kitchen lines at exactly 31% from center net
+    // Note: These are now correctly positioned at 31% from the net, not from edges
+    const leftKitchenLine = netPos - 31;   // 31% left from center net
+    const rightKitchenLine = netPos + 31;  // 31% right from center net
     
     return (
       <>
@@ -52,8 +52,8 @@ const CourtSurface: React.FC = () => {
         <div className="absolute" style={{ 
           top: `${paddingTop + 5}%`, // Add 5% top padding (10% / 2)
           bottom: `${paddingBottom + 5}%`, // Add 5% bottom padding (10% / 2)
-          left: `${leftLine1Position}%`,
-          right: `${100 - rightLine1Position}%`,
+          left: `${leftKitchenLine}%`,
+          right: `${100 - rightKitchenLine}%`,
           backgroundColor: tealBlueColor, // Teal blue for the inside vertical rectangle
           zIndex: 2 // Increased z-index to ensure it appears above the dark background
         }}></div>
@@ -74,7 +74,7 @@ const CourtSurface: React.FC = () => {
         <div className="absolute" style={{ 
           top: `${paddingTop + 5}%`, // Add 5% top padding (10% / 2)
           bottom: `${paddingBottom + 5}%`, // Add 5% bottom padding (10% / 2)
-          left: `${leftLine1Position}%`,
+          left: `${leftKitchenLine}%`,
           width: '2px',
           backgroundColor: courtColors.lines,
           transform: 'translateX(-50%)',
@@ -85,7 +85,7 @@ const CourtSurface: React.FC = () => {
         <div className="absolute" style={{ 
           top: `${paddingTop + 5}%`, // Add 5% top padding (10% / 2)
           bottom: `${paddingBottom + 5}%`, // Add 5% bottom padding (10% / 2)
-          left: `${rightLine1Position}%`,
+          left: `${rightKitchenLine}%`,
           width: '2px',
           backgroundColor: courtColors.lines,
           transform: 'translateX(-50%)',
@@ -97,7 +97,7 @@ const CourtSurface: React.FC = () => {
           top: `50%`, 
           height: '2px',
           left: `${paddingX}%`,
-          right: `${100 - leftLine1Position}%`,
+          right: `${100 - leftKitchenLine}%`,
           backgroundColor: courtColors.lines,
           zIndex: 3 // Higher z-index
         }}></div>
@@ -105,7 +105,7 @@ const CourtSurface: React.FC = () => {
         <div className="absolute" style={{ 
           top: `50%`, 
           height: '2px',
-          left: `${rightLine1Position}%`,
+          left: `${rightKitchenLine}%`,
           right: `${paddingX}%`,
           backgroundColor: courtColors.lines,
           zIndex: 3 // Higher z-index
