@@ -27,7 +27,7 @@ const GameViewPanel: React.FC<GameViewPanelProps> = ({
 }) => {
   return (
     <div className="flex flex-col h-full space-y-4">
-      {/* Court View Panel - 60% height */}
+      {/* Court View Panel */}
       <CourtViewPanel 
         ballPosition={ballPosition}
         ballTrajectory={ballTrajectory}
@@ -38,7 +38,7 @@ const GameViewPanel: React.FC<GameViewPanelProps> = ({
         player4={player4}
       />
       
-      {/* Match Feed Panel - 40% height */}
+      {/* Match Feed Panel */}
       <MatchFeedPanel
         matchFeedItems={matchFeedItems}
       />

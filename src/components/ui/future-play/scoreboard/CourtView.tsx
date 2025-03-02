@@ -30,8 +30,7 @@ const CourtView: React.FC<CourtViewProps> = ({
       height: "100%",
       maxWidth: "100%",
       maxHeight: "100%",
-      marginTop: "-5%", // Adjusted to shift up by 2% (from -3% to -5%)
-      backgroundColor: '#2E8B57', // Match the darker grass color
+      backgroundColor: '#4CAF50', // Match green team color
       borderRadius: '0.5rem',
       overflow: 'hidden',
       paddingBottom: '5px'

@@ -1,14 +1,15 @@
+
 import React, { useEffect, useRef, useState } from "react";
 import AnimatedButton from "./ui/AnimatedButton";
 import PlayerModal from "./ui/PlayerModal";
 import FacilityModal from "./ui/FacilityModal";
-import FuturePlayModal from "./ui/FuturePlayModal";
+import { useNavigate } from "react-router-dom";
 
 const Hero = () => {
+  const navigate = useNavigate();
   const backgroundRef = useRef<HTMLDivElement>(null);
   const [showPlayerModal, setShowPlayerModal] = useState(false);
   const [showFacilityModal, setShowFacilityModal] = useState(false);
-  const [showFuturePlayModal, setShowFuturePlayModal] = useState(false);
   
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -29,18 +30,9 @@ const Hero = () => {
     };
   }, []);
 
-  // Direct access to scoreboard without intermediate modal
+  // Direct access to scoreboard page
   const handleFuturePlayClick = () => {
-    // Open the future play modal directly to the scoreboard view
-    setShowFuturePlayModal(true);
-    
-    // This ensures we're opening directly to the scoreboard view inside the modal
-    setTimeout(() => {
-      const playButton = document.querySelector('[aria-label="Launch Digital Scoreboard"]');
-      if (playButton && playButton instanceof HTMLElement) {
-        playButton.click();
-      }
-    }, 100);
+    navigate('/scoreboard');
   };
 
   return (
@@ -135,12 +127,6 @@ const Hero = () => {
       <FacilityModal 
         isOpen={showFacilityModal}
         onClose={() => setShowFacilityModal(false)}
-      />
-
-      {/* Future of Play Modal - only for the scoreboard view */}
-      <FuturePlayModal
-        isOpen={showFuturePlayModal}
-        onClose={() => setShowFuturePlayModal(false)}
       />
     </section>
   );

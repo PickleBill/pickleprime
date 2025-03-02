@@ -1,21 +1,15 @@
 
-import React, { useState } from "react";
+import React from "react";
 import StatCard from "./ui/StatCard";
 import AnimatedButton from "./ui/AnimatedButton";
-import FuturePlayModal from "./ui/FuturePlayModal";
 import EcosystemScoreboardPreview from "./ui/EcosystemScoreboardPreview";
+import { useNavigate } from "react-router-dom";
 
 const MarketSection = () => {
-  const [showFuturePlayModal, setShowFuturePlayModal] = useState(false);
+  const navigate = useNavigate();
 
-  const handleFuturePlayClick = () => {
-    setShowFuturePlayModal(true);
-    setTimeout(() => {
-      const playButton = document.querySelector('[aria-label="Launch Digital Scoreboard"]');
-      if (playButton && playButton instanceof HTMLElement) {
-        playButton.click();
-      }
-    }, 100);
+  const handleCommunityConnectionClick = () => {
+    navigate('/scoreboard');
   };
 
   return (
@@ -156,14 +150,14 @@ const MarketSection = () => {
               </div>
             </div>
 
-            <AnimatedButton onClick={handleFuturePlayClick} size="lg">
+            <AnimatedButton onClick={handleCommunityConnectionClick} size="lg">
               Conduit to Community Connection
             </AnimatedButton>
           </div>
 
           {/* Digital Ecosystem Preview */}
           <div className="relative">
-            <EcosystemScoreboardPreview onLaunchFullView={handleFuturePlayClick} />
+            <EcosystemScoreboardPreview onLaunchFullView={handleCommunityConnectionClick} />
             
             {/* Decorative elements */}
             <div className="absolute -top-10 -right-10 w-20 h-20 bg-primary/5 rounded-full blur-xl -z-10"></div>
@@ -171,9 +165,6 @@ const MarketSection = () => {
           </div>
         </div>
       </div>
-
-      {/* Future Play Modal */}
-      <FuturePlayModal isOpen={showFuturePlayModal} onClose={() => setShowFuturePlayModal(false)} />
     </section>
   );
 };

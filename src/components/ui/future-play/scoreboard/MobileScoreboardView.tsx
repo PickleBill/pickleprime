@@ -44,7 +44,7 @@ const MobileScoreboardView: React.FC<MobileScoreboardViewProps> = ({
   }
   
   return (
-    <div className="flex flex-col h-full bg-[#0a192f]">
+    <div className="flex flex-col h-full bg-[#001a2c]">
       {/* Player Modal */}
       <PlayerModal 
         isOpen={showPlayerModal} 
@@ -70,29 +70,50 @@ const MobileScoreboardView: React.FC<MobileScoreboardViewProps> = ({
         currentSet={currentSet}
       />
       
-      {/* Main content - 50/50 split */}
+      {/* Main content grid layout */}
       <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-4 p-4 overflow-y-auto">
-        {/* Left Panel - Scoreboard Stats */}
-        <StatsPanel 
-          player1Stats={player1Stats}
-          player2Stats={player2Stats}
-          player1Score={player1Score}
-          player2Score={player2Score}
-          currentSet={currentSet}
-          ballVelocity={ballVelocity}
-        />
+        {/* Left Panel - Match Statistics */}
+        <div className="space-y-4">
+          {/* Match Statistics Header */}
+          <div className="bg-[#4CAF50] text-white py-2 px-4 rounded-t-md">
+            <h3 className="font-medium text-sm uppercase">Match Statistics</h3>
+          </div>
+          
+          {/* Stats Panel */}
+          <StatsPanel 
+            player1Stats={player1Stats}
+            player2Stats={player2Stats}
+            player1Score={player1Score}
+            player2Score={player2Score}
+            currentSet={currentSet}
+            ballVelocity={ballVelocity}
+          />
+        </div>
         
-        {/* Right Panel with Court View and Match Feed */}
-        <GameViewPanel 
-          ballPosition={ballPosition}
-          ballTrajectory={ballTrajectory}
-          ballVelocity={ballVelocity}
-          player1={player1}
-          player2={player2}
-          player3={player3}
-          player4={player4}
-          matchFeedItems={matchFeedItems}
-        />
+        {/* Right Panel - Court View and Match Feed */}
+        <div className="space-y-4">
+          {/* Team Headers */}
+          <div className="grid grid-cols-2 gap-2">
+            <div className="bg-[#4CAF50] text-white py-2 px-4 rounded-t-md">
+              <h3 className="font-medium text-sm uppercase">Team Green</h3>
+            </div>
+            <div className="bg-[#3db5e6] text-white py-2 px-4 rounded-t-md text-right">
+              <h3 className="font-medium text-sm uppercase">Team Blue</h3>
+            </div>
+          </div>
+          
+          {/* Game View Panel */}
+          <GameViewPanel 
+            ballPosition={ballPosition}
+            ballTrajectory={ballTrajectory}
+            ballVelocity={ballVelocity}
+            player1={player1}
+            player2={player2}
+            player3={player3}
+            player4={player4}
+            matchFeedItems={matchFeedItems}
+          />
+        </div>
       </div>
       
       {/* Footer with actions */}

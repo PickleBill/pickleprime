@@ -13,17 +13,17 @@ const MatchFeed: React.FC<MatchFeedProps> = ({ matchFeedItems }) => {
       {matchFeedItems.map(item => (
         <div 
           key={item.id} 
-          className="mb-2 bg-[#0A2B3D] rounded-lg overflow-hidden border border-[#1A4258]/30"
+          className="mb-2 bg-[#0a2d4a]/70 rounded-lg overflow-hidden border border-[#0a2d4a]"
         >
           <div className="p-2">
             <div className="flex items-center justify-between mb-1">
               <div className="flex items-center gap-1.5">
                 {item.type === "highlight" ? (
-                  <Video className="w-3 h-3 text-[#2BCB6E]" />
+                  <Video className="w-3 h-3 text-[#4CAF50]" />
                 ) : item.type === "achievement" ? (
-                  <Trophy className="w-3 h-3 text-[#e89e25]" />
+                  <Trophy className="w-3 h-3 text-[#FFC107]" />
                 ) : (
-                  <Activity className="w-3 h-3 text-[#1a9dc3]" />
+                  <Activity className="w-3 h-3 text-[#3db5e6]" />
                 )}
                 <span className="uppercase text-[10px] font-semibold text-white/80">
                   {item.type === "highlight" ? "Highlight" : 
@@ -41,7 +41,7 @@ const MatchFeed: React.FC<MatchFeedProps> = ({ matchFeedItems }) => {
                   <Heart className="w-2.5 h-2.5" />
                   <span>{item.likes || 24}</span>
                 </button>
-                <button className="text-[10px] py-0.5 px-1.5 bg-[#0C8068]/20 text-[#0C8068] rounded hover:bg-[#0C8068]/30 transition-colors">
+                <button className="text-[10px] py-0.5 px-1.5 bg-[#4CAF50]/20 text-[#4CAF50] rounded hover:bg-[#4CAF50]/30 transition-colors">
                   VIEW
                 </button>
               </div>

@@ -5,29 +5,19 @@ import AnimatedButton from "./ui/AnimatedButton";
 import FacilityModal from "./ui/FacilityModal";
 import PlayerModal from "./ui/PlayerModal";
 import DashboardModal from "./ui/DashboardModal";
-import FuturePlayModal from "./ui/FuturePlayModal";
 import { Building, Users, BarChart2, ChevronDown, ChevronUp, Play, Zap, Activity } from "lucide-react";
 import { pillarsData } from "./ui/future-play/data/pillarsData";
+import { useNavigate } from "react-router-dom";
 
 const SolutionSection = () => {
+  const navigate = useNavigate();
   const [showFacilityModal, setShowFacilityModal] = useState(false);
   const [showPlayerModal, setShowPlayerModal] = useState(false);
   const [showDashboardModal, setShowDashboardModal] = useState(false);
-  const [showFuturePlayModal, setShowFuturePlayModal] = useState(false);
   const [expandedPillar, setExpandedPillar] = useState<number | null>(null);
 
-  // Direct launch to scoreboard instead of showing the intermediate modal
-  const handleFuturePlayClick = () => {
-    // Skip modal step and directly show the scoreboard view
-    setShowFuturePlayModal(true);
-    
-    // This ensures we're opening directly to the scoreboard view inside the modal
-    setTimeout(() => {
-      const playButton = document.querySelector('[aria-label="Launch Digital Scoreboard"]');
-      if (playButton && playButton instanceof HTMLElement) {
-        playButton.click();
-      }
-    }, 100);
+  const handleScoreboardClick = () => {
+    navigate('/scoreboard');
   };
 
   const togglePillar = (id: number) => {
@@ -211,7 +201,7 @@ const SolutionSection = () => {
                 </div>
                 
                 <AnimatedButton 
-                  onClick={handleFuturePlayClick}
+                  onClick={handleScoreboardClick}
                   size="lg"
                   className="bg-gradient-to-r from-primary to-[#1a9dc3] hover:shadow-lg hover:shadow-primary/20"
                 >
@@ -243,7 +233,7 @@ const SolutionSection = () => {
             </div>
             
             <div className="text-center mt-8">
-              <AnimatedButton onClick={handleFuturePlayClick} size="lg" withArrow>
+              <AnimatedButton onClick={handleScoreboardClick} size="lg" withArrow>
                 View Live Demo
               </AnimatedButton>
             </div>
@@ -255,7 +245,6 @@ const SolutionSection = () => {
       <FacilityModal isOpen={showFacilityModal} onClose={() => setShowFacilityModal(false)} />
       <PlayerModal isOpen={showPlayerModal} onClose={() => setShowPlayerModal(false)} />
       <DashboardModal isOpen={showDashboardModal} onClose={() => setShowDashboardModal(false)} />
-      <FuturePlayModal isOpen={showFuturePlayModal} onClose={() => setShowFuturePlayModal(false)} />
     </section>
   );
 };

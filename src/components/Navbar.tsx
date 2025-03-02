@@ -1,8 +1,10 @@
 
 import React, { useState, useEffect } from "react";
 import AnimatedButton from "./ui/AnimatedButton";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
+  const navigate = useNavigate();
   const [scrolled, setScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -25,8 +27,7 @@ const Navbar = () => {
   // Function to handle scoreboard navigation
   const handleScoreboardClick = (e: React.MouseEvent) => {
     e.preventDefault();
-    // Update URL hash to #future-play which will trigger the scoreboard modal
-    window.location.hash = 'future-play';
+    navigate('/scoreboard');
   };
 
   return (
@@ -185,7 +186,7 @@ const Navbar = () => {
                 onClick={(e) => {
                   e.preventDefault();
                   setIsMenuOpen(false);
-                  window.location.hash = 'future-play';
+                  navigate('/scoreboard');
                 }}
                 className="text-white hover:text-primary transition-colors text-xl"
               >
