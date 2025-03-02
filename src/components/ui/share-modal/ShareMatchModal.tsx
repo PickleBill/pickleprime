@@ -67,31 +67,29 @@ const ShareMatchModal: React.FC<ShareMatchModalProps> = ({ isOpen, onClose }) =>
       className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4 animate-fade-in"
       onClick={handleBackdropClick}
     >
-      <div className="bg-navy-dark/90 backdrop-blur-md rounded-xl w-full max-w-[95%] md:max-w-[85%] lg:max-w-2xl overflow-hidden flex flex-col border border-white/10 max-h-[85vh]">
+      <div className="bg-navy-dark/90 backdrop-blur-md rounded-xl w-full max-w-[95%] md:max-w-md lg:max-w-xl overflow-hidden flex flex-col border border-white/10 max-h-[80vh]">
         {/* Header */}
         <ModalHeader onClose={onClose} />
         
         {/* Content */}
         <div className="p-4 flex-1 overflow-auto scrollbar-hide">
-          <div className="md:flex md:gap-4 md:items-start">
-            {/* Left column */}
-            <div className="md:w-1/2">
-              <MatchStatusCard 
-                player1Score={player1Score}
-                player2Score={player2Score}
-                gameTime={gameTime}
-              />
-            </div>
-            
-            {/* Right column */}
-            <div className="md:w-1/2">
-              <PremiumAnalyticsCard 
-                onExploreClick={() => setShowAdvancedView(true)}
-              />
-            </div>
+          {/* Match Status Card (now full width at the top) */}
+          <div className="mb-4 w-full">
+            <MatchStatusCard 
+              player1Score={player1Score}
+              player2Score={player2Score}
+              gameTime={gameTime}
+            />
           </div>
           
-          <h3 className="text-lg font-semibold text-white mb-3 mt-4">Share to</h3>
+          {/* Premium Analytics Card (now full width below match status) */}
+          <div className="mb-4 w-full">
+            <PremiumAnalyticsCard 
+              onExploreClick={() => setShowAdvancedView(true)}
+            />
+          </div>
+          
+          <h3 className="text-lg font-semibold text-white mb-3 text-center">Share to</h3>
           <SocialShareButtons onClose={onClose} />
         </div>
         
