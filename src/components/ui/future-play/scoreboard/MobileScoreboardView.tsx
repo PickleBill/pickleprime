@@ -44,7 +44,7 @@ const MobileScoreboardView: React.FC<MobileScoreboardViewProps> = ({
   }
   
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col h-full bg-[#0a192f]">
       {/* Player Modal */}
       <PlayerModal 
         isOpen={showPlayerModal} 
@@ -71,7 +71,7 @@ const MobileScoreboardView: React.FC<MobileScoreboardViewProps> = ({
       />
       
       {/* Main content - 50/50 split */}
-      <div className="flex-1 grid grid-cols-2 gap-4 p-4 overflow-y-auto">
+      <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-4 p-4 overflow-y-auto">
         {/* Left Panel - Scoreboard Stats */}
         <StatsPanel 
           player1Stats={player1Stats}

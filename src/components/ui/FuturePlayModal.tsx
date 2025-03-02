@@ -97,10 +97,10 @@ const FuturePlayModal = ({ isOpen, onClose }: FuturePlayModalProps) => {
   // Return futuristic scoreboard if active
   if (showScoreboard) {
     return (
-      <div className="fixed inset-0 z-50 overflow-hidden animate-fade-in bg-navy-dark">
+      <div className="fixed inset-0 z-50 overflow-hidden animate-fade-in bg-[#0a192f]">
         {/* Futuristic background */}
         <div 
-          className="absolute inset-0 bg-navy-dark"
+          className="absolute inset-0 bg-[#0a192f]"
           style={{
             backgroundImage: `
               radial-gradient(circle at 85% 15%, rgba(26, 157, 195, 0.15), transparent 40%),

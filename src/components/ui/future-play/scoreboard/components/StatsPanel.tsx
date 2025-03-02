@@ -25,8 +25,8 @@ const StatsPanel: React.FC<StatsPanelProps> = ({
   ballVelocity
 }) => {
   return (
-    <div className="bg-navy-dark rounded-lg overflow-hidden border border-navy/20 shadow-lg">
-      <div className="py-1.5 px-3 bg-gradient-to-r from-primary to-primary-dark text-white">
+    <div className="bg-[#0a192f] rounded-lg overflow-hidden border border-navy/20 shadow-lg">
+      <div className="py-1.5 px-3 bg-green-500 text-white">
         <h3 className="font-medium text-xs">MATCH STATISTICS</h3>
       </div>
       

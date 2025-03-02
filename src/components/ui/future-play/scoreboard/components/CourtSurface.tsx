@@ -113,27 +113,11 @@ const CourtSurface: React.FC = () => {
     );
   };
 
-  // Render team labels
-  const renderTeamLabels = () => (
-    <>
-      {/* Team Green label */}
-      <div className="absolute top-2 left-4 bg-green-600/90 text-white px-3 py-1 rounded-md font-bold text-sm z-10">
-        {teamLabels.team1}
-      </div>
-      
-      {/* Team Blue label */}
-      <div className="absolute bottom-2 right-4 bg-blue-600/90 text-white px-3 py-1 rounded-md font-bold text-sm z-10">
-        {teamLabels.team2}
-      </div>
-    </>
-  );
-
   return (
     <div className="relative w-full h-full">
       {renderGrassBuffer()}
       {renderMainCourt()}
       {renderCourtLines()}
-      {renderTeamLabels()}
     </div>
   );
 };

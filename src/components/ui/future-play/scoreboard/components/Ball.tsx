@@ -69,8 +69,8 @@ const Ball: React.FC<BallProps> = ({ ballPosition, ballTrajectory, ballVelocity 
       style={{
         width: `${ballConfig.size}px`,
         height: `${ballConfig.size}px`,
-        backgroundColor: ballConfig.color,
-        borderColor: ballConfig.borderColor,
+        backgroundColor: '#FFEB3B', // Yellow ball color
+        borderColor: 'rgba(255, 235, 59, 0.3)',
         left: `${ballPosition.x}%`,
         top: `${ballPosition.y}%`,
         transform: 'translate(-50%, -50%)',
