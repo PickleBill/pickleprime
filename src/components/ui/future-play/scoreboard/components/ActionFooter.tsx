@@ -1,6 +1,6 @@
-
 import React from "react";
 import { Share2, Video, User } from "lucide-react";
+import { ShareModal } from "./share";
 
 interface ActionFooterProps {
   onHighlightClick: () => void;
