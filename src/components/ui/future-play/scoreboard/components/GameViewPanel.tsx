@@ -1,8 +1,10 @@
 
-import React from "react";
+import React, { useState } from "react";
 import { Position, BallTrajectory } from "../types";
 import CourtViewPanel from "./CourtViewPanel";
 import MatchFeedPanel from "./MatchFeedPanel";
+import ShareMatchModal from "@/components/ui/ShareMatchModal";
+import { Share } from "lucide-react";
 
 interface GameViewPanelProps {
   ballPosition: Position;
@@ -25,6 +27,8 @@ const GameViewPanel: React.FC<GameViewPanelProps> = ({
   player4,
   matchFeedItems
 }) => {
+  const [showShareModal, setShowShareModal] = useState(false);
+
   return (
     <div className="flex flex-col h-full space-y-4">
       {/* Court View Panel */}
@@ -39,8 +43,25 @@ const GameViewPanel: React.FC<GameViewPanelProps> = ({
       />
       
       {/* Match Feed Panel */}
-      <MatchFeedPanel
-        matchFeedItems={matchFeedItems}
+      <div className="relative">
+        <MatchFeedPanel
+          matchFeedItems={matchFeedItems}
+        />
+        
+        {/* Share Button */}
+        <button 
+          onClick={() => setShowShareModal(true)}
+          className="absolute top-2 right-2 bg-primary/80 hover:bg-primary text-white p-2 rounded-full transition-colors"
+          aria-label="Share match update"
+        >
+          <Share className="h-4 w-4" />
+        </button>
+      </div>
+
+      {/* Share Match Modal */}
+      <ShareMatchModal
+        isOpen={showShareModal}
+        onClose={() => setShowShareModal(false)}
       />
     </div>
   );

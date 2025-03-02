@@ -3,13 +3,16 @@ import React, { useEffect, useRef, useState } from "react";
 import AnimatedButton from "./ui/AnimatedButton";
 import PlayerModal from "./ui/PlayerModal";
 import FacilityModal from "./ui/FacilityModal";
+import ShareMatchModal from "./ui/ShareMatchModal";
 import { useNavigate } from "react-router-dom";
+import { Share2 } from "lucide-react";
 
 const Hero = () => {
   const navigate = useNavigate();
   const backgroundRef = useRef<HTMLDivElement>(null);
   const [showPlayerModal, setShowPlayerModal] = useState(false);
   const [showFacilityModal, setShowFacilityModal] = useState(false);
+  const [showShareModal, setShowShareModal] = useState(false);
   
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -81,8 +84,8 @@ const Hero = () => {
                 </AnimatedButton>
               </div>
               
-              {/* Second row: See the Future of Play button */}
-              <div className="w-full sm:w-auto mt-4">
+              {/* Second row: See the Future of Play and Share Match buttons */}
+              <div className="w-full sm:w-auto mt-4 flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3">
                 <AnimatedButton 
                   size="lg" 
                   withArrow 
@@ -90,6 +93,16 @@ const Hero = () => {
                   className="bg-gradient-to-r from-primary to-[#1a9dc3] hover:shadow-lg hover:shadow-primary/20 transition-all"
                 >
                   See the Future of Play
+                </AnimatedButton>
+                
+                <AnimatedButton 
+                  variant="outline" 
+                  size="lg" 
+                  onClick={() => setShowShareModal(true)}
+                  className="flex items-center gap-2 border-[#1a9dc3] text-[#1a9dc3] hover:bg-[#1a9dc3]/10"
+                >
+                  <Share2 className="w-4 h-4" />
+                  Share Match Update
                 </AnimatedButton>
               </div>
             </div>
@@ -127,6 +140,12 @@ const Hero = () => {
       <FacilityModal 
         isOpen={showFacilityModal}
         onClose={() => setShowFacilityModal(false)}
+      />
+
+      {/* Share Match Modal */}
+      <ShareMatchModal
+        isOpen={showShareModal}
+        onClose={() => setShowShareModal(false)}
       />
     </section>
   );
