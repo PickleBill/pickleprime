@@ -1,5 +1,5 @@
+
 import React, { useState, useEffect } from "react";
-import Image from "next/image";
 import AnimatedButton from "./ui/AnimatedButton";
 
 const Navbar = () => {
@@ -31,7 +31,7 @@ const Navbar = () => {
       <div className="container flex justify-between items-center">
         {/* Logo */}
         <a href="/" className="flex items-center">
-          <Image
+          <img
             src="/swingnet-logo.svg"
             alt="SwingNet Logo"
             width={40}
