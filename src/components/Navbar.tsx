@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import ShareMatchModal from "./ui/ShareMatchModal";
+import ShareMatchModal from "./ui/share-modal";
 import NavLink from "./ui/NavLink";
 import DesktopNav from "./ui/DesktopNav";
 import MobileNavButtons from "./ui/MobileNavButtons";

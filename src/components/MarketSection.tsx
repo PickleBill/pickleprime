@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import StatCard from "./ui/StatCard";
 import AnimatedButton from "./ui/AnimatedButton";
 import EcosystemScoreboardPreview from "./ui/EcosystemScoreboardPreview";
-import ShareMatchModal from "./ui/ShareMatchModal";
+import ShareMatchModal from "./ui/share-modal";
 import { useNavigate } from "react-router-dom";
 import { Share2, TrendingUp, Users, Building2 } from "lucide-react";
 

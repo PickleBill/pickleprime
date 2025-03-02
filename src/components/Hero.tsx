@@ -1,9 +1,8 @@
-
 import React, { useEffect, useRef, useState } from "react";
 import AnimatedButton from "./ui/AnimatedButton";
 import PlayerModal from "./ui/PlayerModal";
 import FacilityModal from "./ui/FacilityModal";
-import ShareMatchModal from "./ui/ShareMatchModal";
+import ShareMatchModal from "./ui/share-modal";
 import { useNavigate } from "react-router-dom";
 import { Share2 } from "lucide-react";
 
