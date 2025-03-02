@@ -9,7 +9,7 @@ import MarketSection from "@/components/MarketSection";
 import TeamSection from "@/components/TeamSection";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
-import ShareMatchModal from "@/components/ui/ShareMatchModal";
+import ShareMatchModal from "@/components/ui/share-modal";
 import AdvancedShareModal from "@/components/ui/AdvancedShareModal";
 import ConnectivitySection from "@/components/ConnectivitySection";
 import SocialMediaDashboard from "@/components/SocialMediaDashboard";
