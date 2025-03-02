@@ -14,7 +14,7 @@ const FeatureCard: React.FC<FeatureCardProps> = ({ icon, label, iconColor, onCli
   return (
     <motion.div
       className="relative p-6 rounded-lg flex flex-col items-center justify-center cursor-pointer 
-                bg-gradient-to-br from-navy-dark to-[#012235] backdrop-blur-lg
+                bg-gradient-to-br from-[#001a29] to-[#001525] backdrop-blur-lg
                 overflow-hidden shadow-lg
                 transition-colors duration-300 h-[100px]"
       onClick={onClick}
