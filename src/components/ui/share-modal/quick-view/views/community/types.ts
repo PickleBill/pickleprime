@@ -11,3 +11,15 @@ export interface NetworkNode {
   angle: number;
   distance: number;
 }
+
+export interface NetworkGraphProps {
+  centralNodeColor?: string;
+  friendNodeColor?: string;
+  centralNodeSize?: number;
+  friendNodeSize?: number;
+  pulseColor?: string;
+  connectionColor?: string;
+  animationDuration?: number;
+  nodeAnimationDelay?: number;
+  showLegend?: boolean;
+}

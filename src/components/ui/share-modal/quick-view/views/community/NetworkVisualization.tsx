@@ -5,7 +5,17 @@ import NetworkGraph from "./NetworkGraph";
 const NetworkVisualization: React.FC = () => {
   return (
     <div className="relative h-[180px] mb-6 bg-navy-dark/50 rounded-lg overflow-hidden border border-purple-500/30">
-      <NetworkGraph />
+      <NetworkGraph 
+        centralNodeColor="bg-teal-400"
+        friendNodeColor="bg-purple-400"
+        centralNodeSize={6}
+        friendNodeSize={4}
+        pulseColor="border-teal-400/30"
+        connectionColor="from-teal-400/70 to-purple-400/70"
+        animationDuration={3}
+        nodeAnimationDelay={0.2}
+        showLegend={false}
+      />
       <div className="absolute top-3 right-3 bg-navy-dark/80 text-white text-xs py-1 px-2 rounded-full border border-white/20">
         Your Network
       </div>
