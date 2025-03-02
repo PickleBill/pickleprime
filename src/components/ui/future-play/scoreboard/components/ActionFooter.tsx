@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Share2, Video, User, Globe, Camera, Users } from "lucide-react";
 
@@ -19,8 +20,8 @@ const ActionFooter: React.FC<ActionFooterProps> = ({
           onClick={onHighlightClick}
           className="flex items-center gap-2 py-3 px-6 bg-[#4CAF50] text-white rounded-md text-base font-medium hover:bg-[#43A047] transition-colors shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
         >
-          <Globe className="w-5 h-5" />
-          <span>Your Community Connection Conduit</span>
+          <Camera className="w-5 h-5" />
+          <span>Highlights</span>
         </button>
         
         <button 
@@ -29,6 +30,14 @@ const ActionFooter: React.FC<ActionFooterProps> = ({
         >
           <User className="w-5 h-5" />
           <span>Player Profile</span>
+        </button>
+        
+        <button 
+          onClick={onShareClick}
+          className="flex items-center gap-2 py-3 px-6 bg-[#7E69AB] text-white rounded-md text-base font-medium hover:bg-[#6E59A5] transition-colors shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
+        >
+          <Globe className="w-5 h-5" />
+          <span>Community Connection</span>
         </button>
         
         <button 

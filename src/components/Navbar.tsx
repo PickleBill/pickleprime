@@ -22,6 +22,13 @@ const Navbar = () => {
     };
   }, []);
 
+  // Function to handle scoreboard navigation
+  const handleScoreboardClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    // Update URL hash to #future-play which will trigger the scoreboard modal
+    window.location.hash = 'future-play';
+  };
+
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
@@ -72,6 +79,13 @@ const Navbar = () => {
             className="text-navy hover:text-primary transition-colors font-medium"
           >
             Connectivity
+          </a>
+          <a
+            href="#scoreboard"
+            onClick={handleScoreboardClick}
+            className="text-navy hover:text-primary transition-colors font-medium"
+          >
+            Scoreboard
           </a>
           <a
             href="#contact"
@@ -165,6 +179,17 @@ const Navbar = () => {
                 className="text-white hover:text-primary transition-colors text-xl"
               >
                 Connectivity
+              </a>
+              <a
+                href="#scoreboard"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setIsMenuOpen(false);
+                  window.location.hash = 'future-play';
+                }}
+                className="text-white hover:text-primary transition-colors text-xl"
+              >
+                Scoreboard
               </a>
               <a
                 href="#contact"
