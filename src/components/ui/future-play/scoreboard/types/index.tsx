@@ -6,18 +6,16 @@ export interface Position {
   y: number;
 }
 
+export interface PlayerPosition extends Position {
+  targetX: number;
+  targetY: number;
+}
+
 export interface BallTrajectory {
   endX: number;
   endY: number;
-  dx?: number;
-  dy?: number;
-}
-
-export interface PlayerPosition {
-  x: number;
-  y: number;
-  targetX: number;
-  targetY: number;
+  dx: number;
+  dy: number;
 }
 
 export interface MatchFeedItem {
@@ -49,16 +47,17 @@ export interface ScoreboardContainerProps {
   player1Score: number;
   player2Score: number;
   currentSet: number;
+  courtId?: string; // Add optional courtId
 }
 
 export interface MobileScoreboardViewProps extends ScoreboardContainerProps {
   ballPosition: Position;
   ballTrajectory: BallTrajectory;
   ballVelocity: number;
-  player1: Position;
-  player2: Position;
-  player3: Position;
-  player4: Position;
+  player1: PlayerPosition;
+  player2: PlayerPosition;
+  player3: PlayerPosition;
+  player4: PlayerPosition;
   player1Stats: PlayerStats;
   player2Stats: PlayerStats;
   matchFeedItems: MatchFeedItem[];

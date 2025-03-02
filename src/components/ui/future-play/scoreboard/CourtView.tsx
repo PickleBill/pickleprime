@@ -6,7 +6,7 @@ import Ball from './components/Ball';
 import { Position, BallTrajectory, PlayerPosition } from './types';
 
 export interface CourtViewProps {
-  courtId: string;
+  courtId?: string;
   ballPosition: Position;
   ballTrajectory: BallTrajectory;
   ballVelocity: number;
@@ -16,21 +16,8 @@ export interface CourtViewProps {
   player4: PlayerPosition;
 }
 
-// Make sure the component props interface matches the components it's using
-interface PlayerAvatarProps {
-  position: PlayerPosition;
-  playerId: string;
-  side: string;
-}
-
-interface BallProps {
-  position: Position;
-  trajectory: BallTrajectory;
-  velocity: number;
-}
-
 const CourtView: React.FC<CourtViewProps> = ({
-  courtId,
+  courtId = "default-court",
   ballPosition,
   ballTrajectory,
   ballVelocity,
@@ -41,17 +28,17 @@ const CourtView: React.FC<CourtViewProps> = ({
 }) => {
   return (
     <div className="relative w-full h-full">
-      <CourtSurface courtId={courtId} />
+      <CourtSurface id={courtId} />
       
       {/* Players */}
-      <PlayerAvatar position={player1} playerId="1" side="bottom" />
-      <PlayerAvatar position={player2} playerId="2" side="bottom" />
-      <PlayerAvatar position={player3} playerId="3" side="top" />
-      <PlayerAvatar position={player4} playerId="4" side="top" />
+      <PlayerAvatar playerPosition={player1} playerId="1" side="bottom" />
+      <PlayerAvatar playerPosition={player2} playerId="2" side="bottom" />
+      <PlayerAvatar playerPosition={player3} playerId="3" side="top" />
+      <PlayerAvatar playerPosition={player4} playerId="4" side="top" />
       
       {/* Ball */}
       <Ball 
-        position={ballPosition} 
+        ballPosition={ballPosition} 
         trajectory={ballTrajectory}
         velocity={ballVelocity}
       />
