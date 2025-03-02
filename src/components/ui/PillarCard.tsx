@@ -32,10 +32,13 @@ const PillarCard = ({
     <div
       className={cn(
         "group bg-navy-dark rounded-xl p-6 shadow-md hover:shadow-lg transition-all duration-300 border border-white/10 h-full text-white",
-        `hover:border-${primaryColor}/20`,
         onClick && "cursor-pointer",
         className
       )}
+      style={{
+        borderColor: onClick ? `${iconBgColor}20` : 'rgba(255, 255, 255, 0.1)',
+        boxShadow: onClick ? `0 4px 20px ${iconBgColor}10` : ''
+      }}
     >
       <div className="flex flex-col items-start h-full">
         {/* Icon Header */}
@@ -47,7 +50,10 @@ const PillarCard = ({
         </div>
         
         {/* Title and Description */}
-        <h3 className={`text-xl font-bold text-white mb-2 group-hover:text-${primaryColor} transition-colors`}>
+        <h3 
+          className="text-xl font-bold text-white mb-2 transition-colors"
+          style={{ color: onClick ? 'white' : iconBgColor }}
+        >
           {title}
         </h3>
         <p className="text-white/70 mb-5">{description}</p>
@@ -57,7 +63,7 @@ const PillarCard = ({
           <ul className="space-y-3 mb-6 w-full">
             {features.map((feature, index) => (
               <li key={index} className="flex items-start gap-2">
-                <span className={`text-${primaryColor} mt-1 text-lg`}>•</span>
+                <span className="mt-1 text-lg" style={{ color: iconBgColor }}>•</span>
                 <span className="text-white/80 text-sm">{feature}</span>
               </li>
             ))}
@@ -70,7 +76,11 @@ const PillarCard = ({
             onClick={onClick} 
             size="sm" 
             variant="outline" 
-            className={`w-full justify-center border-${primaryColor} text-${primaryColor} hover:bg-${primaryColor}/10`}
+            className="w-full justify-center hover:bg-opacity-10"
+            style={{
+              borderColor: iconBgColor,
+              color: iconBgColor
+            }}
           >
             {buttonText}
           </AnimatedButton>

@@ -1,9 +1,10 @@
 
 import React, { useState } from "react";
 import { toast } from "@/components/ui/use-toast";
-import { Share, ArrowRight } from "lucide-react";
+import { Share, ArrowRight, X } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import ShareModal from "./future-play/scoreboard/components/ShareModal";
+import { cn } from "@/lib/utils";
 
 interface ShareMatchModalProps {
   isOpen: boolean;
@@ -54,10 +55,7 @@ const ShareMatchModal: React.FC<ShareMatchModalProps> = ({ isOpen, onClose }) =>
             onClick={onClose}
             className="text-white/70 hover:text-white transition-colors"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M18 6L6 18"></path>
-              <path d="M6 6l12 12"></path>
-            </svg>
+            <X className="w-5 h-5" />
           </button>
         </div>
         

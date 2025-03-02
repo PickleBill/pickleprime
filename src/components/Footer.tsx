@@ -12,7 +12,7 @@ const Footer = () => {
           <div className="md:col-span-2">
             <div className="mb-4">
               <span className="text-2xl font-bold">
-                Pickle<span className="text-primary">Bills</span>
+                Court<span className="text-primary">Visionary</span>
               </span>
             </div>
             <p className="text-white/70 max-w-md">
@@ -57,8 +57,8 @@ const Footer = () => {
             <h3 className="text-lg font-bold mb-4">Contact</h3>
             <ul className="space-y-2">
               <li className="text-white/70">
-                <a href="mailto:info@picklebills.com" className="hover:text-primary transition-colors">
-                  info@picklebills.com
+                <a href="mailto:info@courtvisionary.com" className="hover:text-primary transition-colors">
+                  info@courtvisionary.com
                 </a>
               </li>
               <li className="text-white/70">
@@ -75,7 +75,7 @@ const Footer = () => {
         
         <div className="border-t border-white/10 mt-12 pt-6 flex flex-col md:flex-row justify-between items-center">
           <div className="text-white/50 text-sm">
-            &copy; {currentYear} PickleBills. All rights reserved.
+            &copy; {currentYear} CourtVisionary. All rights reserved.
           </div>
           <div className="flex space-x-4 mt-4 md:mt-0">
             <a href="#" className="text-white/70 hover:text-primary transition-colors">

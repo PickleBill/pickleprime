@@ -118,7 +118,7 @@ const MobileScoreboardView: React.FC<MobileScoreboardViewProps> = ({
         </div>
       </div>
       
-      {/* Footer with actions */}
+      {/* Footer with carousel-style actions */}
       <ActionFooter 
         onHighlightClick={onHighlightClick}
         onPlayerProfileClick={() => setShowPlayerModal(true)}
