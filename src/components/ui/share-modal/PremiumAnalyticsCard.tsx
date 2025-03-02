@@ -8,7 +8,7 @@ interface PremiumAnalyticsCardProps {
 
 const PremiumAnalyticsCard: React.FC<PremiumAnalyticsCardProps> = ({ onExploreClick }) => {
   return (
-    <div className="bg-gradient-to-r from-[#0C8068]/30 to-[#0FA0CE]/30 border border-[#FFD700]/20 rounded-lg p-4 mb-4">
+    <div className="bg-gradient-to-r from-[#0C8068]/30 to-[#0FA0CE]/30 border border-[#FFD700]/20 rounded-lg p-4">
       <div className="flex justify-between items-start mb-1">
         <h4 className="text-md font-medium text-white/90 flex items-center gap-1">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FFD700" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

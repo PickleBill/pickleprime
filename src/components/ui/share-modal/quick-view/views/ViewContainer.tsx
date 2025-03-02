@@ -33,7 +33,7 @@ const ViewContainer: React.FC<ViewContainerProps> = ({ onClose, children }) => {
 
   return (
     <motion.div 
-      className="relative z-20 bg-navy-dark/95 backdrop-blur-md rounded-lg border border-white/10 shadow-xl overflow-hidden w-full max-w-[80%] mx-auto"
+      className="relative z-20 bg-navy-dark/95 backdrop-blur-md rounded-lg border border-white/10 shadow-xl overflow-hidden w-full max-w-[92%] md:max-w-[85%] mx-auto"
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0, scale: 0.95 }}
@@ -42,14 +42,14 @@ const ViewContainer: React.FC<ViewContainerProps> = ({ onClose, children }) => {
     >
       <motion.button 
         onClick={onClose}
-        className="absolute top-4 right-4 p-2 hover:bg-white/10 rounded-full text-white/70 hover:text-white transition-colors z-10"
+        className="absolute top-3 right-3 p-1.5 hover:bg-white/10 rounded-full text-white/70 hover:text-white transition-colors z-10"
         whileHover={{ scale: 1.1, rotate: 90 }}
         whileTap={{ scale: 0.9 }}
       >
-        <X className="w-5 h-5" />
+        <X className="w-4 h-4" />
       </motion.button>
       
-      <div className="max-h-[80vh] overflow-y-auto">
+      <div className="max-h-[75vh] overflow-y-auto scrollbar-hide">
         {children}
       </div>
     </motion.div>

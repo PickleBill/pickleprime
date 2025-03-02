@@ -43,14 +43,14 @@ const ModalFooter: React.FC<ModalFooterProps> = ({ onClose }) => {
       <AnimatePresence>
         {!hasSeenIntro && (
           <motion.div
-            className="absolute -top-12 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-[#1a9dc3] to-[#4CAF50] px-4 py-2 rounded-full text-white text-sm font-medium z-50 flex items-center shadow-lg"
+            className="absolute -top-12 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-[#1a9dc3] to-[#4CAF50] px-4 py-2 rounded-full text-white text-xs font-medium z-50 flex items-center shadow-lg"
             initial={{ y: -20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: -20, opacity: 0 }}
             transition={{ type: "spring", stiffness: 300, damping: 20 }}
           >
             <span>Click these feature cards to explore!</span>
-            <ChevronDown className="ml-1 w-4 h-4 animate-bounce" />
+            <ChevronDown className="ml-1 w-3 h-3 animate-bounce" />
           </motion.div>
         )}
       </AnimatePresence>
@@ -64,12 +64,12 @@ const ModalFooter: React.FC<ModalFooterProps> = ({ onClose }) => {
       {/* Feature highlight when no content is selected */}
       {!quickViewContent && (
         <motion.div 
-          className="py-2 px-4 bg-gradient-to-r from-[rgba(26,157,195,0.1)] to-[rgba(76,175,80,0.1)] backdrop-blur-sm"
+          className="py-1 px-4 bg-gradient-to-r from-[rgba(26,157,195,0.1)] to-[rgba(76,175,80,0.1)] backdrop-blur-sm"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
         >
-          <div className="flex items-center justify-between text-white/80 text-sm">
+          <div className="flex items-center justify-between text-white/80 text-xs">
             <motion.span
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
@@ -84,14 +84,14 @@ const ModalFooter: React.FC<ModalFooterProps> = ({ onClose }) => {
               transition={{ delay: 0.4 }}
             >
               <span>Interactive dashboards</span>
-              <ArrowRight className="w-4 h-4" />
+              <ArrowRight className="w-3 h-3" />
             </motion.div>
           </div>
         </motion.div>
       )}
       
       {/* Carousel Footer */}
-      <div className="p-4 flex flex-col">
+      <div className="p-3 flex flex-col">
         <Carousel 
           items={carouselItems}
           visibleItems={visibleItems}
