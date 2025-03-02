@@ -8,7 +8,7 @@ import ActionFooter from "./components/ActionFooter";
 import { MobileScoreboardViewProps } from "./types";
 
 const MobileScoreboardView: React.FC<MobileScoreboardViewProps> = ({
-  courtId,
+  courtId = "default-court",
   onBackClick,
   onHighlightClick,
   showHighlight,

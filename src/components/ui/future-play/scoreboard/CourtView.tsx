@@ -16,6 +16,19 @@ export interface CourtViewProps {
   player4: PlayerPosition;
 }
 
+// Make sure the component props interface matches the components it's using
+interface PlayerAvatarProps {
+  position: PlayerPosition;
+  playerId: string;
+  side: string;
+}
+
+interface BallProps {
+  position: Position;
+  trajectory: BallTrajectory;
+  velocity: number;
+}
+
 const CourtView: React.FC<CourtViewProps> = ({
   courtId,
   ballPosition,
