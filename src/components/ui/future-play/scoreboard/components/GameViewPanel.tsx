@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Position, BallState, BallTrajectory } from "../types";
 import CourtViewPanel from "./CourtViewPanel";
 import MatchFeedPanel from "./MatchFeedPanel";
-import ShareMatchModal from "../../../../ui/share-modal";
+import ShareModal from "./ShareModal";
 import { Share } from "lucide-react";
 
 interface GameViewPanelProps {
@@ -68,9 +68,12 @@ const GameViewPanel: React.FC<GameViewPanelProps> = ({
       </div>
 
       {/* Enhanced Share Modal - Now with more prominent quick view navigation */}
-      <ShareMatchModal
+      <ShareModal
         isOpen={showShareModal}
         onClose={() => setShowShareModal(false)}
+        player1Score={20}
+        player2Score={18}
+        gameTime={180}
       />
     </div>
   );

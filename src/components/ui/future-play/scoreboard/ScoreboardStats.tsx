@@ -1,142 +1,215 @@
-import React from 'react';
-import { Activity, Target, Zap, Clock, Award, BarChart2 } from 'lucide-react';
-import { PlayerStats } from './types';
-import PlayerAvatar from './components/PlayerAvatar';
-import StatComparison from './components/StatComparison';
-import ShotDistribution from './components/ShotDistribution';
-import WinProbabilityBar from './components/WinProbabilityBar';
-import StatCard from './components/StatCard';
+
+import React from "react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis, Tooltip } from "recharts";
+import { ChevronRight } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { PlayerStats } from "./types"; // Make sure this path is correct
+import StatCard from "./components/StatsPanel"; // Updated import path
 
 interface ScoreboardStatsProps {
   player1Stats: PlayerStats;
   player2Stats: PlayerStats;
+  player1Name?: string;
+  player2Name?: string;
+  isExpanded?: boolean;
 }
 
-const ScoreboardStats: React.FC<ScoreboardStatsProps> = ({ 
-  player1Stats, 
-  player2Stats 
+const ScoreboardStats: React.FC<ScoreboardStatsProps> = ({
+  player1Stats,
+  player2Stats,
+  player1Name = "Player 1",
+  player2Name = "Player 2",
+  isExpanded = false,
 }) => {
-  // Vibrant color palette
-  const vibrantColors = {
-    primary: "#0EA5E9", // Ocean blue
-    secondary: "#8B5CF6", // Vivid purple
-    accent: "#F97316", // Bright orange
-    success: "#10B981", // Emerald green
-    warning: "#F59E0B", // Amber
-    danger: "#EF4444"   // Red
-  };
-  
-  // Shot distributions data
-  const shotDistributions = [
+  const accuracyData = [
     {
-      label: "Dinks",
-      percentage: 67,
-      gradientFrom: "#176840",
-      gradientTo: "#3DD598"
+      name: "Dinks",
+      Player1: player1Stats.dinkAccuracy,
+      Player2: player2Stats.dinkAccuracy,
     },
     {
-      label: "Drives",
-      percentage: 23,
-      gradientFrom: "#0A4D73",
-      gradientTo: "#0EA5E9"
+      name: "Drives",
+      Player1: player1Stats.driveAccuracy,
+      Player2: player2Stats.driveAccuracy,
     },
     {
-      label: "Volleys",
-      percentage: 10,
-      gradientFrom: "#F97316",
-      gradientTo: "#FDBA74"
-    }
+      name: "Volleys",
+      Player1: player1Stats.volleyAccuracy,
+      Player2: player2Stats.volleyAccuracy,
+    },
+    {
+      name: "Serves",
+      Player1: player1Stats.serveAccuracy,
+      Player2: player2Stats.serveAccuracy,
+    },
   ];
-  
+
+  const BarTooltip = ({ active, payload, label }: any) => {
+    if (active && payload && payload.length) {
+      return (
+        <div className="bg-navy-dark/90 p-2 rounded-lg border border-white/20 text-xs">
+          <p className="font-semibold text-white">{label}</p>
+          <p className="text-green-400">{player1Name}: {payload[0].value}%</p>
+          <p className="text-blue-400">{player2Name}: {payload[1].value}%</p>
+        </div>
+      );
+    }
+
+    return null;
+  };
+
   return (
-    <div className="bg-navy-dark rounded-lg overflow-hidden border border-white/10">
-      <div className="py-2 px-3 bg-gradient-to-r from-[#0c4a6e] to-[#0c4a6e]/80 border-b border-white/10">
-        <h3 className="text-white font-medium text-sm flex items-center gap-2">
-          <Award className="w-4 h-4 text-[#F97316]" />
-          Player Statistics
-        </h3>
-      </div>
-      
-      <div className="p-4">
-        <div className="flex items-center justify-between mb-4">
-          <PlayerAvatar
-            name={player1Stats.name}
-            avatar={player1Stats.avatar}
-            winRate={player1Stats.winRate}
-            color="#176840"
-          />
+    <div className={cn(
+      "bg-navy-light/10 rounded-lg overflow-hidden transition-all",
+      isExpanded ? "h-auto" : "max-h-40"
+    )}>
+      <Tabs defaultValue="accuracy" className="w-full">
+        <div className="bg-navy-dark/40 px-3 py-1 flex items-center justify-between">
+          <TabsList className="bg-transparent h-8">
+            <TabsTrigger
+              value="accuracy"
+              className="text-xs h-7 data-[state=active]:bg-navy-light/30 rounded-sm px-2"
+            >
+              Shot Accuracy
+            </TabsTrigger>
+            <TabsTrigger
+              value="efficiency"
+              className="text-xs h-7 data-[state=active]:bg-navy-light/30 rounded-sm px-2"
+            >
+              Efficiency
+            </TabsTrigger>
+            <TabsTrigger
+              value="energy"
+              className="text-xs h-7 data-[state=active]:bg-navy-light/30 rounded-sm px-2"
+            >
+              Energy
+            </TabsTrigger>
+          </TabsList>
           
-          <PlayerAvatar
-            name={player2Stats.name}
-            avatar={player2Stats.avatar}
-            winRate={player2Stats.winRate}
-            color="#0A4D73"
-            rightAlign
-          />
+          <div className="flex items-center gap-1 text-xs text-white/70">
+            <span>View Detailed Stats</span>
+            <ChevronRight className="w-4 h-4" />
+          </div>
         </div>
         
-        <div className="space-y-4">
-          {/* Top Speed Comparison - higher is better */}
-          <StatComparison
-            player1Value={player1Stats.topSpeed}
-            player2Value={player2Stats.topSpeed}
-            label="Top Speed"
-            icon={<Zap className="w-3.5 h-3.5 text-[#F97316]" />}
-            color={vibrantColors.accent}
-            highestValueWins={true}
-          />
-          
-          {/* Shot Accuracy Comparison - higher is better */}
-          <StatComparison
-            player1Value={player1Stats.accuracy}
-            player2Value={player2Stats.accuracy}
-            label="Accuracy"
-            icon={<Target className="w-3.5 h-3.5 text-[#8B5CF6]" />}
-            color={vibrantColors.secondary}
-            highestValueWins={true}
-          />
-          
-          {/* Spin Rate Comparison - higher is better */}
-          <StatComparison
-            player1Value={player1Stats.spinRate}
-            player2Value={player2Stats.spinRate}
-            label="Spin Rate"
-            icon={<Activity className="w-3.5 h-3.5 text-[#0EA5E9]" />}
-            color={vibrantColors.primary}
-            highestValueWins={true}
-          />
-          
-          {/* Reaction Time Comparison - lower is better */}
-          <StatComparison
-            player1Value={player1Stats.reactionTime}
-            player2Value={player2Stats.reactionTime}
-            label="Reaction"
-            icon={<Clock className="w-3.5 h-3.5 text-[#D946EF]" />}
-            color="#D946EF"
-            highestValueWins={false}
-          />
-        </div>
+        <TabsContent value="accuracy" className="p-3 m-0">
+          <ResponsiveContainer width="100%" height={120}>
+            <BarChart
+              data={accuracyData}
+              margin={{ top: 5, right: 5, left: -20, bottom: 5 }}
+              barSize={12}
+              barGap={8}
+            >
+              <XAxis 
+                dataKey="name" 
+                tick={{ fontSize: 10, fill: "#FFFFFF99" }}
+                axisLine={false}
+                tickLine={false}
+              />
+              <YAxis 
+                hide={true} 
+                domain={[0, 100]}
+              />
+              <Tooltip content={<BarTooltip />} />
+              <Bar dataKey="Player1" fill="#4CAF50" radius={[4, 4, 0, 0]} />
+              <Bar dataKey="Player2" fill="#2196F3" radius={[4, 4, 0, 0]} />
+            </BarChart>
+          </ResponsiveContainer>
+        </TabsContent>
         
-        {/* Shot Type Distribution */}
-        <div className="mt-5 pt-4 border-t border-white/10">
-          <ShotDistribution distributions={shotDistributions} />
-        </div>
+        <TabsContent value="efficiency" className="p-3 m-0">
+          <div className="grid grid-cols-2 gap-3">
+            <div className="space-y-2">
+              <div className="flex justify-between text-xs">
+                <span className="text-white/70">Shot Efficiency</span>
+                <div>
+                  <span className="text-green-400 font-medium">{player1Stats.shotEfficiency}%</span>
+                  <span className="text-white/50 mx-1">vs</span>
+                  <span className="text-blue-400 font-medium">{player2Stats.shotEfficiency}%</span>
+                </div>
+              </div>
+              <div className="flex h-2 w-full bg-navy/50 rounded-full overflow-hidden">
+                <div 
+                  className="bg-green-400"
+                  style={{ width: `${player1Stats.shotEfficiency}%` }}
+                ></div>
+                <div 
+                  className="bg-blue-400 ml-auto"
+                  style={{ width: `${player2Stats.shotEfficiency}%` }}
+                ></div>
+              </div>
+            </div>
+            
+            <div className="space-y-2">
+              <div className="flex justify-between text-xs">
+                <span className="text-white/70">Ball Speed</span>
+                <div>
+                  <span className="text-green-400 font-medium">{player1Stats.ballSpeed} mph</span>
+                  <span className="text-white/50 mx-1">vs</span>
+                  <span className="text-blue-400 font-medium">{player2Stats.ballSpeed} mph</span>
+                </div>
+              </div>
+              <div className="flex h-2 w-full bg-navy/50 rounded-full overflow-hidden">
+                <div 
+                  className="bg-green-400"
+                  style={{ width: `${player1Stats.ballSpeed / 1.2}%` }}
+                ></div>
+                <div 
+                  className="bg-blue-400 ml-auto"
+                  style={{ width: `${player2Stats.ballSpeed / 1.2}%` }}
+                ></div>
+              </div>
+            </div>
+          </div>
+        </TabsContent>
         
-        {/* Win Probability */}
-        <div className="mt-4 bg-navy/50 rounded-lg p-3">
-          <WinProbabilityBar
-            team1Probability={65}
-            team2Probability={35}
-            team1Label={player1Stats.name}
-            team2Label={player2Stats.name}
-          />
-        </div>
-        
-        <div className="grid grid-cols-2 gap-4">
-          <StatCard title="Avg Speed" value={String(player1Stats.avgSpeed)} unit="mph" theme="green" />
-          <StatCard title="Avg Speed" value={String(player2Stats.avgSpeed)} unit="mph" theme="blue" />
-        </div>
-      </div>
+        <TabsContent value="energy" className="p-3 m-0">
+          <div className="grid grid-cols-2 gap-3">
+            <div className="space-y-2">
+              <div className="flex justify-between text-xs">
+                <span className="text-white/70">Distance Covered</span>
+                <div>
+                  <span className="text-green-400 font-medium">{player1Stats.distance}m</span>
+                  <span className="text-white/50 mx-1">vs</span>
+                  <span className="text-blue-400 font-medium">{player2Stats.distance}m</span>
+                </div>
+              </div>
+              <div className="flex h-2 w-full bg-navy/50 rounded-full overflow-hidden">
+                <div 
+                  className="bg-green-400"
+                  style={{ width: `${(player1Stats.distance / 100) * 100}%` }}
+                ></div>
+                <div 
+                  className="bg-blue-400 ml-auto"
+                  style={{ width: `${(player2Stats.distance / 100) * 100}%` }}
+                ></div>
+              </div>
+            </div>
+            
+            <div className="space-y-2">
+              <div className="flex justify-between text-xs">
+                <span className="text-white/70">Energy Expended</span>
+                <div>
+                  <span className="text-green-400 font-medium">{player1Stats.energy}</span>
+                  <span className="text-white/50 mx-1">vs</span>
+                  <span className="text-blue-400 font-medium">{player2Stats.energy}</span>
+                </div>
+              </div>
+              <div className="flex h-2 w-full bg-navy/50 rounded-full overflow-hidden">
+                <div 
+                  className="bg-green-400"
+                  style={{ width: `${(player1Stats.energy / 10) * 100}%` }}
+                ></div>
+                <div 
+                  className="bg-blue-400 ml-auto"
+                  style={{ width: `${(player2Stats.energy / 10) * 100}%` }}
+                ></div>
+              </div>
+            </div>
+          </div>
+        </TabsContent>
+      </Tabs>
     </div>
   );
 };

@@ -9,12 +9,10 @@ export const useGameAnimations = (isHighlightActive: boolean = false) => {
   const [ballPosition, setBallPosition] = useState<BallState>({
     x: 50,
     y: 50,
-    z: 0,
-    visible: true
+    z: 0
   });
   
   const [ballTrajectory, setBallTrajectory] = useState<BallTrajectory>({
-    direction: "up",
     stage: "rising",
     bounces: 0
   });
@@ -45,9 +43,11 @@ export const useGameAnimations = (isHighlightActive: boolean = false) => {
       
       // Animate ball
       const newBallState = animateBall(
-        ballPosition, 
-        ballTrajectory,
-        ballVelocity,
+        {
+          position: ballPosition,
+          trajectory: ballTrajectory,
+          velocity: ballVelocity
+        },
         deltaTime
       );
       
@@ -57,8 +57,10 @@ export const useGameAnimations = (isHighlightActive: boolean = false) => {
       
       // Animate players
       const newPlayerPositions = animatePlayers(
-        [player1, player2, player3, player4],
-        ballPosition,
+        {
+          positions: [player1, player2, player3, player4],
+          ballPosition
+        },
         deltaTime
       );
       
