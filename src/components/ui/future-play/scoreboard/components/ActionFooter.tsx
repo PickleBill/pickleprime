@@ -5,11 +5,13 @@ import { Share2, Video, User } from "lucide-react";
 interface ActionFooterProps {
   onHighlightClick: () => void;
   onPlayerProfileClick: () => void;
+  onShareClick: () => void;
 }
 
 const ActionFooter: React.FC<ActionFooterProps> = ({
   onHighlightClick,
-  onPlayerProfileClick
+  onPlayerProfileClick,
+  onShareClick
 }) => {
   return (
     <div className="w-full bg-navy-light/60 backdrop-blur-sm border-t border-white/10 px-3 py-6">
@@ -30,7 +32,10 @@ const ActionFooter: React.FC<ActionFooterProps> = ({
           <span>Player Profile</span>
         </button>
         
-        <button className="p-3 rounded-full bg-navy/70 text-white/80 hover:bg-navy/90 hover:text-white transition-colors">
+        <button 
+          onClick={onShareClick}
+          className="p-3 rounded-full bg-navy/70 text-white/80 hover:bg-navy/90 hover:text-white transition-colors"
+        >
           <Share2 className="w-6 h-6" />
         </button>
       </div>

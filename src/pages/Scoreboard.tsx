@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import ScoreboardViewContainer from "@/components/ui/future-play/scoreboard";
 import { useNavigate } from "react-router-dom";
+import { toast } from "@/components/ui/use-toast";
 
 const Scoreboard = () => {
   const navigate = useNavigate();
@@ -60,6 +61,13 @@ const Scoreboard = () => {
   const triggerHighlight = () => {
     setShowHighlight(true);
     setHighlightTimer(0);
+    
+    // Show a toast when highlight is triggered
+    toast({
+      title: "Highlight Captured!",
+      description: "This moment has been saved to your highlights reel.",
+      duration: 3000,
+    });
   };
 
   return (

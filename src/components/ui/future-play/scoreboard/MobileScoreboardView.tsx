@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import HighlightView from "./HighlightView";
 import PlayerModal from "../../PlayerModal";
+import ShareModal from "./components/ShareModal";
 import SponsorsBanner from "./components/SponsorsBanner";
 import StatsPanel from "./components/StatsPanel";
 import GameViewPanel from "./components/GameViewPanel";
@@ -30,6 +31,7 @@ const MobileScoreboardView: React.FC<MobileScoreboardViewProps> = ({
   sponsors
 }) => {
   const [showPlayerModal, setShowPlayerModal] = useState(false);
+  const [showShareModal, setShowShareModal] = useState(false);
   
   // If highlight is shown, display the highlight view
   if (showHighlight) {
@@ -47,6 +49,15 @@ const MobileScoreboardView: React.FC<MobileScoreboardViewProps> = ({
       <PlayerModal 
         isOpen={showPlayerModal} 
         onClose={() => setShowPlayerModal(false)} 
+      />
+      
+      {/* Share Modal */}
+      <ShareModal
+        isOpen={showShareModal}
+        onClose={() => setShowShareModal(false)}
+        player1Score={player1Score}
+        player2Score={player2Score}
+        gameTime={gameTime}
       />
       
       {/* Top sponsors banner with back button and score */}
@@ -88,6 +99,7 @@ const MobileScoreboardView: React.FC<MobileScoreboardViewProps> = ({
       <ActionFooter 
         onHighlightClick={onHighlightClick}
         onPlayerProfileClick={() => setShowPlayerModal(true)}
+        onShareClick={() => setShowShareModal(true)}
       />
     </div>
   );
