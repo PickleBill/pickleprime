@@ -1,3 +1,4 @@
+
 import React, { useEffect, useRef, useState } from "react";
 import AnimatedButton from "./ui/AnimatedButton";
 import PlayerModal from "./ui/PlayerModal";
@@ -35,6 +36,11 @@ const Hero = () => {
   // Direct access to scoreboard page
   const handleFuturePlayClick = () => {
     navigate('/scoreboard');
+  };
+
+  // Function to handle external facility link
+  const handleFacilityClick = () => {
+    window.open('https://quantcourt.lovable.app/analytics', '_blank');
   };
 
   return (
@@ -78,7 +84,7 @@ const Hero = () => {
                 <AnimatedButton variant="outline" size="lg" onClick={() => setShowPlayerModal(true)}>
                   For Players
                 </AnimatedButton>
-                <AnimatedButton variant="outline" size="lg" onClick={() => setShowFacilityModal(true)}>
+                <AnimatedButton variant="outline" size="lg" onClick={handleFacilityClick}>
                   For Facilities
                 </AnimatedButton>
               </div>
