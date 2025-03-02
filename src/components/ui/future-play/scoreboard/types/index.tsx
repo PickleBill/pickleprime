@@ -46,9 +46,9 @@ export interface MobileScoreboardViewProps extends ScoreboardContainerProps {
   player2: Position;
   player3: Position;
   player4: Position;
-  player1Stats: any;
-  player2Stats: any;
-  matchFeedItems: any[];
+  player1Stats: PlayerStats;
+  player2Stats: PlayerStats;
+  matchFeedItems: MatchFeedItem[];
   sponsors: Sponsor[];
 }
 

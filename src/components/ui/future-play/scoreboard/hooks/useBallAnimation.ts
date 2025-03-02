@@ -1,53 +1,51 @@
 
-import { useState, useEffect } from 'react';
+import { useCallback } from 'react';
 import { BallState, BallTrajectory } from '../types';
-import { animateBall } from './utils/ballMovementUtils';
 
-// Custom hook for ball animation
-const useBallAnimation = (initialBallState: BallState) => {
-  const [ballPosition, setBallPosition] = useState<BallState>(initialBallState);
-  const [ballVelocity, setBallVelocity] = useState<number>(0);
-  const [ballTrajectory, setBallTrajectory] = useState<BallTrajectory>({
-    points: [{ x: initialBallState.x, y: initialBallState.y }],
-    type: "drive",
-    speed: 0
-  });
-
-  // Effect for animating ball movement
-  useEffect(() => {
-    const interval = setInterval(() => {
-      // Generate random direction movement for demo
-      const randomDirection = Math.random() * Math.PI * 2;
-      const speed = 2 + Math.random() * 3;
-      const dx = Math.cos(randomDirection) * speed;
-      const dy = Math.sin(randomDirection) * speed;
-      
-      // Create a valid BallTrajectory object
-      const newTrajectory: BallTrajectory = {
-        points: [
-          { x: ballPosition.x, y: ballPosition.y },
-          { x: ballPosition.x + dx * 10, y: ballPosition.y + dy * 10 }
-        ],
-        type: Math.random() > 0.5 ? "drive" : "lob",
-        speed: speed,
-        dx: dx,
-        dy: dy,
-        endX: ballPosition.x + dx * 20,
-        endY: ballPosition.y + dy * 20
-      };
-      
-      // Animate the ball
-      const { newPosition, velocity } = animateBall(ballPosition, newTrajectory);
-      
-      setBallPosition(newPosition);
-      setBallVelocity(velocity);
-      setBallTrajectory(newTrajectory);
-    }, 2000); // Slower animation for demo purposes
+// Animation utility function for ball movement
+const useBallAnimation = () => {
+  const animateBall = useCallback((props: {
+    position: BallState;
+    trajectory: BallTrajectory;
+    velocity: number;
+  }, deltaTime: number) => {
+    const { position, trajectory, velocity } = props;
     
-    return () => clearInterval(interval);
-  }, [ballPosition]);
-
-  return { ballPosition, ballTrajectory, ballVelocity };
+    // Create a copy of the position to avoid directly mutating state
+    const newPosition = { ...position };
+    
+    // Basic movement logic - can be enhanced for more realistic physics
+    if (trajectory.dx && trajectory.dy) {
+      // Apply trajectory movement
+      newPosition.x += trajectory.dx * (deltaTime / 100);
+      newPosition.y += trajectory.dy * (deltaTime / 100);
+      
+      // Boundary handling - bounce off edges
+      if (newPosition.x < 5 || newPosition.x > 95) {
+        trajectory.dx = -trajectory.dx;
+        newPosition.x = Math.max(5, Math.min(95, newPosition.x));
+      }
+      
+      if (newPosition.y < 5 || newPosition.y > 95) {
+        trajectory.dy = -trajectory.dy;
+        newPosition.y = Math.max(5, Math.min(95, newPosition.y));
+      }
+    }
+    
+    // Add some randomness to the trajectory occasionally
+    if (Math.random() > 0.98) {
+      trajectory.dx = (Math.random() - 0.5) * 10;
+      trajectory.dy = (Math.random() - 0.5) * 10;
+    }
+    
+    return {
+      position: newPosition,
+      trajectory,
+      velocity
+    };
+  }, []);
+  
+  return animateBall;
 };
 
 export default useBallAnimation;

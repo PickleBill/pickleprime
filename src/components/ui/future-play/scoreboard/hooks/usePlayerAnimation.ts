@@ -1,47 +1,49 @@
 
-import { useState, useEffect } from 'react';
-import { Position, PlayerPosition } from '../types';
-import { animatePlayer } from './utils/playerMovementUtils';
+import { useCallback } from 'react';
+import { PlayerPosition } from '../types';
 
-// Custom hook for player animation
-const usePlayerAnimation = (initialPositions: {
-  player1: Position,
-  player2: Position,
-  player3: Position,
-  player4: Position
-}) => {
-  const [player1, setPlayer1] = useState<PlayerPosition>({ ...initialPositions.player1, rotation: 0, targetX: undefined, targetY: undefined });
-  const [player2, setPlayer2] = useState<PlayerPosition>({ ...initialPositions.player2, rotation: 0, targetX: undefined, targetY: undefined });
-  const [player3, setPlayer3] = useState<PlayerPosition>({ ...initialPositions.player3, rotation: 0, targetX: undefined, targetY: undefined });
-  const [player4, setPlayer4] = useState<PlayerPosition>({ ...initialPositions.player4, rotation: 0, targetX: undefined, targetY: undefined });
-
-  // Effect for animating players
-  useEffect(() => {
-    const interval = setInterval(() => {
-      // Update player positions with random movement
-      const updatePlayer = (player: PlayerPosition) => {
-        // Random position change
-        const randomX = player.x + (Math.random() - 0.5) * 10;
-        const randomY = player.y + (Math.random() - 0.5) * 5;
-        
-        // Update player with random target
-        return animatePlayer({
-          ...player,
-          targetX: randomX,
-          targetY: randomY
-        });
-      };
-      
-      setPlayer1(updatePlayer(player1));
-      setPlayer2(updatePlayer(player2));
-      setPlayer3(updatePlayer(player3));
-      setPlayer4(updatePlayer(player4));
-    }, 1000); // Move players randomly every second
+// Animation utility function for player movement
+const usePlayerAnimation = () => {
+  const animatePlayers = useCallback((props: {
+    positions: PlayerPosition[];
+    ballPosition: { x: number; y: number; };
+  }, deltaTime: number) => {
+    const { positions, ballPosition } = props;
     
-    return () => clearInterval(interval);
-  }, [player1, player2, player3, player4]);
-
-  return { player1, player2, player3, player4 };
+    // Create a copy of all positions to avoid directly mutating state
+    const newPositions = positions.map(position => {
+      const newPos = { ...position };
+      
+      // If the player has target coordinates, move toward them
+      if (typeof newPos.targetX === 'number' && typeof newPos.targetY === 'number') {
+        const dx = newPos.targetX - newPos.x;
+        const dy = newPos.targetY - newPos.y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        
+        if (distance > 0.5) {
+          // Move toward target at a rate proportional to distance
+          const speed = Math.min(distance * 0.1, 1) * (deltaTime / 100);
+          newPos.x += dx * speed;
+          newPos.y += dy * speed;
+          
+          // Update rotation to face direction of movement
+          if (dx !== 0 || dy !== 0) {
+            newPos.rotation = Math.atan2(dy, dx) * (180 / Math.PI);
+          }
+        } else {
+          // Target reached, clear it
+          newPos.targetX = undefined;
+          newPos.targetY = undefined;
+        }
+      }
+      
+      return newPos;
+    });
+    
+    return newPositions;
+  }, []);
+  
+  return animatePlayers;
 };
 
 export default usePlayerAnimation;
