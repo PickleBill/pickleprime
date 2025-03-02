@@ -1,10 +1,34 @@
+
 import React, { useState } from "react";
 import StatCard from "./ui/StatCard";
 import AnimatedButton from "./ui/AnimatedButton";
 import EcosystemScoreboardPreview from "./ui/EcosystemScoreboardPreview";
 import ShareMatchModal from "./ui/ShareMatchModal";
 import { useNavigate } from "react-router-dom";
-import { Share2 } from "lucide-react";
+import { Share2, TrendingUp, Users, Building2 } from "lucide-react";
+
+// Feature component to reduce repetition
+const FeatureItem = ({ 
+  icon, 
+  title, 
+  description, 
+  bgColorClass 
+}: { 
+  icon: React.ReactNode; 
+  title: string; 
+  description: string;
+  bgColorClass: string;
+}) => (
+  <div className="flex items-start gap-4">
+    <div className={`${bgColorClass} p-3 rounded-lg`}>
+      {icon}
+    </div>
+    <div>
+      <h4 className="text-navy font-bold text-lg">{title}</h4>
+      <p className="text-gray-600">{description}</p>
+    </div>
+  </div>
+);
 
 const MarketSection = () => {
   const navigate = useNavigate();
@@ -67,8 +91,8 @@ const MarketSection = () => {
             </p>
 
             <div className="space-y-4 mb-8">
-              <div className="flex items-start gap-4">
-                <div className="bg-primary/10 p-3 rounded-lg text-primary">
+              <FeatureItem 
+                icon={
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
@@ -82,20 +106,14 @@ const MarketSection = () => {
                     <path d="M15.5 3H5a2 2 0 0 0-2 2v14c0 1.1.9 2 2 2h14a2 2 0 0 0 2-2V8.5L15.5 3Z" />
                     <path d="M15 3v6h6" />
                   </svg>
-                </div>
-                <div>
-                  <h4 className="text-navy font-bold text-lg">
-                    Facilities gain operational excellence
-                  </h4>
-                  <p className="text-gray-600">
-                    Court booking, membership management, and revenue optimization
-                    tools create operational efficiency and increased profitability.
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-4">
-                <div className="bg-teal-500/10 p-3 rounded-lg text-teal-500">
+                } 
+                title="Facilities gain operational excellence" 
+                description="Court booking, membership management, and revenue optimization tools create operational efficiency and increased profitability."
+                bgColorClass="bg-primary/10 text-primary"
+              />
+              
+              <FeatureItem 
+                icon={
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
@@ -111,21 +129,14 @@ const MarketSection = () => {
                     <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
                     <path d="M16 3.13a4 4 0 0 1 0 7.75" />
                   </svg>
-                </div>
-                <div>
-                  <h4 className="text-navy font-bold text-lg">
-                    Players enjoy immersive experiences
-                  </h4>
-                  <p className="text-gray-600">
-                    Engaging digital features, skill improvement tools, and
-                    social connections transform the player journey both on and
-                    off the court.
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-4">
-                <div className="bg-purple-500/10 p-3 rounded-lg text-purple-500">
+                } 
+                title="Players enjoy immersive experiences" 
+                description="Engaging digital features, skill improvement tools, and social connections transform the player journey both on and off the court."
+                bgColorClass="bg-teal-500/10 text-teal-500"
+              />
+              
+              <FeatureItem 
+                icon={
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
@@ -138,18 +149,11 @@ const MarketSection = () => {
                   >
                     <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
                   </svg>
-                </div>
-                <div>
-                  <h4 className="text-navy font-bold text-lg">
-                    Digital innovation drives growth
-                  </h4>
-                  <p className="text-gray-600">
-                    Real-time analytics, scoreboard displays, and on-court
-                    digital experiences create new revenue opportunities and
-                    differentiated value.
-                  </p>
-                </div>
-              </div>
+                } 
+                title="Digital innovation drives growth" 
+                description="Real-time analytics, scoreboard displays, and on-court digital experiences create new revenue opportunities and differentiated value."
+                bgColorClass="bg-purple-500/10 text-purple-500"
+              />
             </div>
 
             <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3">

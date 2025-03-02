@@ -1,7 +1,36 @@
+
 import React, { useState, useEffect } from "react";
 import AnimatedButton from "./ui/AnimatedButton";
 import { useNavigate } from "react-router-dom";
 import ShareMatchModal from "./ui/ShareMatchModal";
+import { Menu, X, Share2 } from "lucide-react";
+
+// Create a NavLink component to reduce repetition
+const NavLink = ({ 
+  href, 
+  label, 
+  onClick, 
+  isMobile = false 
+}: { 
+  href: string; 
+  label: string; 
+  onClick?: (e: React.MouseEvent) => void;
+  isMobile?: boolean;
+}) => {
+  const baseClasses = isMobile 
+    ? "text-white hover:text-primary transition-colors text-xl"
+    : "text-navy hover:text-primary transition-colors font-medium";
+  
+  return (
+    <a
+      href={href}
+      onClick={onClick}
+      className={baseClasses}
+    >
+      {label}
+    </a>
+  );
+};
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -11,24 +40,22 @@ const Navbar = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 50) {
-        setScrolled(true);
-      } else {
-        setScrolled(false);
-      }
+      setScrolled(window.scrollY > 50);
     };
 
     window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   // Function to handle scoreboard navigation
   const handleScoreboardClick = (e: React.MouseEvent) => {
     e.preventDefault();
     navigate('/scoreboard');
+  };
+
+  const handleCommunityClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setShowShareModal(true);
   };
 
   return (
@@ -50,77 +77,46 @@ const Navbar = () => {
           <span className="font-bold text-xl text-navy">SwingNet</span>
         </a>
 
-        {/* Navigation */}
+        {/* Navigation - Desktop */}
         <nav className="hidden md:flex space-x-8 items-center">
-          <a
-            href="#about"
-            className="text-navy hover:text-primary transition-colors font-medium"
-          >
-            About
-          </a>
-          <a
-            href="#solution"
-            className="text-navy hover:text-primary transition-colors font-medium"
-          >
-            Solution
-          </a>
-          <a
-            href="#market"
-            className="text-navy hover:text-primary transition-colors font-medium"
-          >
-            Market
-          </a>
-          <a
-            href="#team"
-            className="text-navy hover:text-primary transition-colors font-medium"
-          >
-            Team
-          </a>
-          <a
-            href="#connectivity"
-            onClick={(e) => {
-              e.preventDefault();
-              setShowShareModal(true);
-            }}
-            className="text-navy hover:text-primary transition-colors font-medium"
-          >
-            Community
-          </a>
-          <a
-            href="#scoreboard"
-            onClick={handleScoreboardClick}
-            className="text-navy hover:text-primary transition-colors font-medium"
-          >
-            Scoreboard
-          </a>
-          <a
-            href="#contact"
-            className="text-navy hover:text-primary transition-colors font-medium"
-          >
-            Contact
-          </a>
+          <NavLink href="#about" label="About" />
+          <NavLink href="#solution" label="Solution" />
+          <NavLink href="#market" label="Market" />
+          <NavLink href="#team" label="Team" />
+          <NavLink href="#connectivity" label="Community" onClick={handleCommunityClick} />
+          <NavLink href="#scoreboard" label="Scoreboard" onClick={handleScoreboardClick} />
+          <NavLink href="#contact" label="Contact" />
         </nav>
 
-        {/* Mobile Menu Button */}
-        <button
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
-          className="md:hidden text-navy"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-6 w-6"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
+        {/* Share button - Desktop */}
+        <div className="hidden md:flex items-center gap-3">
+          <button
+            onClick={() => setShowShareModal(true)}
+            className="flex items-center gap-2 text-navy hover:text-primary transition-colors"
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M4 6h16M4 12h16M4 18h16"
-            />
-          </svg>
-        </button>
+            <Share2 className="w-4 h-4" />
+            <span>Share</span>
+          </button>
+          <AnimatedButton>Get Started</AnimatedButton>
+        </div>
+
+        {/* Mobile Menu Button */}
+        <div className="flex items-center gap-3 md:hidden">
+          <button
+            onClick={() => setShowShareModal(true)}
+            className="text-navy mr-2"
+            aria-label="Share Match Update"
+          >
+            <Share2 className="w-5 h-5" />
+          </button>
+          <button
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            className="text-navy"
+            aria-label="Toggle menu"
+          >
+            <Menu className="w-6 h-6" />
+          </button>
+        </div>
 
         {/* Mobile Menu */}
         <div
@@ -134,86 +130,42 @@ const Navbar = () => {
                 onClick={() => setIsMenuOpen(false)}
                 className="text-white"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
+                <X className="w-6 h-6" />
               </button>
             </div>
             <div className="flex flex-col items-center justify-center flex-1 space-y-8">
-              <a
-                href="#about"
-                onClick={() => setIsMenuOpen(false)}
-                className="text-white hover:text-primary transition-colors text-xl"
-              >
-                About
-              </a>
-              <a
-                href="#solution"
-                onClick={() => setIsMenuOpen(false)}
-                className="text-white hover:text-primary transition-colors text-xl"
-              >
-                Solution
-              </a>
-              <a
-                href="#market"
-                onClick={() => setIsMenuOpen(false)}
-                className="text-white hover:text-primary transition-colors text-xl"
-              >
-                Market
-              </a>
-              <a
-                href="#team"
-                onClick={() => setIsMenuOpen(false)}
-                className="text-white hover:text-primary transition-colors text-xl"
-              >
-                Team
-              </a>
-              <a
-                href="#connectivity"
+              <NavLink href="#about" label="About" isMobile onClick={() => setIsMenuOpen(false)} />
+              <NavLink href="#solution" label="Solution" isMobile onClick={() => setIsMenuOpen(false)} />
+              <NavLink href="#market" label="Market" isMobile onClick={() => setIsMenuOpen(false)} />
+              <NavLink href="#team" label="Team" isMobile onClick={() => setIsMenuOpen(false)} />
+              <NavLink 
+                href="#connectivity" 
+                label="Community" 
+                isMobile
                 onClick={(e) => {
                   e.preventDefault();
                   setIsMenuOpen(false);
                   setShowShareModal(true);
-                }}
-                className="text-white hover:text-primary transition-colors text-xl"
-              >
-                Community
-              </a>
-              <a
-                href="#scoreboard"
+                }} 
+              />
+              <NavLink 
+                href="#scoreboard" 
+                label="Scoreboard" 
+                isMobile
                 onClick={(e) => {
                   e.preventDefault();
                   setIsMenuOpen(false);
                   navigate('/scoreboard');
-                }}
-                className="text-white hover:text-primary transition-colors text-xl"
-              >
-                Scoreboard
-              </a>
-              <a
-                href="#contact"
-                onClick={() => setIsMenuOpen(false)}
-                className="text-white hover:text-primary transition-colors text-xl"
-              >
-                Contact
-              </a>
+                }} 
+              />
+              <NavLink href="#contact" label="Contact" isMobile onClick={() => setIsMenuOpen(false)} />
+              
+              <AnimatedButton onClick={() => setIsMenuOpen(false)}>
+                Get Started
+              </AnimatedButton>
             </div>
           </div>
         </div>
-
-        {/* Call to Action */}
-        <AnimatedButton>Get Started</AnimatedButton>
       </div>
 
       {/* Share Match Modal */}

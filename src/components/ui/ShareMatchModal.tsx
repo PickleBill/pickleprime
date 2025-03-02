@@ -1,7 +1,9 @@
 
 import React, { useState } from "react";
 import { toast } from "@/components/ui/use-toast";
-import { Share } from "lucide-react";
+import { Share, ArrowRight } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import ShareModal from "./future-play/scoreboard/components/ShareModal";
 
 interface ShareMatchModalProps {
   isOpen: boolean;
@@ -12,6 +14,8 @@ const ShareMatchModal: React.FC<ShareMatchModalProps> = ({ isOpen, onClose }) =>
   const [gameTime, setGameTime] = useState(180); // 3 minutes in seconds
   const [player1Score, setPlayer1Score] = useState(20);
   const [player2Score, setPlayer2Score] = useState(18);
+  const [showAdvancedView, setShowAdvancedView] = useState(false);
+  const navigate = useNavigate();
 
   const handleShare = (platform: string) => {
     toast({
@@ -21,6 +25,19 @@ const ShareMatchModal: React.FC<ShareMatchModalProps> = ({ isOpen, onClose }) =>
     });
     setTimeout(onClose, 500);
   };
+
+  // If advanced view is showing, render that instead
+  if (showAdvancedView && isOpen) {
+    return (
+      <ShareModal
+        isOpen={true}
+        onClose={() => setShowAdvancedView(false)}
+        player1Score={player1Score}
+        player2Score={player2Score}
+        gameTime={gameTime}
+      />
+    );
+  }
 
   if (!isOpen) return null;
 
@@ -77,6 +94,31 @@ const ShareMatchModal: React.FC<ShareMatchModalProps> = ({ isOpen, onClose }) =>
                 defaultValue={`Match update: Team A ${player1Score} - Team B ${player2Score} after an intense game! #Pickleball #CourtVisionary`}
               />
             </div>
+          </div>
+          
+          {/* Advanced Analytics Teaser */}
+          <div className="bg-gradient-to-r from-[#0C8068]/30 to-[#0FA0CE]/30 border border-[#FFD700]/20 rounded-lg p-4 mb-6">
+            <div className="flex justify-between items-start">
+              <h4 className="text-md font-medium text-white/90 flex items-center gap-1">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FFD700" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M18 2l-3 14-3-9-3 9-3-14"></path>
+                </svg>
+                Premium Analytics
+              </h4>
+              <span className="text-xs bg-[#FFD700]/20 text-[#FFD700] px-2 py-0.5 rounded-full">PRO</span>
+            </div>
+            
+            <p className="text-sm text-white/70 mb-4">
+              Get deeper insights about your social reach, engagement metrics, and audience growth.
+            </p>
+            
+            <button 
+              onClick={() => setShowAdvancedView(true)}
+              className="w-full py-2 bg-gradient-to-r from-[#0C8068] to-[#0FA0CE] text-white rounded-md text-sm font-medium hover:opacity-90 transition-opacity flex items-center justify-center gap-1"
+            >
+              Explore Premium Features
+              <ArrowRight className="w-4 h-4" />
+            </button>
           </div>
           
           <h3 className="text-lg font-semibold text-white mb-3">Share to</h3>

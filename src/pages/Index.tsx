@@ -9,75 +9,13 @@ import TeamSection from "@/components/TeamSection";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
 import ShareMatchModal from "@/components/ui/ShareMatchModal";
-import { Twitter, Facebook, Instagram, TrendingUp, Users, Award, Clock, Share2 } from "lucide-react";
+import AdvancedShareModal from "@/components/ui/AdvancedShareModal";
+import { Twitter, Facebook, Instagram, TrendingUp, Users, Award, Clock, Share2, ArrowRight } from "lucide-react";
 
-const Index = () => {
-  const [showShareModal, setShowShareModal] = useState(false);
-  
-  useEffect(() => {
-    const handleAnchorLinkClick = (e: MouseEvent) => {
-      const target = e.target as HTMLAnchorElement;
-      const href = target.getAttribute("href");
-      
-      if (href && href.startsWith("#") && href !== "#") {
-        e.preventDefault();
-        const targetId = href.slice(1);
-        const targetElement = document.getElementById(targetId);
-        
-        if (targetElement) {
-          window.scrollTo({
-            top: targetElement.offsetTop - 80,
-            behavior: "smooth",
-          });
-        }
-      }
-    };
-
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener("click", handleAnchorLinkClick);
-    });
-
-    return () => {
-      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.removeEventListener("click", handleAnchorLinkClick);
-      });
-    };
-  }, []);
-
-  useEffect(() => {
-    if (window.location.hash === '#future-play') {
-      setTimeout(() => {
-        const futurePlayButton = document.querySelector('button[aria-label="Launch Digital Scoreboard"]');
-        if (futurePlayButton && futurePlayButton instanceof HTMLElement) {
-          futurePlayButton.click();
-        }
-      }, 500);
-    }
-  }, []);
-
-  return (
-    <div className="min-h-screen bg-white">
-      <Navbar />
-      <Hero />
-      <AboutSection />
-      <SolutionSection />
-      <HighlightReels />
-      <MarketSection />
-      <ConnectivitySection openShareModal={() => setShowShareModal(true)} />
-      <SocialMediaDashboard openShareModal={() => setShowShareModal(true)} />
-      <TeamSection />
-      <ContactSection />
-      <Footer />
-      
-      <ShareMatchModal
-        isOpen={showShareModal}
-        onClose={() => setShowShareModal(false)}
-      />
-    </div>
-  );
-};
-
-const ConnectivitySection = ({ openShareModal }: { openShareModal: () => void }) => {
+const ConnectivitySection = ({ openShareModal, openAdvancedShareModal }: { 
+  openShareModal: () => void;
+  openAdvancedShareModal: () => void;
+}) => {
   return (
     <section id="connectivity" className="py-16 md:py-24 bg-gradient-to-b from-white to-gray-50">
       <div className="container">
@@ -121,13 +59,23 @@ const ConnectivitySection = ({ openShareModal }: { openShareModal: () => void })
               </div>
             </div>
             
-            <button
-              onClick={openShareModal}
-              className="mt-4 px-4 py-2 bg-primary/80 hover:bg-primary text-white rounded-md transition-colors flex items-center gap-2"
-            >
-              <Share2 className="w-4 h-4" />
-              Share Match Update
-            </button>
+            <div className="flex flex-wrap gap-3">
+              <button
+                onClick={openShareModal}
+                className="px-4 py-2 bg-primary/80 hover:bg-primary text-white rounded-md transition-colors flex items-center gap-2"
+              >
+                <Share2 className="w-4 h-4" />
+                Share Match Update
+              </button>
+              
+              <button
+                onClick={openAdvancedShareModal}
+                className="px-4 py-2 bg-gradient-to-r from-[#0C8068] to-[#0FA0CE] text-white rounded-md transition-colors flex items-center gap-2"
+              >
+                Advanced Analytics
+                <ArrowRight className="w-4 h-4" />
+              </button>
+            </div>
           </div>
           
           <div>
@@ -183,7 +131,10 @@ const ConnectivitySection = ({ openShareModal }: { openShareModal: () => void })
   );
 };
 
-const SocialMediaDashboard = ({ openShareModal }: { openShareModal: () => void }) => {
+const SocialMediaDashboard = ({ openShareModal, openAdvancedShareModal }: { 
+  openShareModal: () => void;
+  openAdvancedShareModal: () => void;
+}) => {
   return (
     <section className="py-16 bg-navy-dark">
       <div className="container">
@@ -335,9 +286,16 @@ const SocialMediaDashboard = ({ openShareModal }: { openShareModal: () => void }
           </div>
         </div>
         
-        <div className="flex justify-center">
+        <div className="flex justify-center gap-4">
           <button 
             onClick={openShareModal}
+            className="px-8 py-3 bg-primary text-white rounded-md font-medium hover:bg-primary/90 transition-colors"
+          >
+            Quick Share
+          </button>
+          
+          <button 
+            onClick={openAdvancedShareModal}
             className="px-8 py-3 bg-gradient-to-r from-[#0C8068] to-[#0FA0CE] text-white rounded-md font-medium hover:shadow-lg hover:shadow-[#0C8068]/20 transition-all"
           >
             View Full Dashboard
@@ -345,6 +303,84 @@ const SocialMediaDashboard = ({ openShareModal }: { openShareModal: () => void }
         </div>
       </div>
     </section>
+  );
+};
+
+const Index = () => {
+  const [showShareModal, setShowShareModal] = useState(false);
+  const [showAdvancedShareModal, setShowAdvancedShareModal] = useState(false);
+  
+  useEffect(() => {
+    const handleAnchorLinkClick = (e: MouseEvent) => {
+      const target = e.target as HTMLAnchorElement;
+      const href = target.getAttribute("href");
+      
+      if (href && href.startsWith("#") && href !== "#") {
+        e.preventDefault();
+        const targetId = href.slice(1);
+        const targetElement = document.getElementById(targetId);
+        
+        if (targetElement) {
+          window.scrollTo({
+            top: targetElement.offsetTop - 80,
+            behavior: "smooth",
+          });
+        }
+      }
+    };
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener("click", handleAnchorLinkClick);
+    });
+
+    return () => {
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.removeEventListener("click", handleAnchorLinkClick);
+      });
+    };
+  }, []);
+
+  useEffect(() => {
+    if (window.location.hash === '#future-play') {
+      setTimeout(() => {
+        const futurePlayButton = document.querySelector('button[aria-label="Launch Digital Scoreboard"]');
+        if (futurePlayButton && futurePlayButton instanceof HTMLElement) {
+          futurePlayButton.click();
+        }
+      }, 500);
+    }
+  }, []);
+
+  return (
+    <div className="min-h-screen bg-white">
+      <Navbar />
+      <Hero />
+      <AboutSection />
+      <SolutionSection />
+      <HighlightReels />
+      <MarketSection />
+      <ConnectivitySection 
+        openShareModal={() => setShowShareModal(true)} 
+        openAdvancedShareModal={() => setShowAdvancedShareModal(true)}
+      />
+      <SocialMediaDashboard 
+        openShareModal={() => setShowShareModal(true)}
+        openAdvancedShareModal={() => setShowAdvancedShareModal(true)}
+      />
+      <TeamSection />
+      <ContactSection />
+      <Footer />
+      
+      <ShareMatchModal
+        isOpen={showShareModal}
+        onClose={() => setShowShareModal(false)}
+      />
+      
+      <AdvancedShareModal
+        isOpen={showAdvancedShareModal}
+        onClose={() => setShowAdvancedShareModal(false)}
+      />
+    </div>
   );
 };
 
