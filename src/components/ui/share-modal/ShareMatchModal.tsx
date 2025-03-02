@@ -45,17 +45,7 @@ const ShareMatchModal: React.FC<ShareMatchModalProps> = ({ isOpen, onClose }) =>
     };
   }, [isOpen, onClose, showAdvancedView, quickViewContent]);
   
-  // If quick view content is showing, render that
-  if (quickViewContent && isOpen) {
-    return (
-      <QuickViewContent 
-        contentType={quickViewContent} 
-        onClose={() => setQuickViewContent(null)} 
-      />
-    );
-  }
-  
-  // If advanced view is showing, render that instead
+  // If quick view content is showing, render both the modal and the quick view
   if (showAdvancedView && isOpen) {
     return (
       <ShareModal
@@ -87,14 +77,14 @@ const ShareMatchModal: React.FC<ShareMatchModalProps> = ({ isOpen, onClose }) =>
       className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4 animate-fade-in"
       onClick={handleBackdropClick}
     >
-      <div className="bg-navy-dark/90 backdrop-blur-md rounded-xl w-full max-w-[83%] md:max-w-[580px] lg:max-w-[660px] overflow-hidden flex flex-col border border-white/10 max-h-[90vh]">
+      <div className="bg-navy-dark/90 backdrop-blur-md rounded-xl w-full max-w-[73%] md:max-w-[510px] lg:max-w-[580px] overflow-hidden flex flex-col border border-white/10 max-h-[90vh]">
         {/* Header */}
         <ModalHeader onClose={onClose} />
         
         {/* Content */}
         <div className="px-4 py-3 flex-1 overflow-auto scrollbar-hide">
-          {/* Match Status Card (now full width at the top) */}
-          <div className="mb-4 w-full">
+          {/* Match Status Card (compressed vertically) */}
+          <div className="mb-3 w-full">
             <MatchStatusCard 
               player1Score={player1Score}
               player2Score={player2Score}
@@ -103,20 +93,20 @@ const ShareMatchModal: React.FC<ShareMatchModalProps> = ({ isOpen, onClose }) =>
           </div>
           
           {/* Premium Analytics Card (now full width below match status) */}
-          <div className="mb-4 w-full">
+          <div className="mb-3 w-full">
             <PremiumAnalyticsCard 
               onExploreClick={() => setShowAdvancedView(true)}
             />
           </div>
           
-          <h3 className="text-lg font-semibold text-white mb-3 text-center">Share to</h3>
+          <h3 className="text-base font-semibold text-white mb-2 text-center">Share to</h3>
           
-          <div className="mb-4">
+          <div className="mb-3">
             <SocialShareButtons onClose={onClose} />
           </div>
           
           {/* Feature Exploration Section */}
-          <div className="mt-1 mb-2">
+          <div className="mb-1">
             <FeatureExploreSection onFeatureClick={handleFeatureClick} />
           </div>
         </div>
@@ -124,6 +114,14 @@ const ShareMatchModal: React.FC<ShareMatchModalProps> = ({ isOpen, onClose }) =>
         {/* Footer */}
         <ModalFooter onClose={onClose} />
       </div>
+
+      {/* Render QuickViewContent overlay when a feature is selected */}
+      {quickViewContent && (
+        <QuickViewContent 
+          contentType={quickViewContent} 
+          onClose={() => setQuickViewContent(null)} 
+        />
+      )}
     </div>
   );
 };
