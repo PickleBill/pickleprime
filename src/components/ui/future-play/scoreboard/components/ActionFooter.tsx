@@ -1,6 +1,6 @@
 
 import React from "react";
-import { Share2, Video, User } from "lucide-react";
+import { Share2, Video, User, Globe } from "lucide-react";
 
 interface ActionFooterProps {
   onHighlightClick: () => void;
@@ -18,10 +18,10 @@ const ActionFooter: React.FC<ActionFooterProps> = ({
       <div className="flex items-center justify-center gap-6">
         <button 
           onClick={onHighlightClick}
-          className="flex items-center gap-2 py-3 px-6 bg-[#0C8068] text-white rounded-md text-base font-medium hover:bg-[#0C8068]/90 transition-colors shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
+          className="flex items-center gap-2 py-3 px-6 bg-[#4CAF50] text-white rounded-md text-base font-medium hover:bg-[#43A047] transition-colors shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
         >
-          <Video className="w-5 h-5" />
-          <span>View Highlights</span>
+          <Globe className="w-5 h-5" />
+          <span>Your Community Connection Conduit</span>
         </button>
         
         <button 
