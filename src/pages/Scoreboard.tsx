@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import ScoreboardViewContainer from "@/components/ui/future-play/scoreboard";
 import { useNavigate } from "react-router-dom";
@@ -130,7 +129,6 @@ const Scoreboard = () => {
         <QuickViewContent 
           contentType={activeQuickView} 
           onClose={closeQuickView}
-          inScoreboard={true}
         />
       )}
     </div>
