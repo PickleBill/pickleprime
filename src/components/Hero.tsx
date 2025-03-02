@@ -1,4 +1,3 @@
-
 import React, { useEffect, useRef, useState } from "react";
 import AnimatedButton from "./ui/AnimatedButton";
 import PlayerModal from "./ui/PlayerModal";
@@ -77,20 +76,26 @@ const Hero = () => {
               Upgrade any venue into a tech-enabled, social-entertainment hub — driving revenue, brand differentiation, and deeper player loyalty.
             </p>
             
-            {/* Updated button layout: For Players & For Facilities side by side, followed by Schedule a Demo below */}
-            <div className="flex flex-col space-y-4 items-center">
-              {/* First row: For Players & For Facilities */}
-              <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3 w-full sm:w-auto">
-                <AnimatedButton variant="outline" size="lg" onClick={() => setShowPlayerModal(true)}>
-                  For Players
-                </AnimatedButton>
-                <AnimatedButton variant="outline" size="lg" onClick={handleFacilityClick}>
+            {/* Updated button layout with For Facilities being more prominent */}
+            <div className="flex flex-col space-y-6 items-center">
+              {/* Facility button now stands alone at top */}
+              <div className="w-full sm:w-auto">
+                <AnimatedButton 
+                  variant="outline" 
+                  size="lg" 
+                  onClick={handleFacilityClick}
+                  className="px-8 py-4 text-lg border-2 bg-gradient-to-r from-[#0EA5E9] to-[#0EA5E9]/80 text-white border-[#0EA5E9] hover:bg-[#0EA5E9]/90 hover:shadow-lg hover:shadow-[#0EA5E9]/20 transition-all"
+                >
                   For Facilities
                 </AnimatedButton>
               </div>
               
-              {/* Second row: See the Future of Play and Share Match buttons */}
-              <div className="w-full sm:w-auto mt-4 flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3">
+              {/* Other buttons in a row below */}
+              <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3">
+                <AnimatedButton variant="outline" size="lg" onClick={() => setShowPlayerModal(true)}>
+                  For Players
+                </AnimatedButton>
+                
                 <AnimatedButton 
                   size="lg" 
                   withArrow 
