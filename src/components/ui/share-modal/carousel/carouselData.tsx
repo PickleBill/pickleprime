@@ -25,32 +25,32 @@ export const getCarouselItems = (handleQuickView: QuickViewHandler): CarouselIte
     id: 'video',
     label: 'Video Clips',
     icon: <Video className="w-5 h-5" />,
-    active: false,
-    color: '#6b7280',
+    active: true,
+    color: '#FF5722',
     onClick: () => handleQuickView('video')
   },
   {
     id: 'analytics',
     label: 'Analytics',
     icon: <Activity className="w-5 h-5" />,
-    active: false,
-    color: '#6b7280',
+    active: true,
+    color: '#4CAF50',
     onClick: () => handleQuickView('analytics')
   },
   {
     id: 'tournaments',
     label: 'Tournaments',
     icon: <Trophy className="w-5 h-5" />,
-    active: false,
-    color: '#6b7280',
+    active: true,
+    color: '#FFD700',
     onClick: () => handleQuickView('tournaments')
   },
   {
     id: 'stats',
     label: 'Match Stats',
     icon: <BarChart2 className="w-5 h-5" />,
-    active: false,
-    color: '#6b7280',
+    active: true,
+    color: '#E91E63',
     onClick: () => handleQuickView('stats')
   },
   {
@@ -58,7 +58,7 @@ export const getCarouselItems = (handleQuickView: QuickViewHandler): CarouselIte
     label: 'Community',
     icon: <Users className="w-5 h-5" />,
     active: true,
-    color: '#1a9dc3',
+    color: '#9C27B0',
     onClick: () => {
       toast({
         title: "Opening community feed",

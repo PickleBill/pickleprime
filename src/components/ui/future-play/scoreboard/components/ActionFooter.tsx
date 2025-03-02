@@ -1,10 +1,10 @@
-
 import React, { useState, useRef } from "react";
 import { Video, User, Share2, ChevronLeft, ChevronRight, Trophy, Activity, Monitor, Users } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { pillarsData } from "../../data/pillarsData";
 import { toast } from "@/components/ui/use-toast";
 import AnimatedButton from "@/components/ui/AnimatedButton";
+import { motion } from "framer-motion";
 
 interface ActionFooterProps {
   onHighlightClick: () => void;
@@ -130,6 +130,9 @@ const ActionFooter: React.FC<ActionFooterProps> = ({
     setShowRightArrow(scrollRef.current.scrollLeft < (scrollRef.current.scrollWidth - scrollRef.current.clientWidth - 10));
   };
 
+  // Hexagon dimensions
+  const hexSize = 30; // Size of the hexagon (adjust as needed)
+
   return (
     <div className="bg-[#001a2c]/90 backdrop-blur-md border-t border-[#0a2d4a] py-5 px-4 w-full relative">
       <div className="max-w-screen-lg mx-auto flex flex-col">
@@ -144,16 +147,18 @@ const ActionFooter: React.FC<ActionFooterProps> = ({
         
         <div className="relative">
           {/* Left Scroll Arrow */}
-          <button 
+          <motion.button 
             onClick={() => handleScroll('left')}
             className={cn(
               "absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-[#001a2c]/80 p-1 rounded-full text-white/80 hover:text-white transition-all border border-white/10 backdrop-blur-sm", 
               !showLeftArrow && "opacity-0 pointer-events-none"
             )}
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.95 }}
             aria-label="Scroll left"
           >
             <ChevronLeft className="w-6 h-6" />
-          </button>
+          </motion.button>
           
           {/* Scrollable Button Container */}
           <div 
@@ -163,43 +168,87 @@ const ActionFooter: React.FC<ActionFooterProps> = ({
             style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
           >
             {actionButtons.map((button) => (
-              <button
+              <motion.button
                 key={button.id}
                 onClick={button.onClick}
-                className={`flex flex-col items-center gap-1 min-w-[80px] transition-all duration-300 hover:scale-110 group`}
+                className="flex flex-col items-center gap-1 min-w-[80px] transition-all duration-300 group"
+                whileHover={{ scale: 1.08 }}
+                whileTap={{ scale: 0.95 }}
               >
-                <div 
-                  className={`w-10 h-10 rounded-full flex items-center justify-center text-white transition-all duration-300 
-                    ${activeItem === button.id ? 'scale-110' : 'opacity-80 hover:opacity-100'}
-                  `} 
-                  style={{ 
-                    backgroundColor: activeItem === button.id ? button.color : `${button.color}90`,
-                    boxShadow: activeItem === button.id ? `0 0 15px ${button.color}` : 'none',
-                    border: `1px solid ${activeItem === button.id ? 'rgba(255,255,255,0.3)' : 'rgba(255,255,255,0.1)'}`,
-                  }}
-                >
-                  {button.icon}
+                <div className="relative">
+                  {/* Hexagonal shape with CSS clip-path */}
+                  <motion.div 
+                    className={`w-12 h-12 flex items-center justify-center text-white transition-all duration-300`}
+                    style={{ 
+                      clipPath: "polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)",
+                      background: activeItem === button.id 
+                        ? `linear-gradient(135deg, ${button.color}, ${button.color}90)`
+                        : `linear-gradient(135deg, ${button.color}60, ${button.color}40)`,
+                      boxShadow: activeItem === button.id 
+                        ? `0 0 15px ${button.color}, 0 0 25px ${button.color}80, inset 0 0 8px rgba(255,255,255,0.4)` 
+                        : 'none',
+                      border: `1px solid ${activeItem === button.id ? 'rgba(255,255,255,0.3)' : 'rgba(255,255,255,0.1)'}`,
+                    }}
+                    animate={{ 
+                      boxShadow: activeItem === button.id 
+                        ? [
+                            `0 0 12px ${button.color}90, inset 0 0 6px rgba(255,255,255,0.3)`,
+                            `0 0 18px ${button.color}, inset 0 0 10px rgba(255,255,255,0.4)`,
+                            `0 0 12px ${button.color}90, inset 0 0 6px rgba(255,255,255,0.3)`
+                          ]
+                        : 'none'
+                    }}
+                    transition={{ 
+                      repeat: activeItem === button.id ? Infinity : 0, 
+                      duration: 2,
+                    }}
+                  >
+                    {/* Inner content with 3D effect */}
+                    <div className="flex items-center justify-center w-full h-full transform translate-y-[1px] hover:translate-y-0 transition-transform">
+                      {button.icon}
+                    </div>
+                  </motion.div>
+                  
+                  {/* 3D bottom edge effect */}
+                  {activeItem !== button.id && (
+                    <div 
+                      className="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-11 h-1 opacity-50"
+                      style={{ 
+                        clipPath: "polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%)",
+                        background: `${button.color}30`,
+                      }}
+                    />
+                  )}
                 </div>
-                <span className={`text-white text-xs font-medium whitespace-nowrap transition-all duration-300
-                  ${activeItem === button.id ? 'text-white' : 'text-white/70 group-hover:text-white/90'}`
-                }>
+                
+                <motion.span 
+                  className={`text-white text-xs font-medium whitespace-nowrap transition-all duration-300
+                    ${activeItem === button.id ? 'text-white' : 'text-white/70 group-hover:text-white/90'}`
+                  }
+                  animate={activeItem === button.id ? {
+                    scale: [1, 1.08, 1],
+                    transition: { duration: 2, repeat: Infinity }
+                  } : {}}
+                >
                   {button.label}
-                </span>
-              </button>
+                </motion.span>
+              </motion.button>
             ))}
           </div>
           
           {/* Right Scroll Arrow */}
-          <button 
+          <motion.button 
             onClick={() => handleScroll('right')}
             className={cn(
               "absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-[#001a2c]/80 p-1 rounded-full text-white/80 hover:text-white transition-all border border-white/10 backdrop-blur-sm",
               !showRightArrow && "opacity-0 pointer-events-none"
             )}
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.95 }}
             aria-label="Scroll right"
           >
             <ChevronRight className="w-6 h-6" />
-          </button>
+          </motion.button>
           
           {/* Left Fade Gradient */}
           <div 
