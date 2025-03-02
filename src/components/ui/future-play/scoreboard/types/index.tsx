@@ -22,6 +22,8 @@ export interface BallTrajectory {
   dy?: number;  // Add optional dy for direction vector
   endX?: number;  // Add optional endX for trajectory
   endY?: number;  // Add optional endY for trajectory
+  stage?: "rising" | "falling" | "bouncing";  // Add stage property
+  bounces?: number;  // Add bounces property
 }
 
 export interface ScoreboardContainerProps {
@@ -81,6 +83,16 @@ export interface PlayerStats {
   unforcedErrors: number;
   firstServePercentage: number;
   breakPointsConverted: number;
+  
+  // Properties needed for ScoreboardStats component
+  dinkAccuracy: number;
+  driveAccuracy: number;
+  volleyAccuracy: number;
+  serveAccuracy: number;
+  shotEfficiency: number;
+  ballSpeed: number;
+  distance: number;
+  energy: number;
 }
 
 export interface MatchFeedItem {
