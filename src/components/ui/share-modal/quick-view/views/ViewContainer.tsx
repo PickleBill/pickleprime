@@ -11,7 +11,7 @@ interface ViewContainerProps {
 const ViewContainer: React.FC<ViewContainerProps> = ({ children, onClose }) => {
   return (
     <motion.div 
-      className="w-full max-w-[95%] md:max-w-[660px] lg:max-w-[750px] relative"
+      className="w-full max-w-[83%] md:max-w-[580px] lg:max-w-[660px] relative"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: 20 }}

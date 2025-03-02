@@ -87,7 +87,7 @@ const ShareMatchModal: React.FC<ShareMatchModalProps> = ({ isOpen, onClose }) =>
       className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4 animate-fade-in"
       onClick={handleBackdropClick}
     >
-      <div className="bg-navy-dark/90 backdrop-blur-md rounded-xl w-full max-w-[95%] md:max-w-[660px] lg:max-w-[750px] overflow-hidden flex flex-col border border-white/10 max-h-[85vh]">
+      <div className="bg-navy-dark/90 backdrop-blur-md rounded-xl w-full max-w-[83%] md:max-w-[580px] lg:max-w-[660px] overflow-hidden flex flex-col border border-white/10 max-h-[90vh]">
         {/* Header */}
         <ModalHeader onClose={onClose} />
         
