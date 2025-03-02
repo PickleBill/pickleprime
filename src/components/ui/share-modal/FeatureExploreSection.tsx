@@ -32,7 +32,11 @@ const FeatureCard: React.FC<FeatureCardProps> = ({ icon, label, iconColor, onCli
       
       <div className={`relative z-10`}>
         <div className="p-1.5 rounded-full border border-teal-400/30 shadow-[0_0_6px_rgba(45,212,191,0.3)]">
-          {React.cloneElement(icon as React.ReactElement, { className: `text-${iconColor}` })}
+          {React.cloneElement(icon as React.ReactElement, { 
+            className: iconColor === "amber-400" ? "text-amber-400" : 
+                     iconColor === "cyan-400" ? "text-cyan-400" : 
+                     `text-${iconColor}` 
+          })}
         </div>
       </div>
       <span className="relative text-white text-sm font-medium z-10 mt-3">{label}</span>
