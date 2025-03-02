@@ -27,7 +27,7 @@ const ModalContent: React.FC<ModalContentProps> = ({
 }) => {
   return (
     <div 
-      className="relative w-full max-w-5xl max-h-[90vh] bg-navy-dark/80 backdrop-blur-md rounded-2xl overflow-hidden shadow-2xl border border-white/10 animate-scale-in"
+      className="relative w-full max-w-4xl max-h-[85vh] bg-navy-dark/80 backdrop-blur-md rounded-2xl overflow-hidden shadow-2xl border border-white/10 animate-scale-in"
       onClick={(e) => e.stopPropagation()}
     >
       {/* Close button */}
@@ -43,7 +43,7 @@ const ModalContent: React.FC<ModalContentProps> = ({
       <ModalHeader />
 
       {/* Main Content */}
-      <div className="relative p-4 md:p-8 overflow-auto max-h-[calc(90vh-12rem)]">
+      <div className="relative p-4 md:p-6 overflow-auto max-h-[calc(85vh-12rem)]">
         {/* Pillars layout */}
         <PillarsSection 
           pillars={pillars}

@@ -34,9 +34,19 @@ const PlayerModal = ({ isOpen, onClose }: PlayerModalProps) => {
 
   if (!isOpen) return null;
 
+  // Add handler for backdrop clicks
+  const handleBackdropClick = (e: React.MouseEvent) => {
+    if (e.target === e.currentTarget) {
+      onClose();
+    }
+  };
+
   return (
-    <div className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4 animate-fade-in">
-      <div className="bg-[#0FA0CE]/10 rounded-xl w-full max-w-5xl max-h-[98vh] overflow-hidden flex flex-col">
+    <div 
+      className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4 animate-fade-in"
+      onClick={handleBackdropClick}
+    >
+      <div className="bg-[#0FA0CE]/10 rounded-xl w-full max-w-4xl max-h-[95vh] overflow-hidden flex flex-col">
         {/* Header */}
         <PlayerModalHeader onClose={onClose} />
         

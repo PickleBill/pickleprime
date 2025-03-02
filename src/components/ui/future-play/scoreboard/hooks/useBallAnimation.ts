@@ -16,9 +16,10 @@ const useBallAnimation = () => {
     
     // Basic movement logic - can be enhanced for more realistic physics
     if (trajectory.dx && trajectory.dy) {
-      // Apply trajectory movement
-      newPosition.x += trajectory.dx * (deltaTime / 100);
-      newPosition.y += trajectory.dy * (deltaTime / 100);
+      // Apply trajectory movement, scale by velocity
+      const scaledDeltaTime = deltaTime / 100;
+      newPosition.x += trajectory.dx * scaledDeltaTime * (velocity / 50);
+      newPosition.y += trajectory.dy * scaledDeltaTime * (velocity / 50);
       
       // Boundary handling - bounce off edges
       if (newPosition.x < 5 || newPosition.x > 95) {
@@ -32,10 +33,10 @@ const useBallAnimation = () => {
       }
     }
     
-    // Add some randomness to the trajectory occasionally
+    // Add some controlled randomness to the trajectory occasionally
     if (Math.random() > 0.98) {
-      trajectory.dx = (Math.random() - 0.5) * 10;
-      trajectory.dy = (Math.random() - 0.5) * 10;
+      trajectory.dx = (Math.random() - 0.5) * 8;
+      trajectory.dy = (Math.random() - 0.5) * 8;
     }
     
     return {

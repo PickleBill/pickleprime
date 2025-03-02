@@ -48,7 +48,6 @@ const ShareModal: React.FC<ShareModalProps> = ({
   if (!isOpen) return null;
 
   const handleShare = () => {
-    // In a real implementation, this would connect to the social media APIs
     console.log("Sharing to", selectedPlatform);
     console.log("Post text:", postText);
     console.log("Is scheduled:", isScheduling);
@@ -56,9 +55,6 @@ const ShareModal: React.FC<ShareModalProps> = ({
       console.log("Schedule date:", scheduleDate);
       console.log("Schedule time:", scheduleTime);
     }
-    
-    // Show a toast or notification that the post was shared/scheduled
-    // For now, just close the modal
     onClose();
   };
 
@@ -73,9 +69,18 @@ const ShareModal: React.FC<ShareModalProps> = ({
     }
   };
 
+  const handleBackdropClick = (e: React.MouseEvent) => {
+    if (e.target === e.currentTarget) {
+      onClose();
+    }
+  };
+
   return (
-    <div className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4 animate-fade-in">
-      <div className="relative bg-navy-dark/90 rounded-xl border border-white/10 w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col">
+    <div 
+      className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4 animate-fade-in"
+      onClick={handleBackdropClick}
+    >
+      <div className="relative bg-navy-dark/90 rounded-xl border border-white/10 w-full max-w-3xl max-h-[85vh] overflow-hidden flex flex-col">
         {/* Header */}
         <ModalHeader onClose={onClose} />
         

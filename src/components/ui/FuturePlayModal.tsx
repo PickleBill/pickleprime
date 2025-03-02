@@ -25,9 +25,6 @@ const FuturePlayModal = ({ isOpen, onClose }: FuturePlayModalProps) => {
       setShowScoreboard(false);
       setShowHighlight(false);
       setGameTime(0);
-      
-      // For direct scoreboard access, we want to open straight to the scoreboard
-      // This is handled by the parent component clicking the scoreboard button
     }
   }, [isOpen]);
 
@@ -97,7 +94,14 @@ const FuturePlayModal = ({ isOpen, onClose }: FuturePlayModalProps) => {
   // Return futuristic scoreboard if active
   if (showScoreboard) {
     return (
-      <div className="fixed inset-0 z-50 overflow-hidden animate-fade-in bg-[#0a192f]">
+      <div 
+        className="fixed inset-0 z-50 overflow-hidden animate-fade-in bg-[#0a192f]"
+        onClick={(e) => {
+          if (e.target === e.currentTarget) {
+            onClose();
+          }
+        }}
+      >
         {/* Futuristic background */}
         <div 
           className="absolute inset-0 bg-[#0a192f]"
@@ -114,7 +118,7 @@ const FuturePlayModal = ({ isOpen, onClose }: FuturePlayModalProps) => {
         </div>
 
         {/* Main content */}
-        <div className="relative w-full h-full flex flex-col">
+        <div className="relative w-full h-full flex flex-col max-w-5xl mx-auto">
           <EnhancedScoreboardView 
             onBackClick={handleBackButtonClick}
             onHighlightClick={triggerHighlight}
@@ -131,7 +135,14 @@ const FuturePlayModal = ({ isOpen, onClose }: FuturePlayModalProps) => {
   }
 
   return (
-    <div className="fixed inset-0 z-50 overflow-hidden flex items-center justify-center p-4 md:p-0">
+    <div 
+      className="fixed inset-0 z-50 overflow-hidden flex items-center justify-center p-4 md:p-0"
+      onClick={(e) => {
+        if (e.target === e.currentTarget) {
+          onClose();
+        }
+      }}
+    >
       {/* Backdrop with futuristic pattern */}
       <ModalBackdrop onClick={onClose} />
 

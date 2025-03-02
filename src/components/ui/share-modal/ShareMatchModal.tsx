@@ -55,9 +55,19 @@ const ShareMatchModal: React.FC<ShareMatchModalProps> = ({ isOpen, onClose }) =>
 
   if (!isOpen) return null;
 
+  // Add handler for backdrop clicks
+  const handleBackdropClick = (e: React.MouseEvent) => {
+    if (e.target === e.currentTarget) {
+      onClose();
+    }
+  };
+
   return (
-    <div className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4 animate-fade-in">
-      <div className="bg-navy-dark/90 backdrop-blur-md rounded-xl w-full max-w-lg overflow-hidden flex flex-col border border-white/10">
+    <div 
+      className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4 animate-fade-in"
+      onClick={handleBackdropClick}
+    >
+      <div className="bg-navy-dark/90 backdrop-blur-md rounded-xl w-full max-w-md overflow-hidden flex flex-col border border-white/10">
         {/* Header */}
         <ModalHeader onClose={onClose} />
         
