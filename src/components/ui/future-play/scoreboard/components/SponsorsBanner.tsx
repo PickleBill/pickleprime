@@ -28,7 +28,7 @@ const SponsorsBanner: React.FC<SponsorsBannerProps> = ({
   };
   
   return (
-    <div className="bg-[#001a2c] border-b border-[#0a2d4a] py-2 px-4 flex items-center justify-between">
+    <div className="bg-[#7E69AB] border-b border-[#6E59A5] py-2 px-4 flex items-center justify-between">
       <div className="flex items-center gap-3">
         <button 
           onClick={onBackClick} 
@@ -48,16 +48,22 @@ const SponsorsBanner: React.FC<SponsorsBannerProps> = ({
       
       <div className="flex items-center gap-2">
         <span className="text-white/70 text-xs uppercase">SPONSORED BY</span>
-        <div className="flex items-center gap-3">
-          {sponsors.map(sponsor => (
-            <div key={sponsor.id} className="h-5">
-              <img 
-                src={`/sponsor-${sponsor.id}.png`} 
-                alt={sponsor.name}
-                className="h-full object-contain"
-              />
-            </div>
-          ))}
+        <div className="flex items-center gap-5">
+          <img 
+            src="/lovable-uploads/93ec8769-f4ff-4eba-aff7-a78b39986907.png" 
+            alt="Joola" 
+            className="h-6 object-contain"
+          />
+          <img 
+            src="/lovable-uploads/ec4c1855-060c-49cf-afd6-3d56765fb726.png" 
+            alt="Fanatics" 
+            className="h-6 object-contain"
+          />
+          <img 
+            src="/lovable-uploads/d39d9c68-9778-4a89-b892-24f2e597b654.png" 
+            alt="Urban Pickleball Club" 
+            className="h-6 object-contain"
+          />
         </div>
       </div>
       

@@ -1,46 +1,44 @@
+import React from "react";
 
-// This file contains all the type definitions for the scoreboard components
-
-export interface Position {
-  x: number;
-  y: number;
-}
-
-export interface BallTrajectory {
-  endX: number;
-  endY: number;
-  dx?: number;
-  dy?: number;
-}
-
+// Player position type
 export interface PlayerPosition {
   x: number;
   y: number;
-  targetX: number;
-  targetY: number;
+  rotation: number;
 }
 
-export interface MatchFeedItem {
-  id: string;
-  type: 'highlight' | 'achievement' | 'stat';
-  time: string;
-  content: string;
-  likes?: number;
+// Ball position and trajectory
+export interface BallState {
+  x: number;
+  y: number;
+  z: number;
 }
 
-export interface PlayerStats {
+// Sponsor type
+export interface Sponsor {
+  id: number;
   name: string;
-  avatar: string;
-  winRate: string;
-  shots: number;
-  accuracy: string;
-  topSpeed: string;
-  spinRate: string;
-  reactionTime: string;
-  stamina?: string; // Optional field for backward compatibility
+  logo: string;
 }
 
-export interface ScoreboardContainerProps {
+// Player stats type
+export interface PlayerStats {
+  aces: number;
+  winners: number;
+  unforcedErrors: number;
+  firstServePercentage: number;
+  breakPointsConverted: number;
+}
+
+// Match feed item type
+export interface MatchFeedItem {
+  id: number;
+  timestamp: string;
+  message: string;
+}
+
+// Props for the mobile scoreboard view
+export interface MobileScoreboardViewProps {
   onBackClick: () => void;
   onHighlightClick: () => void;
   showHighlight: boolean;
@@ -49,23 +47,20 @@ export interface ScoreboardContainerProps {
   player1Score: number;
   player2Score: number;
   currentSet: number;
-}
-
-export interface MobileScoreboardViewProps extends ScoreboardContainerProps {
-  ballPosition: Position;
-  ballTrajectory: BallTrajectory;
+  ballPosition: BallState;
+  ballTrajectory: BallState[];
   ballVelocity: number;
-  player1: Position;
-  player2: Position;
-  player3: Position;
-  player4: Position;
+  player1: PlayerPosition;
+  player2: PlayerPosition;
+  player3: PlayerPosition;
+  player4: PlayerPosition;
   player1Stats: PlayerStats;
   player2Stats: PlayerStats;
   matchFeedItems: MatchFeedItem[];
   sponsors: Sponsor[];
 }
 
-export interface Sponsor {
-  id: number;
-  name: string;
+// Props for the scoreboard container
+export interface ScoreboardContainerProps {
+  showHighlight: boolean;
 }

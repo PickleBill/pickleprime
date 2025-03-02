@@ -1,7 +1,30 @@
+import React from "react";
+import { 
+  Sponsor,
+  PlayerStats, 
+  MatchFeedItem
+} from "../types";
 
-// Mock player stats
-import { MatchFeedItem, PlayerStats, Sponsor } from "../types";
+// Sponsor Data
+export const sponsors: Sponsor[] = [
+  {
+    id: 1,
+    name: "Joola",
+    logo: "/lovable-uploads/93ec8769-f4ff-4eba-aff7-a78b39986907.png"
+  },
+  {
+    id: 2,
+    name: "Fanatics",
+    logo: "/lovable-uploads/ec4c1855-060c-49cf-afd6-3d56765fb726.png"
+  },
+  {
+    id: 3,
+    name: "Urban Pickleball Club",
+    logo: "/lovable-uploads/d39d9c68-9778-4a89-b892-24f2e597b654.png"
+  }
+];
 
+// Player Stats
 export const player1Stats: PlayerStats = {
   name: "Alex Chen",
   winRate: "78%",
@@ -26,7 +49,7 @@ export const player2Stats: PlayerStats = {
   avatar: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=150&h=150&crop=faces&auto=format&fit=crop"
 };
 
-// Mock match feed
+// Match Feed Items
 export const mockMatchFeedItems: MatchFeedItem[] = [
   {
     id: "1",
@@ -47,11 +70,4 @@ export const mockMatchFeedItems: MatchFeedItem[] = [
     content: "Alex winning 80% of rallies longer than 8 shots.",
     time: "02:45"
   }
-];
-
-// Mock sponsors
-export const sponsors: Sponsor[] = [
-  { id: 1, name: "Pickleville Sports" },
-  { id: 2, name: "Paddle Tech Pro" },
-  { id: 3, name: "Court Kings" }
 ];
