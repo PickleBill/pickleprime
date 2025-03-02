@@ -22,26 +22,26 @@ const FeatureCard: React.FC<FeatureCardProps> = ({ title, icon, onClick, glowCol
       transition={{ duration: 0.3 }}
     >
       <div 
-        className="w-full aspect-square bg-navy-light/30 border border-white/10 rounded-xl p-5 flex flex-col items-center justify-center transition-all"
+        className="w-full aspect-[3/2] bg-navy-light/30 border border-white/10 rounded-xl p-3 flex flex-col items-center justify-center transition-all"
         style={{ 
           boxShadow: `0 0 15px 0 ${glowColor}30`,
           background: `radial-gradient(circle at center, ${glowColor}20 0%, transparent 70%)`,
         }}
       >
         <div 
-          className="w-12 h-12 rounded-full flex items-center justify-center mb-3"
+          className="w-10 h-10 rounded-full flex items-center justify-center mb-2"
           style={{ backgroundColor: `${glowColor}30` }}
         >
           {icon}
         </div>
-        <h3 className="text-white font-medium text-lg">{title}</h3>
+        <h3 className="text-white font-medium text-base">{title}</h3>
       </div>
       
       <div 
         className="absolute inset-0 opacity-0 group-hover:opacity-100 flex items-center justify-center bg-navy-dark/70 transition-opacity"
       >
         <button 
-          className="px-4 py-2 bg-white/10 hover:bg-white/20 rounded-md text-white font-medium"
+          className="px-3 py-1.5 bg-white/10 hover:bg-white/20 rounded-md text-white font-medium text-sm"
         >
           EXPLORE
         </button>
@@ -77,8 +77,8 @@ const FeatureExploreSection: React.FC<FeatureExploreSectionProps> = ({ onFeature
   };
 
   return (
-    <div className="mb-2 mt-1">
-      <div className="flex justify-between items-center mb-3">
+    <div>
+      <div className="flex justify-between items-center mb-2">
         <h3 className="text-md font-medium text-white">Tap a card below to explore features</h3>
         <a href="#" className="text-[#1a9dc3] text-sm flex items-center hover:underline">
           Interactive dashboards 
@@ -91,21 +91,21 @@ const FeatureExploreSection: React.FC<FeatureExploreSectionProps> = ({ onFeature
         <button 
           onClick={prevFeature}
           disabled={currentIndex === 0}
-          className={`absolute left-0 top-1/2 transform -translate-y-1/2 z-10 rounded-full p-2 bg-navy-dark/80 border border-white/10 text-white ${currentIndex === 0 ? 'opacity-50 cursor-not-allowed' : 'hover:bg-navy-light/50'}`}
+          className={`absolute left-0 top-1/2 transform -translate-y-1/2 z-10 rounded-full p-1.5 bg-navy-dark/80 border border-white/10 text-white ${currentIndex === 0 ? 'opacity-50 cursor-not-allowed' : 'hover:bg-navy-light/50'}`}
         >
-          <ChevronLeft className="w-5 h-5" />
+          <ChevronLeft className="w-4 h-4" />
         </button>
         
         <button 
           onClick={nextFeature}
           disabled={currentIndex >= maxIndex}
-          className={`absolute right-0 top-1/2 transform -translate-y-1/2 z-10 rounded-full p-2 bg-navy-dark/80 border border-white/10 text-white ${currentIndex >= maxIndex ? 'opacity-50 cursor-not-allowed' : 'hover:bg-navy-light/50'}`}
+          className={`absolute right-0 top-1/2 transform -translate-y-1/2 z-10 rounded-full p-1.5 bg-navy-dark/80 border border-white/10 text-white ${currentIndex >= maxIndex ? 'opacity-50 cursor-not-allowed' : 'hover:bg-navy-light/50'}`}
         >
-          <ChevronRight className="w-5 h-5" />
+          <ChevronRight className="w-4 h-4" />
         </button>
         
         {/* Features cards */}
-        <div className="grid grid-cols-3 gap-4 px-8 sm:px-0">
+        <div className="grid grid-cols-3 gap-3 px-8 sm:px-0">
           {features.slice(currentIndex, currentIndex + visibleFeatures).map((feature) => (
             <FeatureCard
               key={feature.id}
@@ -118,7 +118,7 @@ const FeatureExploreSection: React.FC<FeatureExploreSectionProps> = ({ onFeature
         </div>
         
         {/* Pagination dots */}
-        <div className="flex justify-center space-x-2 mt-4">
+        <div className="flex justify-center space-x-2 mt-2">
           {Array.from({ length: totalFeatures }).map((_, i) => (
             <button
               key={i}

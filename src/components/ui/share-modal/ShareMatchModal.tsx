@@ -87,7 +87,7 @@ const ShareMatchModal: React.FC<ShareMatchModalProps> = ({ isOpen, onClose }) =>
       className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4 animate-fade-in"
       onClick={handleBackdropClick}
     >
-      <div className="bg-navy-dark/90 backdrop-blur-md rounded-xl w-full max-w-[95%] md:max-w-[575px] lg:max-w-[650px] overflow-hidden flex flex-col border border-white/10 max-h-[75vh]">
+      <div className="bg-navy-dark/90 backdrop-blur-md rounded-xl w-full max-w-[95%] md:max-w-[660px] lg:max-w-[750px] overflow-hidden flex flex-col border border-white/10 max-h-[85vh]">
         {/* Header */}
         <ModalHeader onClose={onClose} />
         
@@ -111,12 +111,14 @@ const ShareMatchModal: React.FC<ShareMatchModalProps> = ({ isOpen, onClose }) =>
           
           <h3 className="text-lg font-semibold text-white mb-3 text-center">Share to</h3>
           
-          <div className="mb-5">
+          <div className="mb-4">
             <SocialShareButtons onClose={onClose} />
           </div>
           
           {/* Feature Exploration Section */}
-          <FeatureExploreSection onFeatureClick={handleFeatureClick} />
+          <div className="mt-1 mb-2">
+            <FeatureExploreSection onFeatureClick={handleFeatureClick} />
+          </div>
         </div>
         
         {/* Footer */}
