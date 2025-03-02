@@ -1,68 +1,89 @@
 
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import { Position, BallTrajectory } from '../types';
+import { ballConfig } from '../constants/courtConfig';
 
 interface BallProps {
   ballPosition: Position;
-  trajectory: BallTrajectory;
-  velocity: number;
+  ballTrajectory: BallTrajectory;
+  ballVelocity: number;
 }
 
-const Ball: React.FC<BallProps> = ({ ballPosition, trajectory, velocity }) => {
-  const trailRef = useRef<SVGPathElement>(null);
-  
-  // Function to render the ball trail based on trajectory
+const Ball: React.FC<BallProps> = ({ ballPosition, ballTrajectory, ballVelocity }) => {
+  // Render a blended gradient trail instead of individual dots
   const renderBallTrail = () => {
-    if (!trailRef.current || !trajectory.dx || !trajectory.dy) return;
+    // Calculate direction from trajectory
+    const dx = ballTrajectory.dx || (ballTrajectory.endX - ballPosition.x) / 5;
+    const dy = ballTrajectory.dy || (ballTrajectory.endY - ballPosition.y) / 5;
     
-    // Create control points for a quadratic curve
-    const controlX = ballPosition.x + trajectory.dx * 0.5;
-    const controlY = ballPosition.y + trajectory.dy * 0.5;
+    // Normalize the direction to get a unit vector
+    const magnitude = Math.sqrt(dx * dx + dy * dy);
+    const normalizedDx = dx / magnitude;
+    const normalizedDy = dy / magnitude;
     
-    // Set the path
-    const pathData = `M${ballPosition.x},${ballPosition.y} Q${controlX},${controlY} ${trajectory.endX},${trajectory.endY}`;
-    trailRef.current.setAttribute('d', pathData);
+    // Calculate the trail length based on velocity
+    const trailLength = ballVelocity * 0.4;
     
-    // Adjust opacity based on velocity
-    const opacityValue = Math.min(velocity / 20, 0.5);
-    trailRef.current.setAttribute('opacity', opacityValue.toString());
-  };
-  
-  // Update the trail whenever relevant props change
-  useEffect(() => {
-    renderBallTrail();
-  }, [ballPosition, trajectory, velocity]);
-
-  return (
-    <>
-      {/* Ball trail */}
-      <svg className="absolute top-0 left-0 w-full h-full pointer-events-none">
-        <defs>
-          <linearGradient id="trailGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="#fff" stopOpacity="0.8" />
-            <stop offset="100%" stopColor="#fff" stopOpacity="0" />
-          </linearGradient>
-        </defs>
-        <path
-          ref={trailRef}
-          stroke="url(#trailGradient)"
-          strokeWidth="2"
-          fill="none"
-        />
-      </svg>
-      
-      {/* Ball */}
-      <div 
-        className="absolute w-4 h-4 rounded-full bg-white shadow-md transform -translate-x-1/2 -translate-y-1/2"
+    // Get the start position of the trail (behind the ball)
+    const trailStartX = ballPosition.x - normalizedDx * trailLength;
+    const trailStartY = ballPosition.y - normalizedDy * trailLength;
+    
+    return (
+      <div
+        className="absolute"
         style={{
-          left: `${ballPosition.x}px`,
-          top: `${ballPosition.y}px`,
-          boxShadow: '0 0 8px rgba(255, 255, 255, 0.8)',
+          left: 0,
+          top: 0,
+          width: '100%',
+          height: '100%',
+          zIndex: 2,
+          pointerEvents: 'none',
         }}
       >
-        {/* Ball highlights */}
-        <div className="absolute top-1 left-1 w-1 h-1 rounded-full bg-white opacity-80"></div>
+        <svg width="100%" height="100%" style={{ position: 'absolute' }}>
+          <defs>
+            <linearGradient id="trailGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor={ballConfig.trailColor} stopOpacity="0" />
+              <stop offset="100%" stopColor={ballConfig.trailColor} stopOpacity="0.7" />
+            </linearGradient>
+          </defs>
+          <line
+            x1={`${trailStartX}%`}
+            y1={`${trailStartY}%`}
+            x2={`${ballPosition.x}%`}
+            y2={`${ballPosition.y}%`}
+            stroke="url(#trailGradient)"
+            strokeWidth={ballConfig.size * 0.8}
+            strokeLinecap="round"
+            transform={`rotate(${Math.atan2(dy, dx) * 180 / Math.PI}, ${ballPosition.x}, ${ballPosition.y})`}
+          />
+        </svg>
       </div>
+    );
+  };
+  
+  // Render the main ball
+  const renderBall = () => (
+    <div
+      className="absolute rounded-full border"
+      style={{
+        width: `${ballConfig.size}px`,
+        height: `${ballConfig.size}px`,
+        backgroundColor: ballConfig.color,
+        borderColor: ballConfig.borderColor,
+        left: `${ballPosition.x}%`,
+        top: `${ballPosition.y}%`,
+        transform: 'translate(-50%, -50%)',
+        zIndex: 3,
+        boxShadow: `0 0 ${ballConfig.glowSize}px rgba(255, 235, 59, ${ballConfig.glowOpacity})`
+      }}
+    />
+  );
+  
+  return (
+    <>
+      {renderBallTrail()}
+      {renderBall()}
     </>
   );
 };

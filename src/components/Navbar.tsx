@@ -1,14 +1,12 @@
 
 import React, { useState, useEffect } from "react";
-import { Menu, X, Activity, Share2 } from "lucide-react";
+import { Menu, X, Activity } from "lucide-react";
 import AnimatedButton from "./ui/AnimatedButton";
 import { Link } from "react-router-dom";
-import { ShareModal } from "./ui/future-play/scoreboard/components/share";
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [showShareModal, setShowShareModal] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -71,14 +69,6 @@ const Navbar = () => {
             <Activity className="w-4 h-4" />
             <span>Live Scoreboard</span>
           </Link>
-          <button
-            onClick={() => setShowShareModal(true)}
-            className="text-navy/80 hover:text-primary transition-colors duration-300 flex items-center gap-1.5"
-            aria-label="Share"
-          >
-            <Share2 className="w-4 h-4" />
-            <span>Share</span>
-          </button>
           <AnimatedButton variant="primary" size="sm" withArrow>
             Get Started
           </AnimatedButton>
@@ -134,16 +124,6 @@ const Navbar = () => {
               <Activity className="w-4 h-4" />
               <span>Live Scoreboard</span>
             </Link>
-            <button
-              className="text-navy py-2 border-b border-gray-100 flex items-center gap-2 w-full text-left"
-              onClick={() => {
-                setIsMenuOpen(false);
-                setShowShareModal(true);
-              }}
-            >
-              <Share2 className="w-4 h-4" />
-              <span>Share</span>
-            </button>
             <AnimatedButton
               variant="primary"
               size="sm"
@@ -158,12 +138,6 @@ const Navbar = () => {
           </div>
         </div>
       )}
-
-      {/* Share Modal - Integrated from scoreboard components */}
-      <ShareModal 
-        isOpen={showShareModal} 
-        onClose={() => setShowShareModal(false)} 
-      />
     </header>
   );
 };
