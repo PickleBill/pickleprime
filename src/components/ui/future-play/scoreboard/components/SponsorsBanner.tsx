@@ -28,11 +28,11 @@ const SponsorsBanner: React.FC<SponsorsBannerProps> = ({
   };
   
   return (
-    <div className="bg-[#9b87f5] border-b-2 border-[#8B5CF6] py-5 px-6 flex items-center justify-between shadow-md">
+    <div className="bg-[#fff1fd] border-b border-[#ffcbf2] py-6 px-6 flex items-center justify-between shadow-md">
       <div className="flex items-center gap-4">
         <button 
           onClick={onBackClick} 
-          className="text-white hover:text-white/80 transition-colors"
+          className="text-[#333] hover:text-[#9371e9] transition-colors"
         >
           <ArrowLeft className="w-6 h-6" />
           <span className="sr-only">Back</span>
@@ -40,35 +40,35 @@ const SponsorsBanner: React.FC<SponsorsBannerProps> = ({
         
         <div className="flex items-center gap-3">
           <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
-          <span className="text-white font-semibold text-base uppercase tracking-wider">LIVE</span>
+          <span className="text-[#333] font-bold text-base uppercase tracking-wider">LIVE</span>
         </div>
         
-        <div className="text-white text-base font-medium">{formatTime(gameTime)}</div>
+        <div className="text-[#333] text-base font-semibold">{formatTime(gameTime)}</div>
       </div>
       
       <div className="flex items-center gap-3">
-        <span className="text-white text-sm uppercase font-medium tracking-wider">SPONSORED BY</span>
+        <span className="text-[#9371e9] text-sm uppercase font-bold tracking-wider">SPONSORED BY</span>
         <div className="flex items-center gap-6">
           {sponsors.map((sponsor) => (
             <div 
               key={sponsor.id} 
-              className="bg-white px-4 py-2 rounded-lg shadow-sm hover:shadow-md transition-all"
+              className="bg-white px-5 py-2 rounded-lg shadow hover:shadow-lg transition-all border border-[#f0e6ff]"
             >
               <img 
                 src={sponsor.logo} 
                 alt={sponsor.name} 
-                className="h-9 object-contain hover:scale-105 transition-transform duration-200"
+                className="h-10 object-contain hover:scale-105 transition-transform duration-200"
               />
             </div>
           ))}
         </div>
       </div>
       
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-4 bg-[#3c3173] py-3 px-5 rounded-full shadow-md">
         <div className="text-[#4CAF50] font-bold text-2xl">{player1Score}</div>
         <div className="text-white text-lg font-light">-</div>
         <div className="text-[#3db5e6] font-bold text-2xl">{player2Score}</div>
-        <div className="text-white text-sm font-semibold bg-[#8B5CF6] px-2 py-1 rounded-md">SET {currentSet}</div>
+        <div className="text-white text-sm font-bold bg-[#9371e9] px-3 py-1 rounded-md">SET {currentSet}</div>
       </div>
     </div>
   );

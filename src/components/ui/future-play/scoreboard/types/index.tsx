@@ -10,6 +10,9 @@ export interface PlayerPosition {
   targetY?: number;
 }
 
+// Position type used in various components (needed by existing components)
+export type Position = PlayerPosition;
+
 // Ball position and trajectory
 export interface BallState {
   x: number;
