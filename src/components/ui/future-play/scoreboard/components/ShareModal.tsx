@@ -222,7 +222,12 @@ const ShareModal: React.FC<ShareModalProps> = ({
                   </p>
                   
                   <button 
-                    onClick={() => document.querySelector('[data-value="premium"]')?.click()}
+                    onClick={() => {
+                      const premiumTab = document.querySelector('[data-value="premium"]');
+                      if (premiumTab) {
+                        (premiumTab as HTMLElement).click();
+                      }
+                    }}
                     className="w-full py-2 bg-gradient-to-r from-[#0C8068] to-[#0FA0CE] text-white rounded-md text-sm font-medium hover:opacity-90 transition-opacity flex items-center justify-center gap-1"
                   >
                     Explore Premium Features
@@ -249,7 +254,7 @@ const ShareModal: React.FC<ShareModalProps> = ({
                       <span className="text-sm text-white/70">Impressions</span>
                       <span className="text-sm font-medium text-white">12.4K</span>
                     </div>
-                    <Progress value={78} className="h-2 bg-white/10" indicatorClassName="bg-primary" />
+                    <Progress value={78} className="h-2 bg-white/10" />
                   </div>
                   
                   <div>
@@ -257,7 +262,7 @@ const ShareModal: React.FC<ShareModalProps> = ({
                       <span className="text-sm text-white/70">Engagement Rate</span>
                       <span className="text-sm font-medium text-white">7.2%</span>
                     </div>
-                    <Progress value={72} className="h-2 bg-white/10" indicatorClassName="bg-[#0FA0CE]" />
+                    <Progress value={72} className="h-2 bg-white/10" />
                   </div>
                   
                   <div>
@@ -265,7 +270,7 @@ const ShareModal: React.FC<ShareModalProps> = ({
                       <span className="text-sm text-white/70">Click-through Rate</span>
                       <span className="text-sm font-medium text-white">3.8%</span>
                     </div>
-                    <Progress value={38} className="h-2 bg-white/10" indicatorClassName="bg-[#0C8068]" />
+                    <Progress value={38} className="h-2 bg-white/10" />
                   </div>
                 </div>
                 
