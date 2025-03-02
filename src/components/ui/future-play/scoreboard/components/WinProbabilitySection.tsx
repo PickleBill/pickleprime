@@ -1,14 +1,26 @@
 
 import React from "react";
 
-const WinProbabilitySection: React.FC = () => {
+interface WinProbabilityProps {
+  player1Probability?: number;
+  player2Probability?: number;
+  player1Color?: string;
+  player2Color?: string;
+}
+
+const WinProbabilitySection: React.FC<WinProbabilityProps> = ({ 
+  player1Probability = 65, 
+  player2Probability = 35,
+  player1Color = "#4CAF50",
+  player2Color = "#0EA5E9"
+}) => {
   return (
     <div className="mt-2">
       <div className="flex items-center justify-between mb-1">
         <h4 className="text-white/90 text-[10px] font-medium">Win Probability</h4>
         <div className="flex items-center gap-1">
-          <div className="w-1.5 h-1.5 rounded-full bg-primary"></div>
-          <div className="w-1.5 h-1.5 rounded-full bg-[#0EA5E9]"></div>
+          <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: player1Color }}></div>
+          <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: player2Color }}></div>
         </div>
       </div>
       
@@ -18,11 +30,19 @@ const WinProbabilitySection: React.FC = () => {
       </div>
       
       <div className="h-3.5 bg-navy/80 rounded-full overflow-hidden flex">
-        <div className="h-full bg-gradient-to-r from-primary-dark to-primary flex items-center justify-end px-1.5" style={{ width: '65%' }}>
-          <span className="text-white text-[9px] font-bold">65%</span>
+        <div className="h-full flex items-center justify-end px-1.5" 
+             style={{ 
+               width: `${player1Probability}%`,
+               background: `linear-gradient(to right, ${player1Color}dd, ${player1Color})`
+             }}>
+          <span className="text-white text-[9px] font-bold">{player1Probability}%</span>
         </div>
-        <div className="h-full bg-gradient-to-r from-[#3182CE] to-[#0EA5E9] flex items-center justify-start px-1.5" style={{ width: '35%' }}>
-          <span className="text-white text-[9px] font-bold">35%</span>
+        <div className="h-full flex items-center justify-start px-1.5" 
+             style={{ 
+               width: `${player2Probability}%`,
+               background: `linear-gradient(to right, ${player2Color}dd, ${player2Color})`
+             }}>
+          <span className="text-white text-[9px] font-bold">{player2Probability}%</span>
         </div>
       </div>
     </div>
