@@ -1,6 +1,6 @@
 
 import React, { useState } from "react";
-import { X, Video, Activity, Trophy, BarChart2 } from "lucide-react";
+import { Video, Activity, Trophy, BarChart2 } from "lucide-react";
 import { AnimatePresence } from "framer-motion";
 
 // Import view components
@@ -13,9 +13,14 @@ import ViewContainer from "./views/ViewContainer";
 interface QuickViewContentProps {
   contentType: string | null;
   onClose: () => void;
+  inScoreboard?: boolean;
 }
 
-const QuickViewContent: React.FC<QuickViewContentProps> = ({ contentType, onClose }) => {
+const QuickViewContent: React.FC<QuickViewContentProps> = ({ 
+  contentType, 
+  onClose,
+  inScoreboard = false
+}) => {
   // State for video player functionality
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentVideo, setCurrentVideo] = useState(0);
@@ -74,7 +79,9 @@ const QuickViewContent: React.FC<QuickViewContentProps> = ({ contentType, onClos
 
   return (
     <AnimatePresence mode="wait">
-      {getContent()}
+      <div className={`${inScoreboard ? 'fixed inset-0 bg-black/70 flex items-center justify-center p-4 z-50' : 'relative'}`}>
+        {getContent()}
+      </div>
     </AnimatePresence>
   );
 };

@@ -1,271 +1,104 @@
-import React, { useState, useRef } from "react";
-import { Video, User, Share2, ChevronLeft, ChevronRight, Trophy, Activity, Monitor, Users } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { pillarsData } from "../../data/pillarsData";
-import { toast } from "@/components/ui/use-toast";
-import AnimatedButton from "@/components/ui/AnimatedButton";
+
+import React from "react";
+import { Video, Activity, Trophy, BarChart2, Share2, User } from "lucide-react";
 import { motion } from "framer-motion";
 
 interface ActionFooterProps {
   onHighlightClick: () => void;
   onPlayerProfileClick: () => void;
   onShareClick: () => void;
+  onActionButtonClick?: (viewType: string) => void;
 }
 
 const ActionFooter: React.FC<ActionFooterProps> = ({
   onHighlightClick,
   onPlayerProfileClick,
-  onShareClick
+  onShareClick,
+  onActionButtonClick
 }) => {
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const [scrollPosition, setScrollPosition] = useState(0);
-  const [showLeftArrow, setShowLeftArrow] = useState(false);
-  const [showRightArrow, setShowRightArrow] = useState(true);
-  
-  // Track active item for demo purposes
-  const [activeItem, setActiveItem] = useState<string>("highlights");
-
-  // Define all action buttons including the pillar-based ones
+  // Define our action buttons with their respective handlers
   const actionButtons = [
     {
-      id: "highlights",
-      label: "Highlights",
-      icon: <Video className="w-4 h-4" />,
-      onClick: () => {
-        setActiveItem("highlights");
-        onHighlightClick();
-      },
-      color: "#1A8D50"
+      id: "video",
+      icon: <Video className="w-5 h-5" />,
+      label: "Video Clips",
+      handler: () => onActionButtonClick && onActionButtonClick("video"),
+      color: "from-green-500 to-teal-600"
     },
     {
-      id: "player-profile",
-      label: "Player Profile",
-      icon: <User className="w-4 h-4" />,
-      onClick: () => {
-        setActiveItem("player-profile");
-        onPlayerProfileClick();
-      },
-      color: "#0a2d4a"
+      id: "analytics",
+      icon: <Activity className="w-5 h-5" />,
+      label: "Analytics",
+      handler: () => onActionButtonClick && onActionButtonClick("analytics"),
+      color: "from-blue-500 to-cyan-600"
     },
     {
-      id: "share",
-      label: "Share",
-      icon: <Share2 className="w-4 h-4" />,
-      onClick: () => {
-        setActiveItem("share");
-        onShareClick();
-      },
-      color: "#0a2d4a"
+      id: "tournaments",
+      icon: <Trophy className="w-5 h-5" />,
+      label: "Tournaments",
+      handler: () => onActionButtonClick && onActionButtonClick("tournaments"),
+      color: "from-amber-500 to-orange-600"
     },
-    ...pillarsData.map(pillar => ({
-      id: pillar.id.toString(),
-      label: pillar.title.split(' ')[0], // Just use the first word to keep it short
-      icon: pillar.icon,
-      onClick: () => {
-        setActiveItem(pillar.id.toString());
-        
-        if (pillar.id === 1) { // Coaching
-          toast({
-            title: "Coaching View",
-            description: "Opening coaching analysis dashboard...",
-            duration: 3000,
-          });
-        } else if (pillar.id === 2) { // Health
-          toast({
-            title: "Health Metrics",
-            description: "Loading player health analytics...",
-            duration: 3000,
-          });
-        } else if (pillar.id === 3) { // Data
-          toast({
-            title: "Match Data",
-            description: "Retrieving advanced match statistics...",
-            duration: 3000,
-          });
-        } else if (pillar.id === 4) { // Connection
-          toast({
-            title: "Community Feed",
-            description: "Loading community engagement metrics...",
-            duration: 3000,
-          });
-        }
-      },
-      color: pillar.color
-    }))
+    {
+      id: "stats",
+      icon: <BarChart2 className="w-5 h-5" />,
+      label: "Stats",
+      handler: () => onActionButtonClick && onActionButtonClick("stats"),
+      color: "from-purple-500 to-pink-600"
+    },
+    {
+      id: "community",
+      icon: <Share2 className="w-5 h-5" />,
+      label: "Community",
+      handler: onHighlightClick,
+      color: "from-primary to-blue-600"
+    },
+    {
+      id: "profile",
+      icon: <User className="w-5 h-5" />,
+      label: "Profile",
+      handler: onPlayerProfileClick,
+      color: "from-gray-500 to-gray-700"
+    }
   ];
 
-  const handleScroll = (direction: 'left' | 'right') => {
-    if (!scrollRef.current) return;
-    
-    const scrollAmount = 200; // Pixels to scroll each time
-    const currentScroll = scrollRef.current.scrollLeft;
-    const maxScroll = scrollRef.current.scrollWidth - scrollRef.current.clientWidth;
-    
-    let newScrollPosition;
-    if (direction === 'left') {
-      newScrollPosition = Math.max(0, currentScroll - scrollAmount);
-    } else {
-      newScrollPosition = Math.min(maxScroll, currentScroll + scrollAmount);
-    }
-    
-    scrollRef.current.scrollTo({
-      left: newScrollPosition,
-      behavior: 'smooth'
-    });
-    
-    // Update state after scroll completes
-    setTimeout(() => {
-      if (!scrollRef.current) return;
-      setScrollPosition(scrollRef.current.scrollLeft);
-      setShowLeftArrow(scrollRef.current.scrollLeft > 0);
-      setShowRightArrow(scrollRef.current.scrollLeft < (scrollRef.current.scrollWidth - scrollRef.current.clientWidth - 10));
-    }, 300);
-  };
-
-  // Handle scroll events to update arrow visibility
-  const handleScrollEvent = () => {
-    if (!scrollRef.current) return;
-    setScrollPosition(scrollRef.current.scrollLeft);
-    setShowLeftArrow(scrollRef.current.scrollLeft > 0);
-    setShowRightArrow(scrollRef.current.scrollLeft < (scrollRef.current.scrollWidth - scrollRef.current.clientWidth - 10));
-  };
-
-  // Hexagon dimensions
-  const hexSize = 30; // Size of the hexagon (adjust as needed)
-
   return (
-    <div className="bg-[#001a2c]/90 backdrop-blur-md border-t border-[#0a2d4a] py-5 px-4 w-full relative">
-      <div className="max-w-screen-lg mx-auto flex flex-col">
-        <div className="flex items-center justify-between mb-2">
-          <div className="flex items-center">
-            <span className="text-white/70 text-sm">Court Visionary™</span>
-          </div>
-          <div>
-            <span className="text-white/70 text-sm">© 2023</span>
-          </div>
-        </div>
-        
-        <div className="relative">
-          {/* Left Scroll Arrow */}
-          <motion.button 
-            onClick={() => handleScroll('left')}
-            className={cn(
-              "absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-[#001a2c]/80 p-1 rounded-full text-white/80 hover:text-white transition-all border border-white/10 backdrop-blur-sm", 
-              !showLeftArrow && "opacity-0 pointer-events-none"
-            )}
-            whileHover={{ scale: 1.1 }}
+    <div className="bg-navy-dark border-t border-white/10 p-4">
+      <div className="grid grid-cols-6 gap-2">
+        {actionButtons.map((button) => (
+          <motion.button
+            key={button.id}
+            onClick={button.handler}
+            className={`relative flex flex-col items-center text-white p-3 rounded-xl overflow-hidden 
+                      bg-gradient-to-br ${button.color} shadow-lg border border-white/10
+                      hover:shadow-xl transition-all duration-300`}
+            whileHover={{ scale: 1.05, y: -5 }}
             whileTap={{ scale: 0.95 }}
-            aria-label="Scroll left"
           >
-            <ChevronLeft className="w-6 h-6" />
+            {/* Animated background shine effect */}
+            <div className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/20 to-white/0 
+                          opacity-0 hover:opacity-100 transition-opacity duration-500 -rotate-45 
+                          translate-x-full hover:translate-x-[-250%] transform-gpu" />
+            
+            <div className="p-1.5 mb-1">
+              {button.icon}
+            </div>
+            <span className="text-xs font-medium">{button.label}</span>
+            
+            {/* Subtle ping effect to draw attention */}
+            {button.id !== "profile" && button.id !== "community" && (
+              <span className="absolute -top-0.5 -right-0.5 flex h-3 w-3">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-3 w-3 bg-white/50"></span>
+              </span>
+            )}
           </motion.button>
-          
-          {/* Scrollable Button Container */}
-          <div 
-            ref={scrollRef}
-            className="flex items-center gap-4 overflow-x-auto scrollbar-hide py-2 px-8"
-            onScroll={handleScrollEvent}
-            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-          >
-            {actionButtons.map((button) => (
-              <motion.button
-                key={button.id}
-                onClick={button.onClick}
-                className="flex flex-col items-center gap-1 min-w-[80px] transition-all duration-300 group"
-                whileHover={{ scale: 1.08 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <div className="relative">
-                  {/* Hexagonal shape with CSS clip-path */}
-                  <motion.div 
-                    className={`w-12 h-12 flex items-center justify-center text-white transition-all duration-300`}
-                    style={{ 
-                      clipPath: "polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)",
-                      background: activeItem === button.id 
-                        ? `linear-gradient(135deg, ${button.color}, ${button.color}90)`
-                        : `linear-gradient(135deg, ${button.color}60, ${button.color}40)`,
-                      boxShadow: activeItem === button.id 
-                        ? `0 0 15px ${button.color}, 0 0 25px ${button.color}80, inset 0 0 8px rgba(255,255,255,0.4)` 
-                        : 'none',
-                      border: `1px solid ${activeItem === button.id ? 'rgba(255,255,255,0.3)' : 'rgba(255,255,255,0.1)'}`,
-                    }}
-                    animate={{ 
-                      boxShadow: activeItem === button.id 
-                        ? [
-                            `0 0 12px ${button.color}90, inset 0 0 6px rgba(255,255,255,0.3)`,
-                            `0 0 18px ${button.color}, inset 0 0 10px rgba(255,255,255,0.4)`,
-                            `0 0 12px ${button.color}90, inset 0 0 6px rgba(255,255,255,0.3)`
-                          ]
-                        : 'none'
-                    }}
-                    transition={{ 
-                      repeat: activeItem === button.id ? Infinity : 0, 
-                      duration: 2,
-                    }}
-                  >
-                    {/* Inner content with 3D effect */}
-                    <div className="flex items-center justify-center w-full h-full transform translate-y-[1px] hover:translate-y-0 transition-transform">
-                      {button.icon}
-                    </div>
-                  </motion.div>
-                  
-                  {/* 3D bottom edge effect */}
-                  {activeItem !== button.id && (
-                    <div 
-                      className="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-11 h-1 opacity-50"
-                      style={{ 
-                        clipPath: "polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%)",
-                        background: `${button.color}30`,
-                      }}
-                    />
-                  )}
-                </div>
-                
-                <motion.span 
-                  className={`text-white text-xs font-medium whitespace-nowrap transition-all duration-300
-                    ${activeItem === button.id ? 'text-white' : 'text-white/70 group-hover:text-white/90'}`
-                  }
-                  animate={activeItem === button.id ? {
-                    scale: [1, 1.08, 1],
-                    transition: { duration: 2, repeat: Infinity }
-                  } : {}}
-                >
-                  {button.label}
-                </motion.span>
-              </motion.button>
-            ))}
-          </div>
-          
-          {/* Right Scroll Arrow */}
-          <motion.button 
-            onClick={() => handleScroll('right')}
-            className={cn(
-              "absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-[#001a2c]/80 p-1 rounded-full text-white/80 hover:text-white transition-all border border-white/10 backdrop-blur-sm",
-              !showRightArrow && "opacity-0 pointer-events-none"
-            )}
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.95 }}
-            aria-label="Scroll right"
-          >
-            <ChevronRight className="w-6 h-6" />
-          </motion.button>
-          
-          {/* Left Fade Gradient */}
-          <div 
-            className={cn(
-              "absolute left-0 top-0 h-full w-12 bg-gradient-to-r from-[#001a2c] to-transparent pointer-events-none z-[5] transition-opacity",
-              !showLeftArrow && "opacity-0"
-            )}
-          />
-          
-          {/* Right Fade Gradient */}
-          <div 
-            className={cn(
-              "absolute right-0 top-0 h-full w-12 bg-gradient-to-l from-[#001a2c] to-transparent pointer-events-none z-[5] transition-opacity",
-              !showRightArrow && "opacity-0"
-            )}
-          />
-        </div>
+        ))}
+      </div>
+      
+      {/* Instruction tooltip to make it clearer */}
+      <div className="mt-3 bg-white/5 backdrop-blur-sm rounded-md p-2 text-center text-xs text-white/70">
+        Tap any button above to explore detailed views and features
       </div>
     </div>
   );

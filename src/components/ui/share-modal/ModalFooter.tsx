@@ -5,7 +5,7 @@ import QuickViewContent from "./quick-view/QuickViewContent";
 import FooterActions from "./footer/FooterActions";
 import { getCarouselItems } from "./carousel/carouselData";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronDown, ChevronUp } from "lucide-react";
+import { ChevronDown, ChevronUp, ArrowRight } from "lucide-react";
 
 interface ModalFooterProps {
   onClose: () => void;
@@ -29,7 +29,7 @@ const ModalFooter: React.FC<ModalFooterProps> = ({ onClose }) => {
     // Show a brief intro animation to highlight the carousel
     const timer = setTimeout(() => {
       setHasSeenIntro(true);
-    }, 3000);
+    }, 2000);
     
     return () => clearTimeout(timer);
   }, []);
@@ -49,7 +49,7 @@ const ModalFooter: React.FC<ModalFooterProps> = ({ onClose }) => {
             exit={{ y: -20, opacity: 0 }}
             transition={{ type: "spring", stiffness: 300, damping: 20 }}
           >
-            <span>Explore these features!</span>
+            <span>Click these feature cards to explore!</span>
             <ChevronDown className="ml-1 w-4 h-4 animate-bounce" />
           </motion.div>
         )}
@@ -75,17 +75,17 @@ const ModalFooter: React.FC<ModalFooterProps> = ({ onClose }) => {
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.2 }}
             >
-              Unlock premium features
+              Tap a card below to explore features
             </motion.span>
-            <motion.span 
-              className="flex items-center gap-1 text-[#1a9dc3]"
+            <motion.div 
+              className="flex items-center gap-1 text-[#1a9dc3] animate-pulse"
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.4 }}
             >
-              <ChevronDown className="w-4 h-4" />
-              Explore all options
-            </motion.span>
+              <span>Interactive dashboards</span>
+              <ArrowRight className="w-4 h-4" />
+            </motion.div>
           </div>
         </motion.div>
       )}

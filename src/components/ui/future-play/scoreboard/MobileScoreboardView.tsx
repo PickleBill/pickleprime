@@ -12,6 +12,7 @@ import { MobileScoreboardViewProps } from "./types";
 const MobileScoreboardView: React.FC<MobileScoreboardViewProps> = ({
   onBackClick,
   onHighlightClick,
+  onActionButtonClick,
   showHighlight,
   highlightTimer,
   gameTime,
@@ -123,6 +124,7 @@ const MobileScoreboardView: React.FC<MobileScoreboardViewProps> = ({
         onHighlightClick={onHighlightClick}
         onPlayerProfileClick={() => setShowPlayerModal(true)}
         onShareClick={() => setShowShareModal(true)}
+        onActionButtonClick={onActionButtonClick}
       />
     </div>
   );

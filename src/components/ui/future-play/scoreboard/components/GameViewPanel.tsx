@@ -51,14 +51,14 @@ const GameViewPanel: React.FC<GameViewPanelProps> = ({
         {/* Share Button - Opens the enhanced share modal */}
         <button 
           onClick={() => setShowShareModal(true)}
-          className="absolute top-2 right-2 bg-gradient-to-r from-primary to-[#1a9dc3] text-white p-2.5 rounded-full transition-all hover:shadow-lg hover:shadow-primary/20 animate-pulse-slow"
+          className="absolute top-2 right-2 bg-gradient-to-r from-primary to-[#1a9dc3] text-white p-2.5 rounded-full transition-all hover:shadow-lg hover:shadow-primary/20 animate-pulse-slow hover:scale-105"
           aria-label="Share match update"
         >
           <Share className="h-4 w-4" />
         </button>
       </div>
 
-      {/* Enhanced Share Modal */}
+      {/* Enhanced Share Modal - Now with more prominent quick view navigation */}
       <ShareMatchModal
         isOpen={showShareModal}
         onClose={() => setShowShareModal(false)}

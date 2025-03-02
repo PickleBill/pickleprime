@@ -1,8 +1,8 @@
-
 import React, { useState, useEffect } from "react";
 import ScoreboardViewContainer from "@/components/ui/future-play/scoreboard";
 import { useNavigate } from "react-router-dom";
 import { toast } from "@/components/ui/use-toast";
+import QuickViewContent from "@/components/ui/share-modal/quick-view/QuickViewContent";
 
 const Scoreboard = () => {
   const navigate = useNavigate();
@@ -13,12 +13,13 @@ const Scoreboard = () => {
   const [player1Score, setPlayer1Score] = useState(20);
   const [player2Score, setPlayer2Score] = useState(18);
   const [currentSet, setCurrentSet] = useState(1);
+  const [activeQuickView, setActiveQuickView] = useState<string | null>(null);
 
   // Game clock effect
   useEffect(() => {
     let interval: NodeJS.Timeout;
     
-    if (!showHighlight && !showSocialDashboard) {
+    if (!showHighlight && !showSocialDashboard && !activeQuickView) {
       interval = setInterval(() => {
         setGameTime(prev => prev + 1);
         
@@ -34,7 +35,7 @@ const Scoreboard = () => {
     }
     
     return () => clearInterval(interval);
-  }, [showHighlight, showSocialDashboard]);
+  }, [showHighlight, showSocialDashboard, activeQuickView]);
   
   // Highlight timer effect - faster for demo purposes
   useEffect(() => {
@@ -81,6 +82,21 @@ const Scoreboard = () => {
       description: "Connecting to your community and social networks...",
       duration: 3000,
     });
+  };
+
+  const handleActionButtonClick = (viewType: string) => {
+    setActiveQuickView(viewType);
+    
+    // Show a toast notification
+    toast({
+      title: `${viewType.charAt(0).toUpperCase() + viewType.slice(1)} View Activated`,
+      description: `Exploring ${viewType} data and insights...`,
+      duration: 2000,
+    });
+  };
+
+  const closeQuickView = () => {
+    setActiveQuickView(null);
   };
 
   if (showSocialDashboard) {
@@ -166,6 +182,7 @@ const Scoreboard = () => {
       <ScoreboardViewContainer 
         onBackClick={handleBackClick}
         onHighlightClick={handleCommunityClick}
+        onActionButtonClick={handleActionButtonClick}
         showHighlight={showHighlight}
         highlightTimer={highlightTimer}
         gameTime={gameTime}
@@ -173,6 +190,14 @@ const Scoreboard = () => {
         player2Score={player2Score}
         currentSet={currentSet}
       />
+      
+      {activeQuickView && (
+        <QuickViewContent 
+          contentType={activeQuickView} 
+          onClose={closeQuickView}
+          inScoreboard={true}
+        />
+      )}
     </div>
   );
 };
