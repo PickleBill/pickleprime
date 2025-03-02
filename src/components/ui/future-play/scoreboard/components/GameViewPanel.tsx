@@ -1,13 +1,13 @@
 
 import React, { useState } from "react";
-import { Position, BallTrajectory } from "../types";
+import { Position, BallState, BallTrajectory } from "../types";
 import CourtViewPanel from "./CourtViewPanel";
 import MatchFeedPanel from "./MatchFeedPanel";
 import ShareModal from "./ShareModal";
 import { Share } from "lucide-react";
 
 interface GameViewPanelProps {
-  ballPosition: Position;
+  ballPosition: BallState; // Changed from Position to BallState to match expected type
   ballTrajectory: BallTrajectory;
   ballVelocity: number;
   player1: Position;

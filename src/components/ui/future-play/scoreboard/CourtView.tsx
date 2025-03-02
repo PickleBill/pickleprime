@@ -1,12 +1,12 @@
 
 import React from 'react';
-import { Position, BallTrajectory } from './types';
+import { Position, BallState, BallTrajectory } from './types';
 import CourtSurface from './components/CourtSurface';
 import Players from './components/Players';
 import Ball from './components/Ball';
 
 interface CourtViewProps {
-  ballPosition: Position;
+  ballPosition: BallState; // Changed from Position to BallState to match expected type
   ballTrajectory: BallTrajectory;
   ballVelocity: number;
   player1: Position;

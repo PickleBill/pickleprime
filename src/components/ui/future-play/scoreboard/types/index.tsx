@@ -81,7 +81,7 @@ export interface MobileScoreboardViewProps {
   player1Score: number;
   player2Score: number;
   currentSet: number;
-  ballPosition: BallState;
+  ballPosition: BallState; // Changed from Position to BallState to match expected type
   ballTrajectory: BallTrajectory;
   ballVelocity: number;
   player1: PlayerPosition;
@@ -105,3 +105,4 @@ export interface ScoreboardContainerProps {
   player2Score: number;
   currentSet: number;
 }
+
