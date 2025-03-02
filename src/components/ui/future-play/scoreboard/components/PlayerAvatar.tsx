@@ -6,13 +6,29 @@ interface PlayerAvatarProps {
   playerPosition: PlayerPosition;
   playerId: string;
   side: string;
+  name?: string;
+  avatar?: string;
+  winRate?: string;
+  color?: string;
+  rightAlign?: boolean;
 }
 
-const PlayerAvatar: React.FC<PlayerAvatarProps> = ({ playerPosition, playerId, side }) => {
+const PlayerAvatar: React.FC<PlayerAvatarProps> = ({ 
+  playerPosition, 
+  playerId, 
+  side,
+  name,
+  avatar,
+  winRate,
+  color,
+  rightAlign
+}) => {
   const { x, y } = playerPosition;
   
-  // Determine color based on player position
+  // Determine color based on player position or override with prop
   const getPlayerColor = (playerId: string) => {
+    if (color) return color;
+    
     switch(playerId) {
       case "1":
         return "bg-blue-500";

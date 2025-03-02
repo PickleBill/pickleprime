@@ -78,7 +78,7 @@ const QuickShareTab: React.FC<QuickShareTabProps> = ({
   const displayScheduleTime = setScheduleTime === (() => {}) ? localScheduleTime : scheduleTime;
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6">
       {/* Left column: Post creation */}
       <div className="space-y-4">
         <h3 className="text-lg font-medium text-white/90">Create Your Post</h3>
@@ -89,19 +89,19 @@ const QuickShareTab: React.FC<QuickShareTabProps> = ({
           <div className="flex gap-3">
             <button 
               onClick={() => handlePlatformSelect("twitter")}
-              className={`p-3 rounded-lg border ${displaySelectedPlatform === "twitter" ? "border-primary bg-primary/10" : "border-white/20 hover:border-white/40"} transition-colors`}
+              className={`p-3 rounded-lg border ${displaySelectedPlatform === "twitter" ? "border-[#1DA1F2] bg-[#1DA1F2]/10" : "border-white/20 hover:border-white/40"} transition-colors`}
             >
               <Twitter className="w-5 h-5 text-[#1DA1F2]" />
             </button>
             <button 
               onClick={() => handlePlatformSelect("facebook")}
-              className={`p-3 rounded-lg border ${displaySelectedPlatform === "facebook" ? "border-primary bg-primary/10" : "border-white/20 hover:border-white/40"} transition-colors`}
+              className={`p-3 rounded-lg border ${displaySelectedPlatform === "facebook" ? "border-[#4267B2] bg-[#4267B2]/10" : "border-white/20 hover:border-white/40"} transition-colors`}
             >
               <Facebook className="w-5 h-5 text-[#4267B2]" />
             </button>
             <button 
               onClick={() => handlePlatformSelect("instagram")}
-              className={`p-3 rounded-lg border ${displaySelectedPlatform === "instagram" ? "border-primary bg-primary/10" : "border-white/20 hover:border-white/40"} transition-colors`}
+              className={`p-3 rounded-lg border ${displaySelectedPlatform === "instagram" ? "border-[#E1306C] bg-[#E1306C]/10" : "border-white/20 hover:border-white/40"} transition-colors`}
             >
               <Instagram className="w-5 h-5 text-[#E1306C]" />
             </button>

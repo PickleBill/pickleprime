@@ -1,70 +1,68 @@
 
-// This file contains all the type definitions for the scoreboard components
-
-export interface Position {
+// Player types
+export interface PlayerPosition {
   x: number;
   y: number;
-}
-
-export interface PlayerPosition extends Position {
   targetX: number;
   targetY: number;
 }
 
-export interface BallTrajectory {
-  endX: number;
-  endY: number;
-  dx: number;
-  dy: number;
-}
-
-export interface MatchFeedItem {
+export interface PlayerData {
   id: string;
-  type: 'highlight' | 'achievement' | 'stat';
-  time: string;
-  content: string;
-  likes?: number;
-}
-
-export interface PlayerStats {
   name: string;
   avatar: string;
-  winRate: string;
-  shots: number;
-  accuracy: string;
-  topSpeed: string;
-  spinRate: string;
-  reactionTime: string;
-  stamina?: string; // Optional field for backward compatibility
+  stats: {
+    wins: number;
+    losses: number;
+    winRate: string;
+  };
 }
 
-export interface ScoreboardContainerProps {
-  onBackClick: () => void;
-  onHighlightClick: () => void;
-  showHighlight: boolean;
-  highlightTimer: number;
-  gameTime: number;
+// Ball types
+export interface BallPosition {
+  x: number;
+  y: number;
+}
+
+// Game types
+export interface GameStats {
   player1Score: number;
   player2Score: number;
   currentSet: number;
-  courtId?: string; // Add optional courtId
+  gameTime: number;
+  shotCount: number;
+  rallyLength: number;
+  winProbability: {
+    player1: number;
+    player2: number;
+  };
 }
 
-export interface MobileScoreboardViewProps extends ScoreboardContainerProps {
-  ballPosition: Position;
-  ballTrajectory: BallTrajectory;
-  ballVelocity: number;
-  player1: PlayerPosition;
-  player2: PlayerPosition;
-  player3: PlayerPosition;
-  player4: PlayerPosition;
-  player1Stats: PlayerStats;
-  player2Stats: PlayerStats;
-  matchFeedItems: MatchFeedItem[];
-  sponsors: Sponsor[];
+// Shot distribution types
+export interface ShotDistribution {
+  topLeft: number;
+  topRight: number;
+  bottomLeft: number;
+  bottomRight: number;
 }
 
-export interface Sponsor {
-  id: number;
-  name: string;
+// Stat comparison types
+export interface StatItem {
+  label: string;
+  player1Value: number;
+  player2Value: number;
+  total?: number;
+  unit?: string;
+}
+
+// Feed item types
+export interface FeedItem {
+  id: string;
+  type: 'point' | 'stat' | 'highlight';
+  title: string;
+  description: string;
+  timestamp: string;
+  player?: string;
+  value?: string | number;
+  highlight?: boolean;
 }

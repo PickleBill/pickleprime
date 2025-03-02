@@ -14,12 +14,18 @@ interface ShareModalProps {
   isOpen: boolean;
   onClose: () => void;
   isMatchShare?: boolean;
+  player1Score?: number;
+  player2Score?: number;
+  gameTime?: number;
 }
 
 const ShareModal: React.FC<ShareModalProps> = ({ 
   isOpen, 
   onClose, 
-  isMatchShare = false 
+  isMatchShare = false,
+  player1Score = 0,
+  player2Score = 0,
+  gameTime = 0
 }) => {
   const [activeTab, setActiveTab] = useState("quick-share");
   
@@ -60,7 +66,12 @@ const ShareModal: React.FC<ShareModalProps> = ({
 
           <div className="overflow-y-auto" style={{ maxHeight: "calc(100vh - 200px)" }}>
             <TabsContent value="quick-share" className="mt-0 focus-visible:outline-none">
-              <QuickShareTab isMatchShare={isMatchShare} />
+              <QuickShareTab 
+                isMatchShare={isMatchShare} 
+                player1Score={player1Score}
+                player2Score={player2Score}
+                gameTime={gameTime}
+              />
             </TabsContent>
 
             <TabsContent value="premium" className="mt-0 focus-visible:outline-none">
