@@ -15,7 +15,7 @@ const FeatureCard: React.FC<FeatureCardProps> = ({ icon, label, iconColor, onCli
     <motion.div
       className="relative p-6 rounded-lg flex flex-col items-center justify-center cursor-pointer 
                 bg-gradient-to-br from-[#001a29] to-[#001525] backdrop-blur-lg
-                overflow-hidden shadow-lg
+                overflow-hidden shadow-lg border border-teal-400/40
                 transition-colors duration-300 h-[100px]"
       onClick={onClick}
       whileHover={{ scale: 1.05 }}
@@ -28,10 +28,10 @@ const FeatureCard: React.FC<FeatureCardProps> = ({ icon, label, iconColor, onCli
       
       {/* Glow effect behind icon */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 
-                    w-14 h-14 rounded-full bg-white/5 filter blur-md" />
+                    w-16 h-16 rounded-full bg-white/5 filter blur-md" />
       
       <div className={`relative z-10`}>
-        <div className="p-1.5 rounded-full border border-teal-400/70 shadow-[0_0_8px_rgba(45,212,191,0.5)]">
+        <div className="p-1.5 rounded-full border border-teal-400/30 shadow-[0_0_6px_rgba(45,212,191,0.3)]">
           {React.cloneElement(icon as React.ReactElement, { className: `text-${iconColor}` })}
         </div>
       </div>
