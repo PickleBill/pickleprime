@@ -4,9 +4,6 @@ import EnhancedScoreboardView from "./future-play/EnhancedScoreboardView";
 import ModalBackdrop from "./future-play/backdrop/ModalBackdrop";
 import ModalContent from "./future-play/content/ModalContent";
 import ModalHeader from "./future-play/content/ModalHeader";
-import PillarsSection from "./future-play/pillars/PillarsSection";
-import DataFlow from "./future-play/content/DataFlow";
-import CentralStatement from "./future-play/content/CentralStatement";
 
 interface FuturePlayModalProps {
   isOpen: boolean;
@@ -14,8 +11,6 @@ interface FuturePlayModalProps {
 }
 
 const FuturePlayModal = ({ isOpen, onClose }: FuturePlayModalProps) => {
-  const [activeSection, setActiveSection] = useState<number | null>(null);
-  const [animationComplete, setAnimationComplete] = useState(false);
   const [showScoreboard, setShowScoreboard] = useState(false);
   const [gameTime, setGameTime] = useState(0);
   const [player1Score, setPlayer1Score] = useState(20);
@@ -27,17 +22,12 @@ const FuturePlayModal = ({ isOpen, onClose }: FuturePlayModalProps) => {
   // Reset states when modal opens/closes
   useEffect(() => {
     if (isOpen) {
-      setActiveSection(null);
-      setAnimationComplete(false);
       setShowScoreboard(false);
       setShowHighlight(false);
+      setGameTime(0);
       
-      // Trigger the sequence animation after the modal appears
-      const timer = setTimeout(() => {
-        setAnimationComplete(true);
-      }, 1000);
-      
-      return () => clearTimeout(timer);
+      // For direct scoreboard access, we want to open straight to the scoreboard
+      // This is handled by the parent component clicking the scoreboard button
     }
   }, [isOpen]);
 
@@ -87,6 +77,7 @@ const FuturePlayModal = ({ isOpen, onClose }: FuturePlayModalProps) => {
     return () => clearInterval(interval);
   }, [showHighlight]);
 
+  // This function will be called from outside via a ref
   const handlePlayButtonClick = () => {
     setShowScoreboard(true);
   };
@@ -148,18 +139,20 @@ const FuturePlayModal = ({ isOpen, onClose }: FuturePlayModalProps) => {
       <ModalContent onClose={onClose}>
         <ModalHeader />
 
-        {/* Main Content */}
-        <div className="relative p-4 md:p-8 overflow-auto max-h-[calc(90vh-12rem)]">
-          <PillarsSection 
-            activeSection={activeSection}
-            setActiveSection={setActiveSection}
-            animationComplete={animationComplete}
-            handlePlayButtonClick={handlePlayButtonClick}
-          />
-          
-          <DataFlow />
-          
-          <CentralStatement animationComplete={animationComplete} />
+        {/* Play Button for testing */}
+        <div className="relative p-4 md:p-8 flex items-center justify-center">
+          <button 
+            className="w-20 h-20 md:w-24 md:h-24 rounded-full bg-primary/90 hover:bg-primary shadow-lg shadow-primary/20 flex items-center justify-center transition-all duration-300 hover:scale-105 backdrop-blur-sm animate-pulse-slow"
+            aria-label="Launch Digital Scoreboard"
+            onClick={handlePlayButtonClick}
+          >
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white w-10 h-10 fill-white">
+              <polygon points="5 3 19 12 5 21 5 3"></polygon>
+            </svg>
+          </button>
+          <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 text-white/70 text-sm whitespace-nowrap">
+            Click to experience live demo
+          </div>
         </div>
       </ModalContent>
     </div>

@@ -6,22 +6,19 @@ import FacilityModal from "./ui/FacilityModal";
 import PlayerModal from "./ui/PlayerModal";
 import DashboardModal from "./ui/DashboardModal";
 import FuturePlayModal from "./ui/FuturePlayModal";
-import FuturePlayContent from "./ui/FuturePlayContent";
-import { Building, Users, BarChart2 } from "lucide-react";
+import { Building, Users, BarChart2, ChevronDown, ChevronUp, Play, Zap, Activity } from "lucide-react";
+import { pillarsData } from "./ui/future-play/data/pillarsData";
 
 const SolutionSection = () => {
   const [showFacilityModal, setShowFacilityModal] = useState(false);
   const [showPlayerModal, setShowPlayerModal] = useState(false);
   const [showDashboardModal, setShowDashboardModal] = useState(false);
   const [showFuturePlayModal, setShowFuturePlayModal] = useState(false);
+  const [expandedPillar, setExpandedPillar] = useState<number | null>(null);
 
   // Direct launch to scoreboard instead of showing the intermediate modal
   const handleFuturePlayClick = () => {
     // Skip modal step and directly show the scoreboard view
-    const modal = document.createElement('div');
-    modal.style.display = 'none';
-    document.body.appendChild(modal);
-    
     setShowFuturePlayModal(true);
     
     // This ensures we're opening directly to the scoreboard view inside the modal
@@ -31,6 +28,14 @@ const SolutionSection = () => {
         playButton.click();
       }
     }, 100);
+  };
+
+  const togglePillar = (id: number) => {
+    if (expandedPillar === id) {
+      setExpandedPillar(null);
+    } else {
+      setExpandedPillar(id);
+    }
   };
 
   return (
@@ -103,60 +108,144 @@ const SolutionSection = () => {
           />
         </div>
 
-        {/* New Future of Play Section with Embedded Content */}
+        {/* Enhanced Future of Play Section - integrating modal content */}
         <div className="mt-16 border-t pt-16">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-            <div>
-              <h3 className="text-2xl md:text-3xl font-bold text-navy mb-4">
+          <div className="max-w-5xl mx-auto">
+            <div className="text-center mb-12">
+              <span className="inline-block bg-primary/10 text-primary px-4 py-1 rounded-full text-sm font-medium mb-4">
+                SwingNet
+              </span>
+              <h2 className="text-3xl md:text-4xl font-bold text-navy mb-4">
                 The Future of Play
-              </h3>
-              <p className="text-gray-600 mb-6">
-                SwingNet is revolutionizing the on-court experience with futuristic digital displays, 
-                AI-powered video capture, real-time analytics, and engaging gamification elements.
+              </h2>
+              <p className="text-gray-600 mx-auto max-w-3xl">
+                Revolutionary digital experiences that transform racquet sports through technology.
               </p>
-              <ul className="space-y-3 mb-8">
-                <li className="flex items-start gap-2">
-                  <span className="text-primary mt-1">•</span>
-                  <span className="text-gray-700">
-                    Smart cameras track gameplay and create instant highlights
-                  </span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-primary mt-1">•</span>
-                  <span className="text-gray-700">
-                    Digital scoreboards and court displays enhance gameplay
-                  </span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-primary mt-1">•</span>
-                  <span className="text-gray-700">
-                    Performance analytics help players improve their skills
-                  </span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-primary mt-1">•</span>
-                  <span className="text-gray-700">
-                    Gamification elements make playing more engaging and rewarding
-                  </span>
-                </li>
-              </ul>
-              <div className="text-center">
-                <AnimatedButton onClick={handleFuturePlayClick} size="lg">
-                  Explore The Future of Play
+            </div>
+            
+            {/* Pillars Section - Using pillars from the modal */}
+            <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mb-10">
+              {pillarsData.map((pillar) => (
+                <div 
+                  key={pillar.id} 
+                  className="bg-navy-dark/5 backdrop-blur-sm rounded-lg overflow-hidden border border-navy/10 hover:border-navy/20 transition-all"
+                >
+                  {/* Top bar with color */}
+                  <div 
+                    className="h-1 w-full" 
+                    style={{ backgroundColor: pillar.color }}
+                  ></div>
+                  
+                  <div className="p-4">
+                    {/* Icon and Title */}
+                    <div className="flex flex-col items-center text-center mb-3">
+                      <div className="p-2 rounded-full mb-2" style={{ backgroundColor: `${pillar.color}20` }}>
+                        <div style={{ color: pillar.color }}>
+                          {pillar.icon}
+                        </div>
+                      </div>
+                      <h4 className="text-navy text-lg font-medium">
+                        {pillar.title.split(' & ')[0]}
+                      </h4>
+                    </div>
+                    
+                    {/* Short Description */}
+                    <p className="text-gray-600 text-sm text-center mb-3">
+                      {pillar.description.split('.')[0]}.
+                    </p>
+                    
+                    {/* Learn More Button */}
+                    <button
+                      onClick={() => togglePillar(pillar.id)}
+                      className="w-full flex items-center justify-center gap-1 text-sm text-navy/70 hover:text-navy mt-2 transition-colors"
+                    >
+                      {expandedPillar === pillar.id ? (
+                        <>
+                          <span>Show Less</span>
+                          <ChevronUp className="w-4 h-4" />
+                        </>
+                      ) : (
+                        <>
+                          <span>Learn More</span>
+                          <ChevronDown className="w-4 h-4" />
+                        </>
+                      )}
+                    </button>
+                    
+                    {/* Expanded Content */}
+                    {expandedPillar === pillar.id && (
+                      <div className="mt-3 pt-3 border-t border-navy/10 animate-fade-in">
+                        <ul className="space-y-2">
+                          {pillar.bullets.map((bullet, idx) => (
+                            <li key={idx} className="flex items-start gap-2 text-sm">
+                              <span className="text-primary mt-1 text-xs">•</span>
+                              <span className="text-gray-700">{bullet}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+            
+            {/* Live Scoreboard Preview */}
+            <div className="bg-navy-dark rounded-xl overflow-hidden p-8 border border-navy/20 mt-8 mb-12">
+              <div className="flex flex-col items-center justify-center text-center mb-8">
+                <div className="text-3xl font-bold text-white flex items-center justify-center mb-6">
+                  <span className="text-[#1a9dc3]">17</span>
+                  <span className="mx-3">-</span>
+                  <span className="text-primary">24</span>
+                </div>
+                
+                <div className="flex flex-wrap justify-center gap-4 mb-8">
+                  <div className="bg-navy-light/50 backdrop-blur-sm px-3 py-1.5 rounded text-sm flex items-center gap-2">
+                    <Zap className="w-4 h-4 text-[#1a9dc3]" />
+                    <span className="text-white">52 MPH</span>
+                  </div>
+                  <div className="bg-navy-light/50 backdrop-blur-sm px-3 py-1.5 rounded text-sm flex items-center gap-2">
+                    <Activity className="w-4 h-4 text-primary" />
+                    <span className="text-white">92% Accuracy</span>
+                  </div>
+                </div>
+                
+                <AnimatedButton 
+                  onClick={handleFuturePlayClick}
+                  size="lg"
+                  className="bg-gradient-to-r from-primary to-[#1a9dc3] hover:shadow-lg hover:shadow-primary/20"
+                >
+                  <div className="flex items-center gap-2">
+                    <Play className="w-5 h-5" />
+                    <span>Experience Live Scoreboard</span>
+                  </div>
                 </AnimatedButton>
-                <p className="text-gray-500 text-sm mt-3 max-w-md mx-auto">
-                  Explore our comprehensive ecosystem that transforms racquet sports with digital innovation
+                
+                <p className="text-white/70 text-sm mt-4">
+                  Digital court displays with real-time stats and AI highlights
+                </p>
+              </div>
+              
+              {/* Quote Section */}
+              <div className="border-t border-white/10 pt-6 text-center max-w-3xl mx-auto">
+                <p className="text-white/80 italic mb-6">
+                  "We didn't just design a scheduling app; we built a full engagement ecosystem. 
+                  From highlight reels to analytics that keep players obsessed, 
+                  to interactive scoreboards for sponsor revenue— 
+                  it's a holistic flywheel of user attraction, revenue generation, and brand loyalty."
+                </p>
+                
+                <p className="text-white/50 text-sm">
+                  Our holistic platform creates a powerful network effect: more players generate more content, 
+                  which attracts more sponsors, driving more revenue for facilities and enabling greater innovation.
                 </p>
               </div>
             </div>
             
-            {/* Embedded Future Play Content instead of Scoreboard Preview */}
-            <div className="relative">
-              <FuturePlayContent onLaunchScoreboard={handleFuturePlayClick} />
-              
-              {/* Decorative elements */}
-              <div className="absolute -top-10 -right-10 w-20 h-20 bg-primary/5 rounded-full blur-xl -z-10"></div>
-              <div className="absolute -bottom-10 -left-10 w-20 h-20 bg-[#0EA5E9]/5 rounded-full blur-xl -z-10"></div>
+            <div className="text-center mt-8">
+              <AnimatedButton onClick={handleFuturePlayClick} size="lg" withArrow>
+                View Live Demo
+              </AnimatedButton>
             </div>
           </div>
         </div>

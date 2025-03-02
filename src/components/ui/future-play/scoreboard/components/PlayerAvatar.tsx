@@ -7,6 +7,9 @@ interface PlayerAvatarProps {
   winRate: string;
   color: string;
   rightAlign?: boolean;
+  playerPosition?: { x: number, y: number };
+  playerId?: string;
+  side?: 'left' | 'right';
 }
 
 const PlayerAvatar: React.FC<PlayerAvatarProps> = ({
@@ -14,7 +17,10 @@ const PlayerAvatar: React.FC<PlayerAvatarProps> = ({
   avatar,
   winRate,
   color,
-  rightAlign = false
+  rightAlign = false,
+  playerPosition,
+  playerId,
+  side
 }) => {
   return (
     <div className="flex items-center gap-2">

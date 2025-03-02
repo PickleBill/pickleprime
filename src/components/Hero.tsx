@@ -30,6 +30,20 @@ const Hero = () => {
     };
   }, []);
 
+  // Direct access to scoreboard without intermediate modal
+  const handleFuturePlayClick = () => {
+    // Open the future play modal directly to the scoreboard view
+    setShowFuturePlayModal(true);
+    
+    // This ensures we're opening directly to the scoreboard view inside the modal
+    setTimeout(() => {
+      const playButton = document.querySelector('[aria-label="Launch Digital Scoreboard"]');
+      if (playButton && playButton instanceof HTMLElement) {
+        playButton.click();
+      }
+    }, 100);
+  };
+
   return (
     <section className="relative min-h-screen flex items-center pt-16 overflow-hidden">
       {/* Background Decoration */}
@@ -81,7 +95,7 @@ const Hero = () => {
                 <AnimatedButton 
                   size="lg" 
                   withArrow 
-                  onClick={() => setShowFuturePlayModal(true)}
+                  onClick={handleFuturePlayClick}
                   className="bg-gradient-to-r from-primary to-[#1a9dc3] hover:shadow-lg hover:shadow-primary/20 transition-all"
                 >
                   See the Future of Play
@@ -124,7 +138,7 @@ const Hero = () => {
         onClose={() => setShowFacilityModal(false)}
       />
 
-      {/* Future of Play Modal */}
+      {/* Future of Play Modal - only for the scoreboard view */}
       <FuturePlayModal
         isOpen={showFuturePlayModal}
         onClose={() => setShowFuturePlayModal(false)}

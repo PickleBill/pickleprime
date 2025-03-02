@@ -42,6 +42,20 @@ const Index = () => {
     };
   }, []);
 
+  // Handle direct links to future play scoreboard
+  useEffect(() => {
+    // Check if hash is #future-play
+    if (window.location.hash === '#future-play') {
+      // Find the Future Play button and click it
+      setTimeout(() => {
+        const futurePlayButton = document.querySelector('button[aria-label="Launch Digital Scoreboard"]');
+        if (futurePlayButton && futurePlayButton instanceof HTMLElement) {
+          futurePlayButton.click();
+        }
+      }, 500);
+    }
+  }, []);
+
   return (
     <div className="min-h-screen bg-white">
       <Navbar />
