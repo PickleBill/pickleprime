@@ -26,8 +26,13 @@ export interface BallState {
   endY?: number;
 }
 
-// Ball trajectory type
-export type BallTrajectory = BallState[];
+// Ball trajectory type - need to match what's actually being used
+export interface BallTrajectory {
+  endX?: number;
+  endY?: number;
+  dx?: number;
+  dy?: number;
+}
 
 // Sponsor type
 export interface Sponsor {

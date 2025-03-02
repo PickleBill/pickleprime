@@ -1,10 +1,10 @@
 
 import React from 'react';
-import { Position, BallTrajectory } from '../types';
+import { BallState, BallTrajectory } from '../types';
 import { ballConfig } from '../constants/courtConfig';
 
 interface BallProps {
-  ballPosition: Position;
+  ballPosition: BallState;
   ballTrajectory: BallTrajectory;
   ballVelocity: number;
 }
@@ -13,11 +13,13 @@ const Ball: React.FC<BallProps> = ({ ballPosition, ballTrajectory, ballVelocity 
   // Render a blended gradient trail instead of individual dots
   const renderBallTrail = () => {
     // Calculate direction from trajectory
-    const dx = ballTrajectory.dx || (ballTrajectory.endX - ballPosition.x) / 5;
-    const dy = ballTrajectory.dy || (ballTrajectory.endY - ballPosition.y) / 5;
+    const dx = ballTrajectory.dx || 0;
+    const dy = ballTrajectory.dy || 0;
+    const endX = ballTrajectory.endX || ballPosition.x;
+    const endY = ballTrajectory.endY || ballPosition.y;
     
     // Normalize the direction to get a unit vector
-    const magnitude = Math.sqrt(dx * dx + dy * dy);
+    const magnitude = Math.sqrt(dx * dx + dy * dy) || 1; // Avoid division by zero
     const normalizedDx = dx / magnitude;
     const normalizedDy = dy / magnitude;
     

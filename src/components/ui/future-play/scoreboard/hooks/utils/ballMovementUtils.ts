@@ -1,14 +1,15 @@
-import { Position, BallTrajectory } from "../../types";
+
+import { BallState, BallTrajectory } from "../../types";
 import { courtBoundaries } from "../../constants/courtConfig";
 
 // Calculate ball's next position and handle boundary bounces
 export function calculateNextBallPosition(
-  position: Position, 
+  position: BallState, 
   direction: { x: number, y: number },
   setBallDirection: (dir: { x: number, y: number }) => void,
   setBallVelocity: (vel: number) => void,
   setBallTrajectory: (traj: BallTrajectory) => void
-): Position {
+): BallState {
   const nextX = position.x + direction.x;
   const nextY = position.y + direction.y;
   
@@ -55,20 +56,21 @@ export function calculateNextBallPosition(
     setBallDirection({ x: newDirX, y: newDirY });
   }
   
-  const newPos = { 
-    x: Math.max(courtBoundaries.left, Math.min(courtBoundaries.right, nextX)),
-    y: Math.max(courtBoundaries.top, Math.min(courtBoundaries.bottom, nextY))
-  };
-  
   // Update trajectory
   setBallTrajectory({
-    endX: newPos.x + newDirX * 5,
-    endY: newPos.y + newDirY * 5,
+    endX: nextX + newDirX * 5,
+    endY: nextY + newDirY * 5,
     dx: newDirX,
     dy: newDirY
   });
   
-  return newPos;
+  // Return the new position with the required properties for BallState
+  return { 
+    x: Math.max(courtBoundaries.left, Math.min(courtBoundaries.right, nextX)),
+    y: Math.max(courtBoundaries.top, Math.min(courtBoundaries.bottom, nextY)),
+    z: position.z,
+    rotation: position.rotation
+  };
 }
 
 // Create random direction changes to simulate player hits

@@ -1,19 +1,24 @@
 
 import { useState, useEffect } from "react";
-import { Position, BallTrajectory } from "../types";
+import { PlayerPosition, BallState, BallTrajectory } from "../types";
 import { calculateNextBallPosition, createRandomDirectionChange } from "./utils/ballMovementUtils";
 import { setPlayerTargetsBasedOnBall } from "./utils/playerMovementUtils";
 import { courtBoundaries } from "../constants/courtConfig";
 
 export function useBallAnimation(
   showHighlight: boolean,
-  setPlayer1: (fn: (prev: any) => any) => void,
-  setPlayer2: (fn: (prev: any) => any) => void,
-  setPlayer3: (fn: (prev: any) => any) => void,
-  setPlayer4: (fn: (prev: any) => any) => void
+  setPlayer1: (fn: (prev: PlayerPosition) => PlayerPosition) => void,
+  setPlayer2: (fn: (prev: PlayerPosition) => PlayerPosition) => void,
+  setPlayer3: (fn: (prev: PlayerPosition) => PlayerPosition) => void,
+  setPlayer4: (fn: (prev: PlayerPosition) => PlayerPosition) => void
 ) {
   // Initialize ball on the left side with a right-moving trajectory
-  const [ballPosition, setBallPosition] = useState<Position>({ x: 25, y: 50 });
+  const [ballPosition, setBallPosition] = useState<BallState>({ 
+    x: 25, 
+    y: 50, 
+    z: 0, 
+    rotation: 0 
+  });
   const [ballDirection, setBallDirection] = useState({ x: 3, y: -0.5 });
   const [ballTrajectory, setBallTrajectory] = useState<BallTrajectory>({ 
     endX: 30, 
