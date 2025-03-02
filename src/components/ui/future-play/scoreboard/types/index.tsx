@@ -1,3 +1,4 @@
+
 import React from "react";
 
 // Player position type
@@ -5,7 +6,12 @@ export interface PlayerPosition {
   x: number;
   y: number;
   rotation: number;
+  targetX?: number;
+  targetY?: number;
 }
+
+// Position type used in various components
+export type Position = PlayerPosition;
 
 // Ball position and trajectory
 export interface BallState {
@@ -13,6 +19,9 @@ export interface BallState {
   y: number;
   z: number;
 }
+
+// Ball trajectory type
+export type BallTrajectory = BallState;
 
 // Sponsor type
 export interface Sponsor {
@@ -28,13 +37,27 @@ export interface PlayerStats {
   unforcedErrors: number;
   firstServePercentage: number;
   breakPointsConverted: number;
+  // Additional properties needed by the components
+  name: string;
+  winRate: string;
+  topSpeed: string;
+  reactionTime: string;
+  accuracy: string;
+  stamina: string;
+  spinRate: string;
+  avatar: string;
+  shots?: number;
 }
 
 // Match feed item type
 export interface MatchFeedItem {
-  id: number;
-  timestamp: string;
-  message: string;
+  id: string | number;
+  type: "highlight" | "achievement" | "stat";
+  content: string;
+  time: string;
+  likes?: number;
+  timestamp?: string;
+  message?: string;
 }
 
 // Props for the mobile scoreboard view
@@ -63,4 +86,11 @@ export interface MobileScoreboardViewProps {
 // Props for the scoreboard container
 export interface ScoreboardContainerProps {
   showHighlight: boolean;
+  onBackClick: () => void;
+  onHighlightClick: () => void;
+  highlightTimer: number;
+  gameTime: number;
+  player1Score: number;
+  player2Score: number;
+  currentSet: number;
 }

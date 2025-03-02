@@ -28,50 +28,43 @@ const SponsorsBanner: React.FC<SponsorsBannerProps> = ({
   };
   
   return (
-    <div className="bg-[#7E69AB] border-b border-[#6E59A5] py-2 px-4 flex items-center justify-between">
-      <div className="flex items-center gap-3">
+    <div className="bg-[#9b87f5] border-b-2 border-[#8B5CF6] py-5 px-6 flex items-center justify-between shadow-md">
+      <div className="flex items-center gap-4">
         <button 
           onClick={onBackClick} 
           className="text-white hover:text-white/80 transition-colors"
         >
-          <ArrowLeft className="w-5 h-5" />
+          <ArrowLeft className="w-6 h-6" />
           <span className="sr-only">Back</span>
         </button>
         
-        <div className="flex items-center gap-2">
-          <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
-          <span className="text-white font-medium text-sm uppercase">LIVE</span>
+        <div className="flex items-center gap-3">
+          <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
+          <span className="text-white font-semibold text-base uppercase tracking-wider">LIVE</span>
         </div>
         
-        <div className="text-white/80 text-sm">{formatTime(gameTime)}</div>
+        <div className="text-white text-base font-medium">{formatTime(gameTime)}</div>
       </div>
       
-      <div className="flex items-center gap-2">
-        <span className="text-white/70 text-xs uppercase">SPONSORED BY</span>
-        <div className="flex items-center gap-5">
-          <img 
-            src="/lovable-uploads/93ec8769-f4ff-4eba-aff7-a78b39986907.png" 
-            alt="Joola" 
-            className="h-6 object-contain"
-          />
-          <img 
-            src="/lovable-uploads/ec4c1855-060c-49cf-afd6-3d56765fb726.png" 
-            alt="Fanatics" 
-            className="h-6 object-contain"
-          />
-          <img 
-            src="/lovable-uploads/d39d9c68-9778-4a89-b892-24f2e597b654.png" 
-            alt="Urban Pickleball Club" 
-            className="h-6 object-contain"
-          />
+      <div className="flex items-center gap-3">
+        <span className="text-white text-sm uppercase font-medium tracking-wider">SPONSORED BY</span>
+        <div className="flex items-center gap-8">
+          {sponsors.map((sponsor) => (
+            <img 
+              key={sponsor.id}
+              src={sponsor.logo} 
+              alt={sponsor.name} 
+              className="h-9 object-contain hover:scale-110 transition-transform duration-200"
+            />
+          ))}
         </div>
       </div>
       
-      <div className="flex items-center gap-2">
-        <div className="text-[#4CAF50] font-semibold text-lg">{player1Score}</div>
-        <div className="text-white text-sm">-</div>
-        <div className="text-[#3db5e6] font-semibold text-lg">{player2Score}</div>
-        <div className="text-white/70 text-xs">SET {currentSet}</div>
+      <div className="flex items-center gap-3">
+        <div className="text-[#4CAF50] font-bold text-2xl">{player1Score}</div>
+        <div className="text-white text-lg font-light">-</div>
+        <div className="text-[#3db5e6] font-bold text-2xl">{player2Score}</div>
+        <div className="text-white text-sm font-semibold bg-[#8B5CF6] px-2 py-1 rounded-md">SET {currentSet}</div>
       </div>
     </div>
   );

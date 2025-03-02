@@ -1,3 +1,4 @@
+
 import React from "react";
 import { 
   Sponsor,
@@ -34,7 +35,13 @@ export const player1Stats: PlayerStats = {
   stamina: "89%",
   spinRate: "1800 rpm",
   shots: 42,
-  avatar: "https://images.unsplash.com/photo-1628157588553-5eeea00af15c?w=150&h=150&crop=faces&auto=format&fit=crop"
+  avatar: "https://images.unsplash.com/photo-1628157588553-5eeea00af15c?w=150&h=150&crop=faces&auto=format&fit=crop",
+  // Add the existing required properties with default values
+  aces: 5,
+  winners: 14,
+  unforcedErrors: 8,
+  firstServePercentage: 68,
+  breakPointsConverted: 75
 };
 
 export const player2Stats: PlayerStats = {
@@ -46,7 +53,13 @@ export const player2Stats: PlayerStats = {
   stamina: "94%",
   spinRate: "2100 rpm",
   shots: 38,
-  avatar: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=150&h=150&crop=faces&auto=format&fit=crop"
+  avatar: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=150&h=150&crop=faces&auto=format&fit=crop",
+  // Add the existing required properties with default values
+  aces: 3,
+  winners: 12,
+  unforcedErrors: 11,
+  firstServePercentage: 74,
+  breakPointsConverted: 60
 };
 
 // Match Feed Items
