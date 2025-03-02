@@ -4,11 +4,12 @@ import { cn } from "@/lib/utils";
 
 interface AnimatedButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: "primary" | "secondary" | "outline" | "ghost" | "nav";
+  variant?: "primary" | "secondary" | "outline" | "ghost" | "nav" | "glass";
   size?: "sm" | "md" | "lg" | "icon";
   children: React.ReactNode;
   withArrow?: boolean;
   active?: boolean;
+  glowColor?: string;
 }
 
 const AnimatedButton = ({
@@ -18,6 +19,7 @@ const AnimatedButton = ({
   children,
   withArrow = false,
   active = false,
+  glowColor = "rgba(43, 203, 110, 0.5)",
   ...props
 }: AnimatedButtonProps) => {
   const variants = {
@@ -30,6 +32,7 @@ const AnimatedButton = ({
     ghost:
       "bg-transparent text-navy hover:bg-navy/5",
     nav: "bg-transparent text-white/70 hover:text-white hover:bg-white/10 transition-all",
+    glass: "bg-white/10 backdrop-blur-md border border-white/20 text-white hover:bg-white/20 transition-all duration-300",
   };
 
   const sizes = {
@@ -39,15 +42,21 @@ const AnimatedButton = ({
     icon: "p-2",
   };
 
+  const glowStyles = active ? {
+    boxShadow: `0 0 15px ${glowColor}`,
+    transform: 'scale(1.05)'
+  } : {};
+
   return (
     <button
       className={cn(
         "relative rounded-md font-medium inline-flex items-center justify-center transition-all duration-300 overflow-hidden group",
         variants[variant],
         sizes[size],
-        active && "bg-white/10 text-white shadow-inner",
+        active && "bg-white/15 text-white shadow-inner",
         className
       )}
+      style={active ? glowStyles : {}}
       {...props}
     >
       <span className="relative z-10 flex items-center gap-1">
@@ -69,6 +78,14 @@ const AnimatedButton = ({
           </svg>
         )}
       </span>
+      
+      {/* Hover effect overlay */}
+      <span className="absolute inset-0 bg-white/0 group-hover:bg-white/10 transition-all duration-300"></span>
+      
+      {/* Glow effect for active state */}
+      {active && (
+        <span className="absolute inset-0 bg-gradient-to-r from-primary/20 to-[#1a9dc3]/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+      )}
     </button>
   );
 };
