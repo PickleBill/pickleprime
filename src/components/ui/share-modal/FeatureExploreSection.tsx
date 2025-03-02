@@ -75,16 +75,16 @@ const FeatureExploreSection: React.FC<FeatureExploreSectionProps> = ({ onFeature
       iconColor: "purple-500"
     },
     {
-      id: "settings",
-      icon: <Settings className="w-7 h-7" />,
-      label: "Settings",
-      iconColor: "gray-400" // Greyish color
-    },
-    {
       id: "videos",
       icon: <Video className="w-7 h-7" />,
       label: "Video Clips",
       iconColor: "red-500" // Vibrant red color
+    },
+    {
+      id: "settings",
+      icon: <Settings className="w-7 h-7" />,
+      label: "Settings",
+      iconColor: "gray-400" // Greyish color
     }
   ];
 

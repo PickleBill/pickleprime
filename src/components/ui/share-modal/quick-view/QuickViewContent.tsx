@@ -6,6 +6,8 @@ import AnalyticsView from "./views/AnalyticsView";
 import StatsView from "./views/StatsView";
 import TournamentsView from "./views/TournamentsView";
 import VideoView from "./views/VideoView";
+import CommunityView from "./views/CommunityView";
+import SettingsView from "./views/SettingsView";
 import ViewContainer from "./views/ViewContainer";
 
 interface QuickViewContentProps {
@@ -51,19 +53,9 @@ const QuickViewContent: React.FC<QuickViewContentProps> = ({ contentType, onClos
           />
         );
       case "community":
-        return (
-          <div className="bg-gradient-to-br from-navy-dark/90 to-navy/90 backdrop-blur-lg rounded-lg p-6 mb-4">
-            <h3 className="text-lg font-semibold text-white mb-4">Community</h3>
-            <p className="text-white text-center py-10">Community features coming soon!</p>
-          </div>
-        );
+        return <CommunityView />;
       case "settings":
-        return (
-          <div className="bg-gradient-to-br from-navy-dark/90 to-navy/90 backdrop-blur-lg rounded-lg p-6 mb-4">
-            <h3 className="text-lg font-semibold text-white mb-4">Settings</h3>
-            <p className="text-white text-center py-10">Settings configuration coming soon!</p>
-          </div>
-        );
+        return <SettingsView />;
       default:
         return (
           <div className="bg-gradient-to-br from-navy-dark/90 to-navy/90 backdrop-blur-lg rounded-lg p-6 mb-4">
