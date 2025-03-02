@@ -1,10 +1,9 @@
 
 import React, { useState, useEffect } from "react";
-import ScoreboardViewContainer from "@/components/ui/future-play/scoreboard";
+import AlternateScoreboardView from "@/components/ui/future-play/scoreboard/AlternateScoreboardView";
 import { useNavigate } from "react-router-dom";
-import { Beaker } from "lucide-react";
 
-const Scoreboard = () => {
+const SandboxScoreboard = () => {
   const navigate = useNavigate();
   const [showHighlight, setShowHighlight] = useState(false);
   const [highlightTimer, setHighlightTimer] = useState(0);
@@ -55,7 +54,7 @@ const Scoreboard = () => {
   }, [showHighlight]);
 
   const handleBackClick = () => {
-    navigate('/');
+    navigate('/scoreboard');
   };
   
   const triggerHighlight = () => {
@@ -63,25 +62,9 @@ const Scoreboard = () => {
     setHighlightTimer(0);
   };
 
-  const goToSandboxVersion = () => {
-    navigate('/sandbox-scoreboard');
-  };
-
   return (
     <div className="h-screen flex flex-col bg-navy-dark">
-      {/* Sandbox navigation button */}
-      <div className="absolute top-4 right-4 z-50">
-        <button
-          onClick={goToSandboxVersion}
-          className="flex items-center space-x-2 bg-violet-600 hover:bg-violet-700 text-white px-3 py-2 rounded-md transition-colors shadow-lg"
-          title="Go to experimental version"
-        >
-          <Beaker className="h-4 w-4" />
-          <span>Sandbox Version</span>
-        </button>
-      </div>
-      
-      <ScoreboardViewContainer 
+      <AlternateScoreboardView 
         onBackClick={handleBackClick}
         onHighlightClick={triggerHighlight}
         showHighlight={showHighlight}
@@ -95,4 +78,4 @@ const Scoreboard = () => {
   );
 };
 
-export default Scoreboard;
+export default SandboxScoreboard;
