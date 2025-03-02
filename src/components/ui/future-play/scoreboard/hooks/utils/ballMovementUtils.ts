@@ -1,83 +1,89 @@
+import { BallState, BallTrajectory, Position } from '../../types';
 
-import { BallState, BallTrajectory } from "../../types";
-import { courtBoundaries } from "../../constants/courtConfig";
-
-// Calculate ball's next position and handle boundary bounces
-export function calculateNextBallPosition(
-  position: BallState, 
-  direction: { x: number, y: number },
-  setBallDirection: (dir: { x: number, y: number }) => void,
-  setBallVelocity: (vel: number) => void,
-  setBallTrajectory: (traj: BallTrajectory) => void
-): BallState {
-  const nextX = position.x + direction.x;
-  const nextY = position.y + direction.y;
+// Calculate ball movement based on trajectory
+export const animateBall = (currentState: BallState, trajectory: BallTrajectory) => {
+  // Simple animation logic for demo purposes
+  let newX = currentState.x;
+  let newY = currentState.y;
+  let velocity = 0;
   
-  let newDirX = direction.x;
-  let newDirY = direction.y;
-  let hitBoundary = false;
-  
-  // Bounce off left and right court boundaries (side walls)
-  if (nextX <= courtBoundaries.left || nextX >= courtBoundaries.right) {
-    newDirX = -direction.x;
-    hitBoundary = true;
+  // If trajectory has direction vectors, use them
+  if (trajectory.dx !== undefined && trajectory.dy !== undefined) {
+    newX += trajectory.dx;
+    newY += trajectory.dy;
+    velocity = Math.sqrt(trajectory.dx * trajectory.dx + trajectory.dy * trajectory.dy);
+  } 
+  // Otherwise use trajectory points if available
+  else if (trajectory.points.length > 1) {
+    const nextPoint = trajectory.points[1];
+    const dx = nextPoint.x - currentState.x;
+    const dy = nextPoint.y - currentState.y;
     
-    // Add some slight randomness to the y direction when hitting side walls
-    // to make the ball movement more natural
-    newDirY = direction.y + (Math.random() * 1 - 0.5);
-    // Keep y direction within reasonable bounds
-    newDirY = Math.max(-2, Math.min(2, newDirY));
-  }
-  
-  // Bounce off top and bottom court boundaries (baseline)
-  if (nextY <= courtBoundaries.top || nextY >= courtBoundaries.bottom) {
-    newDirY = -direction.y;
-    hitBoundary = true;
-  }
-  
-  // Special case for net hits - bounce with more dramatic angle change
-  if ((position.y < courtBoundaries.net.top && nextY >= courtBoundaries.net.top) || 
-      (position.y > courtBoundaries.net.bottom && nextY <= courtBoundaries.net.bottom)) {
-    if (nextX > 40 && nextX < 60) {
-      newDirY = -direction.y * 1.2; // Stronger vertical bounce
-      newDirX = direction.x * 0.8; // Slight reduction in horizontal momentum
-      hitBoundary = true;
-    }
-  }
-  
-  // Update direction when hitting a boundary
-  if (hitBoundary) {
-    // Adjust velocity after bouncing
-    if (Math.random() < 0.3) {
-      // Keep velocity in a good range for a visible but not too fast ball
-      setBallVelocity(Math.floor(Math.random() * 10) + 35);
-    }
+    // Move a fraction of the way to the next point
+    newX += dx * 0.1;
+    newY += dy * 0.1;
     
-    setBallDirection({ x: newDirX, y: newDirY });
+    velocity = Math.sqrt(dx * dx + dy * dy) * 0.1;
   }
   
-  // Update trajectory
-  setBallTrajectory({
-    endX: nextX + newDirX * 5,
-    endY: nextY + newDirY * 5,
-    dx: newDirX,
-    dy: newDirY
-  });
+  // Court boundaries (simplified)
+  const courtMinX = 50;
+  const courtMaxX = 250;
+  const courtMinY = 50;
+  const courtMaxY = 150;
   
-  // Return the new position with the required properties for BallState
-  return { 
-    x: Math.max(courtBoundaries.left, Math.min(courtBoundaries.right, nextX)),
-    y: Math.max(courtBoundaries.top, Math.min(courtBoundaries.bottom, nextY)),
-    z: position.z,
-    rotation: position.rotation
+  // Bounce off court boundaries
+  if (newX < courtMinX) {
+    newX = courtMinX + (courtMinX - newX);
+  } else if (newX > courtMaxX) {
+    newX = courtMaxX - (newX - courtMaxX);
+  }
+  
+  if (newY < courtMinY) {
+    newY = courtMinY + (courtMinY - newY);
+  } else if (newY > courtMaxY) {
+    newY = courtMaxY - (newY - courtMaxY);
+  }
+  
+  // Calculate rotation based on direction
+  const rotation = trajectory.dx !== undefined && trajectory.dy !== undefined
+    ? Math.atan2(trajectory.dy, trajectory.dx) * (180 / Math.PI)
+    : currentState.rotation || 0;
+  
+  // Return the new position and velocity
+  return {
+    newPosition: {
+      x: newX,
+      y: newY,
+      rotation
+    },
+    velocity
   };
-}
+};
 
-// Create random direction changes to simulate player hits
-export function createRandomDirectionChange(): { x: number, y: number } {
-  // Ensure the ball primarily moves horizontally (left to right and back)
-  // with a stronger x component
-  const dirX = (Math.random() > 0.5 ? 1 : -1) * (Math.random() * 2 + 2); // Stronger horizontal movement
-  const dirY = (Math.random() * 2 - 1); // Smaller vertical component
-  return { x: dirX, y: dirY };
-}
+// Generate a random ball trajectory for demo purposes
+export const generateRandomTrajectory = (startX: number, startY: number): BallTrajectory => {
+  // Random direction
+  const angle = Math.random() * Math.PI * 2;
+  const speed = 1 + Math.random() * 4;
+  const dx = Math.cos(angle) * speed;
+  const dy = Math.sin(angle) * speed;
+  
+  // End position after applying direction vector
+  const endX = startX + dx * 20;
+  const endY = startY + dy * 20;
+  
+  // Generate a valid BallTrajectory
+  return {
+    points: [
+      { x: startX, y: startY },
+      { x: endX, y: endY }
+    ],
+    type: Math.random() > 0.7 ? "lob" : Math.random() > 0.4 ? "drive" : "smash",
+    speed: speed,
+    dx: dx,
+    dy: dy,
+    endX: endX,
+    endY: endY
+  };
+};

@@ -1,50 +1,47 @@
 
-import { useState, useEffect } from "react";
-import { PlayerPosition } from "../types";
-import { movePlayerTowardsTarget, generateRandomPlayerPositions } from "./utils/playerMovementUtils";
+import { useState, useEffect } from 'react';
+import { Position, PlayerPosition } from '../types';
+import { animatePlayer } from './utils/playerMovementUtils';
 
-export function usePlayerAnimation(showHighlight: boolean) {
-  // State for player positions - now with swapped positions for player 2 and 3
-  const [player1, setPlayer1] = useState<PlayerPosition>({ x: 25, y: 75, rotation: 0, targetX: 25, targetY: 75 });
-  const [player2, setPlayer2] = useState<PlayerPosition>({ x: 25, y: 25, rotation: 0, targetX: 25, targetY: 25 }); // Green player 2 now on left
-  const [player3, setPlayer3] = useState<PlayerPosition>({ x: 75, y: 60, rotation: 0, targetX: 75, targetY: 60 }); // Blue player 3 now on right
-  const [player4, setPlayer4] = useState<PlayerPosition>({ x: 85, y: 40, rotation: 0, targetX: 85, targetY: 40 });
+// Custom hook for player animation
+const usePlayerAnimation = (initialPositions: {
+  player1: Position,
+  player2: Position,
+  player3: Position,
+  player4: Position
+}) => {
+  const [player1, setPlayer1] = useState<PlayerPosition>({ ...initialPositions.player1, rotation: 0, targetX: undefined, targetY: undefined });
+  const [player2, setPlayer2] = useState<PlayerPosition>({ ...initialPositions.player2, rotation: 0, targetX: undefined, targetY: undefined });
+  const [player3, setPlayer3] = useState<PlayerPosition>({ ...initialPositions.player3, rotation: 0, targetX: undefined, targetY: undefined });
+  const [player4, setPlayer4] = useState<PlayerPosition>({ ...initialPositions.player4, rotation: 0, targetX: undefined, targetY: undefined });
 
-  // Player movement animation - moves players toward their targets
+  // Effect for animating players
   useEffect(() => {
-    if (showHighlight) return;
+    const interval = setInterval(() => {
+      // Update player positions with random movement
+      const updatePlayer = (player: PlayerPosition) => {
+        // Random position change
+        const randomX = player.x + (Math.random() - 0.5) * 10;
+        const randomY = player.y + (Math.random() - 0.5) * 5;
+        
+        // Update player with random target
+        return animatePlayer({
+          ...player,
+          targetX: randomX,
+          targetY: randomY
+        });
+      };
+      
+      setPlayer1(updatePlayer(player1));
+      setPlayer2(updatePlayer(player2));
+      setPlayer3(updatePlayer(player3));
+      setPlayer4(updatePlayer(player4));
+    }, 1000); // Move players randomly every second
     
-    const moveInterval = setInterval(() => {
-      // Player 1
-      setPlayer1(prev => movePlayerTowardsTarget(prev, 1.2));
-      
-      // Player 2
-      setPlayer2(prev => movePlayerTowardsTarget(prev, 1.2));
-      
-      // Player 3
-      setPlayer3(prev => movePlayerTowardsTarget(prev, 1.1));
-      
-      // Player 4
-      setPlayer4(prev => movePlayerTowardsTarget(prev, 1.1));
-      
-      // Occasionally set new random targets for players to simulate positioning
-      if (Math.random() < 0.05) {
-        // Set new random targets within their respective court areas
-        generateRandomPlayerPositions(setPlayer1, setPlayer2, setPlayer3, setPlayer4);
-      }
-    }, 50);
-    
-    return () => clearInterval(moveInterval);
-  }, [showHighlight]);
+    return () => clearInterval(interval);
+  }, [player1, player2, player3, player4]);
 
-  return {
-    player1,
-    player2,
-    player3,
-    player4,
-    setPlayer1,
-    setPlayer2,
-    setPlayer3,
-    setPlayer4
-  };
-}
+  return { player1, player2, player3, player4 };
+};
+
+export default usePlayerAnimation;

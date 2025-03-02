@@ -1,105 +1,53 @@
 
-import { useState, useEffect } from "react";
-import { PlayerPosition, BallState, BallTrajectory } from "../types";
-import { calculateNextBallPosition, createRandomDirectionChange } from "./utils/ballMovementUtils";
-import { setPlayerTargetsBasedOnBall } from "./utils/playerMovementUtils";
-import { courtBoundaries } from "../constants/courtConfig";
+import { useState, useEffect } from 'react';
+import { BallState, BallTrajectory } from '../types';
+import { animateBall } from './utils/ballMovementUtils';
 
-export function useBallAnimation(
-  showHighlight: boolean,
-  setPlayer1: (fn: (prev: PlayerPosition) => PlayerPosition) => void,
-  setPlayer2: (fn: (prev: PlayerPosition) => PlayerPosition) => void,
-  setPlayer3: (fn: (prev: PlayerPosition) => PlayerPosition) => void,
-  setPlayer4: (fn: (prev: PlayerPosition) => PlayerPosition) => void
-) {
-  // Initialize ball on the left side with a right-moving trajectory
-  const [ballPosition, setBallPosition] = useState<BallState>({ 
-    x: 25, 
-    y: 50, 
-    z: 0, 
-    rotation: 0 
+// Custom hook for ball animation
+const useBallAnimation = (initialBallState: BallState) => {
+  const [ballPosition, setBallPosition] = useState<BallState>(initialBallState);
+  const [ballVelocity, setBallVelocity] = useState<number>(0);
+  const [ballTrajectory, setBallTrajectory] = useState<BallTrajectory>({
+    points: [{ x: initialBallState.x, y: initialBallState.y }],
+    type: "drive",
+    speed: 0
   });
-  const [ballDirection, setBallDirection] = useState({ x: 3, y: -0.5 });
-  const [ballTrajectory, setBallTrajectory] = useState<BallTrajectory>({ 
-    endX: 30, 
-    endY: 49.5,
-    dx: 3,
-    dy: -0.5
-  });
-  const [ballVelocity, setBallVelocity] = useState(35);
-  
-  // Ball movement animation
-  useEffect(() => {
-    if (showHighlight) return;
-    
-    const moveBall = () => {
-      setBallPosition(prev => {
-        const newPos = calculateNextBallPosition(
-          prev, 
-          ballDirection, 
-          setBallDirection, 
-          setBallVelocity, 
-          setBallTrajectory
-        );
-        
-        // Set new target for players when the ball moves
-        if (Math.random() < 0.1) {
-          setPlayerTargetsBasedOnBall(
-            newPos,
-            setPlayer1,
-            setPlayer2,
-            setPlayer3,
-            setPlayer4
-          );
-        }
-        
-        return newPos;
-      });
-    };
-    
-    // Smoother animation with requestAnimationFrame
-    let animationId: number;
-    let lastTime = 0;
-    const frameRate = 24; // Frames per second
-    const frameInterval = 1000 / frameRate;
-    
-    const animate = (timestamp: number) => {
-      if (!lastTime) lastTime = timestamp;
-      const elapsed = timestamp - lastTime;
-      
-      if (elapsed > frameInterval) {
-        moveBall();
-        lastTime = timestamp;
-      }
-      
-      animationId = requestAnimationFrame(animate);
-    };
-    
-    animationId = requestAnimationFrame(animate);
-    return () => cancelAnimationFrame(animationId);
-  }, [ballDirection, showHighlight, setPlayer1, setPlayer2, setPlayer3, setPlayer4]);
 
-  // Occasionally change ball direction to simulate player hits
+  // Effect for animating ball movement
   useEffect(() => {
-    if (showHighlight) return;
+    const interval = setInterval(() => {
+      // Generate random direction movement for demo
+      const randomDirection = Math.random() * Math.PI * 2;
+      const speed = 2 + Math.random() * 3;
+      const dx = Math.cos(randomDirection) * speed;
+      const dy = Math.sin(randomDirection) * speed;
+      
+      // Create a valid BallTrajectory object
+      const newTrajectory: BallTrajectory = {
+        points: [
+          { x: ballPosition.x, y: ballPosition.y },
+          { x: ballPosition.x + dx * 10, y: ballPosition.y + dy * 10 }
+        ],
+        type: Math.random() > 0.5 ? "drive" : "lob",
+        speed: speed,
+        dx: dx,
+        dy: dy,
+        endX: ballPosition.x + dx * 20,
+        endY: ballPosition.y + dy * 20
+      };
+      
+      // Animate the ball
+      const { newPosition, velocity } = animateBall(ballPosition, newTrajectory);
+      
+      setBallPosition(newPosition);
+      setBallVelocity(velocity);
+      setBallTrajectory(newTrajectory);
+    }, 2000); // Slower animation for demo purposes
     
-    const directionInterval = setInterval(() => {
-      // Occasional random direction change to simulate player hits
-      if (Math.random() < 0.08) {
-        setBallDirection(createRandomDirectionChange());
-      }
-    }, 3000);
-    
-    return () => clearInterval(directionInterval);
-  }, [showHighlight]);
+    return () => clearInterval(interval);
+  }, [ballPosition]);
 
-  return {
-    ballPosition,
-    ballTrajectory,
-    ballVelocity,
-    setBallPosition,
-    setBallDirection,
-    setBallTrajectory,
-    setBallVelocity
-  };
-}
+  return { ballPosition, ballTrajectory, ballVelocity };
+};
+
+export default useBallAnimation;

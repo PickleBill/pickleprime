@@ -31,12 +31,16 @@ export const player1Stats: PlayerStats = {
   winRate: "78%",
   topSpeed: "47 mph",
   reactionTime: "0.4s",
-  accuracy: "92%",
+  accuracy: 92,  // Changed to number
   stamina: "89%",
   spinRate: "1800 rpm",
   shots: 42,
   avatar: "https://images.unsplash.com/photo-1628157588553-5eeea00af15c?w=150&h=150&crop=faces&auto=format&fit=crop",
-  // Add the existing required properties with default values
+  // Add the required properties
+  power: 88,
+  consistency: 85,
+  speed: 82,
+  winProbability: 65,
   aces: 5,
   winners: 14,
   unforcedErrors: 8,
@@ -49,12 +53,16 @@ export const player2Stats: PlayerStats = {
   winRate: "71%",
   topSpeed: "52 mph",
   reactionTime: "0.5s",
-  accuracy: "88%",
+  accuracy: 88,  // Changed to number
   stamina: "94%",
   spinRate: "2100 rpm",
   shots: 38,
   avatar: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=150&h=150&crop=faces&auto=format&fit=crop",
-  // Add the existing required properties with default values
+  // Add the required properties
+  power: 91,
+  consistency: 79,
+  speed: 86,
+  winProbability: 35,
   aces: 3,
   winners: 12,
   unforcedErrors: 11,

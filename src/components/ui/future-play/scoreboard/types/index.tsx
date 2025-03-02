@@ -56,13 +56,31 @@ export interface Sponsor {
   logo: string;
 }
 
-// Add these types needed by other components
+// Enhanced PlayerStats interface with all required properties
 export interface PlayerStats {
+  // Core properties
   accuracy: number;
   power: number;
   consistency: number;
   speed: number;
   winProbability: number;
+  
+  // Additional properties for display
+  name: string;
+  avatar: string;
+  winRate: string;
+  topSpeed: string;
+  reactionTime: string;
+  stamina: string;
+  spinRate: string;
+  shots: number;
+  
+  // Match statistics
+  aces: number;
+  winners: number;
+  unforcedErrors: number;
+  firstServePercentage: number;
+  breakPointsConverted: number;
 }
 
 export interface MatchFeedItem {
@@ -75,4 +93,6 @@ export interface MatchFeedItem {
 
 export interface PlayerPosition extends Position {
   rotation: number;
+  targetX?: number;  // Add optional targetX for animation
+  targetY?: number;  // Add optional targetY for animation
 }
