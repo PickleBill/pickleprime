@@ -1,22 +1,93 @@
 
-import { useState } from "react";
-import { useBallAnimation } from "./useBallAnimation";
-import { usePlayerAnimation } from "./usePlayerAnimation";
+import React, { useState, useEffect } from "react";
+import { Position, BallState, BallTrajectory } from "../types";
+import useBallAnimation from "./useBallAnimation";
+import usePlayerAnimation from "./usePlayerAnimation";
 
-export function useGameAnimations(showHighlight: boolean) {
-  // Use our modular hooks for player and ball animations
-  const { player1, player2, player3, player4, setPlayer1, setPlayer2, setPlayer3, setPlayer4 } = 
-    usePlayerAnimation(showHighlight);
+export const useGameAnimations = (isHighlightActive: boolean = false) => {
+  // Initialize ball position, trajectory, and velocity
+  const [ballPosition, setBallPosition] = useState<BallState>({
+    x: 50,
+    y: 50,
+    z: 0,
+    visible: true
+  });
   
-  const { ballPosition, ballTrajectory, ballVelocity } = 
-    useBallAnimation(
-      showHighlight,
-      setPlayer1,
-      setPlayer2,
-      setPlayer3,
-      setPlayer4
-    );
-
+  const [ballTrajectory, setBallTrajectory] = useState<BallTrajectory>({
+    direction: "up",
+    stage: "rising",
+    bounces: 0
+  });
+  
+  const [ballVelocity, setBallVelocity] = useState(0);
+  
+  // Initialize player positions
+  const [player1, setPlayer1] = useState<Position>({ x: 25, y: 25, rotation: 0 });
+  const [player2, setPlayer2] = useState<Position>({ x: 75, y: 25, rotation: 180 });
+  const [player3, setPlayer3] = useState<Position>({ x: 25, y: 75, rotation: 0 });
+  const [player4, setPlayer4] = useState<Position>({ x: 75, y: 75, rotation: 180 });
+  
+  // Use our animation hooks for ball and player movement
+  const animateBall = useBallAnimation();
+  const animatePlayers = usePlayerAnimation();
+  
+  // Animation frame effect
+  useEffect(() => {
+    if (isHighlightActive) return;
+    
+    let animationFrameId: number;
+    let lastTimestamp = 0;
+    
+    const animate = (timestamp: number) => {
+      if (!lastTimestamp) lastTimestamp = timestamp;
+      const deltaTime = timestamp - lastTimestamp;
+      lastTimestamp = timestamp;
+      
+      // Animate ball
+      const newBallState = animateBall(
+        ballPosition, 
+        ballTrajectory,
+        ballVelocity,
+        deltaTime
+      );
+      
+      setBallPosition(newBallState.position);
+      setBallTrajectory(newBallState.trajectory);
+      setBallVelocity(newBallState.velocity);
+      
+      // Animate players
+      const newPlayerPositions = animatePlayers(
+        [player1, player2, player3, player4],
+        ballPosition,
+        deltaTime
+      );
+      
+      setPlayer1(newPlayerPositions[0]);
+      setPlayer2(newPlayerPositions[1]);
+      setPlayer3(newPlayerPositions[2]);
+      setPlayer4(newPlayerPositions[3]);
+      
+      animationFrameId = requestAnimationFrame(animate);
+    };
+    
+    animationFrameId = requestAnimationFrame(animate);
+    
+    return () => {
+      cancelAnimationFrame(animationFrameId);
+    };
+  }, [
+    isHighlightActive,
+    ballPosition, 
+    ballTrajectory, 
+    ballVelocity,
+    player1, 
+    player2, 
+    player3, 
+    player4,
+    animateBall,
+    animatePlayers
+  ]);
+  
   return {
     ballPosition,
     ballTrajectory,
@@ -26,4 +97,6 @@ export function useGameAnimations(showHighlight: boolean) {
     player3,
     player4
   };
-}
+};
+
+export default useGameAnimations;

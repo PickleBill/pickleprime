@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Activity, Target, Zap, Clock, Award, BarChart2 } from 'lucide-react';
 import { PlayerStats } from './types';
@@ -6,6 +5,7 @@ import PlayerAvatar from './components/PlayerAvatar';
 import StatComparison from './components/StatComparison';
 import ShotDistribution from './components/ShotDistribution';
 import WinProbabilityBar from './components/WinProbabilityBar';
+import StatCard from './components/StatCard';
 
 interface ScoreboardStatsProps {
   player1Stats: PlayerStats;
@@ -130,6 +130,11 @@ const ScoreboardStats: React.FC<ScoreboardStatsProps> = ({
             team1Label={player1Stats.name}
             team2Label={player2Stats.name}
           />
+        </div>
+        
+        <div className="grid grid-cols-2 gap-4">
+          <StatCard title="Avg Speed" value={String(player1Stats.avgSpeed)} unit="mph" theme="green" />
+          <StatCard title="Avg Speed" value={String(player2Stats.avgSpeed)} unit="mph" theme="blue" />
         </div>
       </div>
     </div>
