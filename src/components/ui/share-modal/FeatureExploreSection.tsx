@@ -14,8 +14,8 @@ const FeatureCard: React.FC<FeatureCardProps> = ({ icon, label, color, onClick }
   return (
     <motion.div
       className={`relative p-6 rounded-lg flex flex-col items-center justify-center cursor-pointer 
-                bg-gradient-to-br from-${color}/30 to-${color}/10 backdrop-blur-lg
-                border border-${color}/20 overflow-hidden
+                bg-gradient-to-br from-${color}/40 to-${color}/15 backdrop-blur-lg
+                overflow-hidden shadow-lg
                 transition-colors duration-300 h-[100px]`}
       onClick={onClick}
       whileHover={{ scale: 1.05 }}
@@ -28,17 +28,12 @@ const FeatureCard: React.FC<FeatureCardProps> = ({ icon, label, color, onClick }
       
       {/* Glow effect behind icon */}
       <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 
-                    w-12 h-12 rounded-full bg-${color}/20 filter blur-md`} />
+                    w-14 h-14 rounded-full bg-${color}/25 filter blur-md`} />
       
       <div className={`relative text-${color} mb-3 z-10`}>
         {icon}
       </div>
       <span className="relative text-white text-sm font-medium z-10">{label}</span>
-      
-      {/* EXPLORE badge */}
-      <div className="absolute top-1 right-1 bg-white/10 rounded-full px-2 py-0.5">
-        <span className="text-white/80 text-[9px] font-semibold tracking-wide">EXPLORE</span>
-      </div>
     </motion.div>
   );
 };
