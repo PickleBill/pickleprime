@@ -1,184 +1,139 @@
 
-import React, { useState, useEffect } from 'react';
-import { courtBoundaries } from '../constants/courtConfig';
+import React from 'react';
+import { courtBoundaries, courtColors, teamLabels } from '../constants/courtConfig';
 
 const CourtSurface: React.FC = () => {
-  const [spotlightPosition, setSpotlightPosition] = useState({ x: 45, y: 30 });
-  const [showSpotlight, setShowSpotlight] = useState(true);
-  const [crowdEnthusiasm, setCrowdEnthusiasm] = useState(0); // 0-100 scale
+  // Light teal-blue color for the court
+  const tealBlueColor = "#33C3F0"; // Bright teal-blue color
+  // Dark navy color for the outer areas
+  const darkNavyColor = "#0a192f"; // Dark navy blue color
+  // Darker grass color for the buffer area
+  const grassColor = "#2E8B57"; // Darker shade of green (SeaGreen)
   
-  // Move spotlight randomly across the court
-  useEffect(() => {
-    const spotlightInterval = setInterval(() => {
-      if (Math.random() > 0.7) {
-        setSpotlightPosition({
-          x: Math.random() * 80 + 10, // 10-90%
-          y: Math.random() * 80 + 10  // 10-90%
-        });
-      }
-      
-      // Occasionally toggle spotlight
-      if (Math.random() > 0.85) {
-        setShowSpotlight(prev => !prev);
-      }
-    }, 3000);
-    
-    return () => clearInterval(spotlightInterval);
-  }, []);
+  // Scale and position the court to be centered - shrink by 10%
+  const paddingTop = 1.5; // Reduced by 2% from previous 3.5%
+  const paddingBottom = 7; // Increased by 2% from previous 5%
+  const paddingX = 0; // Remove horizontal padding to extend green area to edges
   
-  // Simulate crowd enthusiasm
-  useEffect(() => {
-    const enthusiasmInterval = setInterval(() => {
-      setCrowdEnthusiasm(prev => {
-        // Random walk - increase or decrease slightly
-        const change = (Math.random() * 20) - 10; // -10 to +10
-        return Math.max(0, Math.min(100, prev + change));
-      });
-    }, 5000);
-    
-    return () => clearInterval(enthusiasmInterval);
-  }, []);
+  // Render the grass buffer that fills the entire container
+  const renderGrassBuffer = () => (
+    <div className="absolute inset-0" style={{ 
+      backgroundColor: grassColor,
+      zIndex: 0
+    }}></div>
+  );
+  
+  // Render main court with dimensions that fill the container minus padding - shrunk by 10%
+  const renderMainCourt = () => (
+    <div className="absolute" style={{ 
+      top: `${paddingTop + 5}%`, // Add 5% top padding (10% / 2)
+      bottom: `${paddingBottom + 5}%`, // Add 5% bottom padding (10% / 2)
+      left: `${paddingX + 5}%`, 
+      right: `${paddingX + 5}%`,
+      backgroundColor: darkNavyColor, // Dark navy for the main court
+      border: `2px solid ${courtColors.lines}`,
+      zIndex: 1
+    }}></div>
+  );
 
-  // Court dimensions and styling 
-  const courtStyle = {
-    width: '100%',
-    height: '100%',
-    position: 'relative' as 'relative',
-    backgroundColor: '#2E8B57', // A darker grass color
-    borderRadius: '0.5rem',
-    boxShadow: 'inset 0 0 30px rgba(0, 0, 0, 0.3)', // Interior shadow for depth
-    overflow: 'hidden',
-  };
-  
-  // Court lines styling
-  const lineStyle = {
-    position: 'absolute' as 'absolute',
-    backgroundColor: 'white',
-    boxShadow: '0 0 3px rgba(255, 255, 255, 0.7)', // Subtle glow on the lines
-  };
-  
-  // Spotlight effect
-  const spotlightStyle = {
-    position: 'absolute' as 'absolute',
-    top: `${spotlightPosition.y}%`,
-    left: `${spotlightPosition.x}%`,
-    width: '60%',
-    height: '60%',
-    borderRadius: '50%',
-    background: 'radial-gradient(circle, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0) 70%)',
-    transform: 'translate(-50%, -50%)',
-    pointerEvents: 'none',
-    opacity: showSpotlight ? 1 : 0,
-    transition: 'opacity 1s ease-in-out',
-    zIndex: 2
-  };
-  
-  // Create an audience background effect
-  const audienceStyle = {
-    position: 'absolute' as 'absolute',
-    top: '-10%',
-    left: '-10%',
-    width: '120%',
-    height: '120%',
-    background: `radial-gradient(ellipse at center, rgba(0,0,0,0) 75%, rgba(0,0,0,0.5) 100%)`,
-    pointerEvents: 'none',
-    zIndex: 1
-  };
-  
-  // Crowd noise visual indicator 
-  const crowdNoiseElements = [];
-  const crowdNoiseCount = Math.floor(crowdEnthusiasm / 10); // 0-10 elements based on enthusiasm
-  
-  for (let i = 0; i < crowdNoiseCount; i++) {
-    const size = Math.random() * 20 + 10; // 10-30px
-    const posX = Math.random() * 100;
-    const posY = Math.random() * 100;
-    const delay = Math.random() * 2;
-    const duration = Math.random() * 2 + 1;
+  // Render court lines and middle area with properly adjusted positions
+  const renderCourtLines = () => {
+    // Net position is in the middle
+    const netPos = 50;
     
-    crowdNoiseElements.push(
-      <div 
-        key={`crowd-${i}`}
-        className="absolute rounded-full"
-        style={{
-          top: `${posY}%`,
-          left: `${posX}%`,
-          width: `${size}px`,
-          height: `${size}px`,
-          background: 'radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%)',
-          animation: `pulse ${duration}s infinite ${delay}s`,
-          zIndex: 1
-        }}
-      />
+    // According to the diagram, the kitchen width is 213cm on each side of the net
+    // Out of the total 1341cm, this is approximately 16% of the total width from the net
+    const kitchenWidth = 16; // 16% of the court width on each side of the net
+    const leftKitchenLine = netPos - kitchenWidth;
+    const rightKitchenLine = netPos + kitchenWidth;
+    
+    return (
+      <>
+        {/* Light teal blue center area (kitchen zone) */}
+        <div className="absolute" style={{ 
+          top: `${paddingTop + 5}%`,
+          bottom: `${paddingBottom + 5}%`,
+          left: `${leftKitchenLine}%`,
+          right: `${100 - rightKitchenLine}%`,
+          backgroundColor: tealBlueColor,
+          zIndex: 2
+        }}></div>
+        
+        {/* Center line (net) with shadow */}
+        <div className="absolute" style={{ 
+          top: `${paddingTop + 5}%`,
+          bottom: `${paddingBottom + 5}%`,
+          left: `${netPos}%`,
+          width: `${courtBoundaries.netThickness}px`,
+          backgroundColor: courtColors.lines,
+          transform: 'translateX(-50%)',
+          boxShadow: `0 0 8px 4px ${courtColors.netShadow}`,
+          zIndex: 3
+        }}></div>
+        
+        {/* Left kitchen line */}
+        <div className="absolute" style={{ 
+          top: `${paddingTop + 5}%`,
+          bottom: `${paddingBottom + 5}%`,
+          left: `${leftKitchenLine}%`,
+          width: '2px',
+          backgroundColor: courtColors.lines,
+          zIndex: 3
+        }}></div>
+        
+        {/* Right kitchen line */}
+        <div className="absolute" style={{ 
+          top: `${paddingTop + 5}%`,
+          bottom: `${paddingBottom + 5}%`,
+          left: `${rightKitchenLine}%`,
+          width: '2px',
+          backgroundColor: courtColors.lines,
+          zIndex: 3
+        }}></div>
+        
+        {/* Horizontal center line in the outer areas */}
+        <div className="absolute" style={{ 
+          top: `50%`, 
+          height: '2px',
+          left: `${paddingX + 5}%`,
+          right: `${100 - leftKitchenLine}%`,
+          backgroundColor: courtColors.lines,
+          zIndex: 3
+        }}></div>
+        
+        <div className="absolute" style={{ 
+          top: `50%`, 
+          height: '2px',
+          left: `${rightKitchenLine}%`,
+          right: `${paddingX + 5}%`,
+          backgroundColor: courtColors.lines,
+          zIndex: 3
+        }}></div>
+      </>
     );
-  }
+  };
+
+  // Render team labels
+  const renderTeamLabels = () => (
+    <>
+      {/* Team Green label */}
+      <div className="absolute top-2 left-4 bg-green-600/90 text-white px-3 py-1 rounded-md font-bold text-sm z-10">
+        {teamLabels.team1}
+      </div>
+      
+      {/* Team Blue label */}
+      <div className="absolute bottom-2 right-4 bg-blue-600/90 text-white px-3 py-1 rounded-md font-bold text-sm z-10">
+        {teamLabels.team2}
+      </div>
+    </>
+  );
 
   return (
-    <div style={courtStyle}>
-      {/* Audience background effect */}
-      <div style={audienceStyle} />
-      
-      {/* Spotlight effect */}
-      {showSpotlight && <div style={spotlightStyle} />}
-      
-      {/* Crowd noise visual indicators */}
-      {crowdNoiseElements}
-      
-      {/* Court outline */}
-      <div style={{ 
-        ...lineStyle, 
-        top: `${courtBoundaries.top}%`, 
-        left: `${courtBoundaries.left}%`, 
-        width: `${courtBoundaries.right - courtBoundaries.left}%`, 
-        height: `${courtBoundaries.bottom - courtBoundaries.top}%`,
-        border: '2px solid white',
-        backgroundColor: 'transparent'
-      }} />
-      
-      {/* Center line */}
-      <div style={{ 
-        ...lineStyle, 
-        top: `${courtBoundaries.top}%`, 
-        left: '50%', 
-        width: '2px', 
-        height: `${courtBoundaries.bottom - courtBoundaries.top}%`,
-        transform: 'translateX(-50%)'
-      }} />
-      
-      {/* Non-volley zone (kitchen) lines */}
-      {/* Left kitchen */}
-      <div style={{ 
-        ...lineStyle, 
-        top: `${courtBoundaries.top}%`, 
-        left: `${courtBoundaries.left}%`, 
-        width: `${courtBoundaries.kitchen.width}%`, 
-        height: `${courtBoundaries.kitchen.height}%`,
-        border: '2px solid white',
-        backgroundColor: 'transparent'
-      }} />
-      
-      {/* Right kitchen */}
-      <div style={{ 
-        ...lineStyle, 
-        top: `${courtBoundaries.top}%`, 
-        right: `${courtBoundaries.left}%`, 
-        width: `${courtBoundaries.kitchen.width}%`, 
-        height: `${courtBoundaries.kitchen.height}%`,
-        border: '2px solid white',
-        backgroundColor: 'transparent'
-      }} />
-      
-      {/* Court texture pattern */}
-      <div style={{
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        width: '100%',
-        height: '100%',
-        backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 5px, rgba(255,255,255,0.03) 5px, rgba(255,255,255,0.03) 10px)',
-        pointerEvents: 'none',
-        zIndex: 2
-      }} />
+    <div className="relative w-full h-full">
+      {renderGrassBuffer()}
+      {renderMainCourt()}
+      {renderCourtLines()}
+      {renderTeamLabels()}
     </div>
   );
 };

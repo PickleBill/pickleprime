@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Position } from '../types';
 import { playerConfig } from '../constants/courtConfig';
 
@@ -16,41 +16,6 @@ const Players: React.FC<PlayersProps> = ({
   player3,
   player4
 }) => {
-  // State for player actions - randomly triggered effects
-  const [playerActions, setPlayerActions] = useState({
-    player1Action: '',
-    player2Action: '',
-    player3Action: '',
-    player4Action: ''
-  });
-  
-  // Trigger random player celebrations/actions
-  useEffect(() => {
-    const actionInterval = setInterval(() => {
-      // 5% chance per player to trigger a celebration or action
-      if (Math.random() < 0.05) {
-        const playerIndex = Math.floor(Math.random() * 4) + 1;
-        const actions = ['celebrate', 'dive', 'jump', 'tired'];
-        const randomAction = actions[Math.floor(Math.random() * actions.length)];
-        
-        setPlayerActions(prev => ({
-          ...prev,
-          [`player${playerIndex}Action`]: randomAction
-        }));
-        
-        // Clear the action after a short delay
-        setTimeout(() => {
-          setPlayerActions(prev => ({
-            ...prev,
-            [`player${playerIndex}Action`]: ''
-          }));
-        }, 1200);
-      }
-    }, 2000);
-    
-    return () => clearInterval(actionInterval);
-  }, []);
-  
   // Function to get more vibrant neon colors for each player
   const getPlayerColor = (teamId: number, playerIndex: number) => {
     // More vibrant neon colors
@@ -61,41 +26,8 @@ const Players: React.FC<PlayersProps> = ({
     return playerColors[playerIndex % playerColors.length];
   };
   
-  // Get action-specific styles
-  const getActionStyles = (playerNum: number, action: string) => {
-    if (!action) return {};
-    
-    // Different animations based on action type
-    switch(action) {
-      case 'celebrate':
-        return {
-          transform: 'scale(1.2) translateY(-5px)',
-          filter: 'brightness(1.3)',
-          transition: 'all 0.3s ease-in-out'
-        };
-      case 'dive':
-        return {
-          transform: 'rotate(45deg) translateX(5px)',
-          transition: 'all 0.2s ease-in-out'
-        };
-      case 'jump':
-        return {
-          transform: 'translateY(-10px)',
-          transition: 'all 0.2s ease-in-out'
-        };
-      case 'tired':
-        return {
-          transform: 'scale(0.9)',
-          opacity: 0.8,
-          transition: 'all 0.3s ease-in-out'
-        };
-      default:
-        return {};
-    }
-  };
-  
   // Render a player with silhouette style
-  const renderPlayer = (position: Position, teamId: number, playerLabel: string, playerIndex: number, playerAction: string) => {
+  const renderPlayer = (position: Position, teamId: number, playerLabel: string, playerIndex: number) => {
     const playerColor = getPlayerColor(teamId, playerIndex);
     const glowColor = teamId === 1 
       ? "rgba(74, 255, 94, 0.6)" // Bright green glow
@@ -115,24 +47,6 @@ const Players: React.FC<PlayersProps> = ({
     const shadowStyle = {
       filter: `drop-shadow(0 0 8px ${teamId === 1 ? 'rgba(0, 77, 0, 0.7)' : 'rgba(46, 16, 101, 0.7)'})`,
       WebkitFilter: `drop-shadow(0 0 8px ${teamId === 1 ? 'rgba(0, 77, 0, 0.7)' : 'rgba(46, 16, 101, 0.7)'})`
-    };
-    
-    // Get action-specific styles
-    const actionStyles = getActionStyles(playerIndex, playerAction);
-    
-    // Render action effect bubble when player has an action
-    const renderActionBubble = () => {
-      if (!playerAction) return null;
-      
-      const actionEmoji = playerAction === 'celebrate' ? '🎉' : 
-                          playerAction === 'dive' ? '💨' : 
-                          playerAction === 'jump' ? '⤴️' : '😓';
-      
-      return (
-        <div className="absolute -top-5 -right-2 animate-bounce bg-white rounded-full px-1.5 py-0.5 text-xs">
-          {actionEmoji}
-        </div>
-      );
     };
     
     return (
@@ -166,13 +80,9 @@ const Players: React.FC<PlayersProps> = ({
             height: `${playerConfig.size * 6 * 1.15}px`, // Increased by 15%
             zIndex: 10,
             opacity: playerConfig.opacity,
-            ...shadowStyle, // Added shadow
-            ...actionStyles // Add action-specific styles
+            ...shadowStyle // Added shadow
           }}
         >
-          {/* Action bubble */}
-          {renderActionBubble()}
-          
           {/* SVG silhouette of a pickleball player - more detailed with action poses */}
           <div className="w-full h-full" style={{ color: playerColor }}>
             {getPlayerSilhouette(teamId, playerIndex)}
@@ -248,10 +158,10 @@ const Players: React.FC<PlayersProps> = ({
 
   return (
     <>
-      {renderPlayer(player1, 1, "P1", 0, playerActions.player1Action)} {/* Green team player 1 - top left */}
-      {renderPlayer(player2, 1, "P2", 1, playerActions.player2Action)} {/* Green team player 2 - bottom left */}
-      {renderPlayer(player3, 2, "P3", 0, playerActions.player3Action)} {/* Blue team player 3 - top right */}
-      {renderPlayer(player4, 2, "P4", 1, playerActions.player4Action)} {/* Blue team player 4 - bottom right */}
+      {renderPlayer(player1, 1, "P1", 0)} {/* Green team player 1 - top left */}
+      {renderPlayer(player2, 1, "P2", 1)} {/* Green team player 2 - bottom left */}
+      {renderPlayer(player3, 2, "P3", 0)} {/* Blue team player 3 - top right */}
+      {renderPlayer(player4, 2, "P4", 1)} {/* Blue team player 4 - bottom right */}
     </>
   );
 };
