@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import StatCard from "./ui/StatCard";
 import AnimatedButton from "./ui/AnimatedButton";
@@ -7,6 +6,16 @@ import EcosystemScoreboardPreview from "./ui/EcosystemScoreboardPreview";
 
 const MarketSection = () => {
   const [showFuturePlayModal, setShowFuturePlayModal] = useState(false);
+
+  const handleFuturePlayClick = () => {
+    setShowFuturePlayModal(true);
+    setTimeout(() => {
+      const playButton = document.querySelector('[aria-label="Launch Digital Scoreboard"]');
+      if (playButton && playButton instanceof HTMLElement) {
+        playButton.click();
+      }
+    }, 100);
+  };
 
   return (
     <section
@@ -146,14 +155,14 @@ const MarketSection = () => {
               </div>
             </div>
 
-            <AnimatedButton onClick={() => setShowFuturePlayModal(true)} size="lg">
+            <AnimatedButton onClick={handleFuturePlayClick} size="lg">
               Explore The Future of Play
             </AnimatedButton>
           </div>
 
           {/* Digital Ecosystem Preview */}
           <div className="relative">
-            <EcosystemScoreboardPreview onLaunchFullView={() => setShowFuturePlayModal(true)} />
+            <EcosystemScoreboardPreview onLaunchFullView={handleFuturePlayClick} />
             
             {/* Decorative elements */}
             <div className="absolute -top-10 -right-10 w-20 h-20 bg-primary/5 rounded-full blur-xl -z-10"></div>

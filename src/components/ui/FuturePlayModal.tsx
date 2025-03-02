@@ -82,9 +82,9 @@ const FuturePlayModal = ({ isOpen, onClose }: FuturePlayModalProps) => {
     setShowScoreboard(true);
   };
 
+  // When back is clicked, directly close the modal instead of showing another step
   const handleBackButtonClick = () => {
-    setShowScoreboard(false);
-    setShowHighlight(false);
+    onClose();
   };
   
   const triggerHighlight = () => {

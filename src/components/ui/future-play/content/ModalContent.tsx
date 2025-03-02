@@ -11,7 +11,7 @@ interface ModalContentProps {
 const ModalContent: React.FC<ModalContentProps> = ({ children, onClose }) => {
   return (
     <div 
-      className="relative w-full max-w-5xl max-h-[90vh] bg-navy-dark/80 backdrop-blur-md rounded-2xl overflow-hidden shadow-2xl border border-white/10 animate-scale-in"
+      className="relative w-full max-w-5xl max-h-[90vh] bg-navy-dark backdrop-blur-md rounded-2xl overflow-hidden shadow-2xl border border-white/10 animate-scale-in"
       onClick={(e) => e.stopPropagation()}
     >
       {/* Close button */}

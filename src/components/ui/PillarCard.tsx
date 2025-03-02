@@ -31,7 +31,7 @@ const PillarCard = ({
   return (
     <div
       className={cn(
-        "group bg-gradient-to-b rounded-xl p-6 shadow-md hover:shadow-lg transition-all duration-300 border border-gray-100 h-full",
+        "group bg-navy-dark rounded-xl p-6 shadow-md hover:shadow-lg transition-all duration-300 border border-white/10 h-full text-white",
         `hover:border-${primaryColor}/20`,
         onClick && "cursor-pointer",
         className
@@ -47,10 +47,10 @@ const PillarCard = ({
         </div>
         
         {/* Title and Description */}
-        <h3 className={`text-xl font-bold text-navy mb-2 group-hover:text-${primaryColor} transition-colors`}>
+        <h3 className={`text-xl font-bold text-white mb-2 group-hover:text-${primaryColor} transition-colors`}>
           {title}
         </h3>
-        <p className="text-gray-600 mb-5">{description}</p>
+        <p className="text-white/70 mb-5">{description}</p>
         
         {/* Features List */}
         {features && features.length > 0 && (
@@ -58,7 +58,7 @@ const PillarCard = ({
             {features.map((feature, index) => (
               <li key={index} className="flex items-start gap-2">
                 <span className={`text-${primaryColor} mt-1 text-lg`}>•</span>
-                <span className="text-gray-700 text-sm">{feature}</span>
+                <span className="text-white/80 text-sm">{feature}</span>
               </li>
             ))}
           </ul>

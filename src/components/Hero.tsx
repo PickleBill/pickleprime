@@ -1,4 +1,3 @@
-
 import React, { useEffect, useRef, useState } from "react";
 import AnimatedButton from "./ui/AnimatedButton";
 import PlayerModal from "./ui/PlayerModal";
