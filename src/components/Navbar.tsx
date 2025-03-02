@@ -6,6 +6,7 @@ import NavLink from "./ui/NavLink";
 import DesktopNav from "./ui/DesktopNav";
 import MobileNavButtons from "./ui/MobileNavButtons";
 import MobileMenu from "./ui/MobileMenu";
+import { Wifi, Network } from "lucide-react";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -41,15 +42,16 @@ const Navbar = () => {
     >
       <div className="container flex justify-between items-center">
         {/* Logo */}
-        <a href="/" className="flex items-center">
-          <img
-            src="/swingnet-logo.svg"
-            alt="SwingNet Logo"
-            width={40}
-            height={40}
-            className="mr-2"
-          />
-          <span className="font-bold text-xl text-navy">SwingNet</span>
+        <a href="/" className="flex items-center group">
+          <div className="relative mr-2 rounded-full w-10 h-10 flex items-center justify-center bg-gradient-to-br from-primary to-blue-400 shadow-md overflow-hidden">
+            <Network className="absolute text-white w-6 h-6 transform transition-all duration-300 group-hover:scale-0 group-hover:opacity-0" />
+            <Wifi className="absolute text-white w-6 h-6 transform transition-all duration-300 scale-0 opacity-0 group-hover:scale-100 group-hover:opacity-100" />
+            <div className="absolute inset-0 bg-white opacity-0 rounded-full scale-90 transition-opacity duration-300 group-hover:opacity-10"></div>
+          </div>
+          <div className="flex flex-col">
+            <span className="font-bold text-xl text-navy leading-tight">SwingNet</span>
+            <span className="text-xs text-primary/80 -mt-1 font-medium">Connect. Play. Win.</span>
+          </div>
         </a>
 
         {/* Desktop Navigation */}
