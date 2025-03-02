@@ -10,18 +10,21 @@ export interface PlayerPosition {
   targetY?: number;
 }
 
-// Position type used in various components
-export type Position = PlayerPosition;
-
 // Ball position and trajectory
 export interface BallState {
   x: number;
   y: number;
   z: number;
+  rotation: number;
+  // Additional properties needed for animations
+  dx?: number;
+  dy?: number;
+  endX?: number;
+  endY?: number;
 }
 
 // Ball trajectory type
-export type BallTrajectory = BallState;
+export type BallTrajectory = BallState[];
 
 // Sponsor type
 export interface Sponsor {
@@ -71,7 +74,7 @@ export interface MobileScoreboardViewProps {
   player2Score: number;
   currentSet: number;
   ballPosition: BallState;
-  ballTrajectory: BallState[];
+  ballTrajectory: BallTrajectory;
   ballVelocity: number;
   player1: PlayerPosition;
   player2: PlayerPosition;

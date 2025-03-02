@@ -48,14 +48,18 @@ const SponsorsBanner: React.FC<SponsorsBannerProps> = ({
       
       <div className="flex items-center gap-3">
         <span className="text-white text-sm uppercase font-medium tracking-wider">SPONSORED BY</span>
-        <div className="flex items-center gap-8">
+        <div className="flex items-center gap-6">
           {sponsors.map((sponsor) => (
-            <img 
-              key={sponsor.id}
-              src={sponsor.logo} 
-              alt={sponsor.name} 
-              className="h-9 object-contain hover:scale-110 transition-transform duration-200"
-            />
+            <div 
+              key={sponsor.id} 
+              className="bg-white px-4 py-2 rounded-lg shadow-sm hover:shadow-md transition-all"
+            >
+              <img 
+                src={sponsor.logo} 
+                alt={sponsor.name} 
+                className="h-9 object-contain hover:scale-105 transition-transform duration-200"
+              />
+            </div>
           ))}
         </div>
       </div>
