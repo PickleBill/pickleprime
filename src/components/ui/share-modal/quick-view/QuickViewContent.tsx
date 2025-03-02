@@ -1,5 +1,5 @@
 
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { X } from "lucide-react";
 import AnalyticsView from "./views/AnalyticsView";
@@ -17,6 +17,11 @@ const QuickViewContent: React.FC<QuickViewContentProps> = ({ contentType, onClos
   // State for filters that will be passed to views
   const [selectedStat, setSelectedStat] = React.useState("overall");
   const [selectedTimeRange, setSelectedTimeRange] = React.useState("7d");
+  
+  // Video state management
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [currentVideo, setCurrentVideo] = useState(0);
+  const [volume, setVolume] = useState(80);
 
   // Determine which view to render based on contentType
   const renderContent = () => {
@@ -35,24 +40,36 @@ const QuickViewContent: React.FC<QuickViewContentProps> = ({ contentType, onClos
       case "stats":
         return <StatsView />;
       case "videos":
-        return <VideoView />;
+        return (
+          <VideoView 
+            isPlaying={isPlaying}
+            setIsPlaying={setIsPlaying}
+            currentVideo={currentVideo}
+            setCurrentVideo={setCurrentVideo}
+            volume={volume}
+            setVolume={setVolume}
+          />
+        );
       case "community":
         return (
-          <ViewContainer title="Community">
+          <div className="bg-gradient-to-br from-navy-dark/90 to-navy/90 backdrop-blur-lg rounded-lg p-6 mb-4">
+            <h3 className="text-lg font-semibold text-white mb-4">Community</h3>
             <p className="text-white text-center py-10">Community features coming soon!</p>
-          </ViewContainer>
+          </div>
         );
       case "settings":
         return (
-          <ViewContainer title="Settings">
+          <div className="bg-gradient-to-br from-navy-dark/90 to-navy/90 backdrop-blur-lg rounded-lg p-6 mb-4">
+            <h3 className="text-lg font-semibold text-white mb-4">Settings</h3>
             <p className="text-white text-center py-10">Settings configuration coming soon!</p>
-          </ViewContainer>
+          </div>
         );
       default:
         return (
-          <ViewContainer title="Feature Unavailable">
+          <div className="bg-gradient-to-br from-navy-dark/90 to-navy/90 backdrop-blur-lg rounded-lg p-6 mb-4">
+            <h3 className="text-lg font-semibold text-white mb-4">Feature Unavailable</h3>
             <p className="text-white text-center py-10">This feature is currently unavailable.</p>
-          </ViewContainer>
+          </div>
         );
     }
   };
