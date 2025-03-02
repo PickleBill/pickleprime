@@ -3,11 +3,11 @@ import React, { useState } from "react";
 import { Position, BallState, BallTrajectory } from "../types";
 import CourtViewPanel from "./CourtViewPanel";
 import MatchFeedPanel from "./MatchFeedPanel";
-import ShareModal from "./ShareModal";
+import ShareMatchModal from "../../../../ui/share-modal";
 import { Share } from "lucide-react";
 
 interface GameViewPanelProps {
-  ballPosition: BallState; // Changed from Position to BallState to match expected type
+  ballPosition: BallState;
   ballTrajectory: BallTrajectory;
   ballVelocity: number;
   player1: Position;
@@ -48,23 +48,20 @@ const GameViewPanel: React.FC<GameViewPanelProps> = ({
           matchFeedItems={matchFeedItems}
         />
         
-        {/* Share Button - Now opens the advanced share modal directly */}
+        {/* Share Button - Opens the enhanced share modal */}
         <button 
           onClick={() => setShowShareModal(true)}
-          className="absolute top-2 right-2 bg-primary/80 hover:bg-primary text-white p-2 rounded-full transition-colors"
+          className="absolute top-2 right-2 bg-gradient-to-r from-primary to-[#1a9dc3] text-white p-2.5 rounded-full transition-all hover:shadow-lg hover:shadow-primary/20 animate-pulse-slow"
           aria-label="Share match update"
         >
           <Share className="h-4 w-4" />
         </button>
       </div>
 
-      {/* Advanced Share Modal */}
-      <ShareModal
+      {/* Enhanced Share Modal */}
+      <ShareMatchModal
         isOpen={showShareModal}
         onClose={() => setShowShareModal(false)}
-        player1Score={21}
-        player2Score={18}
-        gameTime={180}
       />
     </div>
   );
