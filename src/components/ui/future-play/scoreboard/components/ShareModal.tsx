@@ -80,7 +80,7 @@ const ShareModal: React.FC<ShareModalProps> = ({
       className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4 animate-fade-in"
       onClick={handleBackdropClick}
     >
-      <div className="relative bg-navy-dark/90 rounded-xl border border-white/10 w-full max-w-3xl max-h-[85vh] overflow-hidden flex flex-col">
+      <div className="relative bg-navy-dark/90 rounded-xl border border-white/10 w-full max-w-4xl max-h-[85vh] overflow-hidden flex flex-col">
         {/* Header */}
         <ModalHeader onClose={onClose} />
         

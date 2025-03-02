@@ -25,13 +25,20 @@ const ViewContainer: React.FC<ViewContainerProps> = ({ onClose, children }) => {
     };
   }, [onClose]);
 
+  const handleBackdropClick = (e: React.MouseEvent) => {
+    if (e.target === e.currentTarget) {
+      onClose();
+    }
+  };
+
   return (
     <motion.div 
-      className="relative z-20 bg-navy-dark/95 backdrop-blur-md rounded-lg border border-white/10 shadow-xl overflow-hidden w-full max-w-[75%] mx-auto"
+      className="relative z-20 bg-navy-dark/95 backdrop-blur-md rounded-lg border border-white/10 shadow-xl overflow-hidden w-full max-w-[80%] mx-auto"
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0, scale: 0.95 }}
       transition={{ duration: 0.3 }}
+      onClick={handleBackdropClick}
     >
       <motion.button 
         onClick={onClose}

@@ -13,9 +13,9 @@ const MatchStatusCard: React.FC<MatchStatusCardProps> = ({
   gameTime 
 }) => {
   return (
-    <div className="bg-navy/80 rounded-lg p-4 mb-6 border border-white/10">
-      <h3 className="text-lg font-semibold text-primary mb-3">Match Status</h3>
-      <div className="flex justify-between items-center mb-4">
+    <div className="bg-navy/80 rounded-lg p-4 mb-4 md:mb-0 border border-white/10">
+      <h3 className="text-lg font-semibold text-primary mb-2">Match Status</h3>
+      <div className="flex justify-between items-center mb-3">
         <div className="text-center">
           <div className="w-12 h-12 rounded-full bg-green-500 flex items-center justify-center text-white font-bold mx-auto mb-1">A</div>
           <p className="text-white">Team A</p>
@@ -36,10 +36,10 @@ const MatchStatusCard: React.FC<MatchStatusCardProps> = ({
         </div>
       </div>
       
-      <div className="mb-4">
+      <div className="mb-2">
         <label className="text-white text-sm mb-1 block">Customize message</label>
         <textarea 
-          className="w-full p-3 rounded-md bg-navy border border-white/20 text-white"
+          className="w-full p-2 rounded-md bg-navy border border-white/20 text-white text-sm"
           rows={2}
           defaultValue={`Match update: Team A ${player1Score} - Team B ${player2Score} after an intense game! #Pickleball #CourtVisionary`}
         />

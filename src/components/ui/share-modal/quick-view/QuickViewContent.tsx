@@ -48,6 +48,12 @@ const QuickViewContent: React.FC<QuickViewContentProps> = ({
 
   if (!contentType) return null;
 
+  const handleBackdropClick = (e: React.MouseEvent) => {
+    if (inScoreboard && e.target === e.currentTarget) {
+      onClose();
+    }
+  };
+
   const getContent = () => {
     switch (contentType) {
       case 'video':
@@ -97,7 +103,10 @@ const QuickViewContent: React.FC<QuickViewContentProps> = ({
 
   return (
     <AnimatePresence mode="wait">
-      <div className={`${inScoreboard ? 'fixed inset-0 bg-black/70 flex items-center justify-center p-4 z-50' : 'relative'}`}>
+      <div 
+        className={`${inScoreboard ? 'fixed inset-0 bg-black/70 flex items-center justify-center p-4 z-50' : 'relative'}`}
+        onClick={handleBackdropClick}
+      >
         {getContent()}
       </div>
     </AnimatePresence>

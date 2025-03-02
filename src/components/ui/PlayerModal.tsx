@@ -46,26 +46,34 @@ const PlayerModal = ({ isOpen, onClose }: PlayerModalProps) => {
       className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4 animate-fade-in"
       onClick={handleBackdropClick}
     >
-      <div className="bg-[#0FA0CE]/10 rounded-xl w-full max-w-4xl max-h-[95vh] overflow-hidden flex flex-col">
+      <div className="bg-[#0FA0CE]/10 rounded-xl w-full max-w-5xl max-h-[90vh] overflow-hidden flex flex-col">
         {/* Header */}
         <PlayerModalHeader onClose={onClose} />
         
         {/* Content */}
-        <div className="flex-1 overflow-auto">
-          {/* Profile Section */}
-          <PlayerProfile />
-          
-          {/* Stats Overview */}
-          <PerformanceStats />
-          
-          {/* Recent Matches */}
-          <RecentMatches />
-          
-          {/* Upcoming Reservations */}
-          <UpcomingReservations />
-          
-          {/* Friends & Community */}
-          <FriendsCommunity />
+        <div className="flex-1 overflow-auto p-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {/* Left Column */}
+            <div className="space-y-4">
+              {/* Profile Section */}
+              <PlayerProfile />
+              
+              {/* Stats Overview */}
+              <PerformanceStats />
+              
+              {/* Recent Matches */}
+              <RecentMatches />
+            </div>
+            
+            {/* Right Column */}
+            <div className="space-y-4">
+              {/* Upcoming Reservations */}
+              <UpcomingReservations />
+              
+              {/* Friends & Community */}
+              <FriendsCommunity />
+            </div>
+          </div>
         </div>
         
         {/* Footer */}

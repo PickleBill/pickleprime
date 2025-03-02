@@ -67,21 +67,29 @@ const ShareMatchModal: React.FC<ShareMatchModalProps> = ({ isOpen, onClose }) =>
       className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4 animate-fade-in"
       onClick={handleBackdropClick}
     >
-      <div className="bg-navy-dark/90 backdrop-blur-md rounded-xl w-full max-w-md overflow-hidden flex flex-col border border-white/10">
+      <div className="bg-navy-dark/90 backdrop-blur-md rounded-xl w-full max-w-xl overflow-hidden flex flex-col border border-white/10">
         {/* Header */}
         <ModalHeader onClose={onClose} />
         
         {/* Content */}
-        <div className="p-6">
-          <MatchStatusCard 
-            player1Score={player1Score}
-            player2Score={player2Score}
-            gameTime={gameTime}
-          />
-          
-          <PremiumAnalyticsCard 
-            onExploreClick={() => setShowAdvancedView(true)}
-          />
+        <div className="p-4 flex-1 overflow-auto">
+          <div className="md:flex md:gap-4">
+            {/* Left column */}
+            <div className="md:w-1/2">
+              <MatchStatusCard 
+                player1Score={player1Score}
+                player2Score={player2Score}
+                gameTime={gameTime}
+              />
+            </div>
+            
+            {/* Right column */}
+            <div className="md:w-1/2">
+              <PremiumAnalyticsCard 
+                onExploreClick={() => setShowAdvancedView(true)}
+              />
+            </div>
+          </div>
           
           <h3 className="text-lg font-semibold text-white mb-3">Share to</h3>
           <SocialShareButtons onClose={onClose} />
