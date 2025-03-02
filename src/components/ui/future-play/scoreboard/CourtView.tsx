@@ -1,21 +1,23 @@
 
 import React from 'react';
-import { Position, BallTrajectory } from './types';
 import CourtSurface from './components/CourtSurface';
-import Players from './components/Players';
+import PlayerAvatar from './components/PlayerAvatar';
 import Ball from './components/Ball';
+import { Position, BallTrajectory, PlayerPosition } from './types';
 
-interface CourtViewProps {
+export interface CourtViewProps {
+  courtId: string;
   ballPosition: Position;
   ballTrajectory: BallTrajectory;
   ballVelocity: number;
-  player1: Position;
-  player2: Position;
-  player3: Position;
-  player4: Position;
+  player1: PlayerPosition;
+  player2: PlayerPosition;
+  player3: PlayerPosition;
+  player4: PlayerPosition;
 }
 
 const CourtView: React.FC<CourtViewProps> = ({
+  courtId,
   ballPosition,
   ballTrajectory,
   ballVelocity,
@@ -25,30 +27,20 @@ const CourtView: React.FC<CourtViewProps> = ({
   player4
 }) => {
   return (
-    <div className="relative w-full h-full" style={{ 
-      width: "100%",
-      height: "100%",
-      maxWidth: "100%",
-      maxHeight: "100%",
-      marginTop: "-5%", // Adjusted to shift up by 2% (from -3% to -5%)
-      backgroundColor: '#2E8B57', // Match the darker grass color
-      borderRadius: '0.5rem',
-      overflow: 'hidden',
-      paddingBottom: '5px'
-    }}>
-      <CourtSurface />
+    <div className="relative w-full h-full">
+      <CourtSurface courtId={courtId} />
       
-      <Players 
-        player1={player1}
-        player2={player2}
-        player3={player3}
-        player4={player4}
-      />
+      {/* Players */}
+      <PlayerAvatar position={player1} playerId="1" side="bottom" />
+      <PlayerAvatar position={player2} playerId="2" side="bottom" />
+      <PlayerAvatar position={player3} playerId="3" side="top" />
+      <PlayerAvatar position={player4} playerId="4" side="top" />
       
+      {/* Ball */}
       <Ball 
-        ballPosition={ballPosition}
-        ballTrajectory={ballTrajectory}
-        ballVelocity={ballVelocity}
+        position={ballPosition} 
+        trajectory={ballTrajectory}
+        velocity={ballVelocity}
       />
     </div>
   );

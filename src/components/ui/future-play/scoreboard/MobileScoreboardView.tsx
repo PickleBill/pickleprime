@@ -1,15 +1,34 @@
+
 import React from "react";
 import ScoreboardHeader from "./ScoreboardHeader";
 import CourtView from "./CourtView";
 import ScoreboardFooter from "./ScoreboardFooter";
 import { ShareModal } from "./components/share";
 import ActionFooter from "./components/ActionFooter";
+import { MobileScoreboardViewProps } from "./types";
 
-interface MobileScoreboardViewProps {
-  courtId: string;
-}
-
-const MobileScoreboardView: React.FC<MobileScoreboardViewProps> = ({ courtId }) => {
+const MobileScoreboardView: React.FC<MobileScoreboardViewProps> = ({
+  courtId,
+  onBackClick,
+  onHighlightClick,
+  showHighlight,
+  highlightTimer,
+  gameTime,
+  player1Score,
+  player2Score,
+  currentSet,
+  ballPosition,
+  ballTrajectory,
+  ballVelocity,
+  player1,
+  player2,
+  player3,
+  player4,
+  player1Stats,
+  player2Stats,
+  matchFeedItems,
+  sponsors
+}) => {
   const [isShareModalOpen, setIsShareModalOpen] = React.useState(false);
 
   const handleShareClick = () => {
@@ -20,14 +39,31 @@ const MobileScoreboardView: React.FC<MobileScoreboardViewProps> = ({ courtId }) 
     setIsShareModalOpen(false);
   };
 
+  const handlePlayerProfileClick = () => {
+    console.log("Player profile clicked");
+  };
+
   return (
     <div className="flex flex-col h-screen">
-      <ScoreboardHeader onShareClick={handleShareClick} />
+      <ScoreboardHeader onShareClick={handleShareClick} onBackClick={onBackClick} />
       <div className="flex-grow overflow-y-auto">
-        <CourtView courtId={courtId} />
+        <CourtView 
+          courtId={courtId}
+          ballPosition={ballPosition}
+          ballTrajectory={ballTrajectory}
+          ballVelocity={ballVelocity}
+          player1={player1}
+          player2={player2}
+          player3={player3}
+          player4={player4}
+        />
       </div>
-      <ScoreboardFooter />
-      <ActionFooter />
+      <ScoreboardFooter sponsors={sponsors} />
+      <ActionFooter 
+        onHighlightClick={onHighlightClick} 
+        onPlayerProfileClick={handlePlayerProfileClick}
+        onShareClick={handleShareClick}
+      />
       <ShareModal isOpen={isShareModalOpen} onClose={handleCloseShareModal} isMatchShare={true} />
     </div>
   );

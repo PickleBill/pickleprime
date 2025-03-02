@@ -6,20 +6,25 @@ import MatchInsights from "./MatchInsights";
 import ContentCalendar from "./ContentCalendar";
 import PremiumUpgrade from "./PremiumUpgrade";
 
-const PremiumAnalyticsTab: React.FC = () => {
+interface PremiumAnalyticsTabProps {
+  isMatchShare?: boolean;
+}
+
+const PremiumAnalyticsTab: React.FC<PremiumAnalyticsTabProps> = ({ isMatchShare = false }) => {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-      {/* First column - Social Engagement */}
-      <EngagementMetrics />
+    <div className="bg-navy px-4 py-6 space-y-8">
+      <PremiumUpgrade />
       
-      {/* Second column - Player Social Feed */}
-      <PlayerSocialActivity />
-      
-      {/* Third column - Advanced Stats & Scheduling */}
-      <div className="space-y-4">
-        <MatchInsights />
-        <ContentCalendar />
-        <PremiumUpgrade />
+      <div className="opacity-40 pointer-events-none">
+        <div className="space-y-8">
+          <EngagementMetrics />
+          
+          {isMatchShare && <PlayerSocialActivity />}
+          
+          {isMatchShare && <MatchInsights />}
+          
+          <ContentCalendar />
+        </div>
       </div>
     </div>
   );
