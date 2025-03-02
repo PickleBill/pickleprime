@@ -1,5 +1,5 @@
 
-import React from "react";
+import React, { useEffect } from "react";
 import { X } from "lucide-react";
 import { motion } from "framer-motion";
 
@@ -9,6 +9,22 @@ interface ViewContainerProps {
 }
 
 const ViewContainer: React.FC<ViewContainerProps> = ({ onClose, children }) => {
+  // Add effect to handle Escape key
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        onClose();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    
+    // Clean up the event listener
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [onClose]);
+
   return (
     <motion.div 
       className="relative z-20 bg-navy-dark/95 backdrop-blur-md rounded-lg border border-white/10 shadow-xl overflow-hidden"

@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Video, Activity, Trophy, BarChart2 } from "lucide-react";
 import { AnimatePresence } from "framer-motion";
 
@@ -27,6 +27,24 @@ const QuickViewContent: React.FC<QuickViewContentProps> = ({
   const [volume, setVolume] = useState(80);
   const [selectedStat, setSelectedStat] = useState('all');
   const [selectedTimeRange, setSelectedTimeRange] = useState('match');
+
+  // Add effect to handle Escape key
+  useEffect(() => {
+    if (!contentType) return;
+    
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        onClose();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    
+    // Clean up the event listener
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [contentType, onClose]);
 
   if (!contentType) return null;
 

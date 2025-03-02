@@ -1,5 +1,5 @@
 
-import React from "react";
+import React, { useEffect } from "react";
 import PlayerModalHeader from "./player-modal/PlayerModalHeader";
 import PlayerProfile from "./player-modal/PlayerProfile";
 import PerformanceStats from "./player-modal/PerformanceStats";
@@ -14,6 +14,24 @@ interface PlayerModalProps {
 }
 
 const PlayerModal = ({ isOpen, onClose }: PlayerModalProps) => {
+  // Add effect to handle Escape key
+  useEffect(() => {
+    if (!isOpen) return;
+    
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        onClose();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    
+    // Clean up the event listener
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isOpen, onClose]);
+
   if (!isOpen) return null;
 
   return (

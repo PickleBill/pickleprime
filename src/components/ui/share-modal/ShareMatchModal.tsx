@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ShareModal from "../future-play/scoreboard/components/ShareModal";
 import MatchStatusCard from "./MatchStatusCard";
 import PremiumAnalyticsCard from "./PremiumAnalyticsCard";
@@ -17,6 +17,28 @@ const ShareMatchModal: React.FC<ShareMatchModalProps> = ({ isOpen, onClose }) =>
   const [player1Score, setPlayer1Score] = useState(20);
   const [player2Score, setPlayer2Score] = useState(18);
   const [showAdvancedView, setShowAdvancedView] = useState(false);
+  
+  // Add effect to handle Escape key
+  useEffect(() => {
+    if (!isOpen) return;
+    
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        if (showAdvancedView) {
+          setShowAdvancedView(false);
+        } else {
+          onClose();
+        }
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    
+    // Clean up the event listener
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isOpen, onClose, showAdvancedView]);
   
   // If advanced view is showing, render that instead
   if (showAdvancedView && isOpen) {
