@@ -73,10 +73,12 @@ const MobileScoreboardView: React.FC<MobileScoreboardViewProps> = ({
       {/* Main content grid layout */}
       <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-4 p-4 overflow-y-auto">
         {/* Left Panel - Match Statistics */}
-        <div className="space-y-4">
+        <div className="space-y-3">
           {/* Match Statistics Header */}
-          <div className="bg-[#4CAF50] text-white py-2 px-4 rounded-t-md">
-            <h3 className="font-medium text-sm uppercase">Match Statistics</h3>
+          <div className="flex items-center">
+            <div className="bg-[#4CAF50] text-white py-1.5 px-4 rounded-t-md text-sm uppercase font-medium tracking-wider">
+              Match Statistics
+            </div>
           </div>
           
           {/* Stats Panel */}
@@ -91,14 +93,14 @@ const MobileScoreboardView: React.FC<MobileScoreboardViewProps> = ({
         </div>
         
         {/* Right Panel - Court View and Match Feed */}
-        <div className="space-y-4">
+        <div className="space-y-3">
           {/* Team Headers */}
           <div className="grid grid-cols-2 gap-2">
-            <div className="bg-[#4CAF50] text-white py-2 px-4 rounded-t-md">
-              <h3 className="font-medium text-sm uppercase">Team Green</h3>
+            <div className="bg-[#4CAF50] text-white py-1.5 px-4 rounded-t-md text-sm uppercase font-medium tracking-wider">
+              Team Green
             </div>
-            <div className="bg-[#3db5e6] text-white py-2 px-4 rounded-t-md text-right">
-              <h3 className="font-medium text-sm uppercase">Team Blue</h3>
+            <div className="bg-[#3db5e6] text-white py-1.5 px-4 rounded-t-md text-right text-sm uppercase font-medium tracking-wider">
+              Team Blue
             </div>
           </div>
           

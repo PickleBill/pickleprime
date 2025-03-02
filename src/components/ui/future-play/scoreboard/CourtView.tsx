@@ -6,7 +6,7 @@ import Players from './components/Players';
 import Ball from './components/Ball';
 
 interface CourtViewProps {
-  ballPosition: BallState; // Changed from Position to BallState to match expected type
+  ballPosition: BallState;
   ballTrajectory: BallTrajectory;
   ballVelocity: number;
   player1: Position;
@@ -25,15 +25,14 @@ const CourtView: React.FC<CourtViewProps> = ({
   player4
 }) => {
   return (
-    <div className="relative w-full h-full" style={{ 
+    <div className="relative w-full h-full overflow-hidden rounded-md shadow-inner" style={{ 
       width: "100%",
       height: "100%",
       maxWidth: "100%",
       maxHeight: "100%",
-      backgroundColor: '#4CAF50', // Match green team color
-      borderRadius: '0.5rem',
+      backgroundColor: '#3EB264', // Slightly darker, more saturated green
+      borderRadius: '0.375rem',
       overflow: 'hidden',
-      paddingBottom: '5px'
     }}>
       <CourtSurface />
       
@@ -49,6 +48,14 @@ const CourtView: React.FC<CourtViewProps> = ({
         ballTrajectory={ballTrajectory}
         ballVelocity={ballVelocity}
       />
+      
+      {/* Team labels */}
+      <div className="absolute bottom-0 right-0 bg-[#1d92c2] px-2.5 py-1 text-white text-xs font-medium rounded-tl-md">
+        TEAM BLUE
+      </div>
+      <div className="absolute bottom-0 left-0 bg-[#3EB264] px-2.5 py-1 text-white text-xs font-medium rounded-tr-md">
+        TEAM GREEN
+      </div>
     </div>
   );
 };

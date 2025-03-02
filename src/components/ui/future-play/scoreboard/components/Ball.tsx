@@ -10,13 +10,11 @@ interface BallProps {
 }
 
 const Ball: React.FC<BallProps> = ({ ballPosition, ballTrajectory, ballVelocity }) => {
-  // Render a blended gradient trail instead of individual dots
+  // Render a blended gradient trail with enhanced visuals
   const renderBallTrail = () => {
     // Calculate direction from trajectory
     const dx = ballTrajectory.dx || 0;
     const dy = ballTrajectory.dy || 0;
-    const endX = ballTrajectory.endX || ballPosition.x;
-    const endY = ballTrajectory.endY || ballPosition.y;
     
     // Normalize the direction to get a unit vector
     const magnitude = Math.sqrt(dx * dx + dy * dy) || 1; // Avoid division by zero
@@ -24,7 +22,7 @@ const Ball: React.FC<BallProps> = ({ ballPosition, ballTrajectory, ballVelocity 
     const normalizedDy = dy / magnitude;
     
     // Calculate the trail length based on velocity
-    const trailLength = ballVelocity * 0.4;
+    const trailLength = ballVelocity * 0.5;
     
     // Get the start position of the trail (behind the ball)
     const trailStartX = ballPosition.x - normalizedDx * trailLength;
@@ -45,8 +43,8 @@ const Ball: React.FC<BallProps> = ({ ballPosition, ballTrajectory, ballVelocity 
         <svg width="100%" height="100%" style={{ position: 'absolute' }}>
           <defs>
             <linearGradient id="trailGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor={ballConfig.trailColor} stopOpacity="0" />
-              <stop offset="100%" stopColor={ballConfig.trailColor} stopOpacity="0.7" />
+              <stop offset="0%" stopColor="rgba(255, 235, 59, 0)" />
+              <stop offset="100%" stopColor="rgba(255, 235, 59, 0.8)" />
             </linearGradient>
           </defs>
           <line
@@ -64,7 +62,7 @@ const Ball: React.FC<BallProps> = ({ ballPosition, ballTrajectory, ballVelocity 
     );
   };
   
-  // Render the main ball
+  // Render the main ball with enhanced glow effect
   const renderBall = () => (
     <div
       className="absolute rounded-full border"
@@ -72,12 +70,13 @@ const Ball: React.FC<BallProps> = ({ ballPosition, ballTrajectory, ballVelocity 
         width: `${ballConfig.size}px`,
         height: `${ballConfig.size}px`,
         backgroundColor: '#FFEB3B', // Yellow ball color
-        borderColor: 'rgba(255, 235, 59, 0.3)',
+        borderColor: 'rgba(255, 255, 255, 0.6)',
         left: `${ballPosition.x}%`,
         top: `${ballPosition.y}%`,
         transform: 'translate(-50%, -50%)',
         zIndex: 3,
-        boxShadow: `0 0 ${ballConfig.glowSize}px rgba(255, 235, 59, ${ballConfig.glowOpacity})`
+        boxShadow: `0 0 ${ballConfig.glowSize}px rgba(255, 235, 59, ${ballConfig.glowOpacity + 0.2})`,
+        filter: 'drop-shadow(0 0 2px rgba(255, 255, 255, 0.7))'
       }}
     />
   );

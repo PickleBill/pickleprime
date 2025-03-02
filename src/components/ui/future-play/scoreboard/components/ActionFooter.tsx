@@ -1,6 +1,6 @@
 
 import React from "react";
-import { Share2, Video, User } from "lucide-react";
+import { Video, User, Share2 } from "lucide-react";
 
 interface ActionFooterProps {
   onHighlightClick: () => void;
@@ -14,30 +14,41 @@ const ActionFooter: React.FC<ActionFooterProps> = ({
   onShareClick
 }) => {
   return (
-    <div className="w-full bg-navy-dark py-4">
-      <div className="flex items-center justify-center gap-6">
-        <button 
-          onClick={onHighlightClick}
-          className="flex items-center gap-2 py-3 px-6 bg-[#19a974] text-white rounded-md text-base font-medium hover:opacity-90 transition-opacity"
-        >
-          <Video className="w-5 h-5" />
-          <span>View Highlights</span>
-        </button>
+    <div className="bg-[#001a2c] border-t border-[#0a2d4a] py-3 px-4 w-full">
+      <div className="max-w-screen-lg mx-auto flex items-center justify-between">
+        <div className="flex items-center">
+          <span className="text-white/70 text-sm">Court Visionary™</span>
+        </div>
         
-        <button 
-          onClick={onPlayerProfileClick}
-          className="flex items-center gap-2 py-3 px-6 bg-[#3db5e6] text-white rounded-md text-base font-medium hover:opacity-90 transition-opacity"
-        >
-          <User className="w-5 h-5" />
-          <span>Player Profile</span>
-        </button>
+        <div className="flex items-center gap-3">
+          <button
+            onClick={onHighlightClick}
+            className="flex items-center gap-2 bg-[#1A8D50] hover:bg-[#16793F] text-white py-2 px-4 rounded-md transition-colors"
+          >
+            <Video className="w-4 h-4" />
+            <span className="font-medium text-sm">Highlights</span>
+          </button>
+          
+          <button
+            onClick={onPlayerProfileClick}
+            className="flex items-center gap-2 bg-[#0a2d4a] hover:bg-[#153c5a] text-white py-2 px-4 rounded-md transition-colors"
+          >
+            <User className="w-4 h-4" />
+            <span className="font-medium text-sm">Player Profile</span>
+          </button>
+          
+          <button
+            onClick={onShareClick}
+            className="flex items-center gap-2 bg-[#0a2d4a] hover:bg-[#153c5a] text-white py-2 px-4 rounded-md transition-colors"
+          >
+            <Share2 className="w-4 h-4" />
+            <span className="font-medium text-sm">Share</span>
+          </button>
+        </div>
         
-        <button 
-          onClick={onShareClick}
-          className="p-3 rounded-full bg-navy/70 text-white/80 hover:bg-navy/90 hover:text-white transition-colors"
-        >
-          <Share2 className="w-6 h-6" />
-        </button>
+        <div>
+          <span className="text-white/70 text-sm">© 2023</span>
+        </div>
       </div>
     </div>
   );

@@ -7,13 +7,13 @@ const CourtSurface: React.FC = () => {
   const tealBlueColor = "#33C3F0"; // Bright teal-blue color
   // Dark navy color for the outer areas
   const darkNavyColor = "#0a192f"; // Dark navy blue color
-  // Darker grass color for the buffer area
-  const grassColor = "#2E8B57"; // Darker shade of green (SeaGreen)
+  // Slightly darker grass color for the buffer area
+  const grassColor = "#33A060"; // Darker shade of green for better contrast
   
-  // Scale and position the court to be centered - shrink by 10%
-  const paddingTop = 1.5; // Reduced by 2% from previous 3.5%
-  const paddingBottom = 7; // Increased by 2% from previous 5%
-  const paddingX = 0; // Remove horizontal padding to extend green area to edges
+  // Scale and position the court to be centered
+  const paddingTop = 1.5;
+  const paddingBottom = 7;
+  const paddingX = 0;
   
   // Render the grass buffer that fills the entire container
   const renderGrassBuffer = () => (
@@ -23,14 +23,14 @@ const CourtSurface: React.FC = () => {
     }}></div>
   );
   
-  // Render main court with dimensions that fill the container minus padding - shrunk by 10%
+  // Render main court with dimensions that fill the container minus padding
   const renderMainCourt = () => (
     <div className="absolute" style={{ 
-      top: `${paddingTop + 5}%`, // Add 5% top padding (10% / 2)
-      bottom: `${paddingBottom + 5}%`, // Add 5% bottom padding (10% / 2)
+      top: `${paddingTop + 5}%`,
+      bottom: `${paddingBottom + 5}%`,
       left: `${paddingX + 5}%`, 
       right: `${paddingX + 5}%`,
-      backgroundColor: darkNavyColor, // Dark navy for the main court
+      backgroundColor: darkNavyColor,
       border: `2px solid ${courtColors.lines}`,
       zIndex: 1
     }}></div>
@@ -41,9 +41,8 @@ const CourtSurface: React.FC = () => {
     // Net position is in the middle
     const netPos = 50;
     
-    // According to the diagram, the kitchen width is 213cm on each side of the net
-    // Out of the total 1341cm, this is approximately 16% of the total width from the net
-    const kitchenWidth = 16; // 16% of the court width on each side of the net
+    // Kitchen width (no-volley zone)
+    const kitchenWidth = 16;
     const leftKitchenLine = netPos - kitchenWidth;
     const rightKitchenLine = netPos + kitchenWidth;
     
@@ -59,7 +58,7 @@ const CourtSurface: React.FC = () => {
           zIndex: 2
         }}></div>
         
-        {/* Center line (net) with shadow */}
+        {/* Center line (net) with enhanced shadow */}
         <div className="absolute" style={{ 
           top: `${paddingTop + 5}%`,
           bottom: `${paddingBottom + 5}%`,
@@ -67,7 +66,7 @@ const CourtSurface: React.FC = () => {
           width: `${courtBoundaries.netThickness}px`,
           backgroundColor: courtColors.lines,
           transform: 'translateX(-50%)',
-          boxShadow: `0 0 8px 4px ${courtColors.netShadow}`,
+          boxShadow: `0 0 10px 4px ${courtColors.netShadow}`,
           zIndex: 3
         }}></div>
         
