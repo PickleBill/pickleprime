@@ -1,6 +1,5 @@
-
 import React from "react";
-import { Share2, Video, User, Globe } from "lucide-react";
+import { Share2, Video, User, Globe, Camera, Users } from "lucide-react";
 
 interface ActionFooterProps {
   onHighlightClick: () => void;

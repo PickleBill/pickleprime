@@ -428,7 +428,7 @@ const EcosystemScoreboardPreview: React.FC<EcosystemScoreboardPreviewProps> = ({
             <AnimatedButton onClick={onLaunchFullView} size="sm">
               <div className="flex items-center gap-1">
                 <Play className="w-4 h-4" />
-                <span>Experience the Future of Play</span>
+                <span>Conduit to Community Connection</span>
               </div>
             </AnimatedButton>
             <p className="text-white/50 text-xs text-center mt-2">

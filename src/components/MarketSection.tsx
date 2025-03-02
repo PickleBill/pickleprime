@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import StatCard from "./ui/StatCard";
 import AnimatedButton from "./ui/AnimatedButton";
@@ -156,7 +157,7 @@ const MarketSection = () => {
             </div>
 
             <AnimatedButton onClick={handleFuturePlayClick} size="lg">
-              Explore The Future of Play
+              Conduit to Community Connection
             </AnimatedButton>
           </div>
 
