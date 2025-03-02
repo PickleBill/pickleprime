@@ -1,12 +1,13 @@
-
 import React, { useState, useEffect } from "react";
 import AnimatedButton from "./ui/AnimatedButton";
 import { useNavigate } from "react-router-dom";
+import ShareMatchModal from "./ui/ShareMatchModal";
 
 const Navbar = () => {
   const navigate = useNavigate();
   const [scrolled, setScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [showShareModal, setShowShareModal] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -77,9 +78,13 @@ const Navbar = () => {
           </a>
           <a
             href="#connectivity"
+            onClick={(e) => {
+              e.preventDefault();
+              setShowShareModal(true);
+            }}
             className="text-navy hover:text-primary transition-colors font-medium"
           >
-            Connectivity
+            Community
           </a>
           <a
             href="#scoreboard"
@@ -176,10 +181,14 @@ const Navbar = () => {
               </a>
               <a
                 href="#connectivity"
-                onClick={() => setIsMenuOpen(false)}
+                onClick={(e) => {
+                  e.preventDefault();
+                  setIsMenuOpen(false);
+                  setShowShareModal(true);
+                }}
                 className="text-white hover:text-primary transition-colors text-xl"
               >
-                Connectivity
+                Community
               </a>
               <a
                 href="#scoreboard"
@@ -206,6 +215,12 @@ const Navbar = () => {
         {/* Call to Action */}
         <AnimatedButton>Get Started</AnimatedButton>
       </div>
+
+      {/* Share Match Modal */}
+      <ShareMatchModal
+        isOpen={showShareModal}
+        onClose={() => setShowShareModal(false)}
+      />
     </header>
   );
 };

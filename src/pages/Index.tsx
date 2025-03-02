@@ -1,5 +1,4 @@
-
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import AboutSection from "@/components/AboutSection";
@@ -9,10 +8,12 @@ import MarketSection from "@/components/MarketSection";
 import TeamSection from "@/components/TeamSection";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
-import { Twitter, Facebook, Instagram, TrendingUp, Users, Award, Clock } from "lucide-react";
+import ShareMatchModal from "@/components/ui/ShareMatchModal";
+import { Twitter, Facebook, Instagram, TrendingUp, Users, Award, Clock, Share2 } from "lucide-react";
 
 const Index = () => {
-  // Add smooth scrolling for anchor links
+  const [showShareModal, setShowShareModal] = useState(false);
+  
   useEffect(() => {
     const handleAnchorLinkClick = (e: MouseEvent) => {
       const target = e.target as HTMLAnchorElement;
@@ -25,7 +26,7 @@ const Index = () => {
         
         if (targetElement) {
           window.scrollTo({
-            top: targetElement.offsetTop - 80, // Adjust for header height
+            top: targetElement.offsetTop - 80,
             behavior: "smooth",
           });
         }
@@ -43,11 +44,8 @@ const Index = () => {
     };
   }, []);
 
-  // Handle direct links to future play scoreboard
   useEffect(() => {
-    // Check if hash is #future-play
     if (window.location.hash === '#future-play') {
-      // Find the Future Play button and click it
       setTimeout(() => {
         const futurePlayButton = document.querySelector('button[aria-label="Launch Digital Scoreboard"]');
         if (futurePlayButton && futurePlayButton instanceof HTMLElement) {
@@ -65,17 +63,21 @@ const Index = () => {
       <SolutionSection />
       <HighlightReels />
       <MarketSection />
-      <ConnectivitySection />
-      <SocialMediaDashboard />
+      <ConnectivitySection openShareModal={() => setShowShareModal(true)} />
+      <SocialMediaDashboard openShareModal={() => setShowShareModal(true)} />
       <TeamSection />
       <ContactSection />
       <Footer />
+      
+      <ShareMatchModal
+        isOpen={showShareModal}
+        onClose={() => setShowShareModal(false)}
+      />
     </div>
   );
 };
 
-// Add new Connectivity Section
-const ConnectivitySection = () => {
+const ConnectivitySection = ({ openShareModal }: { openShareModal: () => void }) => {
   return (
     <section id="connectivity" className="py-16 md:py-24 bg-gradient-to-b from-white to-gray-50">
       <div className="container">
@@ -118,6 +120,14 @@ const ConnectivitySection = () => {
                 <p className="text-white/70 text-sm">Discover and register for tournaments, clinics, and social gatherings</p>
               </div>
             </div>
+            
+            <button
+              onClick={openShareModal}
+              className="mt-4 px-4 py-2 bg-primary/80 hover:bg-primary text-white rounded-md transition-colors flex items-center gap-2"
+            >
+              <Share2 className="w-4 h-4" />
+              Share Match Update
+            </button>
           </div>
           
           <div>
@@ -157,7 +167,7 @@ const ConnectivitySection = () => {
               <div className="flex gap-4 items-start">
                 <div className="bg-purple-500/10 p-3 rounded-lg text-purple-500 shrink-0">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6">
-                    <path d="M18 3a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3H6a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3V6a3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3h12a3 3 0 0 0 3-3 3 3 0 0 0-3-3z"></path>
+                    <path d="M18 3a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3H6a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3V6a3 3 0 0 0-3-3 3 3 0 0 0-3 3h12a3 3 0 0 0 3-3 3 3 0 0 0-3-3z"></path>
                   </svg>
                 </div>
                 <div>
@@ -173,8 +183,7 @@ const ConnectivitySection = () => {
   );
 };
 
-// Add Social Media Dashboard section directly on the homepage
-const SocialMediaDashboard = () => {
+const SocialMediaDashboard = ({ openShareModal }: { openShareModal: () => void }) => {
   return (
     <section className="py-16 bg-navy-dark">
       <div className="container">
@@ -328,10 +337,7 @@ const SocialMediaDashboard = () => {
         
         <div className="flex justify-center">
           <button 
-            onClick={() => {
-              const el = document.getElementById('market');
-              if (el) el.scrollIntoView({ behavior: 'smooth' });
-            }}
+            onClick={openShareModal}
             className="px-8 py-3 bg-gradient-to-r from-[#0C8068] to-[#0FA0CE] text-white rounded-md font-medium hover:shadow-lg hover:shadow-[#0C8068]/20 transition-all"
           >
             View Full Dashboard

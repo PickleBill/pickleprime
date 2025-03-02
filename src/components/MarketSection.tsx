@@ -1,12 +1,14 @@
-
-import React from "react";
+import React, { useState } from "react";
 import StatCard from "./ui/StatCard";
 import AnimatedButton from "./ui/AnimatedButton";
 import EcosystemScoreboardPreview from "./ui/EcosystemScoreboardPreview";
+import ShareMatchModal from "./ui/ShareMatchModal";
 import { useNavigate } from "react-router-dom";
+import { Share2 } from "lucide-react";
 
 const MarketSection = () => {
   const navigate = useNavigate();
+  const [showShareModal, setShowShareModal] = useState(false);
 
   const handleCommunityConnectionClick = () => {
     navigate('/scoreboard');
@@ -150,21 +152,36 @@ const MarketSection = () => {
               </div>
             </div>
 
-            <AnimatedButton onClick={handleCommunityConnectionClick} size="lg">
-              Conduit to Community Connection
-            </AnimatedButton>
+            <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3">
+              <AnimatedButton onClick={handleCommunityConnectionClick} size="lg">
+                Conduit to Community Connection
+              </AnimatedButton>
+              
+              <AnimatedButton
+                variant="outline"
+                onClick={() => setShowShareModal(true)}
+                size="lg"
+                className="flex items-center gap-2"
+              >
+                <Share2 className="w-4 h-4" />
+                Share Match Update
+              </AnimatedButton>
+            </div>
           </div>
 
-          {/* Digital Ecosystem Preview */}
           <div className="relative">
             <EcosystemScoreboardPreview onLaunchFullView={handleCommunityConnectionClick} />
             
-            {/* Decorative elements */}
             <div className="absolute -top-10 -right-10 w-20 h-20 bg-primary/5 rounded-full blur-xl -z-10"></div>
             <div className="absolute -bottom-10 -left-10 w-20 h-20 bg-[#0EA5E9]/5 rounded-full blur-xl -z-10"></div>
           </div>
         </div>
       </div>
+
+      <ShareMatchModal
+        isOpen={showShareModal}
+        onClose={() => setShowShareModal(false)}
+      />
     </section>
   );
 };
