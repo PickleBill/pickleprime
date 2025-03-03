@@ -38,14 +38,14 @@ const MainContent: React.FC<MainContentProps> = ({
   onHighlightClick
 }) => {
   return (
-    <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-4 p-4 overflow-y-auto pb-20">
-      {/* Left Panel - Match Statistics - Elongated by 22% */}
-      <div className="bg-[#0a2d4a] rounded-lg overflow-hidden border border-[#1a3b55] shadow-md flex flex-col h-full">
+    <div className="h-[calc(100vh-170px)] grid grid-cols-1 md:grid-cols-2 gap-4 p-4 overflow-hidden">
+      {/* Left Panel - Match Statistics */}
+      <div className="bg-[#0a2d4a] rounded-lg overflow-hidden border border-[#1a3b55] shadow-md h-full">
         <div className="py-2 px-4 bg-[#00654B] text-white">
           <h3 className="font-medium uppercase tracking-wider">Match Statistics</h3>
         </div>
         
-        <div className="p-3 flex-1 overflow-y-auto">
+        <div className="p-4 h-[calc(100%-40px)] overflow-hidden">
           <StatsPanel 
             player1Stats={player1Stats}
             player2Stats={player2Stats}
@@ -58,17 +58,19 @@ const MainContent: React.FC<MainContentProps> = ({
       </div>
       
       {/* Right Panel - Game View and Match Feed stacked vertically */}
-      <GameFeedPanel 
-        ballPosition={ballPosition}
-        ballTrajectory={ballTrajectory}
-        ballVelocity={ballVelocity}
-        player1={player1}
-        player2={player2}
-        player3={player3}
-        player4={player4}
-        matchFeedItems={matchFeedItems}
-        onHighlightClick={onHighlightClick}
-      />
+      <div className="h-full">
+        <GameFeedPanel 
+          ballPosition={ballPosition}
+          ballTrajectory={ballTrajectory}
+          ballVelocity={ballVelocity}
+          player1={player1}
+          player2={player2}
+          player3={player3}
+          player4={player4}
+          matchFeedItems={matchFeedItems}
+          onHighlightClick={onHighlightClick}
+        />
+      </div>
     </div>
   );
 };

@@ -32,7 +32,7 @@ const ModalContainer: React.FC<ModalContainerProps> = ({
   sponsors
 }) => {
   return (
-    <div className="flex flex-col h-full bg-[#001a2c]">
+    <div className="flex flex-col h-screen bg-[#001a2c]">
       {/* Top sponsors banner with back button and score */}
       <SponsorsBanner 
         sponsors={sponsors} 
@@ -44,7 +44,9 @@ const ModalContainer: React.FC<ModalContainerProps> = ({
       />
       
       {/* Main content */}
-      {children}
+      <div className="flex-1 overflow-hidden">
+        {children}
+      </div>
       
       {/* Footer with carousel-style actions */}
       <ActionFooter 

@@ -71,22 +71,24 @@ const MobileScoreboardView: React.FC<MobileScoreboardViewProps> = ({
         currentSet={currentSet}
         sponsors={sponsors}
       >
-        <MainContent 
-          player1Stats={player1Stats}
-          player2Stats={player2Stats}
-          player1Score={player1Score}
-          player2Score={player2Score}
-          currentSet={currentSet}
-          ballVelocity={ballVelocity}
-          ballPosition={ballPosition}
-          ballTrajectory={ballTrajectory}
-          player1={player1}
-          player2={player2}
-          player3={player3}
-          player4={player4}
-          matchFeedItems={matchFeedItems}
-          onHighlightClick={onHighlightClick}
-        />
+        <div className="h-full overflow-hidden">
+          <MainContent 
+            player1Stats={player1Stats}
+            player2Stats={player2Stats}
+            player1Score={player1Score}
+            player2Score={player2Score}
+            currentSet={currentSet}
+            ballVelocity={ballVelocity}
+            ballPosition={ballPosition}
+            ballTrajectory={ballTrajectory}
+            player1={player1}
+            player2={player2}
+            player3={player3}
+            player4={player4}
+            matchFeedItems={matchFeedItems}
+            onHighlightClick={onHighlightClick}
+          />
+        </div>
       </ModalContainer>
     </>
   );

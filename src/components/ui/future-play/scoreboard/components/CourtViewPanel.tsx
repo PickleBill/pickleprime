@@ -39,19 +39,17 @@ const CourtViewPanel: React.FC<CourtViewPanelProps> = ({
   player4
 }) => {
   return (
-    <div className="bg-[#001a2c] rounded-lg overflow-hidden border border-[#0a2d4a] shadow-md">
-      <div className="relative w-full h-full pb-[70%]">
-        <div className="absolute inset-0 p-1.5">
-          <CourtView 
-            ballPosition={ballPosition}
-            ballTrajectory={ballTrajectory}
-            ballVelocity={ballVelocity}
-            player1={player1}
-            player2={player2}
-            player3={player3}
-            player4={player4}
-          />
-        </div>
+    <div className="bg-[#001a2c] rounded-lg overflow-hidden border border-[#0a2d4a] shadow-md h-full">
+      <div className="relative w-full h-full" style={{ aspectRatio: "16/9", maxHeight: "100%" }}>
+        <CourtView 
+          ballPosition={ballPosition}
+          ballTrajectory={ballTrajectory}
+          ballVelocity={ballVelocity}
+          player1={player1}
+          player2={player2}
+          player3={player3}
+          player4={player4}
+        />
       </div>
     </div>
   );

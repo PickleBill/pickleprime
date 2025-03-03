@@ -31,6 +31,7 @@ const CourtView: React.FC<CourtViewProps> = ({
       height: "100%",
       maxWidth: "100%",
       maxHeight: "100%",
+      aspectRatio: "16/9",
       backgroundColor: '#3EB264', // Green court background
       borderRadius: '0.375rem',
       overflow: 'hidden',

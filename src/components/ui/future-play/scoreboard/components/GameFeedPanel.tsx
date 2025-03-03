@@ -29,8 +29,8 @@ const GameFeedPanel: React.FC<GameFeedPanelProps> = ({
 }) => {
   return (
     <div className="flex flex-col h-full space-y-4">
-      {/* Game View Panel - Reduced to 38% */}
-      <div className="bg-[#0a2d4a] rounded-lg overflow-hidden border border-[#1a3b55] shadow-md" style={{ height: "38%" }}>
+      {/* Game View Panel - Increased to 63% */}
+      <div className="bg-[#0a2d4a] rounded-lg overflow-hidden border border-[#1a3b55] shadow-md" style={{ height: "63%" }}>
         <div className="grid grid-cols-2">
           <div className="bg-[#4CAF50] text-white py-1.5 px-4">
             <h3 className="font-medium uppercase tracking-wider">Team Green</h3>
@@ -54,10 +54,10 @@ const GameFeedPanel: React.FC<GameFeedPanelProps> = ({
         </div>
       </div>
       
-      {/* Match Feed Panel - Increased to 62% */}
+      {/* Match Feed Panel - Reduced to 37% */}
       <MatchFeedPanel 
         matchFeedItems={matchFeedItems} 
-        style={{ height: "62%" }}
+        style={{ height: "37%" }}
         onHighlightClick={onHighlightClick}
       />
     </div>

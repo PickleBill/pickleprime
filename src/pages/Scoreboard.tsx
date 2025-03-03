@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import ScoreboardViewContainer from "@/components/ui/future-play/scoreboard";
 import { useNavigate } from "react-router-dom";
@@ -112,7 +113,7 @@ const Scoreboard = () => {
   }
 
   return (
-    <div className="h-screen flex flex-col bg-navy-dark">
+    <div className="h-screen flex flex-col overflow-hidden bg-navy-dark">
       <ScoreboardViewContainer 
         onBackClick={handleBackClick}
         onHighlightClick={handleCommunityClick}

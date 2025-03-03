@@ -28,7 +28,7 @@ const Ball: React.FC<BallProps> = ({ ballPosition, ballTrajectory, ballVelocity 
     const normalizedDy = dy / magnitude;
     
     // Calculate the trail length based on velocity (more speed = longer trail)
-    const trailLength = Math.min(ballVelocity * 0.8, 25); // Cap at 25% of screen width
+    const trailLength = Math.min(ballVelocity * 0.9, 30); // Cap at 30% of screen width
     
     // Get the start position of the trail (behind the ball)
     const trailStartX = ballPosition.x - normalizedDx * trailLength;
@@ -50,12 +50,12 @@ const Ball: React.FC<BallProps> = ({ ballPosition, ballTrajectory, ballVelocity 
           <defs>
             <linearGradient id="trailGradient" x1="0%" y1="0%" x2="100%" y2="0%">
               <stop offset="0%" stopColor="rgba(255, 255, 255, 0)" />
-              <stop offset="40%" stopColor="rgba(255, 255, 59, 0.2)" />
-              <stop offset="80%" stopColor="rgba(255, 235, 59, 0.6)" />
+              <stop offset="30%" stopColor="rgba(255, 235, 59, 0.2)" />
+              <stop offset="70%" stopColor="rgba(255, 235, 59, 0.6)" />
               <stop offset="100%" stopColor="rgba(255, 235, 59, 0.9)" />
             </linearGradient>
             <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
-              <feGaussianBlur stdDeviation="6" result="blur" />
+              <feGaussianBlur stdDeviation="8" result="blur" />
               <feComposite in="SourceGraphic" in2="blur" operator="over" />
             </filter>
           </defs>
@@ -65,7 +65,7 @@ const Ball: React.FC<BallProps> = ({ ballPosition, ballTrajectory, ballVelocity 
             x2={`${ballPosition.x}%`}
             y2={`${ballPosition.y}%`}
             stroke="url(#trailGradient)"
-            strokeWidth={ballConfig.size * 0.9}
+            strokeWidth={ballConfig.size * 0.95}
             strokeLinecap="round"
             filter="url(#glow)"
           />
@@ -87,9 +87,9 @@ const Ball: React.FC<BallProps> = ({ ballPosition, ballTrajectory, ballVelocity 
         top: `${ballPosition.y}%`,
         transform: 'translate(-50%, -50%)',
         zIndex: 3,
-        boxShadow: `0 0 ${ballConfig.glowSize}px 8px rgba(255, 235, 59, 0.8)`,
-        filter: 'drop-shadow(0 0 6px rgba(255, 255, 255, 0.9))',
-        animation: 'pulse 2s infinite'
+        boxShadow: `0 0 ${ballConfig.glowSize}px 10px rgba(255, 235, 59, 0.8)`,
+        filter: 'drop-shadow(0 0 8px rgba(255, 255, 255, 0.9))',
+        transition: 'transform 0.05s ease-out'
       }}
     />
   );
