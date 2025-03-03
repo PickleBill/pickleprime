@@ -156,7 +156,7 @@ const Hero = () => {
               <div className="relative w-full sm:w-auto max-w-xl mt-4">
                 <button 
                   onClick={() => window.open('https://picklerickroll.lovable.app/', '_blank')}
-                  className="w-full sm:w-auto px-12 py-4 rounded-lg text-white bg-white 
+                  className="w-full sm:w-auto px-12 py-4 rounded-lg text-gray-100 bg-gray-100 
                              hover:bg-[#0EA5E9] transition-colors duration-300 
                              relative overflow-hidden group"
                 >
