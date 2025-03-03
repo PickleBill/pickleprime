@@ -1,3 +1,4 @@
+
 import React, { useEffect, useRef, useState } from "react";
 import AnimatedButton from "./ui/AnimatedButton";
 import PlayerModal from "./ui/PlayerModal";
@@ -76,40 +77,50 @@ const Hero = () => {
               Upgrade any venue into a tech-enabled, social-entertainment hub — driving revenue, brand differentiation, and deeper player loyalty.
             </p>
             
-            {/* Updated button layout with For Facilities being more prominent */}
-            <div className="flex flex-col space-y-6 items-center">
-              {/* Facility button now stands alone at top */}
-              <div className="w-full sm:w-auto">
+            {/* Updated quadrant button layout */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-3xl mx-auto">
+              {/* Top-left: For Facilities */}
+              <div className="flex justify-center sm:justify-end">
                 <AnimatedButton 
-                  variant="outline" 
                   size="lg" 
                   onClick={handleFacilityClick}
-                  className="px-8 py-4 text-lg border-2 bg-gradient-to-r from-[#0EA5E9] to-[#0EA5E9]/80 text-white border-[#0EA5E9] hover:bg-[#0EA5E9]/90 hover:shadow-lg hover:shadow-[#0EA5E9]/20 transition-all"
+                  className="w-full sm:w-auto px-6 py-4 text-lg bg-gradient-to-r from-primary to-[#1a9dc3] text-white hover:shadow-lg hover:shadow-primary/20 transition-all button-pulse"
                 >
                   For Facilities
                 </AnimatedButton>
               </div>
               
-              {/* Other buttons in a row below */}
-              <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3">
-                <AnimatedButton variant="outline" size="lg" onClick={() => setShowPlayerModal(true)}>
+              {/* Top-right: For Players */}
+              <div className="flex justify-center sm:justify-start">
+                <AnimatedButton 
+                  variant="outline" 
+                  size="lg" 
+                  onClick={() => setShowPlayerModal(true)}
+                  className="w-full sm:w-auto border-[#1a9dc3] text-[#1a9dc3]"
+                >
                   For Players
                 </AnimatedButton>
-                
+              </div>
+              
+              {/* Bottom-left: See the Future of Play */}
+              <div className="flex justify-center sm:justify-end">
                 <AnimatedButton 
                   size="lg" 
                   withArrow 
                   onClick={handleFuturePlayClick}
-                  className="bg-gradient-to-r from-primary to-[#1a9dc3] hover:shadow-lg hover:shadow-primary/20 transition-all"
+                  className="w-full sm:w-auto bg-gradient-to-r from-primary to-[#1a9dc3] hover:shadow-lg hover:shadow-primary/20 transition-all"
                 >
                   See the Future of Play
                 </AnimatedButton>
-                
+              </div>
+              
+              {/* Bottom-right: Share Match Update */}
+              <div className="flex justify-center sm:justify-start">
                 <AnimatedButton 
                   variant="outline" 
                   size="lg" 
                   onClick={() => setShowShareModal(true)}
-                  className="flex items-center gap-2 border-[#1a9dc3] text-[#1a9dc3] hover:bg-[#1a9dc3]/10"
+                  className="w-full sm:w-auto flex items-center justify-center gap-2 border-[#1a9dc3] text-[#1a9dc3] hover:bg-[#1a9dc3]/10"
                 >
                   <Share2 className="w-4 h-4" />
                   Share Match Update
