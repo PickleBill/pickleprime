@@ -1,5 +1,5 @@
 
-import React from "react";
+import React, { useState } from "react";
 import { Video, Activity, Trophy, BarChart2, Share2, User } from "lucide-react";
 import { motion } from "framer-motion";
 
@@ -58,7 +58,7 @@ const ActionFooter: React.FC<ActionFooterProps> = ({
       id: "community",
       icon: <Share2 className="w-5 h-5" />,
       label: "Community",
-      handler: onHighlightClick,
+      handler: () => onActionButtonClick && onActionButtonClick("community"),
       iconColor: "text-[#8B5CF6]",  // Purple color for community
       borderColor: "border-[#8B5CF6]/40",
       bgColor: "bg-[#8B5CF6]/10"
@@ -76,13 +76,13 @@ const ActionFooter: React.FC<ActionFooterProps> = ({
 
   return (
     <div className="bg-navy-dark border-t border-white/10 p-4">
-      <div className="flex justify-between gap-1.5">
+      <div className="flex justify-between gap-3">
         {actionButtons.map((button) => (
           <motion.div
             key={button.id}
             onClick={button.handler}
             className="relative py-4 px-1 rounded-lg flex flex-col items-center justify-center cursor-pointer 
-                      bg-[#001a29] backdrop-blur-lg w-[16%]
+                      bg-[#001a29] backdrop-blur-lg w-[15%]
                       overflow-hidden shadow-lg border border-[#0EA5E9]/60
                       transition-colors duration-300"
             whileHover={{ scale: 1.05 }}
@@ -93,7 +93,7 @@ const ActionFooter: React.FC<ActionFooterProps> = ({
                           opacity-50 -rotate-45 transform-gpu
                           animate-[slideRight_3s_infinite_linear]" />
             
-            <div className="relative z-10">
+            <div className="relative z-10 flex flex-col items-center">
               {/* Icon circle with colored background - using the oval style from first image */}
               <div className={`flex items-center justify-center w-14 h-10 rounded-full ${button.bgColor} ${button.borderColor} border shadow-lg ${button.iconColor}`}>
                 {button.icon}

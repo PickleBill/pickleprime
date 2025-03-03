@@ -1,7 +1,10 @@
 
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useState } from 'react';
 import SponsorsBanner from './SponsorsBanner';
 import ActionFooter from './ActionFooter';
+import ShareModal from './ShareModal';
+import VideoClipsModal from './VideoClipsModal';
+import CommunityModal from './CommunityModal';
 import { Sponsor } from '../types';
 
 interface ModalContainerProps {
@@ -31,6 +34,19 @@ const ModalContainer: React.FC<ModalContainerProps> = ({
   currentSet,
   sponsors
 }) => {
+  const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
+  const [isCommunityModalOpen, setIsCommunityModalOpen] = useState(false);
+
+  const handleActionButtonClick = (viewType: string) => {
+    if (viewType === "video") {
+      setIsVideoModalOpen(true);
+    } else if (viewType === "community") {
+      setIsCommunityModalOpen(true);
+    } else if (onActionButtonClick) {
+      onActionButtonClick(viewType);
+    }
+  };
+
   return (
     <div className="flex flex-col h-screen bg-[#001a2c]">
       {/* Top sponsors banner with back button and score */}
@@ -53,7 +69,21 @@ const ModalContainer: React.FC<ModalContainerProps> = ({
         onHighlightClick={onHighlightClick}
         onPlayerProfileClick={onPlayerProfileClick}
         onShareClick={onShareClick}
-        onActionButtonClick={onActionButtonClick}
+        onActionButtonClick={handleActionButtonClick}
+      />
+
+      {/* Modals */}
+      <VideoClipsModal 
+        isOpen={isVideoModalOpen}
+        onClose={() => setIsVideoModalOpen(false)}
+        player1Score={player1Score}
+        player2Score={player2Score}
+        gameTime={gameTime}
+      />
+
+      <CommunityModal 
+        isOpen={isCommunityModalOpen}
+        onClose={() => setIsCommunityModalOpen(false)}
       />
     </div>
   );
