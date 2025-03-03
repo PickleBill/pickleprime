@@ -31,35 +31,35 @@ const HeroProPanel = () => {
       transition={{ delay: 0.8, duration: 0.5 }}
       className="h-full relative group"
     >
-      <div className="absolute inset-0 bg-gradient-to-br from-amber-500/20 to-orange-600/20 rounded-xl transition-all duration-300 group-hover:from-amber-500/30 group-hover:to-orange-600/30 group-hover:scale-[1.02]"></div>
+      <div className="absolute inset-0 bg-gradient-to-br from-amber-500/10 to-orange-600/10 rounded-2xl backdrop-blur-sm border border-white/10 transition-all duration-300 group-hover:from-amber-500/20 group-hover:to-orange-600/20 group-hover:scale-[1.02] shadow-lg"></div>
       <div className="absolute inset-0 flex flex-col h-full items-center p-6">
-        <div className="flex items-center justify-center space-x-2 mb-3">
+        <div className="flex items-center justify-center space-x-2 mb-4">
           <div className="h-5 w-5 bg-gradient-to-r from-amber-400 to-amber-600 rounded-full"></div>
           <h3 className="text-2xl md:text-3xl font-bold text-amber-400">For Pros</h3>
         </div>
         
-        <p className="text-white/70 text-sm md:text-base text-center mb-6">
+        <p className="text-white/80 text-sm md:text-base text-center mb-8">
           Advanced analytics, coaching insights, and personalized training programs designed for competitive players
         </p>
         
-        <ul className="text-white/80 text-sm space-y-2 mb-8 text-left w-full">
+        <ul className="text-white/90 text-sm space-y-3 mb-8 text-left w-full">
           <li className="flex items-start">
-            <span className="text-amber-400 mr-2">✓</span>
+            <span className="text-amber-400 mr-2 text-lg">✓</span>
             <span>Shot-by-shot performance analytics</span>
           </li>
           <li className="flex items-start">
-            <span className="text-amber-400 mr-2">✓</span>
+            <span className="text-amber-400 mr-2 text-lg">✓</span>
             <span>AI-powered coaching recommendations</span>
           </li>
           <li className="flex items-start">
-            <span className="text-amber-400 mr-2">✓</span>
+            <span className="text-amber-400 mr-2 text-lg">✓</span>
             <span>Opponent strategy breakdown</span>
           </li>
         </ul>
         
         <AnimatedButton
           variant="glass"
-          className="mt-auto"
+          className="mt-auto px-8"
           onClick={handleAnalyticsClick}
         >
           Your AI Coach

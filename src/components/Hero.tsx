@@ -21,12 +21,12 @@ const Hero = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="max-w-5xl mx-auto text-center mb-10"
+          className="max-w-5xl mx-auto text-center mb-12"
         >
           <HeroHeading />
         </motion.div>
 
-        <div className="flex flex-col lg:flex-row gap-6 justify-center items-center lg:items-stretch max-w-7xl mx-auto">
+        <div className="flex flex-col lg:flex-row gap-8 justify-center items-center lg:items-stretch max-w-7xl mx-auto">
           {/* Interactive Buttons */}
           <div className="w-full lg:w-2/3">
             <HeroButtons />
