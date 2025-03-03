@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Video, Play, Pause, Volume2, Download, Heart, MessageSquare, Share2, X, ChevronLeft, ChevronRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import ShareFooter from "./share-modal/ShareFooter";
@@ -23,13 +23,40 @@ const VideoClipsModal: React.FC<VideoClipsModalProps> = ({
   const [currentVideo, setCurrentVideo] = useState(0);
   const [volume, setVolume] = useState(75);
   const [showVolumeSlider, setShowVolumeSlider] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const progressInterval = useRef<NodeJS.Timeout | null>(null);
 
-  // Mock video data
+  // Enhanced video data with actual videos/GIFs
   const videoClips = [
-    { id: 1, title: 'Match Point', duration: '0:15', thumbnail: 'bg-gradient-to-br from-blue-600/50 to-purple-600/50' },
-    { id: 2, title: 'First Set', duration: '0:22', thumbnail: 'bg-gradient-to-br from-green-600/50 to-blue-600/50' },
-    { id: 3, title: 'Best Rally', duration: '0:18', thumbnail: 'bg-gradient-to-br from-orange-600/50 to-red-600/50' },
-    { id: 4, title: 'Game Winning Shot', duration: '0:12', thumbnail: 'bg-gradient-to-br from-purple-600/50 to-pink-600/50' }
+    { 
+      id: 1, 
+      title: 'Match Point', 
+      duration: '0:15', 
+      thumbnail: 'https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExdnAydWM0YnRuMHY0NjJqZW8zMXJkN2tzaHp2Y2R5dXp0cWxucjJnaCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/26BGKHrjfTMZX4g9y/giphy.gif',
+      videoSrc: 'https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExdnAydWM0YnRuMHY0NjJqZW8zMXJkN2tzaHp2Y2R5dXp0cWxucjJnaCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/26BGKHrjfTMZX4g9y/giphy.mp4'
+    },
+    { 
+      id: 2, 
+      title: 'First Set', 
+      duration: '0:22', 
+      thumbnail: 'https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExc2JxeXd5ZDQ1bHV5MHJnY2tyNXYzMm5yMnhlZGl2cHlzMzlhc3dveCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3ohzdMk3uz9WSpdTvW/giphy.gif',
+      videoSrc: 'https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExc2JxeXd5ZDQ1bHV5MHJnY2tyNXYzMm5yMnhlZGl2cHlzMzlhc3dveCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3ohzdMk3uz9WSpdTvW/giphy.mp4'
+    },
+    { 
+      id: 3, 
+      title: 'Best Rally', 
+      duration: '0:18', 
+      thumbnail: 'https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExMGRleHc0bzZsaDQ2cW9kZWQxMjRzd3RrNWR2MzF2YjluNXM5c256YiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/xT0xejDDiMP0RcljMs/giphy.gif',
+      videoSrc: 'https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExMGRleHc0bzZsaDQ2cW9kZWQxMjRzd3RrNWR2MzF2YjluNXM5c256YiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/xT0xejDDiMP0RcljMs/giphy.mp4'
+    },
+    { 
+      id: 4, 
+      title: 'Game Winning Shot', 
+      duration: '0:12', 
+      thumbnail: 'https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExdHdjYWgwYXdqcXk3bmR1c3Q2bjdmeHNsMjJudnp1dDA3eXQxczBnOSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/l0HlSOBBikMGcCzCM/giphy.gif',
+      videoSrc: 'https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExdHdjYWgwYXdqcXk3bmR1c3Q2bjdmeHNsMjJudnp1dDA3eXQxczBnOSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/l0HlSOBBikMGcCzCM/giphy.mp4'
+    }
   ];
 
   if (!isOpen) return null;
@@ -54,6 +81,51 @@ const VideoClipsModal: React.FC<VideoClipsModalProps> = ({
     setCurrentVideo((prev) => (prev - 1 + videoClips.length) % videoClips.length);
     setIsPlaying(false);
   };
+
+  // Handle video playback
+  const togglePlayback = () => {
+    if (videoRef.current) {
+      if (isPlaying) {
+        videoRef.current.pause();
+        if (progressInterval.current) {
+          clearInterval(progressInterval.current);
+          progressInterval.current = null;
+        }
+      } else {
+        videoRef.current.play();
+        progressInterval.current = setInterval(() => {
+          if (videoRef.current) {
+            setProgress((videoRef.current.currentTime / videoRef.current.duration) * 100);
+          }
+        }, 100);
+      }
+      setIsPlaying(!isPlaying);
+    }
+  };
+
+  // Update video volume
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.volume = volume / 100;
+    }
+  }, [volume]);
+
+  // Clean up interval on unmount
+  useEffect(() => {
+    return () => {
+      if (progressInterval.current) {
+        clearInterval(progressInterval.current);
+      }
+    };
+  }, []);
+
+  // Reset progress when changing video
+  useEffect(() => {
+    setProgress(0);
+    if (videoRef.current) {
+      videoRef.current.currentTime = 0;
+    }
+  }, [currentVideo]);
 
   return (
     <div 
@@ -81,7 +153,24 @@ const VideoClipsModal: React.FC<VideoClipsModalProps> = ({
         <div className="flex-1 overflow-y-auto p-5">
           {/* Video player */}
           <div className="relative">
-            <div className={`aspect-video rounded-lg overflow-hidden ${videoClips[currentVideo].thumbnail} relative`}>
+            <div className="aspect-video rounded-lg overflow-hidden relative">
+              {/* Actual video element */}
+              <video
+                ref={videoRef}
+                src={videoClips[currentVideo].videoSrc}
+                poster={videoClips[currentVideo].thumbnail}
+                className="w-full h-full object-cover"
+                loop
+                muted={volume === 0}
+                onPlay={() => setIsPlaying(true)}
+                onPause={() => setIsPlaying(false)}
+                onTimeUpdate={() => {
+                  if (videoRef.current) {
+                    setProgress((videoRef.current.currentTime / videoRef.current.duration) * 100);
+                  }
+                }}
+              />
+
               {/* Video placeholder */}
               <div className="absolute inset-0 flex items-center justify-center">
                 <motion.div
@@ -112,7 +201,7 @@ const VideoClipsModal: React.FC<VideoClipsModalProps> = ({
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <motion.button 
-                      onClick={() => setIsPlaying(!isPlaying)}
+                      onClick={togglePlayback}
                       whileHover={{ scale: 1.1 }}
                       whileTap={{ scale: 0.9 }}
                       className="p-3 bg-white/20 backdrop-blur-md rounded-full"
@@ -122,7 +211,11 @@ const VideoClipsModal: React.FC<VideoClipsModalProps> = ({
                     
                     <div className="text-sm text-white">
                       <div className="font-medium">{videoClips[currentVideo].title}</div>
-                      <div className="text-xs text-white/70">00:05 / {videoClips[currentVideo].duration}</div>
+                      <div className="text-xs text-white/70">
+                        {videoRef.current ? 
+                          `${Math.floor(videoRef.current.currentTime / 60)}:${Math.floor(videoRef.current.currentTime % 60).toString().padStart(2, '0')}` :
+                          '00:00'} / {videoClips[currentVideo].duration}
+                      </div>
                     </div>
                   </div>
                   
@@ -163,9 +256,7 @@ const VideoClipsModal: React.FC<VideoClipsModalProps> = ({
                 <div className="w-full h-1.5 bg-white/30 rounded-full mt-3 overflow-hidden">
                   <motion.div 
                     className="h-full bg-[#ea384c]" 
-                    initial={{ width: "0%" }}
-                    animate={{ width: isPlaying ? "35%" : "0%" }}
-                    transition={{ duration: isPlaying ? 5 : 0, ease: "linear" }}
+                    style={{ width: `${progress}%` }}
                   ></motion.div>
                 </div>
               </div>
@@ -223,8 +314,12 @@ const VideoClipsModal: React.FC<VideoClipsModalProps> = ({
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  <div className={`w-full h-full ${clip.thumbnail}`}></div>
-                  <div className="absolute inset-0 flex items-center justify-center">
+                  <img 
+                    src={clip.thumbnail} 
+                    alt={clip.title}
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
                     <Play className="w-8 h-8 text-white/70" />
                   </div>
                   <div className="absolute bottom-0 left-0 right-0 bg-black/50 p-1.5">

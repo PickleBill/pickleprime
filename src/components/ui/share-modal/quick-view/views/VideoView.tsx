@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { Video, Play, Pause, Volume2, Download, Heart, MessageSquare, Share } from "lucide-react";
 import AnimatedButton from "@/components/ui/AnimatedButton";
 import { motion } from "framer-motion";
@@ -13,12 +13,36 @@ interface VideoViewProps {
   setVolume: React.Dispatch<React.SetStateAction<number>>;
 }
 
-// Mock video data
+// Enhanced video data with actual videos/GIFs
 const videoClips = [
-  { id: 1, title: 'Match Point', duration: '0:15', thumbnail: 'bg-gradient-to-br from-blue-600/50 to-purple-600/50' },
-  { id: 2, title: 'First Set', duration: '0:22', thumbnail: 'bg-gradient-to-br from-green-600/50 to-blue-600/50' },
-  { id: 3, title: 'Best Rally', duration: '0:18', thumbnail: 'bg-gradient-to-br from-orange-600/50 to-red-600/50' },
-  { id: 4, title: 'Game Winning Shot', duration: '0:12', thumbnail: 'bg-gradient-to-br from-purple-600/50 to-pink-600/50' }
+  { 
+    id: 1, 
+    title: 'Match Point', 
+    duration: '0:15', 
+    thumbnail: 'https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExdnAydWM0YnRuMHY0NjJqZW8zMXJkN2tzaHp2Y2R5dXp0cWxucjJnaCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/26BGKHrjfTMZX4g9y/giphy.gif',
+    videoSrc: 'https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExdnAydWM0YnRuMHY0NjJqZW8zMXJkN2tzaHp2Y2R5dXp0cWxucjJnaCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/26BGKHrjfTMZX4g9y/giphy.mp4'
+  },
+  { 
+    id: 2, 
+    title: 'First Set', 
+    duration: '0:22', 
+    thumbnail: 'https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExc2JxeXd5ZDQ1bHV5MHJnY2tyNXYzMm5yMnhlZGl2cHlzMzlhc3dveCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3ohzdMk3uz9WSpdTvW/giphy.gif',
+    videoSrc: 'https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExc2JxeXd5ZDQ1bHV5MHJnY2tyNXYzMm5yMnhlZGl2cHlzMzlhc3dveCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3ohzdMk3uz9WSpdTvW/giphy.mp4'
+  },
+  { 
+    id: 3, 
+    title: 'Best Rally', 
+    duration: '0:18', 
+    thumbnail: 'https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExMGRleHc0bzZsaDQ2cW9kZWQxMjRzd3RrNWR2MzF2YjluNXM5c256YiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/xT0xejDDiMP0RcljMs/giphy.gif',
+    videoSrc: 'https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExMGRleHc0bzZsaDQ2cW9kZWQxMjRzd3RrNWR2MzF2YjluNXM5c256YiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/xT0xejDDiMP0RcljMs/giphy.mp4'
+  },
+  { 
+    id: 4, 
+    title: 'Game Winning Shot', 
+    duration: '0:12', 
+    thumbnail: 'https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExdHdjYWgwYXdqcXk3bmR1c3Q2bjdmeHNsMjJudnp1dDA3eXQxczBnOSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/l0HlSOBBikMGcCzCM/giphy.gif',
+    videoSrc: 'https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExdHdjYWgwYXdqcXk3bmR1c3Q2bjdmeHNsMjJudnp1dDA3eXQxczBnOSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/l0HlSOBBikMGcCzCM/giphy.mp4'
+  }
 ];
 
 const VideoView: React.FC<VideoViewProps> = ({ 
@@ -29,6 +53,37 @@ const VideoView: React.FC<VideoViewProps> = ({
   volume, 
   setVolume 
 }) => {
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  // Handle video playback
+  const togglePlayback = () => {
+    if (videoRef.current) {
+      if (isPlaying) {
+        videoRef.current.pause();
+      } else {
+        videoRef.current.play();
+      }
+      setIsPlaying(!isPlaying);
+    }
+  };
+
+  // Update video volume when volume state changes
+  React.useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.volume = volume / 100;
+    }
+  }, [volume]);
+
+  // Reset video and pause when changing clips
+  React.useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.currentTime = 0;
+      if (isPlaying) {
+        videoRef.current.play();
+      }
+    }
+  }, [currentVideo]);
+
   return (
     <motion.div 
       className="bg-gradient-to-br from-navy-dark/90 to-navy/90 backdrop-blur-lg rounded-lg p-6 mb-4"
@@ -49,8 +104,20 @@ const VideoView: React.FC<VideoViewProps> = ({
       <div className="space-y-4">
         {/* Video player */}
         <div className="relative">
-          <div className={`aspect-video rounded-lg overflow-hidden ${videoClips[currentVideo].thumbnail} relative`}>
-            {/* Video placeholder - in real app, this would be an actual video player */}
+          <div className="aspect-video rounded-lg overflow-hidden relative">
+            {/* Actual video element */}
+            <video
+              ref={videoRef}
+              src={videoClips[currentVideo].videoSrc}
+              poster={videoClips[currentVideo].thumbnail}
+              className="w-full h-full object-cover"
+              loop
+              muted={volume === 0}
+              onPlay={() => setIsPlaying(true)}
+              onPause={() => setIsPlaying(false)}
+            />
+            
+            {/* Play icon overlay */}
             <div className="absolute inset-0 flex items-center justify-center">
               <motion.div
                 animate={isPlaying ? { opacity: 0, scale: 0 } : { opacity: 1, scale: 1 }}
@@ -65,7 +132,7 @@ const VideoView: React.FC<VideoViewProps> = ({
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <motion.button 
-                    onClick={() => setIsPlaying(!isPlaying)}
+                    onClick={togglePlayback}
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.9 }}
                     className="p-2 bg-white/20 backdrop-blur-md rounded-full"
@@ -75,7 +142,11 @@ const VideoView: React.FC<VideoViewProps> = ({
                   
                   <div className="text-sm text-white/90">
                     {videoClips[currentVideo].title}
-                    <span className="text-xs text-white/60 ml-2">00:05 / {videoClips[currentVideo].duration}</span>
+                    <span className="text-xs text-white/60 ml-2">
+                      {videoRef.current ? 
+                        `${Math.floor(videoRef.current.currentTime / 60)}:${Math.floor(videoRef.current.currentTime % 60).toString().padStart(2, '0')}` : 
+                        '00:00'} / {videoClips[currentVideo].duration}
+                    </span>
                   </div>
                 </div>
                 
@@ -101,9 +172,11 @@ const VideoView: React.FC<VideoViewProps> = ({
               <div className="w-full h-1 bg-white/30 rounded-full mt-3 overflow-hidden">
                 <motion.div 
                   className="h-full bg-[#1a9dc3]" 
-                  initial={{ width: "0%" }}
-                  animate={{ width: isPlaying ? "35%" : "0%" }}
-                  transition={{ duration: isPlaying ? 5 : 0, ease: "linear" }}
+                  style={{ 
+                    width: videoRef.current ? 
+                      `${(videoRef.current.currentTime / videoRef.current.duration) * 100}%` : 
+                      "0%" 
+                  }}
                 ></motion.div>
               </div>
             </div>
@@ -158,8 +231,12 @@ const VideoView: React.FC<VideoViewProps> = ({
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                <div className={`w-full h-full ${clip.thumbnail}`}></div>
-                <div className="absolute inset-0 flex items-center justify-center">
+                <img 
+                  src={clip.thumbnail} 
+                  alt={clip.title}
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
                   <Play className="w-4 h-4 text-white/70" />
                 </div>
                 {currentVideo === index && (
