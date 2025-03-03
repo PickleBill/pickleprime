@@ -43,10 +43,10 @@ export const useBallTrail = () => {
     
     // Update position history with the new position
     setPositionHistory(prev => {
-      // Dynamic trail length based on velocity
+      // Dynamic trail length based on velocity for more impressive electric effects
       const baseTrailLength = ballConfig.trailLength;
       const velocityFactor = Math.min(1, trailVelocity / 100);
-      const trailLength = Math.floor(baseTrailLength + velocityFactor * 8); // Adjusted for better trail length
+      const dynamicTrailLength = Math.floor(baseTrailLength + velocityFactor * 10); // Increased for more impressive trails
       
       // Add current position to history
       const newHistory = [
@@ -55,22 +55,24 @@ export const useBallTrail = () => {
           y: ballPosition.y, 
           opacity: 1.0 
         },
-        ...prev.slice(0, trailLength - 1)
+        ...prev.slice(0, dynamicTrailLength - 1)
       ];
       
-      // More silvery/green electric trail effect
+      // Enhanced electric trail effect with more varied fading
       return newHistory.map((pos, index) => {
-        const normalizedIndex = index / trailLength;
+        const normalizedIndex = index / dynamicTrailLength;
         // Electric effect - sharper falloff with occasional "pulses"
-        const electricEffect = Math.pow(1 - normalizedIndex, 1.3);
+        const electricEffect = Math.pow(1 - normalizedIndex, 1.2);
         
-        // Enhanced jitter for more electric appearance
-        const jitter = index > 0 ? (Math.random() * 0.25) - 0.125 : 0;
+        // Enhanced jitter and "energy pulses" for more electric appearance
+        // More variance based on index position for a "pulsing" effect
+        const pulse = Math.sin(index * 0.4) * 0.15;
+        const jitter = index > 0 ? (Math.random() * 0.3) - 0.15 + pulse : 0;
         
         return {
           ...pos,
-          // More electric-style trail with enhanced silvery/green effect
-          opacity: Math.max(0.15, electricEffect * (1.0 + jitter))
+          // More electric-style trail with enhanced effect
+          opacity: Math.max(0.18, electricEffect * (1.0 + jitter))
         };
       });
     });
