@@ -28,7 +28,7 @@ const GameViewPanel: React.FC<GameViewPanelProps> = ({
   const [showShareModal, setShowShareModal] = useState(false);
 
   // Add default rotation value if not provided
-  const getPlayerWithRotation = (player: Position) => {
+  const getPlayerWithRotation = (player: Position): { x: number; y: number; rotation: number } => {
     return {
       x: player.x,
       y: player.y,
