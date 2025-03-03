@@ -11,7 +11,7 @@
  * 
  * Uses SVG silhouettes for player representation.
  */
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Position } from '../types';
 import PlayerContainer from './player/PlayerContainer';
 import PlayerTrail from './player/PlayerTrail';
@@ -33,13 +33,36 @@ const Players: React.FC<PlayersProps> = ({
   // Use custom hook for trail positions
   const { trailPositions, updateTrails } = usePlayerTrails();
   
-  // Update trail positions when player positions change
+  // Use refs to track previous positions to avoid unnecessary updates
+  const prevPositionsRef = useRef({
+    player1: { x: 0, y: 0 },
+    player2: { x: 0, y: 0 },
+    player3: { x: 0, y: 0 },
+    player4: { x: 0, y: 0 }
+  });
+  
+  // Update trail positions when player positions change significantly
   useEffect(() => {
-    updateTrails('player1', player1);
-    updateTrails('player2', player2);
-    updateTrails('player3', player3);
-    updateTrails('player4', player4);
-  }, [player1, player2, player3, player4, updateTrails]);
+    const positions = { player1, player2, player3, player4 };
+    const prevPositions = prevPositionsRef.current;
+    
+    // For each player, only update trails if position changed by a minimum threshold
+    // This reduces the number of state updates
+    const threshold = 0.5; // Minimum movement threshold to trigger an update
+    
+    Object.entries(positions).forEach(([playerId, position]) => {
+      const prevPos = prevPositions[playerId as keyof typeof prevPositions];
+      const dx = Math.abs(position.x - prevPos.x);
+      const dy = Math.abs(position.y - prevPos.y);
+      
+      // Only update if moved more than threshold
+      if (dx > threshold || dy > threshold) {
+        updateTrails(playerId, position);
+        // Update reference with current position
+        prevPositions[playerId as keyof typeof prevPositions] = { ...position };
+      }
+    });
+  }, [player1.x, player1.y, player2.x, player2.y, player3.x, player3.y, player4.x, player4.y, updateTrails]);
   
   return (
     <>

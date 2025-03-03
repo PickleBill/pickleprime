@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+
+import { useState, useCallback } from 'react';
 import { Position } from '../../types';
 
 export const usePlayerTrails = () => {
@@ -13,7 +14,8 @@ export const usePlayerTrails = () => {
   });
   
   // Update trail positions based on player position changes
-  const updateTrails = (playerId: string, position: Position) => {
+  // Using useCallback to memoize the function to prevent recreation on every render
+  const updateTrails = useCallback((playerId: string, position: Position) => {
     setTrailPositions(prev => {
       // Get current trails and add new position
       const currentTrails = [...prev[playerId]];
@@ -32,7 +34,9 @@ export const usePlayerTrails = () => {
           }))
       };
     });
-  };
+  }, []);
   
   return { trailPositions, updateTrails };
 };
+
+export default usePlayerTrails;

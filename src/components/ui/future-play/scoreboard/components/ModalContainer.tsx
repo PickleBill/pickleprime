@@ -37,8 +37,7 @@ const ModalContainer: React.FC<ModalContainerProps> = ({
 }) => {
   const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
   const [isCommunityModalOpen, setIsCommunityModalOpen] = useState(false);
-  const [isSocialBettingModalOpen, setIsSocialBettingModalOpen] = useState(false);
-
+  
   const handleActionButtonClick = (viewType: string) => {
     if (viewType === "video") {
       setIsVideoModalOpen(true);
@@ -47,10 +46,6 @@ const ModalContainer: React.FC<ModalContainerProps> = ({
     } else if (onActionButtonClick) {
       onActionButtonClick(viewType);
     }
-  };
-
-  const handleSocialBettingClick = () => {
-    setIsSocialBettingModalOpen(true);
   };
 
   return (
@@ -77,7 +72,7 @@ const ModalContainer: React.FC<ModalContainerProps> = ({
         onPlayerProfileClick={onPlayerProfileClick}
         onShareClick={onShareClick}
         onActionButtonClick={handleActionButtonClick}
-        onSocialBettingClick={handleSocialBettingClick}
+        onSocialBettingClick={() => onActionButtonClick && onActionButtonClick("betting")}
       />
 
       {/* Modals */}
@@ -92,11 +87,6 @@ const ModalContainer: React.FC<ModalContainerProps> = ({
       <CommunityModal 
         isOpen={isCommunityModalOpen}
         onClose={() => setIsCommunityModalOpen(false)}
-      />
-
-      <SocialBettingModal
-        isOpen={isSocialBettingModalOpen}
-        onClose={() => setIsSocialBettingModalOpen(false)}
       />
     </div>
   );
