@@ -10,9 +10,9 @@ interface BallGlowProps {
 
 const BallGlow: React.FC<BallGlowProps> = ({ ballPosition, normalizedVelocity }) => {
   // Enhanced velocity-based glow properties - more intense for faster ball
-  const glowOpacity = Math.min(0.98, ballConfig.glowOpacity + (normalizedVelocity * 0.7));
-  const glowSize = ballConfig.glowSize * (1 + normalizedVelocity * 1.2); // More size variation with velocity
-  const pulseAnimation = normalizedVelocity > 0.4 ? 'animate-pulse' : ''; // Lower threshold to pulse more often
+  const glowOpacity = Math.min(0.95, ballConfig.glowOpacity + (normalizedVelocity * 0.6));
+  const glowSize = ballConfig.glowSize * (1 + normalizedVelocity * 1.0); // More size variation with velocity
+  const pulseAnimation = normalizedVelocity > 0.5 ? 'animate-pulse' : '';
   
   // Create multiple glow layers for a more impressive effect
   return (
@@ -23,13 +23,13 @@ const BallGlow: React.FC<BallGlowProps> = ({ ballPosition, normalizedVelocity })
         style={{
           left: `${ballPosition.x}%`,
           top: `${ballPosition.y}%`,
-          width: `${glowSize * 2.2}px`, // Larger outer glow
-          height: `${glowSize * 2.2}px`,
-          background: `radial-gradient(circle, rgba(255, 255, 50, ${glowOpacity * 0.4}) 0%, rgba(255, 255, 0, 0) 75%)`,
+          width: `${glowSize * 2.0}px`, // Larger outer glow
+          height: `${glowSize * 2.0}px`,
+          background: `radial-gradient(circle, rgba(255, 255, 50, ${glowOpacity * 0.35}) 0%, rgba(255, 255, 0, 0) 75%)`,
           transform: 'translate(-50%, -50%)',
           filter: 'blur(8px)',
           zIndex: 14,
-          transition: 'all 0.05s ease-out' // Even faster for more responsive glow
+          transition: 'all 0.08s ease-out' // Faster for more responsive glow
         }}
       />
       
@@ -39,13 +39,13 @@ const BallGlow: React.FC<BallGlowProps> = ({ ballPosition, normalizedVelocity })
         style={{
           left: `${ballPosition.x}%`,
           top: `${ballPosition.y}%`,
-          width: `${glowSize * 1.6}px`, // Increased middle glow
-          height: `${glowSize * 1.6}px`,
-          background: `radial-gradient(circle, rgba(255, 255, 50, ${glowOpacity * 0.7}) 0%, rgba(255, 255, 0, 0) 75%)`,
+          width: `${glowSize * 1.5}px`, // Increased middle glow
+          height: `${glowSize * 1.5}px`,
+          background: `radial-gradient(circle, rgba(255, 255, 50, ${glowOpacity * 0.6}) 0%, rgba(255, 255, 0, 0) 75%)`,
           transform: 'translate(-50%, -50%)',
           filter: 'blur(5px)',
           zIndex: 15,
-          transition: 'all 0.05s ease-out' // Even faster transitions
+          transition: 'all 0.08s ease-out' // Faster transitions
         }}
       />
       
@@ -55,13 +55,13 @@ const BallGlow: React.FC<BallGlowProps> = ({ ballPosition, normalizedVelocity })
         style={{
           left: `${ballPosition.x}%`,
           top: `${ballPosition.y}%`,
-          width: `${glowSize * 1.2}px`, // Slightly larger inner glow
-          height: `${glowSize * 1.2}px`,
-          background: `radial-gradient(circle, rgba(255, 255, 180, ${glowOpacity}) 0%, rgba(255, 255, 30, ${glowOpacity * 0.8}) 70%)`,
+          width: `${glowSize * 1.1}px`, // Slightly larger inner glow
+          height: `${glowSize * 1.1}px`,
+          background: `radial-gradient(circle, rgba(255, 255, 180, ${glowOpacity}) 0%, rgba(255, 255, 30, ${glowOpacity * 0.75}) 70%)`,
           transform: 'translate(-50%, -50%)',
           filter: 'blur(4px)',
           zIndex: 16,
-          transition: 'all 0.05s ease-out' // Even faster transitions
+          transition: 'all 0.08s ease-out' // Faster transitions
         }}
       />
       
@@ -71,14 +71,14 @@ const BallGlow: React.FC<BallGlowProps> = ({ ballPosition, normalizedVelocity })
         style={{
           left: `${ballPosition.x}%`,
           top: `${ballPosition.y}%`,
-          width: `${glowSize * 0.6}px`, // Slightly larger central core
-          height: `${glowSize * 0.6}px`,
-          background: `radial-gradient(circle, rgba(255, 255, 255, ${glowOpacity * 1.2}) 0%, rgba(255, 255, 100, ${glowOpacity}) 80%)`,
+          width: `${glowSize * 0.5}px`, // Small central core
+          height: `${glowSize * 0.5}px`,
+          background: `radial-gradient(circle, rgba(255, 255, 255, ${glowOpacity * 1.1}) 0%, rgba(255, 255, 100, ${glowOpacity * 0.9}) 80%)`,
           transform: 'translate(-50%, -50%)',
           filter: 'blur(2px)',
-          boxShadow: `0 0 ${5 + normalizedVelocity * 8}px rgba(255, 255, 100, ${Math.min(1, normalizedVelocity * 1.1)})`,
+          boxShadow: `0 0 ${4 + normalizedVelocity * 6}px rgba(255, 255, 100, ${0.9 * normalizedVelocity})`,
           zIndex: 17,
-          transition: 'all 0.05s ease-out' // Even faster transitions
+          transition: 'all 0.08s ease-out' // Faster transitions
         }}
       />
     </>

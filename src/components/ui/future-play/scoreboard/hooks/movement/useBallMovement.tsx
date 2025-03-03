@@ -33,13 +33,13 @@ export const useBallMovement = (isHighlightActive: boolean = false) => {
     const newBallPosition = { ...ballPosition };
     
     // Ball speed factors - INCREASED SIGNIFICANTLY
-    const baseSpeed = 0.50 * (deltaTime / 16); // Increased significantly from 0.35 to 0.50
+    const baseSpeed = 0.35 * (deltaTime / 16); // Increased from 0.2 to 0.35
     const randomFactor = 0.8 + (Math.random() * 0.4); // 0.8-1.2 speed variation
     const currentSpeed = baseSpeed * randomFactor;
     
     // Calculate movement
     const moveX = movingRight ? currentSpeed : -currentSpeed;
-    const moveY = (Math.random() - 0.5) * currentSpeed * 0.4; // Reduced vertical randomness for more fluid movement
+    const moveY = (Math.random() - 0.5) * currentSpeed * 0.5; // Less vertical randomness
     
     // Update position
     newBallPosition.x = Math.max(10, Math.min(90, newBallPosition.x + moveX));
@@ -49,12 +49,12 @@ export const useBallMovement = (isHighlightActive: boolean = false) => {
     if (newBallPosition.x <= leftBaseline) {
       // Hit left baseline - change direction
       setMovingRight(true);
-      setBallVelocity(35 + Math.random() * 15); // Increased bounce effect on baseline
+      setBallVelocity(25 + Math.random() * 10); // Increased bounce effect
     } 
     else if (newBallPosition.x >= rightBaseline) {
       // Hit right baseline - change direction
       setMovingRight(false);
-      setBallVelocity(35 + Math.random() * 15); // Increased bounce effect on baseline
+      setBallVelocity(25 + Math.random() * 10); // Increased bounce effect
     }
     
     // Player zones - simplified detection of when ball is near a player
@@ -79,7 +79,7 @@ export const useBallMovement = (isHighlightActive: boolean = false) => {
           setMovingRight(false);
         }
         
-        // Enhanced launch effect with faster trajectory
+        // Enhanced launch effect
         // Store current position to calculate launch trajectory
         const launchX = newBallPosition.x;
         const launchY = newBallPosition.y;
@@ -93,16 +93,16 @@ export const useBallMovement = (isHighlightActive: boolean = false) => {
         const dirY = targetY - launchY;
         const magnitude = Math.sqrt(dirX * dirX + dirY * dirY);
         
-        // Apply a much stronger initial "push" in the calculated direction
-        // This creates a more dramatic initial trajectory and separation
-        const pushStrength = 2.0 + (Math.random() * 1.0); // Increased from 1.2 to much stronger 2.0
+        // Apply a strong initial "push" in the calculated direction
+        // This creates a more dramatic initial trajectory
+        const pushStrength = 1.2 + (Math.random() * 0.8); // Randomize strength
         newBallPosition.x += (dirX / magnitude) * pushStrength;
         newBallPosition.y += (dirY / magnitude) * pushStrength;
         
         lastPlayerRef.current = player.id;
         
         // Much faster velocity when hit by a player - dramatic spike
-        setBallVelocity(45 + Math.random() * 20); // Increased from 35-50 to 45-65 range
+        setBallVelocity(35 + Math.random() * 15); // Increased from 20-35 to 35-50
       }
     });
     
@@ -117,7 +117,7 @@ export const useBallMovement = (isHighlightActive: boolean = false) => {
     setBallPosition(newBallPosition);
     
     // Gradually reduce velocity for a natural deceleration, but maintain higher base speed
-    setBallVelocity(prev => Math.max(18, prev * 0.96)); // Slower decay, higher minimum (increased from 12 to 18)
+    setBallVelocity(prev => Math.max(12, prev * 0.96)); // Slower decay, higher minimum
     
   }, [ballPosition, movingRight]);
   
