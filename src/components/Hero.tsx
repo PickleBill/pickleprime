@@ -77,55 +77,49 @@ const Hero = () => {
               Upgrade any venue into a tech-enabled, social-entertainment hub — driving revenue, brand differentiation, and deeper player loyalty.
             </p>
             
-            {/* Updated quadrant button layout */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-3xl mx-auto">
-              {/* Top-left: For Facilities */}
-              <div className="flex justify-center sm:justify-end">
+            {/* New left-right layout design */}
+            <div className="flex flex-col md:flex-row gap-6 max-w-3xl mx-auto">
+              {/* Left side - For Facilities */}
+              <div className="flex-1 bg-navy/5 rounded-xl p-6 border border-primary/20 flex flex-col items-center">
+                <h2 className="text-2xl font-bold text-navy mb-4">For Facilities</h2>
+                <p className="text-gray-600 mb-6 text-center">
+                  Turn your courts into data-driven engagement centers that attract and retain players.
+                </p>
                 <AnimatedButton 
                   size="lg" 
                   onClick={handleFacilityClick}
-                  className="w-full sm:w-auto px-6 py-4 text-lg bg-gradient-to-r from-primary to-[#1a9dc3] text-white hover:shadow-lg hover:shadow-primary/20 transition-all button-pulse"
+                  className="w-full px-6 py-4 text-lg bg-gradient-to-r from-primary to-[#1a9dc3] text-white hover:shadow-lg hover:shadow-primary/20 transition-all button-pulse"
                 >
-                  For Facilities
+                  QuantumCourt Peek
                 </AnimatedButton>
               </div>
               
-              {/* Top-right: For Players */}
-              <div className="flex justify-center sm:justify-start">
+              {/* Right side - For Players */}
+              <div className="flex-1 bg-navy/5 rounded-xl p-6 border border-primary/20 flex flex-col items-center">
+                <h2 className="text-2xl font-bold text-navy mb-4">For Players</h2>
+                <p className="text-gray-600 mb-6 text-center">
+                  Take your game to the next level with AI-powered insights and social competition.
+                </p>
                 <AnimatedButton 
-                  variant="outline" 
-                  size="lg" 
-                  onClick={() => setShowPlayerModal(true)}
-                  className="w-full sm:w-auto border-[#1a9dc3] text-[#1a9dc3]"
-                >
-                  For Players
-                </AnimatedButton>
-              </div>
-              
-              {/* Bottom-left: See the Future of Play */}
-              <div className="flex justify-center sm:justify-end">
-                <AnimatedButton 
-                  size="lg" 
-                  withArrow 
-                  onClick={handleFuturePlayClick}
-                  className="w-full sm:w-auto bg-gradient-to-r from-primary to-[#1a9dc3] hover:shadow-lg hover:shadow-primary/20 transition-all"
-                >
-                  See the Future of Play
-                </AnimatedButton>
-              </div>
-              
-              {/* Bottom-right: Share Match Update */}
-              <div className="flex justify-center sm:justify-start">
-                <AnimatedButton 
-                  variant="outline" 
                   size="lg" 
                   onClick={() => setShowShareModal(true)}
-                  className="w-full sm:w-auto flex items-center justify-center gap-2 border-[#1a9dc3] text-[#1a9dc3] hover:bg-[#1a9dc3]/10"
+                  className="w-full px-6 py-4 text-lg bg-gradient-to-r from-[#1a9dc3] to-[#0c7a9b] text-white hover:shadow-lg hover:shadow-[#1a9dc3]/20 transition-all"
                 >
-                  <Share2 className="w-4 h-4" />
-                  Share Match Update
+                  Ready Player One
                 </AnimatedButton>
               </div>
+            </div>
+            
+            {/* Centered bottom button for both audiences */}
+            <div className="mt-8 flex justify-center">
+              <AnimatedButton 
+                size="lg" 
+                withArrow 
+                onClick={handleFuturePlayClick}
+                className="px-8 py-4 text-lg bg-gradient-to-r from-primary to-[#1a9dc3] hover:shadow-lg hover:shadow-primary/20 transition-all"
+              >
+                See the Future of Play
+              </AnimatedButton>
             </div>
           </div>
         </div>
