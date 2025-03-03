@@ -2,7 +2,6 @@
 import React, { ReactNode, useState } from 'react';
 import SponsorsBanner from './SponsorsBanner';
 import ActionFooter from './ActionFooter';
-import ShareModal from './ShareModal';
 import VideoClipsModal from './VideoClipsModal';
 import CommunityModal from './CommunityModal';
 import SocialBettingModal from './SocialBettingModal';
@@ -37,12 +36,15 @@ const ModalContainer: React.FC<ModalContainerProps> = ({
 }) => {
   const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
   const [isCommunityModalOpen, setIsCommunityModalOpen] = useState(false);
+  const [isSocialBettingModalOpen, setIsSocialBettingModalOpen] = useState(false);
   
   const handleActionButtonClick = (viewType: string) => {
     if (viewType === "video") {
       setIsVideoModalOpen(true);
     } else if (viewType === "community") {
       setIsCommunityModalOpen(true);
+    } else if (viewType === "betting") {
+      setIsSocialBettingModalOpen(true);
     } else if (onActionButtonClick) {
       onActionButtonClick(viewType);
     }
@@ -59,6 +61,7 @@ const ModalContainer: React.FC<ModalContainerProps> = ({
         player2Score={player2Score}
         currentSet={currentSet}
         onPlayerProfileClick={onPlayerProfileClick}
+        onShareClick={onShareClick}
       />
       
       {/* Main content */}
@@ -72,7 +75,7 @@ const ModalContainer: React.FC<ModalContainerProps> = ({
         onPlayerProfileClick={onPlayerProfileClick}
         onShareClick={onShareClick}
         onActionButtonClick={handleActionButtonClick}
-        onSocialBettingClick={() => onActionButtonClick && onActionButtonClick("betting")}
+        onSocialBettingClick={() => handleActionButtonClick("betting")}
       />
 
       {/* Modals */}
@@ -87,6 +90,11 @@ const ModalContainer: React.FC<ModalContainerProps> = ({
       <CommunityModal 
         isOpen={isCommunityModalOpen}
         onClose={() => setIsCommunityModalOpen(false)}
+      />
+      
+      <SocialBettingModal
+        isOpen={isSocialBettingModalOpen}
+        onClose={() => setIsSocialBettingModalOpen(false)}
       />
     </div>
   );

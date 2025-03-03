@@ -1,6 +1,6 @@
 
 import React from "react";
-import { ArrowLeft, Clock, User } from "lucide-react";
+import { ArrowLeft, Clock, User, Share2 } from "lucide-react";
 import { Sponsor } from "../types";
 
 interface SponsorsBannerProps {
@@ -11,6 +11,7 @@ interface SponsorsBannerProps {
   player2Score: number;
   currentSet: number;
   onPlayerProfileClick: () => void;
+  onShareClick: () => void;
 }
 
 const SponsorsBanner: React.FC<SponsorsBannerProps> = ({
@@ -20,7 +21,8 @@ const SponsorsBanner: React.FC<SponsorsBannerProps> = ({
   player1Score,
   player2Score,
   currentSet,
-  onPlayerProfileClick
+  onPlayerProfileClick,
+  onShareClick
 }) => {
   // Format time as MM:SS
   const formatTime = (seconds: number) => {
@@ -73,16 +75,25 @@ const SponsorsBanner: React.FC<SponsorsBannerProps> = ({
           <div className="text-[#4CAF50] font-bold text-xl">{player1Score}</div>
           <div className="text-white text-base font-light">-</div>
           <div className="text-[#3db5e6] font-bold text-xl">{player2Score}</div>
-          <div className="text-white text-xs font-bold bg-[#253446] px-2 py-0.5 rounded ml-1">SET {currentSet}</div>
         </div>
         
-        <button 
-          onClick={onPlayerProfileClick}
-          className="flex items-center justify-center bg-[#0EA5E9] hover:bg-[#0EA5E9]/90 rounded-full shadow-md p-2.5 transition-colors duration-200"
-          aria-label="User profile"
-        >
-          <User className="w-5 h-5 text-white" />
-        </button>
+        <div className="flex items-center gap-2">
+          <button 
+            onClick={onShareClick}
+            className="flex items-center justify-center bg-[#0EA5E9] hover:bg-[#0EA5E9]/90 rounded-full shadow-md p-2.5 transition-colors duration-200"
+            aria-label="Share match"
+          >
+            <Share2 className="w-5 h-5 text-white" />
+          </button>
+          
+          <button 
+            onClick={onPlayerProfileClick}
+            className="flex items-center justify-center bg-[#0EA5E9] hover:bg-[#0EA5E9]/90 rounded-full shadow-md p-2.5 transition-colors duration-200"
+            aria-label="User profile"
+          >
+            <User className="w-5 h-5 text-white" />
+          </button>
+        </div>
       </div>
     </div>
   );
