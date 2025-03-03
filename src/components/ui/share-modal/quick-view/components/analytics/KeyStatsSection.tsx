@@ -42,7 +42,10 @@ const KeyStatsSection: React.FC = () => {
             <Progress 
               value={stat.percent} 
               className="h-1.5 bg-white/10" 
-              indicatorClassName={`bg-gradient-to-r from-${stat.color}/80 to-${stat.color}`}
+              // Use a properly styled indicator via CSS
+              style={{ 
+                '--indicator-color': stat.color 
+              } as React.CSSProperties}
             />
             <div className="text-xs text-white/50">{stat.improvement}</div>
           </motion.div>

@@ -39,7 +39,11 @@ const MetricCard: React.FC<{
         <Progress 
           value={progress} 
           className="h-2 bg-navy-dark/60" 
-          indicatorClassName={`bg-gradient-to-r ${bgColor.replace('bg-', 'from-').replace('/20', '')} to-${iconColor.replace('text-', '')}`}
+          // Use inline styles for the gradient
+          style={{
+            '--gradient-from': bgColor.replace('bg-', '').replace('/20', ''),
+            '--gradient-to': iconColor.replace('text-', '')
+          } as React.CSSProperties}
         />
         <div className="flex justify-between mt-1.5">
           <span className="text-xs text-white/60">{comparison}</span>

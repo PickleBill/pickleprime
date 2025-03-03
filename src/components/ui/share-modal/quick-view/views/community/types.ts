@@ -9,6 +9,11 @@ export interface Friend {
   mutualFriends?: number;
 }
 
+export interface NetworkNode {
+  angle: number;
+  distance: number;
+}
+
 export interface NetworkGraphProps {
   centralNodeColor?: string;
   friendNodeColor?: string;
