@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { Position, BallState, BallTrajectory, PlayerPosition } from "../types";
 import { courtBoundaries } from "../constants/courtConfig";
@@ -50,19 +51,19 @@ export const useGameAnimations = (isHighlightActive: boolean = false) => {
       const deltaTime = timestamp - lastTimestamp;
       lastTimestamp = timestamp;
       
-      // More dynamic ball animation with sharper movement patterns
+      // SLOWED DOWN ball animation with more gradual movement patterns
       const newBallPosition = { ...ballPosition };
       
-      // Occasionally make sharp changes in direction (20% chance)
-      if (Math.random() > 0.8) {
-        // Create more dramatic movements covering more court area
-        newBallPosition.x = 15 + Math.random() * 70; // Use more of the court width
-        newBallPosition.y = 15 + Math.random() * 70; // Use more of the court height
-        setBallVelocity(25 + Math.random() * 35); // Higher velocity for more intense movement
+      // Occasionally make changes in direction (15% chance) - REDUCED from 20%
+      if (Math.random() > 0.85) {
+        // Create more gradual movements with REDUCED velocity
+        newBallPosition.x = 15 + Math.random() * 70; 
+        newBallPosition.y = 15 + Math.random() * 70;
+        setBallVelocity(15 + Math.random() * 20); // REDUCED velocity range (was 25-60, now 15-35)
       } else {
-        // More varied small continuous movements
-        const moveX = (Math.random() - 0.5) * 3.5; // Larger range for x movement
-        const moveY = (Math.random() - 0.5) * 3.5; // Larger range for y movement
+        // Smaller continuous movements - REDUCED by ~40%
+        const moveX = (Math.random() - 0.5) * 2.0; // Reduced from 3.5
+        const moveY = (Math.random() - 0.5) * 2.0; // Reduced from 3.5
         
         newBallPosition.x = Math.max(10, Math.min(90, newBallPosition.x + moveX));
         newBallPosition.y = Math.max(10, Math.min(90, newBallPosition.y + moveY));
@@ -70,13 +71,13 @@ export const useGameAnimations = (isHighlightActive: boolean = false) => {
       
       setBallPosition(newBallPosition);
       
-      // Improved player movement function with more pickleball strategy
+      // Improved player movement function with more pickleball strategy and ENHANCED MOVEMENT
       const movePlayerForPickleball = (
         player: PlayerPosition, 
         isLeftSide: boolean,
         isTopSide: boolean
       ): PlayerPosition => {
-        // Define quadrant boundaries with flexibility for realistic movement
+        // Define quadrant boundaries with INCREASED flexibility for more movement
         const minX = isLeftSide ? 10 : courtBoundaries.centerLine + 2;
         const maxX = isLeftSide ? courtBoundaries.centerLine - 2 : 90;
         const minY = isTopSide ? 10 : 40;
@@ -91,20 +92,20 @@ export const useGameAnimations = (isHighlightActive: boolean = false) => {
         const dirX = distanceToBall > 0 ? dx / distanceToBall : 0;
         const dirY = distanceToBall > 0 ? dy / distanceToBall : 0;
         
-        // Higher base speed for more dynamic movement
-        const baseSpeed = 0.4 * (deltaTime / 16);
+        // INCREASED base speed for more dynamic movement
+        const baseSpeed = 0.5 * (deltaTime / 16); // Increased from 0.4
         
-        // Speed based on distance to ball - players move faster when ball is further away
-        let speed = baseSpeed * (0.8 + (distanceToBall / 100) * 2);
+        // ENHANCED speed calculation based on distance to ball
+        let speed = baseSpeed * (1.0 + (distanceToBall / 100) * 2.5); // Increased modifier
         
-        // Apply random deviations for more natural movement (occasionally)
+        // Apply random deviations for more natural movement (INCREASED frequency)
         let finalDirX = dirX;
         let finalDirY = dirY;
         
-        if (Math.random() > 0.85) {
-          // Occasional slight deviation from direct path to ball (more human-like)
-          finalDirX += (Math.random() - 0.5) * 0.3;
-          finalDirY += (Math.random() - 0.5) * 0.3;
+        if (Math.random() > 0.75) { // Increased chance from 0.85
+          // MORE significant deviation from direct path to ball
+          finalDirX += (Math.random() - 0.5) * 0.5; // Increased from 0.3
+          finalDirY += (Math.random() - 0.5) * 0.5; // Increased from 0.3
           
           // Normalize direction again
           const length = Math.sqrt(finalDirX * finalDirX + finalDirY * finalDirY);
@@ -114,7 +115,7 @@ export const useGameAnimations = (isHighlightActive: boolean = false) => {
           }
         }
         
-        // Calculate new position - moving towards ball with some randomness
+        // Calculate new position - moving towards ball with enhanced randomness
         let newX = player.x + finalDirX * speed;
         let newY = player.y + finalDirY * speed;
         
@@ -132,29 +133,31 @@ export const useGameAnimations = (isHighlightActive: boolean = false) => {
         };
       };
       
-      // Position readjustments for better pickleball gameplay
+      // ENHANCED position readjustments with more movement
       const moveBackToReadyPosition = (
         player: PlayerPosition,
         homeX: number,
         homeY: number
       ): PlayerPosition => {
-        // If ball is far from player's quadrant, move back toward ready position
+        // Allow more movement by REDUCING the distance threshold
         const distanceFromBall = Math.sqrt(
           Math.pow(player.x - ballPosition.x, 2) + 
           Math.pow(player.y - ballPosition.y, 2)
         );
         
-        // Only move back if ball is far enough away
-        if (distanceFromBall > 40) {
+        // Only move back if ball is FURTHER away (increased threshold)
+        if (distanceFromBall > 35) { // Reduced from 40
           const dirX = homeX - player.x;
           const dirY = homeY - player.y;
           const distToHome = Math.sqrt(dirX * dirX + dirY * dirY);
           
-          if (distToHome > 5) { // Only move if significantly away from home position
+          // INCREASED movement range before returning to home
+          if (distToHome > 10) { // Increased from 5
             const normDirX = dirX / distToHome;
             const normDirY = dirY / distToHome;
             
-            const returnSpeed = 0.2 * (deltaTime / 16);
+            // SLOWER return to home position for more time spent moving
+            const returnSpeed = 0.15 * (deltaTime / 16); // Reduced from 0.2
             
             return {
               x: player.x + normDirX * returnSpeed,
@@ -164,7 +167,7 @@ export const useGameAnimations = (isHighlightActive: boolean = false) => {
           }
         }
         
-        // If ball is close to player's quadrant, chase the ball
+        // If ball is close to player's quadrant, chase the ball with INCREASED aggression
         return movePlayerForPickleball(
           player, 
           player.x < courtBoundaries.centerLine, 
@@ -172,9 +175,11 @@ export const useGameAnimations = (isHighlightActive: boolean = false) => {
         );
       };
       
-      // Update all players with improved movement
+      // ALLOW MORE FREEDOM with wider movement ranges for each player
+      // Team 1 players (Green team on left side)
       setPlayer1(moveBackToReadyPosition(player1, 25, 25));
       setPlayer2(moveBackToReadyPosition(player2, 25, 75));
+      // Team 2 players (Blue team on right side)
       setPlayer3(moveBackToReadyPosition(player3, 75, 25));
       setPlayer4(moveBackToReadyPosition(player4, 75, 75));
       

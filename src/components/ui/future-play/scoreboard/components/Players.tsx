@@ -46,9 +46,9 @@ const Players: React.FC<PlayersProps> = ({
     const positions = { player1, player2, player3, player4 };
     const prevPositions = prevPositionsRef.current;
     
-    // For each player, only update trails if position changed by a minimum threshold
-    // This reduces the number of state updates
-    const threshold = 0.3; // Lowered threshold for more responsive trails
+    // IMPROVED: For each player, update trails with REDUCED threshold for more visible movement
+    // This creates more responsive trails for even small movements
+    const threshold = 0.1; // Lowered threshold for more visible movement (reduced from 0.3)
     
     Object.entries(positions).forEach(([playerId, position]) => {
       const prevPos = prevPositions[playerId as keyof typeof prevPositions];

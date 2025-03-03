@@ -27,8 +27,8 @@ export const useBallTrail = () => {
       const dy = ballPosition.y - prevPos.y;
       const distance = Math.sqrt(dx * dx + dy * dy);
       
-      // Calculate velocity (scaled for more dramatic effect)
-      velocity = (distance / timeDelta) * 1500; // Higher multiplier for more dramatic effect
+      // Calculate velocity (scaled for more dramatic effect but SLOWED DOWN)
+      velocity = (distance / timeDelta) * 1000; // Reduced from 1500 for slower effect
     }
     
     // Update refs for next calculation
@@ -37,7 +37,7 @@ export const useBallTrail = () => {
     
     // Update velocity state with smoothing
     setTrailVelocity(prev => {
-      const smoothingFactor = 0.6; // Less smoothing for more responsive changes
+      const smoothingFactor = 0.7; // More smoothing for less erratic changes (increased from 0.6)
       return prev * smoothingFactor + velocity * (1 - smoothingFactor);
     });
     
@@ -46,7 +46,7 @@ export const useBallTrail = () => {
       // Dynamic trail length based on velocity
       const baseTrailLength = ballConfig.trailLength;
       const velocityFactor = Math.min(1, trailVelocity / 100);
-      const trailLength = Math.floor(baseTrailLength + velocityFactor * 10); // Longer trails when moving fast
+      const trailLength = Math.floor(baseTrailLength + velocityFactor * 8); // Adjusted for better trail length
       
       // Add current position to history
       const newHistory = [
@@ -58,19 +58,19 @@ export const useBallTrail = () => {
         ...prev.slice(0, trailLength - 1)
       ];
       
-      // Enhanced electric trail effect
+      // More silvery/green electric trail effect
       return newHistory.map((pos, index) => {
         const normalizedIndex = index / trailLength;
         // Electric effect - sharper falloff with occasional "pulses"
-        const electricEffect = Math.pow(1 - normalizedIndex, 1.5);
+        const electricEffect = Math.pow(1 - normalizedIndex, 1.3);
         
-        // Add some random variation for positions beyond the first one
-        const jitter = index > 0 ? (Math.random() * 0.15) - 0.075 : 0;
+        // Enhanced jitter for more electric appearance
+        const jitter = index > 0 ? (Math.random() * 0.25) - 0.125 : 0;
         
         return {
           ...pos,
-          // More electric-style trail with non-linear falloff and jitter
-          opacity: Math.max(0.1, electricEffect * (1.0 + jitter))
+          // More electric-style trail with enhanced silvery/green effect
+          opacity: Math.max(0.15, electricEffect * (1.0 + jitter))
         };
       });
     });
