@@ -1,8 +1,9 @@
-
 import React, { useState, useRef, useEffect } from "react";
 import { Video, Play, Pause, Volume2, Download, Share2, ChevronLeft, ChevronRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { VideoClip } from "./types";
+import VideoControls from "./VideoControls";
+import VideoInteractionBar from "./VideoInteractionBar";
 
 interface VideoPlayerProps {
   currentVideo: number;
@@ -36,7 +37,6 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
   const videoRef = useRef<HTMLVideoElement>(null);
   const progressInterval = useRef<NodeJS.Timeout | null>(null);
 
-  // Handle video playback
   const togglePlayback = () => {
     if (videoRef.current) {
       if (isPlaying) {
@@ -57,14 +57,12 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
     }
   };
 
-  // Update video volume
   useEffect(() => {
     if (videoRef.current) {
       videoRef.current.volume = volume / 100;
     }
   }, [volume]);
 
-  // Clean up interval on unmount
   useEffect(() => {
     return () => {
       if (progressInterval.current) {
@@ -73,7 +71,6 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
     };
   }, []);
 
-  // Reset progress when changing video
   useEffect(() => {
     setProgress(0);
     if (videoRef.current) {
@@ -84,7 +81,6 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
   return (
     <div className="relative">
       <div className="aspect-video rounded-lg overflow-hidden relative">
-        {/* Actual video element */}
         <video
           ref={videoRef}
           src={videoClips[currentVideo].videoSrc}
@@ -101,7 +97,6 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
           }}
         />
 
-        {/* Video placeholder */}
         <div className="absolute inset-0 flex items-center justify-center">
           <motion.div
             animate={isPlaying ? { opacity: 0, scale: 0 } : { opacity: 1, scale: 1 }}
@@ -111,7 +106,6 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
           </motion.div>
         </div>
 
-        {/* Video navigation arrows */}
         <button 
           onClick={(e) => {e.stopPropagation(); prevVideo();}}
           className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/30 p-2 rounded-full hover:bg-black/50"
