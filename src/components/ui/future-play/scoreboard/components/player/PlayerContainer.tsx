@@ -47,8 +47,8 @@ const PlayerContainer: React.FC<PlayerContainerProps> = ({
     WebkitFilter: `drop-shadow(0 0 12px ${teamId === 1 ? 'rgba(0, 77, 0, 0.9)' : 'rgba(0, 51, 153, 0.9)'})`
   };
   
-  // Set fixed rotation based on team (team 1 faces right, team 2 faces left)
-  const fixedRotation = teamId === 1 ? 0 : 180;
+  // UPDATED: Both teams face upright (no rotation)
+  const fixedRotation = 0; // Changed from team-dependent rotation
   
   // Increased player size
   const sizeMultiplier = 1.23;
