@@ -20,7 +20,7 @@ const PlayerContainer: React.FC<PlayerContainerProps> = ({
   const getPlayerColor = (teamId: number, playerIndex: number) => {
     // More vibrant neon colors
     const team1Colors = ["#4AFF5E", "#33FF99"]; // Bright neon green variations for left team
-    const team2Colors = ["#33C3F0", "#1A70C5"]; // Brighter neon blue variations for right team
+    const team2Colors = ["#00E5FF", "#00BFFF"]; // Even brighter neon blue variations for right team
     
     const playerColors = teamId === 1 ? team1Colors : team2Colors;
     return playerColors[playerIndex % playerColors.length];
@@ -28,13 +28,13 @@ const PlayerContainer: React.FC<PlayerContainerProps> = ({
 
   const playerColor = getPlayerColor(teamId, playerIndex);
   const glowColor = teamId === 1 
-    ? "rgba(74, 255, 94, 0.6)" // Bright green glow for team 1
-    : "rgba(51, 195, 240, 0.6)"; // Brighter blue glow for team 2
+    ? "rgba(74, 255, 94, 0.7)" // Bright green glow for team 1
+    : "rgba(0, 229, 255, 0.7)"; // Brighter blue glow for team 2
   
   // Label background color - using team colors
   const labelBgColor = teamId === 1 
     ? "rgba(74, 255, 94, 0.8)" // Green team label background
-    : "rgba(51, 195, 240, 0.8)"; // Brighter blue team label background
+    : "rgba(0, 229, 255, 0.8)"; // Brighter blue team label background
   
   // Label text color - darker for better contrast
   const labelTextColor = teamId === 1 
@@ -43,8 +43,8 @@ const PlayerContainer: React.FC<PlayerContainerProps> = ({
   
   // Shadow properties for better visibility
   const shadowStyle = {
-    filter: `drop-shadow(0 0 8px ${teamId === 1 ? 'rgba(0, 77, 0, 0.7)' : 'rgba(0, 51, 102, 0.7)'})`,
-    WebkitFilter: `drop-shadow(0 0 8px ${teamId === 1 ? 'rgba(0, 77, 0, 0.7)' : 'rgba(0, 51, 102, 0.7)'})`
+    filter: `drop-shadow(0 0 10px ${teamId === 1 ? 'rgba(0, 77, 0, 0.8)' : 'rgba(0, 51, 153, 0.8)'})`,
+    WebkitFilter: `drop-shadow(0 0 10px ${teamId === 1 ? 'rgba(0, 77, 0, 0.8)' : 'rgba(0, 51, 153, 0.8)'})`
   };
   
   // Increased player size by 23%
@@ -69,7 +69,7 @@ const PlayerContainer: React.FC<PlayerContainerProps> = ({
           left: '50%',
           transform: 'translate(-50%, -50%)',
           filter: 'blur(6px)',
-          opacity: 0.4 + 0.2, // Slightly increased opacity
+          opacity: 0.6, // Increased opacity for more glow
           zIndex: 5,
           transition: 'all 0.3s ease-out'
         }}

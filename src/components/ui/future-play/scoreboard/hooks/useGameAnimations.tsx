@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { Position, BallState, BallTrajectory, PlayerPosition } from "../types";
 import { courtBoundaries } from "../constants/courtConfig";
@@ -41,10 +40,10 @@ export const useGameAnimations = (isHighlightActive: boolean = false) => {
     let lastTimestamp = 0;
     let poseInterval: NodeJS.Timeout;
     
-    // Set up pose change interval (every 3-6 seconds)
+    // Set up pose change interval (every 2-5 seconds)
     poseInterval = setInterval(() => {
       setPoseCycleCounter(prev => prev + 1);
-    }, 3000 + Math.random() * 3000);
+    }, 2000 + Math.random() * 3000);
     
     const animate = (timestamp: number) => {
       if (!lastTimestamp) lastTimestamp = timestamp;
@@ -70,48 +69,100 @@ export const useGameAnimations = (isHighlightActive: boolean = false) => {
       
       setBallPosition(newBallPosition);
       
-      // Constrain player movements to their respective court sides
-      const movePlayerTowardBall = (player: PlayerPosition, speed: number, isLeftSide: boolean): PlayerPosition => {
-        // Create a target that's influenced by the ball but stays on player's side
-        const targetX = isLeftSide 
-          ? Math.min(courtBoundaries.centerLine - 5, ballPosition.x) // Left side boundary
-          : Math.max(courtBoundaries.centerLine + 5, ballPosition.x); // Right side boundary
-          
-        const targetY = Math.max(15, Math.min(85, ballPosition.y)); // Vertical constraint
+      // IMPROVED: Player movement function that keeps players in their quadrants
+      // and allows for more organic movement patterns
+      const movePlayerInQuadrant = (
+        player: PlayerPosition, 
+        baseX: number,
+        baseY: number,
+        isLeftSide: boolean,
+        isTopSide: boolean
+      ): PlayerPosition => {
+        // Define quadrant boundaries
+        const minX = isLeftSide ? 15 : courtBoundaries.centerLine + 5;
+        const maxX = isLeftSide ? courtBoundaries.centerLine - 5 : 85;
+        const minY = isTopSide ? 15 : 50;
+        const maxY = isTopSide ? 50 : 85;
         
-        const dx = targetX - player.x;
-        const dy = targetY - player.y;
+        // Create movement based on both ball position and random factors
+        // Ball influence (60%)
+        const targetX = Math.max(minX, Math.min(maxX, ballPosition.x));
+        const targetY = Math.max(minY, Math.min(maxY, ballPosition.y));
+        
+        // Random movement component (40%)
+        const randomX = baseX + (Math.random() - 0.5) * 15;
+        const randomY = baseY + (Math.random() - 0.5) * 15;
+        
+        // Combined target with weights
+        const weightedTargetX = targetX * 0.6 + randomX * 0.4;
+        const weightedTargetY = targetY * 0.6 + randomY * 0.4;
+        
+        // Final constrained target
+        const finalTargetX = Math.max(minX, Math.min(maxX, weightedTargetX));
+        const finalTargetY = Math.max(minY, Math.min(maxY, weightedTargetY));
+        
+        // Calculate direction vector
+        const dx = finalTargetX - player.x;
+        const dy = finalTargetY - player.y;
         const distance = Math.sqrt(dx * dx + dy * dy);
         
-        if (distance > 5) { // Only move if somewhat far from target
+        if (distance > 3) { // Only move if somewhat far from target
+          // Movement speed varies by player (some players move faster than others)
+          const speed = 0.8 + Math.random() * 0.7; // Random speed between 0.8 and 1.5
+          
           const moveX = (dx / distance) * speed * (deltaTime / 100);
           const moveY = (dy / distance) * speed * (deltaTime / 100);
           
-          // Calculate new position and enforce court boundaries
-          const newX = isLeftSide 
-            ? Math.max(15, Math.min(courtBoundaries.centerLine - 5, player.x + moveX))
-            : Math.max(courtBoundaries.centerLine + 5, Math.min(85, player.x + moveX));
-            
-          const newY = Math.max(15, Math.min(85, player.y + moveY));
+          // Calculate rotation - BUT limit to ±49 degrees from base angle
+          // Base angle is 0 for left side, 180 for right side
+          const baseAngle = isLeftSide ? 0 : 180;
+          const rawAngle = Math.atan2(dy, dx) * (180 / Math.PI);
           
+          // Normalize the angle relative to the base
+          let normalizedAngle = rawAngle - baseAngle;
+          while (normalizedAngle > 180) normalizedAngle -= 360;
+          while (normalizedAngle < -180) normalizedAngle += 360;
+          
+          // Limit rotation to ±49 degrees
+          const clampedAngle = Math.max(-49, Math.min(49, normalizedAngle));
+          const finalRotation = baseAngle + clampedAngle;
+          
+          // Apply movement
           return {
-            x: newX,
-            y: newY,
-            rotation: Math.atan2(dy, dx) * (180 / Math.PI)
+            x: player.x + moveX,
+            y: player.y + moveY,
+            rotation: finalRotation
           };
         }
-        return player;
+        
+        // If no movement, still update rotation potentially
+        const rawAngle = Math.atan2(dy, dx) * (180 / Math.PI);
+        const baseAngle = isLeftSide ? 0 : 180;
+        
+        // Normalize the angle relative to the base
+        let normalizedAngle = rawAngle - baseAngle;
+        while (normalizedAngle > 180) normalizedAngle -= 360;
+        while (normalizedAngle < -180) normalizedAngle += 360;
+        
+        // Limit rotation to ±49 degrees
+        const clampedAngle = Math.max(-49, Math.min(49, normalizedAngle));
+        const finalRotation = baseAngle + clampedAngle;
+        
+        return {
+          ...player,
+          rotation: finalRotation
+        };
       };
       
-      // Move players more frequently for more dynamic animation
-      if (Math.random() > 0.4) {
-        // Team 1 (Green) on left side
-        setPlayer1(movePlayerTowardBall(player1, 1.2, true));
-        setPlayer2(movePlayerTowardBall(player2, 1.0, true));
+      // More dynamic player movement - update more frequently
+      if (Math.random() > 0.2) { // 80% chance to move each frame
+        // Team 1 (Green) players
+        setPlayer1(movePlayerInQuadrant(player1, 25, 25, true, true)); // Left top quadrant
+        setPlayer2(movePlayerInQuadrant(player2, 25, 75, true, false)); // Left bottom quadrant
         
-        // Team 2 (Blue) on right side
-        setPlayer3(movePlayerTowardBall(player3, 1.1, false));
-        setPlayer4(movePlayerTowardBall(player4, 0.9, false));
+        // Team 2 (Blue) players
+        setPlayer3(movePlayerInQuadrant(player3, 75, 25, false, true)); // Right top quadrant
+        setPlayer4(movePlayerInQuadrant(player4, 75, 75, false, false)); // Right bottom quadrant
       }
       
       animationFrameId = requestAnimationFrame(animate);

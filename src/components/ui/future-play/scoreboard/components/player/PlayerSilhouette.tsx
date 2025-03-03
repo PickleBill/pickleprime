@@ -15,7 +15,7 @@ const PlayerSilhouette: React.FC<PlayerSilhouetteProps> = ({ teamId, playerIndex
     const intervalId = setInterval(() => {
       // Randomly select a new pose (0-3 range)
       setCurrentPose(Math.floor(Math.random() * 4));
-    }, 5000 + Math.random() * 8000); // Random interval between 5-13 seconds
+    }, 3000 + Math.random() * 5000); // Random interval between 3-8 seconds
     
     return () => clearInterval(intervalId);
   }, []);
