@@ -78,24 +78,24 @@ export const useGameAnimations = (isHighlightActive: boolean = false) => {
         isLeftSide: boolean,
         isTopSide: boolean
       ): PlayerPosition => {
-        // Define quadrant boundaries
+        // Define quadrant boundaries - ensure they have more space to move
         const minX = isLeftSide ? 15 : courtBoundaries.centerLine + 5;
         const maxX = isLeftSide ? courtBoundaries.centerLine - 5 : 85;
         const minY = isTopSide ? 15 : 50;
         const maxY = isTopSide ? 50 : 85;
         
         // Create movement based on both ball position and random factors
-        // Ball influence (60%)
+        // Ball influence (70%)
         const targetX = Math.max(minX, Math.min(maxX, ballPosition.x));
         const targetY = Math.max(minY, Math.min(maxY, ballPosition.y));
         
-        // Random movement component (40%)
-        const randomX = baseX + (Math.random() - 0.5) * 15;
-        const randomY = baseY + (Math.random() - 0.5) * 15;
+        // Random movement component (30%)
+        const randomX = baseX + (Math.random() - 0.5) * 30; // More range
+        const randomY = baseY + (Math.random() - 0.5) * 30; // More range
         
         // Combined target with weights
-        const weightedTargetX = targetX * 0.6 + randomX * 0.4;
-        const weightedTargetY = targetY * 0.6 + randomY * 0.4;
+        const weightedTargetX = targetX * 0.7 + randomX * 0.3;
+        const weightedTargetY = targetY * 0.7 + randomY * 0.3;
         
         // Final constrained target
         const finalTargetX = Math.max(minX, Math.min(maxX, weightedTargetX));
@@ -106,15 +106,13 @@ export const useGameAnimations = (isHighlightActive: boolean = false) => {
         const dy = finalTargetY - player.y;
         const distance = Math.sqrt(dx * dx + dy * dy);
         
-        if (distance > 3) { // Only move if somewhat far from target
-          // Movement speed varies by player (some players move faster than others)
-          const speed = 0.8 + Math.random() * 0.7; // Random speed between 0.8 and 1.5
-          
-          const moveX = (dx / distance) * speed * (deltaTime / 100);
-          const moveY = (dy / distance) * speed * (deltaTime / 100);
-          
-          // Calculate rotation - BUT limit to ±49 degrees from base angle
-          // Base angle is 0 for left side, 180 for right side
+        // Increased movement speed for more noticeable movement
+        const speed = 0.12 * (deltaTime / 16); // normalize for framerate
+        
+        // Only update rotation if moving
+        let newRotation = player.rotation;
+        if (distance > 0.1) {
+          // Calculate rotation - limited to ±49 degrees from base angle
           const baseAngle = isLeftSide ? 0 : 180;
           const rawAngle = Math.atan2(dy, dx) * (180 / Math.PI);
           
@@ -125,45 +123,25 @@ export const useGameAnimations = (isHighlightActive: boolean = false) => {
           
           // Limit rotation to ±49 degrees
           const clampedAngle = Math.max(-49, Math.min(49, normalizedAngle));
-          const finalRotation = baseAngle + clampedAngle;
-          
-          // Apply movement
-          return {
-            x: player.x + moveX,
-            y: player.y + moveY,
-            rotation: finalRotation
-          };
+          newRotation = baseAngle + clampedAngle;
         }
         
-        // If no movement, still update rotation potentially
-        const rawAngle = Math.atan2(dy, dx) * (180 / Math.PI);
-        const baseAngle = isLeftSide ? 0 : 180;
-        
-        // Normalize the angle relative to the base
-        let normalizedAngle = rawAngle - baseAngle;
-        while (normalizedAngle > 180) normalizedAngle -= 360;
-        while (normalizedAngle < -180) normalizedAngle += 360;
-        
-        // Limit rotation to ±49 degrees
-        const clampedAngle = Math.max(-49, Math.min(49, normalizedAngle));
-        const finalRotation = baseAngle + clampedAngle;
+        // Always move (no distance threshold)
+        const moveX = distance > 0 ? (dx / distance) * speed : 0;
+        const moveY = distance > 0 ? (dy / distance) * speed : 0;
         
         return {
-          ...player,
-          rotation: finalRotation
+          x: player.x + moveX,
+          y: player.y + moveY,
+          rotation: newRotation
         };
       };
       
-      // More dynamic player movement - update more frequently
-      if (Math.random() > 0.2) { // 80% chance to move each frame
-        // Team 1 (Green) players
-        setPlayer1(movePlayerInQuadrant(player1, 25, 25, true, true)); // Left top quadrant
-        setPlayer2(movePlayerInQuadrant(player2, 25, 75, true, false)); // Left bottom quadrant
-        
-        // Team 2 (Blue) players
-        setPlayer3(movePlayerInQuadrant(player3, 75, 25, false, true)); // Right top quadrant
-        setPlayer4(movePlayerInQuadrant(player4, 75, 75, false, false)); // Right bottom quadrant
-      }
+      // Update player positions on EVERY frame for more consistent movement
+      setPlayer1(movePlayerInQuadrant(player1, 25, 25, true, true)); // Left top quadrant
+      setPlayer2(movePlayerInQuadrant(player2, 25, 75, true, false)); // Left bottom quadrant
+      setPlayer3(movePlayerInQuadrant(player3, 75, 25, false, true)); // Right top quadrant
+      setPlayer4(movePlayerInQuadrant(player4, 75, 75, false, false)); // Right bottom quadrant
       
       animationFrameId = requestAnimationFrame(animate);
     };
