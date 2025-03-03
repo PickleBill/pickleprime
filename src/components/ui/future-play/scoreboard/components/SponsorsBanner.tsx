@@ -80,18 +80,20 @@ const SponsorsBanner: React.FC<SponsorsBannerProps> = ({
         <div className="flex items-center gap-2">
           <button 
             onClick={onShareClick}
-            className="flex items-center justify-center bg-[#0EA5E9] hover:bg-[#0EA5E9]/90 rounded-full shadow-md p-2.5 transition-colors duration-200"
+            className="flex items-center justify-center gap-1.5 bg-[#0EA5E9] hover:bg-[#0EA5E9]/90 rounded-full shadow-md p-2.5 transition-colors duration-200 px-4"
             aria-label="Share match"
           >
             <Share className="w-5 h-5 text-white" />
+            <span className="text-white text-sm font-medium">Share</span>
           </button>
           
           <button 
             onClick={onPlayerProfileClick}
-            className="flex items-center justify-center bg-[#8B5CF6] hover:bg-[#8B5CF6]/90 rounded-full shadow-md p-2.5 transition-colors duration-200"
+            className="flex items-center justify-center gap-1.5 bg-[#8B5CF6] hover:bg-[#8B5CF6]/90 rounded-full shadow-md p-2.5 transition-colors duration-200 px-4"
             aria-label="User profile"
           >
             <User className="w-5 h-5 text-white" />
+            <span className="text-white text-sm font-medium">Profile</span>
           </button>
         </div>
       </div>
