@@ -6,8 +6,8 @@ import { courtBoundaries } from "../constants/courtConfig";
 // Default initial values - adjusted to correct sides
 const defaultBallPosition: BallState = { x: 50, y: 50, z: 0 };
 const defaultPlayer1: PlayerPosition = { x: 25, y: 25, rotation: 0 }; // Green team, left side top
-const defaultPlayer2: PlayerPosition = { x: 75, y: 25, rotation: 180 }; // Blue team, right side top
-const defaultPlayer3: PlayerPosition = { x: 25, y: 75, rotation: 0 }; // Green team, left side bottom
+const defaultPlayer2: PlayerPosition = { x: 25, y: 75, rotation: 0 }; // Green team, left side bottom
+const defaultPlayer3: PlayerPosition = { x: 75, y: 25, rotation: 180 }; // Blue team, right side top 
 const defaultPlayer4: PlayerPosition = { x: 75, y: 75, rotation: 180 }; // Blue team, right side bottom
 
 export const useGameAnimations = (isHighlightActive: boolean = false) => {
@@ -98,10 +98,10 @@ export const useGameAnimations = (isHighlightActive: boolean = false) => {
       if (Math.random() > 0.4) {
         // Team 1 (Green) on left side
         setPlayer1(movePlayerTowardBall(player1, 1.2, true));
-        setPlayer3(movePlayerTowardBall(player3, 1.0, true));
+        setPlayer2(movePlayerTowardBall(player2, 1.0, true));
         
         // Team 2 (Blue) on right side
-        setPlayer2(movePlayerTowardBall(player2, 1.1, false));
+        setPlayer3(movePlayerTowardBall(player3, 1.1, false));
         setPlayer4(movePlayerTowardBall(player4, 0.9, false));
       }
       

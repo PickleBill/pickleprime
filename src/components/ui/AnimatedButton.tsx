@@ -4,14 +4,12 @@ import { cn } from "@/lib/utils";
 
 interface AnimatedButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: "primary" | "secondary" | "outline" | "ghost" | "nav" | "glass" | "feature";
+  variant?: "primary" | "secondary" | "outline" | "ghost" | "nav" | "glass";
   size?: "sm" | "md" | "lg" | "icon";
   children: React.ReactNode;
   withArrow?: boolean;
   active?: boolean;
   glowColor?: string;
-  gradientColors?: string;
-  borderColor?: string;
 }
 
 const AnimatedButton = ({
@@ -22,8 +20,6 @@ const AnimatedButton = ({
   withArrow = false,
   active = false,
   glowColor = "rgba(43, 203, 110, 0.5)",
-  gradientColors,
-  borderColor,
   ...props
 }: AnimatedButtonProps) => {
   const variants = {
@@ -37,9 +33,6 @@ const AnimatedButton = ({
       "bg-transparent text-navy hover:bg-navy/5",
     nav: "bg-transparent text-white/70 hover:text-white hover:bg-white/10 transition-all",
     glass: "bg-white/10 backdrop-blur-md border border-white/20 text-white hover:bg-white/20 transition-all duration-300",
-    feature: gradientColors ? 
-      `bg-gradient-to-br ${gradientColors} backdrop-blur-sm border ${borderColor || 'border-white/20'} text-white hover:bg-white/10 transition-all duration-300` : 
-      "bg-gradient-to-br from-blue-500/80 to-cyan-600/80 backdrop-blur-sm border border-cyan-400/40 text-white hover:bg-white/10 transition-all duration-300",
   };
 
   const sizes = {
@@ -85,11 +78,6 @@ const AnimatedButton = ({
           </svg>
         )}
       </span>
-      
-      {/* Animated gradient shine effect */}
-      <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/10 to-transparent 
-                    opacity-0 group-hover:opacity-100 transition-opacity duration-500 -rotate-45 
-                    translate-x-full group-hover:translate-x-[-250%] transform-gpu" />
       
       {/* Hover effect overlay */}
       <span className="absolute inset-0 bg-white/0 group-hover:bg-white/10 transition-all duration-300"></span>

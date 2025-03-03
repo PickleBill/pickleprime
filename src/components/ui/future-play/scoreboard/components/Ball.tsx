@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { BallState, BallTrajectory } from '../types';
 import { ballConfig } from '../constants/courtConfig';
@@ -28,7 +27,7 @@ const Ball: React.FC<BallProps> = ({
       
       // Keep only recent positions and fade them out
       return newPositions
-        .slice(0, ballConfig.trailLength + 2)  // Keep more positions for a longer trail
+        .slice(0, ballConfig.trailLength)  // Keep only the most recent positions
         .map((pos, index) => ({ 
           ...pos, 
           opacity: Math.max(0.1, 1 - (index * (1 / ballConfig.trailLength))) 
@@ -39,8 +38,8 @@ const Ball: React.FC<BallProps> = ({
   // Calculate motion blur and glow based on velocity
   const velocityFactor = Math.min(1, ballVelocity / 50); // Normalize velocity to 0-1 range
   const blurAmount = Math.max(1, velocityFactor * 8); // 1-8px blur based on velocity
-  const glowSize = ballConfig.size * (1 + velocityFactor * 0.8); // Increase glow by up to 80%
-  const glowOpacity = Math.min(0.9, ballConfig.glowOpacity + (velocityFactor * 0.4)); // Increase opacity by up to 0.4
+  const glowSize = ballConfig.size * (1 + velocityFactor * 0.5); // Increase glow by up to 50%
+  const glowOpacity = Math.min(0.8, ballConfig.glowOpacity + (velocityFactor * 0.3)); // Increase opacity by up to 0.3
   
   return (
     <>
@@ -53,11 +52,11 @@ const Ball: React.FC<BallProps> = ({
             left: `${trail.x}%`,
             top: `${trail.y}%`,
             transform: 'translate(-50%, -50%)',
-            width: `${ballConfig.size * (1 - (index * 0.12))}px`,
-            height: `${ballConfig.size * (1 - (index * 0.12))}px`,
-            backgroundColor: index % 2 === 0 ? ballConfig.trailColor : '#FFEC8A',
-            opacity: trail.opacity * 0.7,
-            filter: `blur(${index + 1.5}px)`,
+            width: `${ballConfig.size * (1 - (index * 0.15))}px`,
+            height: `${ballConfig.size * (1 - (index * 0.15))}px`,
+            backgroundColor: ballConfig.trailColor,
+            opacity: trail.opacity * 0.6,
+            filter: `blur(${index + 2}px)`,
             zIndex: 20 - index,
             transition: 'opacity 0.1s ease-out'
           }}
@@ -71,11 +70,11 @@ const Ball: React.FC<BallProps> = ({
           left: `${ballPosition.x}%`,
           top: `${ballPosition.y}%`,
           transform: 'translate(-50%, -50%)',
-          width: `${glowSize * 1.8}px`,
-          height: `${glowSize * 1.8}px`,
-          backgroundColor: 'rgba(255, 255, 0, 0.5)',
-          boxShadow: `0 0 ${10 + velocityFactor * 15}px ${velocityFactor * 5}px rgba(255, 255, 0, ${glowOpacity})`,
-          filter: `blur(${4 + velocityFactor * 6}px)`,
+          width: `${glowSize * 1.5}px`,
+          height: `${glowSize * 1.5}px`,
+          backgroundColor: 'rgba(255, 255, 0, 0.4)',
+          boxShadow: `0 0 ${8 + velocityFactor * 12}px ${velocityFactor * 4}px rgba(255, 255, 0, ${glowOpacity})`,
+          filter: `blur(${4 + velocityFactor * 4}px)`,
           opacity: glowOpacity,
           zIndex: 22,
           transition: 'all 0.2s ease-out'

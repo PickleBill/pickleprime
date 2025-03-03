@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { BallState, BallTrajectory, Position } from './types';
+import { Position, BallState, BallTrajectory } from './types';
 import CourtSurface from './components/CourtSurface';
 import Players from './components/Players';
 import Ball from './components/Ball';
