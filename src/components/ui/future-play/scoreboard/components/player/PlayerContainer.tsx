@@ -47,16 +47,19 @@ const PlayerContainer: React.FC<PlayerContainerProps> = ({
     WebkitFilter: `drop-shadow(0 0 12px ${teamId === 1 ? 'rgba(0, 77, 0, 0.9)' : 'rgba(0, 51, 153, 0.9)'})`
   };
   
-  // Increased player size by 23%
+  // Set fixed rotation based on team (team 1 faces right, team 2 faces left)
+  const fixedRotation = teamId === 1 ? 0 : 180;
+  
+  // Increased player size
   const sizeMultiplier = 1.23;
 
   return (
     <div className="absolute" style={{ 
       left: `${position.x}%`, 
       top: `${position.y}%`,
-      transform: `translate(-50%, -50%) ${position.rotation ? `rotate(${position.rotation}deg)` : ''}`,
+      transform: `translate(-50%, -50%) rotate(${fixedRotation}deg)`,
       zIndex: 10,
-      transition: 'all 0.2s ease-out' // Faster transitions for more responsive movement
+      transition: 'all 0.1s linear' // Faster transitions for more responsive movement
     }}>
       {/* Glow effect */}
       <div 
@@ -71,7 +74,7 @@ const PlayerContainer: React.FC<PlayerContainerProps> = ({
           filter: 'blur(8px)',
           opacity: 0.85, // Increased opacity for more glow
           zIndex: 5,
-          transition: 'all 0.2s ease-out'
+          transition: 'all 0.1s linear'
         }}
       />
       
@@ -84,7 +87,7 @@ const PlayerContainer: React.FC<PlayerContainerProps> = ({
           zIndex: 10,
           opacity: 0.95,
           ...shadowStyle, // Added shadow
-          transition: 'all 0.2s ease-out'
+          transition: 'all 0.1s linear'
         }}
       >
         {/* SVG silhouette of a pickleball player */}

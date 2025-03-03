@@ -4,7 +4,7 @@
  * 
  * Renders player silhouettes on the court with:
  * - Team-based color coding
- * - Player position and rotation
+ * - Player position with fixed orientation based on team
  * - Electric glow effects for better visibility
  * - Player labels
  * - Electric animation trails for movement
@@ -48,7 +48,7 @@ const Players: React.FC<PlayersProps> = ({
     
     // For each player, only update trails if position changed by a minimum threshold
     // This reduces the number of state updates
-    const threshold = 0.5; // Minimum movement threshold to trigger an update
+    const threshold = 0.3; // Lowered threshold for more responsive trails
     
     Object.entries(positions).forEach(([playerId, position]) => {
       const prevPos = prevPositions[playerId as keyof typeof prevPositions];
@@ -59,7 +59,10 @@ const Players: React.FC<PlayersProps> = ({
       if (dx > threshold || dy > threshold) {
         updateTrails(playerId, position);
         // Update reference with current position
-        prevPositions[playerId as keyof typeof prevPositions] = { ...position };
+        prevPositions[playerId as keyof typeof prevPositions] = { 
+          x: position.x, 
+          y: position.y 
+        };
       }
     });
   }, [player1.x, player1.y, player2.x, player2.y, player3.x, player3.y, player4.x, player4.y, updateTrails]);

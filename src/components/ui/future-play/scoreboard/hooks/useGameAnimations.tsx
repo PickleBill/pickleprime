@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { Position, BallState, BallTrajectory, PlayerPosition } from "../types";
 import { courtBoundaries } from "../constants/courtConfig";
@@ -71,19 +70,17 @@ export const useGameAnimations = (isHighlightActive: boolean = false) => {
       
       setBallPosition(newBallPosition);
       
-      // Enhanced player movement function that makes players aggressively chase the ball
-      // while still respecting their quadrant boundaries
-      const movePlayerTowardsBall = (
+      // Improved player movement function with more pickleball strategy
+      const movePlayerForPickleball = (
         player: PlayerPosition, 
         isLeftSide: boolean,
-        isTopSide: boolean,
-        aggression: number // How aggressively the player chases the ball (0-1)
+        isTopSide: boolean
       ): PlayerPosition => {
-        // Define quadrant boundaries with more flexibility
+        // Define quadrant boundaries with flexibility for realistic movement
         const minX = isLeftSide ? 10 : courtBoundaries.centerLine + 2;
         const maxX = isLeftSide ? courtBoundaries.centerLine - 2 : 90;
-        const minY = isTopSide ? 10 : 40; // Allow more vertical movement
-        const maxY = isTopSide ? 60 : 90; // Allow more vertical movement
+        const minY = isTopSide ? 10 : 40;
+        const maxY = isTopSide ? 60 : 90;
         
         // Calculate distance to ball
         const dx = ballPosition.x - player.x;
@@ -95,49 +92,91 @@ export const useGameAnimations = (isHighlightActive: boolean = false) => {
         const dirY = distanceToBall > 0 ? dy / distanceToBall : 0;
         
         // Higher base speed for more dynamic movement
-        const baseSpeed = 0.3 * (deltaTime / 16);
+        const baseSpeed = 0.4 * (deltaTime / 16);
         
         // Speed based on distance to ball - players move faster when ball is further away
         let speed = baseSpeed * (0.8 + (distanceToBall / 100) * 2);
         
-        // Apply the aggression factor - higher aggression means player chases ball more directly
-        speed *= aggression;
+        // Apply random deviations for more natural movement (occasionally)
+        let finalDirX = dirX;
+        let finalDirY = dirY;
         
-        // Calculate new position - moving towards ball
-        let newX = player.x + dirX * speed;
-        let newY = player.y + dirY * speed;
+        if (Math.random() > 0.85) {
+          // Occasional slight deviation from direct path to ball (more human-like)
+          finalDirX += (Math.random() - 0.5) * 0.3;
+          finalDirY += (Math.random() - 0.5) * 0.3;
+          
+          // Normalize direction again
+          const length = Math.sqrt(finalDirX * finalDirX + finalDirY * finalDirY);
+          if (length > 0) {
+            finalDirX /= length;
+            finalDirY /= length;
+          }
+        }
+        
+        // Calculate new position - moving towards ball with some randomness
+        let newX = player.x + finalDirX * speed;
+        let newY = player.y + finalDirY * speed;
         
         // Constrain to quadrant boundaries
         newX = Math.max(minX, Math.min(maxX, newX));
         newY = Math.max(minY, Math.min(maxY, newY));
         
-        // Calculate rotation to face the ball
-        const baseAngle = isLeftSide ? 0 : 180;
-        
-        // Get angle to ball (in degrees)
-        let angleToBall = Math.atan2(dy, dx) * (180 / Math.PI);
-        
-        // Normalize relative to player's base orientation
-        let normalizedAngle = angleToBall - baseAngle;
-        while (normalizedAngle > 180) normalizedAngle -= 360;
-        while (normalizedAngle < -180) normalizedAngle += 360;
-        
-        // Limit rotation to ±60 degrees for more realistic movement
-        const clampedAngle = Math.max(-60, Math.min(60, normalizedAngle));
-        const newRotation = baseAngle + clampedAngle;
+        // Keep base rotation for player facing direction
+        const baseRotation = isLeftSide ? 0 : 180;
         
         return {
           x: newX,
           y: newY,
-          rotation: newRotation
+          rotation: baseRotation // Fixed rotation based on which side they're on
         };
       };
       
-      // Update player positions with different aggression factors for variety
-      setPlayer1(movePlayerTowardsBall(player1, true, true, 0.85)); // Left top aggressive
-      setPlayer2(movePlayerTowardsBall(player2, true, false, 0.75)); // Left bottom less aggressive
-      setPlayer3(movePlayerTowardsBall(player3, false, true, 0.8)); // Right top aggressive
-      setPlayer4(movePlayerTowardsBall(player4, false, false, 0.7)); // Right bottom less aggressive
+      // Position readjustments for better pickleball gameplay
+      const moveBackToReadyPosition = (
+        player: PlayerPosition,
+        homeX: number,
+        homeY: number
+      ): PlayerPosition => {
+        // If ball is far from player's quadrant, move back toward ready position
+        const distanceFromBall = Math.sqrt(
+          Math.pow(player.x - ballPosition.x, 2) + 
+          Math.pow(player.y - ballPosition.y, 2)
+        );
+        
+        // Only move back if ball is far enough away
+        if (distanceFromBall > 40) {
+          const dirX = homeX - player.x;
+          const dirY = homeY - player.y;
+          const distToHome = Math.sqrt(dirX * dirX + dirY * dirY);
+          
+          if (distToHome > 5) { // Only move if significantly away from home position
+            const normDirX = dirX / distToHome;
+            const normDirY = dirY / distToHome;
+            
+            const returnSpeed = 0.2 * (deltaTime / 16);
+            
+            return {
+              x: player.x + normDirX * returnSpeed,
+              y: player.y + normDirY * returnSpeed,
+              rotation: player.rotation
+            };
+          }
+        }
+        
+        // If ball is close to player's quadrant, chase the ball
+        return movePlayerForPickleball(
+          player, 
+          player.x < courtBoundaries.centerLine, 
+          player.y < courtBoundaries.kitchenBottom - 10
+        );
+      };
+      
+      // Update all players with improved movement
+      setPlayer1(moveBackToReadyPosition(player1, 25, 25));
+      setPlayer2(moveBackToReadyPosition(player2, 25, 75));
+      setPlayer3(moveBackToReadyPosition(player3, 75, 25));
+      setPlayer4(moveBackToReadyPosition(player4, 75, 75));
       
       animationFrameId = requestAnimationFrame(animate);
     };

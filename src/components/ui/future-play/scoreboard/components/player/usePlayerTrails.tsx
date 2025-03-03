@@ -15,12 +15,12 @@ export const usePlayerTrails = () => {
   
   // Last position refs to prevent unnecessary updates
   const lastPositionsRef = useRef<{
-    [key: string]: { x: number; y: number; timestamp: number };
+    [key: string]: { x: number; y: number; timestamp: number; velocity: number };
   }>({
-    player1: { x: 0, y: 0, timestamp: 0 },
-    player2: { x: 0, y: 0, timestamp: 0 },
-    player3: { x: 0, y: 0, timestamp: 0 },
-    player4: { x: 0, y: 0, timestamp: 0 }
+    player1: { x: 0, y: 0, timestamp: 0, velocity: 0 },
+    player2: { x: 0, y: 0, timestamp: 0, velocity: 0 },
+    player3: { x: 0, y: 0, timestamp: 0, velocity: 0 },
+    player4: { x: 0, y: 0, timestamp: 0, velocity: 0 }
   });
   
   // Update trail positions based on player position changes - memoized with useCallback
@@ -37,43 +37,52 @@ export const usePlayerTrails = () => {
     const timeDelta = now - lastPosition.timestamp;
     
     // Only update if moved more than threshold distance or enough time has passed
-    // This prevents excessive state updates that could lead to infinite loops
-    const minDistance = 0.4; // Minimum movement threshold
-    const minTimeDelta = 100; // Minimum time between updates (ms)
+    const minDistance = 0.15; // Lower threshold for more responsive trails
+    const minTimeDelta = 70; // Lower time between updates for more responsive trails
     
     if (distance > minDistance || timeDelta > minTimeDelta) {
-      // Update last position ref
+      // Calculate velocity for dynamic effects
+      const velocity = timeDelta > 0 ? distance / (timeDelta / 1000) : 0;
+      
+      // Update last position ref with new position and velocity
       lastPositionsRef.current[playerId] = {
         x: position.x,
         y: position.y,
-        timestamp: now
+        timestamp: now,
+        velocity: velocity
       };
       
-      // Calculate movement speed for dynamic trail effect
-      const speed = timeDelta > 0 ? distance / (timeDelta / 1000) : 0;
-      
       setTrailPositions(prev => {
-        // Get current trails and add new position
+        // Get current trails
         const currentTrails = [...prev[playerId]];
         
-        // Dynamic trail length based on speed
+        // Dynamic trail length based on velocity
         const baseTrailLength = 5;
-        const speedFactor = Math.min(1, speed / 10);
-        const trailLength = Math.floor(baseTrailLength + speedFactor * 3);
+        const velocityFactor = Math.min(1, velocity / 8);
+        const trailLength = Math.floor(baseTrailLength + velocityFactor * 4);
         
         // Add new position with full opacity
-        currentTrails.unshift({ x: position.x, y: position.y, opacity: 0.9 });
+        currentTrails.unshift({ x: position.x, y: position.y, opacity: 0.95 });
         
-        // Limit trail length and decrease opacity for older positions
+        // Create new trail with dynamic electric-like effect
         return {
           ...prev,
           [playerId]: currentTrails
             .slice(0, trailLength)
-            .map((pos, index) => ({ 
-              ...pos, 
-              // Faster opacity falloff for faster movement
-              opacity: Math.max(0.1, 0.9 - index * (0.15 + speedFactor * 0.05))
-            }))
+            .map((pos, index) => {
+              // Create more electric-like opacity falloff (less linear)
+              const normalizedIndex = index / trailLength;
+              const electricEffect = Math.pow(1 - normalizedIndex, 1.8);
+              
+              // Add slight random variation for "electric" effect
+              const jitter = index > 0 ? (Math.random() * 0.1) - 0.05 : 0;
+              
+              return { 
+                ...pos, 
+                // Electric-style falloff with some randomness
+                opacity: Math.max(0.1, 0.95 * electricEffect + jitter)
+              };
+            })
         };
       });
     }
