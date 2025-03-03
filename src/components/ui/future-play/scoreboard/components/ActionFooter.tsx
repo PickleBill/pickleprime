@@ -16,43 +16,61 @@ const ActionFooter: React.FC<ActionFooterProps> = ({
   onShareClick,
   onActionButtonClick
 }) => {
-  // Define our action buttons with their respective handlers
+  // Define our action buttons with their respective handlers and colors
   const actionButtons = [
     {
       id: "video",
       icon: <Video className="w-5 h-5" />,
       label: "Video Clips",
       handler: () => onActionButtonClick && onActionButtonClick("video"),
+      iconColor: "text-[#ea384c]",  // Red color for video
+      borderColor: "border-[#ea384c]/40",
+      bgColor: "bg-[#ea384c]/10"
     },
     {
       id: "analytics",
       icon: <Activity className="w-5 h-5" />,
       label: "Analytics",
       handler: () => onActionButtonClick && onActionButtonClick("analytics"),
+      iconColor: "text-[#2BCB6E]",  // Green color for analytics
+      borderColor: "border-[#2BCB6E]/40",
+      bgColor: "bg-[#2BCB6E]/10"
     },
     {
       id: "tournaments",
       icon: <Trophy className="w-5 h-5" />,
       label: "Tournaments",
       handler: () => onActionButtonClick && onActionButtonClick("tournaments"),
+      iconColor: "text-[#FEC107]",  // Yellow/gold color for tournaments
+      borderColor: "border-[#FEC107]/40",
+      bgColor: "bg-[#FEC107]/10"
     },
     {
       id: "stats",
       icon: <BarChart2 className="w-5 h-5" />,
       label: "Match Stats",
       handler: () => onActionButtonClick && onActionButtonClick("stats"),
+      iconColor: "text-[#33C3F0]",  // Cyan/blue color for stats
+      borderColor: "border-[#33C3F0]/40",
+      bgColor: "bg-[#33C3F0]/10"
     },
     {
       id: "community",
       icon: <Share2 className="w-5 h-5" />,
       label: "Community",
       handler: onHighlightClick,
+      iconColor: "text-[#8B5CF6]",  // Purple color for community
+      borderColor: "border-[#8B5CF6]/40",
+      bgColor: "bg-[#8B5CF6]/10"
     },
     {
       id: "profile",
       icon: <User className="w-5 h-5" />,
       label: "Profile",
       handler: onPlayerProfileClick,
+      iconColor: "text-[#0EA5E9]",  // Teal/blue for profile
+      borderColor: "border-[#0EA5E9]/40",
+      bgColor: "bg-[#0EA5E9]/10"
     }
   ];
 
@@ -76,8 +94,8 @@ const ActionFooter: React.FC<ActionFooterProps> = ({
                           animate-[slideRight_3s_infinite_linear]" />
             
             <div className="relative z-10">
-              {/* Icon circle with teal background */}
-              <div className="p-2.5 rounded-full bg-[#0EA5E9]/20 border border-[#0EA5E9]/40 shadow-lg text-[#0EA5E9]">
+              {/* Icon circle with colored background - using the oval style from first image */}
+              <div className={`flex items-center justify-center w-14 h-10 rounded-full ${button.bgColor} ${button.borderColor} border shadow-lg ${button.iconColor}`}>
                 {button.icon}
               </div>
               <span className="text-white text-xs font-medium mt-2 block text-center">{button.label}</span>
