@@ -13,6 +13,7 @@ const Hero = () => {
   const [showPlayerModal, setShowPlayerModal] = useState(false);
   const [showFacilityModal, setShowFacilityModal] = useState(false);
   const [showShareModal, setShowShareModal] = useState(false);
+  const [showAnalyticsView, setShowAnalyticsView] = useState(false);
   
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -41,6 +42,22 @@ const Hero = () => {
   // Function to handle external facility link
   const handleFacilityClick = () => {
     window.open('https://quantcourt.lovable.app/analytics', '_blank');
+  };
+
+  // Function to show analytics view
+  const handleAnalyticsClick = () => {
+    setShowShareModal(true);
+    // Set timeout to ensure modal is open before switching to analytics view
+    setTimeout(() => {
+      // Simulate clicking on the Stats tab which shows the analytics
+      const statsButtons = document.querySelectorAll('button');
+      const statsButton = Array.from(statsButtons).find(button => 
+        button.textContent?.includes('Stats')
+      );
+      if (statsButton) {
+        statsButton.click();
+      }
+    }, 300);
   };
 
   return (
@@ -77,10 +94,10 @@ const Hero = () => {
               Upgrade any venue into a tech-enabled, social-entertainment hub — driving revenue, brand differentiation, and deeper player loyalty.
             </p>
             
-            {/* New left-right layout design */}
-            <div className="flex flex-col md:flex-row gap-6 max-w-3xl mx-auto">
-              {/* Left side - For Facilities */}
-              <div className="flex-1 bg-navy/5 rounded-xl p-6 border border-primary/20 flex flex-col items-center">
+            {/* New grid layout with 3 panels */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+              {/* Left panel - For Facilities */}
+              <div className="md:col-span-1 bg-navy/5 rounded-xl p-6 border border-primary/20 flex flex-col items-center">
                 <h2 className="text-2xl font-bold text-navy mb-4">For Facilities</h2>
                 <p className="text-gray-600 mb-6 text-center">
                   Turn your courts into data-driven engagement centers that attract and retain players.
@@ -94,8 +111,8 @@ const Hero = () => {
                 </AnimatedButton>
               </div>
               
-              {/* Right side - For Players */}
-              <div className="flex-1 bg-navy/5 rounded-xl p-6 border border-primary/20 flex flex-col items-center">
+              {/* Middle panel - For Players */}
+              <div className="md:col-span-1 bg-navy/5 rounded-xl p-6 border border-primary/20 flex flex-col items-center">
                 <h2 className="text-2xl font-bold text-navy mb-4">For Players</h2>
                 <p className="text-gray-600 mb-6 text-center">
                   Take your game to the next level with AI-powered insights and social competition.
@@ -108,9 +125,24 @@ const Hero = () => {
                   Ready Player One?
                 </AnimatedButton>
               </div>
+              
+              {/* Right panel - For Pros */}
+              <div className="md:col-span-1 bg-navy/5 rounded-xl p-6 border border-[#9b87f5]/30 flex flex-col items-center">
+                <h2 className="text-2xl font-bold text-navy mb-4">For Pros</h2>
+                <p className="text-gray-600 mb-6 text-center">
+                  Elevate your professional performance with advanced analytics and AI-powered coaching.
+                </p>
+                <AnimatedButton 
+                  size="lg" 
+                  onClick={handleAnalyticsClick}
+                  className="w-full px-6 py-4 text-lg bg-gradient-to-r from-[#9b87f5] to-[#7E69AB] text-white hover:shadow-lg hover:shadow-[#9b87f5]/20 transition-all"
+                >
+                  Your AI Coach
+                </AnimatedButton>
+              </div>
             </div>
             
-            {/* Centered bottom button for both audiences - made wider */}
+            {/* Centered bottom button for all audiences - made wider */}
             <div className="mt-8 flex justify-center">
               <AnimatedButton 
                 size="lg" 
