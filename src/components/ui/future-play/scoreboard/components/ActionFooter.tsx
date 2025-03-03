@@ -1,6 +1,6 @@
 
 import React, { useState } from "react";
-import { Video, Activity, Trophy, BarChart2, Share2, User } from "lucide-react";
+import { Video, Activity, Trophy, BarChart2, Share2, User, Flame } from "lucide-react";
 import { motion } from "framer-motion";
 
 interface ActionFooterProps {
@@ -8,13 +8,15 @@ interface ActionFooterProps {
   onPlayerProfileClick: () => void;
   onShareClick: () => void;
   onActionButtonClick?: (viewType: string) => void;
+  onSocialBettingClick: () => void;
 }
 
 const ActionFooter: React.FC<ActionFooterProps> = ({
   onHighlightClick,
   onPlayerProfileClick,
   onShareClick,
-  onActionButtonClick
+  onActionButtonClick,
+  onSocialBettingClick
 }) => {
   // Define our action buttons with their respective handlers and colors
   const actionButtons = [
@@ -35,6 +37,16 @@ const ActionFooter: React.FC<ActionFooterProps> = ({
       iconColor: "text-[#2BCB6E]",  // Green color for analytics
       borderColor: "border-[#2BCB6E]/40",
       bgColor: "bg-[#2BCB6E]/10"
+    },
+    {
+      id: "betting",
+      icon: <Flame className="w-5 h-5" />,
+      label: "Social Betting",
+      handler: onSocialBettingClick,
+      iconColor: "text-[#8B5CF6]",  // Purple color for betting
+      borderColor: "border-[#8B5CF6]/40",
+      bgColor: "bg-[#8B5CF6]/10",
+      highlight: true // Special highlight for this new feature
     },
     {
       id: "tournaments",
@@ -76,15 +88,15 @@ const ActionFooter: React.FC<ActionFooterProps> = ({
 
   return (
     <div className="bg-navy-dark border-t border-white/10 p-4">
-      <div className="flex justify-between gap-3">
+      <div className="flex justify-between gap-3 overflow-x-auto pb-1 hide-scrollbar">
         {actionButtons.map((button) => (
           <motion.div
             key={button.id}
             onClick={button.handler}
-            className="relative py-4 px-1 rounded-lg flex flex-col items-center justify-center cursor-pointer 
-                      bg-[#001a29] backdrop-blur-lg w-[15%]
-                      overflow-hidden shadow-lg border border-[#0EA5E9]/60
-                      transition-colors duration-300"
+            className={`relative py-4 px-1 rounded-lg flex flex-col items-center justify-center cursor-pointer 
+                      bg-[#001a29] backdrop-blur-lg min-w-[15%]
+                      overflow-hidden shadow-lg border ${button.highlight ? 'border-[#8B5CF6]' : 'border-[#0EA5E9]/60'}
+                      transition-colors duration-300`}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
@@ -100,6 +112,11 @@ const ActionFooter: React.FC<ActionFooterProps> = ({
               </div>
               <span className="text-white text-[0.887rem] font-medium mt-2 block text-center">{button.label}</span>
             </div>
+
+            {/* Special glow effect for betting button */}
+            {button.highlight && (
+              <div className="absolute inset-0 animate-pulse bg-[#8B5CF6]/10 rounded-lg"></div>
+            )}
 
             {/* Subtle ping effect to draw attention */}
             {button.id !== "profile" && button.id !== "community" && (
