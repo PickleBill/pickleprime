@@ -1,5 +1,5 @@
 
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useBallMovement } from "./movement/useBallMovement";
 import { usePlayerMovement } from "./movement/usePlayerMovement";
 import { useAnimationManager } from "./useAnimationManager";
@@ -20,7 +20,8 @@ export const useGameAnimations = (isHighlightActive: boolean = false) => {
     player4, 
     poseCycleCounter,
     updatePlayerPositions,
-    updatePoseCycle 
+    updatePoseCycle,
+    activePlayers
   } = usePlayerMovement(ballPosition);
   
   // Animation callback function
@@ -51,7 +52,8 @@ export const useGameAnimations = (isHighlightActive: boolean = false) => {
     player2,
     player3,
     player4,
-    poseCycleCounter
+    poseCycleCounter,
+    activePlayers
   };
 };
 

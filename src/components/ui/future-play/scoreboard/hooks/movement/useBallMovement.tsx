@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { BallState, BallTrajectory } from "../../types";
 
 export const useBallMovement = (isHighlightActive: boolean = false) => {
@@ -9,7 +9,7 @@ export const useBallMovement = (isHighlightActive: boolean = false) => {
   const [ballTrajectory, setBallTrajectory] = useState<BallTrajectory>({
     points: [],
     type: "drive",
-    speed: 10,
+    speed: 8, // Reduced speed from 10
     stage: "rising",
     bounces: 0
   });
@@ -17,27 +17,27 @@ export const useBallMovement = (isHighlightActive: boolean = false) => {
   const [ballVelocity, setBallVelocity] = useState(0);
   
   // Function to update ball position with animation frame
-  const updateBallPosition = (deltaTime: number) => {
-    // SLOWED DOWN ball animation with more gradual movement patterns
+  const updateBallPosition = useCallback((deltaTime: number) => {
+    // FURTHER SLOWED DOWN ball animation with more realistic pickleball movement
     const newBallPosition = { ...ballPosition };
     
-    // Occasionally make changes in direction (15% chance) - REDUCED from 20%
-    if (Math.random() > 0.85) {
-      // Create more gradual movements with REDUCED velocity
+    // Reduced chance of direction change for smoother movement (10% chance)
+    if (Math.random() > 0.90) {
+      // Create more gradual movements with FURTHER REDUCED velocity
       newBallPosition.x = 15 + Math.random() * 70; 
       newBallPosition.y = 15 + Math.random() * 70;
-      setBallVelocity(15 + Math.random() * 20); // REDUCED velocity range (was 25-60, now 15-35)
+      setBallVelocity(12 + Math.random() * 15); // Further reduced velocity range (was 15-35, now 12-27)
     } else {
-      // Smaller continuous movements - REDUCED by ~40%
-      const moveX = (Math.random() - 0.5) * 2.0; // Reduced from 3.5
-      const moveY = (Math.random() - 0.5) * 2.0; // Reduced from 3.5
+      // Even smaller continuous movements
+      const moveX = (Math.random() - 0.5) * 1.5; // Reduced from 2.0
+      const moveY = (Math.random() - 0.5) * 1.5; // Reduced from 2.0
       
       newBallPosition.x = Math.max(10, Math.min(90, newBallPosition.x + moveX));
       newBallPosition.y = Math.max(10, Math.min(90, newBallPosition.y + moveY));
     }
     
     setBallPosition(newBallPosition);
-  };
+  }, [ballPosition]);
   
   return {
     ballPosition,
