@@ -6,4 +6,8 @@ export interface Friend {
   skillLevel: "Beginner" | "Intermediate" | "Advanced";
   avatarColor: string;
   initial: string;
+  lastActive?: string; // Optional timestamp for last activity
+  wins?: number;       // Optional win count
+  losses?: number;     // Optional loss count
+  favoriteGame?: string; // Optional favorite game type
 }
