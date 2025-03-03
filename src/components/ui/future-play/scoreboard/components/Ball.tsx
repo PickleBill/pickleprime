@@ -17,8 +17,8 @@ const Ball: React.FC<BallProps> = ({
   ballTrajectory, 
   ballVelocity
 }) => {
-  // Use custom hook for ball trail management
-  const { positionHistory, updateTrail } = useBallTrail();
+  // Use custom hook for enhanced ball trail management
+  const { positionHistory, updateTrail, trailVelocity } = useBallTrail();
   
   // Update trail positions when ball moves
   useEffect(() => {
@@ -26,7 +26,9 @@ const Ball: React.FC<BallProps> = ({
   }, [ballPosition.x, ballPosition.y]);
   
   // Calculate velocity-based scaling factors
-  const normalizedVelocity = Math.min(1, ballVelocity / 60); // Cap at a reasonable max
+  // Use the higher of the two velocity measures for more dramatic effects
+  const calculatedVelocity = Math.max(trailVelocity, ballVelocity);
+  const normalizedVelocity = Math.min(1, calculatedVelocity / 60); // Cap at a reasonable max
   
   return (
     <>
@@ -40,7 +42,10 @@ const Ball: React.FC<BallProps> = ({
       />
       
       {/* Ball shape */}
-      <BallShape ballPosition={ballPosition} />
+      <BallShape 
+        ballPosition={ballPosition} 
+        normalizedVelocity={normalizedVelocity} 
+      />
     </>
   );
 };

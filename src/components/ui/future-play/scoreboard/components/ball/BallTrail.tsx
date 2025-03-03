@@ -18,12 +18,16 @@ const BallTrail: React.FC<BallTrailProps> = ({ positionHistory }) => {
             top: `${pos.y}%`,
             width: `${ballConfig.size * (1 - index * 0.15)}px`,
             height: `${ballConfig.size * (1 - index * 0.15)}px`,
-            backgroundColor: ballConfig.trailColor,
-            opacity: pos.opacity * 0.6,
+            backgroundColor: index === 0 
+              ? `rgba(255, 255, 0, ${Math.max(0.1, 0.8 - index * 0.1)})`
+              : index < 3 
+                ? `rgba(255, 200, 0, ${Math.max(0.05, 0.6 - index * 0.15)})`
+                : ballConfig.trailColor,
+            opacity: pos.opacity * 0.7,
             transform: 'translate(-50%, -50%)',
             filter: `blur(${Math.max(1, index * 2)}px)`,
             zIndex: 10 - index,
-            transition: 'all 0.15s linear'
+            transition: 'all 0.1s ease-out'
           }}
         />
       ))}
