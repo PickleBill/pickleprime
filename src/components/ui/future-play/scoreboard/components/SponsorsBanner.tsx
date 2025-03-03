@@ -18,9 +18,6 @@ const SponsorsBanner: React.FC<SponsorsBannerProps> = ({
   sponsors,
   onBackClick,
   gameTime,
-  player1Score,
-  player2Score,
-  currentSet,
   onPlayerProfileClick,
   onShareClick
 }) => {
@@ -52,48 +49,40 @@ const SponsorsBanner: React.FC<SponsorsBannerProps> = ({
         </div>
       </div>
       
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-5">
         <span className="text-navy/70 text-xs uppercase font-semibold tracking-wider">SPONSORED BY</span>
         <div className="flex items-center gap-4">
           {sponsors.map((sponsor) => (
             <div 
               key={sponsor.id} 
-              className="bg-white px-3 py-1.5 rounded-md shadow-sm hover:shadow transition-all border border-gray-100"
+              className="bg-white px-4 py-2 rounded-md shadow-sm hover:shadow transition-all border border-gray-100"
             >
               <img 
                 src={sponsor.logo} 
                 alt={sponsor.name} 
-                className="h-7 object-contain hover:scale-105 transition-transform duration-200"
+                className="h-12 w-auto object-contain hover:scale-105 transition-transform duration-200"
               />
             </div>
           ))}
         </div>
       </div>
       
-      <div className="flex items-center gap-2">
-        <div className="flex items-center gap-1 bg-[#001a2c] py-2 px-4 rounded-full shadow-md">
-          <div className="text-[#4CAF50] font-bold text-xl">{player1Score}</div>
-          <div className="text-white text-base font-light">-</div>
-          <div className="text-[#3db5e6] font-bold text-xl">{player2Score}</div>
-        </div>
+      <div className="flex items-center gap-3">
+        <button 
+          onClick={onShareClick}
+          className="flex items-center gap-2 bg-[#0EA5E9] hover:bg-[#0EA5E9]/90 text-white py-2.5 px-5 rounded-full shadow-md transition-colors"
+        >
+          <Share2 className="w-5 h-5" />
+          <span className="font-medium">Share</span>
+        </button>
         
-        <div className="flex items-center gap-2">
-          <button 
-            onClick={onShareClick}
-            className="flex items-center justify-center bg-[#0EA5E9] hover:bg-[#0EA5E9]/90 rounded-full shadow-md p-2.5 transition-colors duration-200"
-            aria-label="Share match"
-          >
-            <Share2 className="w-5 h-5 text-white" />
-          </button>
-          
-          <button 
-            onClick={onPlayerProfileClick}
-            className="flex items-center justify-center bg-[#0EA5E9] hover:bg-[#0EA5E9]/90 rounded-full shadow-md p-2.5 transition-colors duration-200"
-            aria-label="User profile"
-          >
-            <User className="w-5 h-5 text-white" />
-          </button>
-        </div>
+        <button 
+          onClick={onPlayerProfileClick}
+          className="flex items-center gap-2 bg-[#8B5CF6] hover:bg-[#8B5CF6]/90 text-white py-2.5 px-5 rounded-full shadow-md transition-colors"
+        >
+          <User className="w-5 h-5" />
+          <span className="font-medium">Profile</span>
+        </button>
       </div>
     </div>
   );

@@ -52,7 +52,7 @@ const ModalContainer: React.FC<ModalContainerProps> = ({
 
   return (
     <div className="flex flex-col h-screen bg-[#001a2c]">
-      {/* Top sponsors banner with back button and score */}
+      {/* Top sponsors banner with back button */}
       <SponsorsBanner 
         sponsors={sponsors} 
         onBackClick={onBackClick}

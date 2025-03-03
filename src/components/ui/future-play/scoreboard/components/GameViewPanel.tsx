@@ -1,8 +1,7 @@
 
-import React, { useState } from "react";
+import React from "react";
 import { Position, BallState, BallTrajectory } from "../types";
 import CourtViewPanel from "./CourtViewPanel";
-import ShareModal from "./ShareModal";
 import { ZapIcon } from "lucide-react";
 
 interface GameViewPanelProps {
