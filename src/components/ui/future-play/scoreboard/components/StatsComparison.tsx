@@ -6,8 +6,8 @@ import StatComparisonItem from "./StatComparisonItem";
 interface StatsComparisonProps {
   topSpeed1: string;
   topSpeed2: string;
-  accuracy1: string;
-  accuracy2: string;
+  accuracy1: number;
+  accuracy2: number;
   spinRate1: string;
   spinRate2: string;
   reaction1: string;
@@ -32,6 +32,7 @@ const StatsComparison: React.FC<StatsComparisonProps> = ({
         player2Value={topSpeed2}
         icon={<Zap className="w-3 h-3 text-[#F97316]" />}
         label="Top Speed"
+        unit="mph"
       />
       
       {/* Accuracy */}
@@ -40,6 +41,7 @@ const StatsComparison: React.FC<StatsComparisonProps> = ({
         player2Value={accuracy2}
         icon={<div className="w-3 h-3 flex items-center justify-center rounded-full border border-[#D946EF] text-[#D946EF]">●</div>}
         label="Accuracy"
+        unit="%"
       />
       
       {/* Spin Rate */}
@@ -48,6 +50,7 @@ const StatsComparison: React.FC<StatsComparisonProps> = ({
         player2Value={spinRate2}
         icon={<Activity className="w-3 h-3 text-[#0EA5E9]" />}
         label="Spin Rate"
+        unit="rpm"
       />
       
       {/* Reaction Time */}
@@ -56,6 +59,7 @@ const StatsComparison: React.FC<StatsComparisonProps> = ({
         player2Value={reaction2}
         icon={<Clock className="w-3 h-3 text-[#D946EF]" />}
         label="Reaction"
+        unit="s"
       />
     </div>
   );

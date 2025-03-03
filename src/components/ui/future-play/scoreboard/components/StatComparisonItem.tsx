@@ -1,14 +1,14 @@
 
-import React from 'react';
+import React, { ReactNode } from 'react';
 
 interface StatComparisonItemProps {
-  icon: React.ReactNode;
+  icon: ReactNode;
   label: string;
-  player1Value: number;
-  player2Value: number;
-  unit: string;
-  player1Color: string;
-  player2Color: string;
+  player1Value: string | number;
+  player2Value: string | number;
+  unit?: string;
+  player1Color?: string;
+  player2Color?: string;
 }
 
 const StatComparisonItem: React.FC<StatComparisonItemProps> = ({
@@ -16,37 +16,26 @@ const StatComparisonItem: React.FC<StatComparisonItemProps> = ({
   label,
   player1Value,
   player2Value,
-  unit,
-  player1Color,
-  player2Color
+  unit = "",
+  player1Color = "#4CAF50",
+  player2Color = "#33C3F0"
 }) => {
   return (
-    <div className="flex flex-col">
-      <div className="flex items-center mb-2">
+    <div className="grid grid-cols-[30px_1fr_1fr] items-center gap-2 px-4 py-3 bg-[#001a2c] rounded-md shadow-inner">
+      <div className="flex items-center justify-center">
         {icon}
-        <span className="ml-2 text-white/80 text-sm font-semibold tracking-wider">{label}</span>
-        <span className="text-white/60 text-xs ml-1.5">vs</span>
       </div>
-      
-      <div className="flex justify-between items-center">
-        <span className="text-lg md:text-xl font-bold" style={{ color: player1Color }}>
-          {player1Value} <span className="text-white/70 text-sm">{unit}</span>
-        </span>
-        
-        <span className="text-lg md:text-xl font-bold" style={{ color: player2Color }}>
-          {player2Value} <span className="text-white/70 text-sm">{unit}</span>
+      <div className="flex flex-col">
+        <span className="text-white/90 text-xs uppercase font-medium">{label}</span>
+        <span className="text-[#4CAF50] font-bold text-sm md:text-base" style={{ color: player1Color }}>
+          {player1Value}{unit}
         </span>
       </div>
-      
-      {/* Visual comparison bar */}
-      <div className="mt-1.5 h-1.5 bg-[#001a2c] rounded-full overflow-hidden">
-        <div
-          className="h-full rounded-full transition-all duration-500 ease-out"
-          style={{
-            width: `${(player1Value / (player1Value + player2Value)) * 100}%`,
-            background: `linear-gradient(to right, ${player1Color}, ${player1Color})`
-          }}
-        />
+      <div className="flex flex-col items-end">
+        <span className="text-white/90 text-xs uppercase font-medium invisible">.</span>
+        <span className="text-[#33C3F0] font-bold text-sm md:text-base" style={{ color: player2Color }}>
+          {player2Value}{unit}
+        </span>
       </div>
     </div>
   );
