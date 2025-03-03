@@ -32,7 +32,6 @@ const MobileScoreboardView: React.FC<MobileScoreboardViewProps> = ({
 }) => {
   const [showPlayerModal, setShowPlayerModal] = useState(false);
   const [showShareModal, setShowShareModal] = useState(false);
-  const [showSocialBettingModal, setShowSocialBettingModal] = useState(false);
   
   // If highlight is shown, display the highlight view
   if (showHighlight) {
@@ -59,12 +58,6 @@ const MobileScoreboardView: React.FC<MobileScoreboardViewProps> = ({
         player1Score={player1Score}
         player2Score={player2Score}
         gameTime={gameTime}
-      />
-      
-      {/* Social Betting Modal */}
-      <SocialBettingModal
-        isOpen={showSocialBettingModal}
-        onClose={() => setShowSocialBettingModal(false)}
       />
       
       <ModalContainer

@@ -1,6 +1,6 @@
 
 import React from "react";
-import { ArrowLeft, Clock } from "lucide-react";
+import { ArrowLeft, Clock, User } from "lucide-react";
 import { Sponsor } from "../types";
 
 interface SponsorsBannerProps {
@@ -10,6 +10,7 @@ interface SponsorsBannerProps {
   player1Score: number;
   player2Score: number;
   currentSet: number;
+  onPlayerProfileClick: () => void;
 }
 
 const SponsorsBanner: React.FC<SponsorsBannerProps> = ({
@@ -18,7 +19,8 @@ const SponsorsBanner: React.FC<SponsorsBannerProps> = ({
   gameTime,
   player1Score,
   player2Score,
-  currentSet
+  currentSet,
+  onPlayerProfileClick
 }) => {
   // Format time as MM:SS
   const formatTime = (seconds: number) => {
@@ -66,11 +68,21 @@ const SponsorsBanner: React.FC<SponsorsBannerProps> = ({
         </div>
       </div>
       
-      <div className="flex items-center gap-4 bg-[#001a2c] py-2 px-4 rounded-full shadow-md">
-        <div className="text-[#4CAF50] font-bold text-2xl">{player1Score}</div>
-        <div className="text-white text-base font-light">-</div>
-        <div className="text-[#3db5e6] font-bold text-2xl">{player2Score}</div>
-        <div className="text-white text-xs font-bold bg-[#253446] px-2 py-0.5 rounded">SET {currentSet}</div>
+      <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1 bg-[#001a2c] py-2 px-4 rounded-full shadow-md">
+          <div className="text-[#4CAF50] font-bold text-xl">{player1Score}</div>
+          <div className="text-white text-base font-light">-</div>
+          <div className="text-[#3db5e6] font-bold text-xl">{player2Score}</div>
+          <div className="text-white text-xs font-bold bg-[#253446] px-2 py-0.5 rounded ml-1">SET {currentSet}</div>
+        </div>
+        
+        <button 
+          onClick={onPlayerProfileClick}
+          className="flex items-center justify-center bg-[#0EA5E9] hover:bg-[#0EA5E9]/90 rounded-full shadow-md p-2.5 transition-colors duration-200"
+          aria-label="User profile"
+        >
+          <User className="w-5 h-5 text-white" />
+        </button>
       </div>
     </div>
   );

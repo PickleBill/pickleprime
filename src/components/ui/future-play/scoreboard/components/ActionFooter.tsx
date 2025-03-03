@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import React from "react";
 import { Video, Activity, Trophy, BarChart2, Share2, User, Flame } from "lucide-react";
 import { motion } from "framer-motion";
 
@@ -74,15 +74,6 @@ const ActionFooter: React.FC<ActionFooterProps> = ({
       iconColor: "text-[#8B5CF6]",  // Purple color for community
       borderColor: "border-[#8B5CF6]/40",
       bgColor: "bg-[#8B5CF6]/10"
-    },
-    {
-      id: "profile",
-      icon: <User className="w-5 h-5" />,
-      label: "Profile",
-      handler: onPlayerProfileClick,
-      iconColor: "text-[#0EA5E9]",  // Teal/blue for profile
-      borderColor: "border-[#0EA5E9]/40",
-      bgColor: "bg-[#0EA5E9]/10"
     }
   ];
 
@@ -95,7 +86,7 @@ const ActionFooter: React.FC<ActionFooterProps> = ({
             onClick={button.handler}
             className={`relative py-4 px-1 rounded-lg flex flex-col items-center justify-center cursor-pointer 
                       bg-[#001a29] backdrop-blur-lg min-w-[15%]
-                      overflow-hidden shadow-lg border ${button.highlight ? 'border-[#8B5CF6]' : 'border-[#0EA5E9]/60'}
+                      overflow-hidden shadow-lg border ${button.highlight ? 'border-[#8B5CF6]' : 'border-[#0EA5E9]/20'}
                       transition-colors duration-300`}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
@@ -116,14 +107,6 @@ const ActionFooter: React.FC<ActionFooterProps> = ({
             {/* Special glow effect for betting button */}
             {button.highlight && (
               <div className="absolute inset-0 animate-pulse bg-[#8B5CF6]/10 rounded-lg"></div>
-            )}
-
-            {/* Subtle ping effect to draw attention */}
-            {button.id !== "profile" && button.id !== "community" && (
-              <span className="absolute -top-0.5 -right-0.5 flex h-3 w-3">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-3 w-3 bg-white/50"></span>
-              </span>
             )}
           </motion.div>
         ))}

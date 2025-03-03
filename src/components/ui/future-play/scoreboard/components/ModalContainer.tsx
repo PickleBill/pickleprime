@@ -63,6 +63,7 @@ const ModalContainer: React.FC<ModalContainerProps> = ({
         player1Score={player1Score}
         player2Score={player2Score}
         currentSet={currentSet}
+        onPlayerProfileClick={onPlayerProfileClick}
       />
       
       {/* Main content */}
