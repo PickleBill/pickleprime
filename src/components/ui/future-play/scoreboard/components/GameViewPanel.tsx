@@ -27,15 +27,6 @@ const GameViewPanel: React.FC<GameViewPanelProps> = ({
 }) => {
   const [showShareModal, setShowShareModal] = useState(false);
 
-  // Add default rotation value if not provided
-  const getPlayerWithRotation = (player: Position): { x: number; y: number; rotation: number } => {
-    return {
-      x: player.x,
-      y: player.y,
-      rotation: player.rotation || 0 // Default to 0 if rotation is not provided
-    };
-  };
-
   return (
     <div className="relative w-full h-full">
       {/* Court View Panel */}
@@ -43,10 +34,10 @@ const GameViewPanel: React.FC<GameViewPanelProps> = ({
         ballPosition={ballPosition}
         ballTrajectory={ballTrajectory}
         ballVelocity={ballVelocity}
-        player1={getPlayerWithRotation(player1)}
-        player2={getPlayerWithRotation(player2)}
-        player3={getPlayerWithRotation(player3)}
-        player4={getPlayerWithRotation(player4)}
+        player1={player1}
+        player2={player2}
+        player3={player3}
+        player4={player4}
       />
       
       {/* Current ball speed indicator with enhanced styling */}

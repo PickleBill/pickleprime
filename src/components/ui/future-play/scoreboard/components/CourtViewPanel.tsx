@@ -1,32 +1,16 @@
 
 import React from "react";
-import { BallState, BallTrajectory } from "../types";
+import { BallState, BallTrajectory, Position } from "../types";
 import CourtView from "../CourtView";
 
 interface CourtViewPanelProps {
   ballPosition: BallState;
   ballTrajectory: BallTrajectory;
   ballVelocity: number;
-  player1: {
-    x: number;
-    y: number;
-    rotation: number;
-  };
-  player2: {
-    x: number;
-    y: number;
-    rotation: number;
-  };
-  player3: {
-    x: number;
-    y: number;
-    rotation: number;
-  };
-  player4: {
-    x: number;
-    y: number;
-    rotation: number;
-  };
+  player1: Position;
+  player2: Position;
+  player3: Position;
+  player4: Position;
 }
 
 const CourtViewPanel: React.FC<CourtViewPanelProps> = ({

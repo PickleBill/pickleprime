@@ -1,28 +1,14 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
+import { Position } from '../types';
+import { playerConfig } from '../constants/courtConfig';
 
 interface PlayerProps {
-  player1: {
-    x: number;
-    y: number;
-    rotation: number;
-  };
-  player2: {
-    x: number;
-    y: number;
-    rotation: number;
-  };
-  player3: {
-    x: number;
-    y: number;
-    rotation: number;
-  };
-  player4: {
-    x: number;
-    y: number;
-    rotation: number;
-  };
+  player1: Position;
+  player2: Position;
+  player3: Position;
+  player4: Position;
 }
 
 const Players: React.FC<PlayerProps> = ({
@@ -32,23 +18,23 @@ const Players: React.FC<PlayerProps> = ({
   player4
 }) => {
   // Increased avatar size by 23%
-  const avatarSize = 32 * 1.23; // base size * 1.23 (23% increase)
+  const avatarSize = playerConfig.size * 1.23; // base size * 1.23 (23% increase)
   
   // Team colors
-  const team1Color = '#2BCB6E'; // Green team (player 1 & 3)
-  const team2Color = '#3B82F6'; // Blue team (player 2 & 4)
+  const team1Color = playerConfig.team1Color; // Green team (player 1 & 3)
+  const team2Color = playerConfig.team2Color; // Blue team (player 2 & 4)
   
   // Create a player avatar with trail effect
   const PlayerAvatar = ({ 
     x, 
     y, 
-    rotation, 
+    rotation = 0, 
     teamColor, 
     playerNumber 
   }: { 
     x: number, 
     y: number, 
-    rotation: number, 
+    rotation?: number, 
     teamColor: string, 
     playerNumber: number 
   }) => {

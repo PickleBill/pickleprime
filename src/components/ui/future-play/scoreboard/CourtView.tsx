@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { BallState, BallTrajectory } from './types';
+import { BallState, BallTrajectory, Position } from './types';
 import CourtSurface from './components/CourtSurface';
 import Players from './components/Players';
 import Ball from './components/Ball';
@@ -10,26 +10,10 @@ interface CourtViewProps {
   ballPosition: BallState;
   ballTrajectory: BallTrajectory;
   ballVelocity: number;
-  player1: {
-    x: number;
-    y: number;
-    rotation: number;
-  };
-  player2: {
-    x: number;
-    y: number;
-    rotation: number;
-  };
-  player3: {
-    x: number;
-    y: number;
-    rotation: number;
-  };
-  player4: {
-    x: number;
-    y: number;
-    rotation: number;
-  };
+  player1: Position;
+  player2: Position;
+  player3: Position;
+  player4: Position;
 }
 
 const CourtView: React.FC<CourtViewProps> = ({
