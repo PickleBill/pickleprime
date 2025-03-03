@@ -4,6 +4,7 @@ import { Position, BallState, BallTrajectory } from './types';
 import CourtSurface from './components/CourtSurface';
 import Players from './components/Players';
 import Ball from './components/Ball';
+import TeamLabels from './components/TeamLabels';
 
 interface CourtViewProps {
   ballPosition: BallState;
@@ -49,13 +50,7 @@ const CourtView: React.FC<CourtViewProps> = ({
         ballVelocity={ballVelocity}
       />
       
-      {/* Team labels */}
-      <div className="absolute bottom-0 right-0 bg-blue-500 px-2.5 py-1 text-white text-xs font-medium rounded-tl-md">
-        TEAM BLUE
-      </div>
-      <div className="absolute bottom-0 left-0 bg-green-500 px-2.5 py-1 text-white text-xs font-medium rounded-tr-md">
-        TEAM GREEN
-      </div>
+      <TeamLabels />
     </div>
   );
 };

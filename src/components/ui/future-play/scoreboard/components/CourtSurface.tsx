@@ -1,4 +1,15 @@
 
+/**
+ * CourtSurface Component
+ * 
+ * Renders the pickleball court surface including:
+ * - Grass buffer area (outer court)
+ * - Main court playing surface
+ * - Kitchen (non-volley zone)
+ * - Court lines and net
+ * 
+ * Uses configuration from courtConfig constants.
+ */
 import React from 'react';
 import { courtBoundaries, courtColors } from '../constants/courtConfig';
 

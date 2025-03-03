@@ -1,4 +1,10 @@
 
+/**
+ * Ball Component
+ * 
+ * Renders the ball with its position, trajectory, and velocity visualization.
+ * Includes a glowing trail effect that follows the ball's movement.
+ */
 import React from 'react';
 import { BallState, BallTrajectory } from '../types';
 import { ballConfig } from '../constants/courtConfig';

@@ -1,4 +1,15 @@
 
+/**
+ * Players Component
+ * 
+ * Renders player silhouettes on the court with:
+ * - Team-based color coding
+ * - Player position and rotation
+ * - Glow effects for better visibility
+ * - Player labels
+ * 
+ * Uses SVG silhouettes for player representation.
+ */
 import React from 'react';
 import { Position } from '../types';
 import { playerConfig } from '../constants/courtConfig';
