@@ -93,7 +93,7 @@ const MobileScoreboardView: React.FC<MobileScoreboardViewProps> = ({
           />
         </div>
         
-        {/* Right Panel - Court View and Match Feed - Takes 7/12 cols with court view taking 60% height */}
+        {/* Right Panel - Court View and Match Feed - Takes 7/12 cols */}
         <div className="col-span-7 flex flex-col space-y-3">
           {/* Team Headers */}
           <div className="grid grid-cols-2 gap-2">
@@ -105,8 +105,8 @@ const MobileScoreboardView: React.FC<MobileScoreboardViewProps> = ({
             </div>
           </div>
           
-          {/* Court View Panel - Now takes 60% of the vertical space */}
-          <div className="h-[60%]">
+          {/* Court View Panel - Reduced from 60% to 50% of the vertical space */}
+          <div className="h-[50%]">
             <GameViewPanel 
               ballPosition={ballPosition}
               ballTrajectory={ballTrajectory}
@@ -119,19 +119,39 @@ const MobileScoreboardView: React.FC<MobileScoreboardViewProps> = ({
             />
           </div>
 
-          {/* Match Feed Panel - Now takes full width and 40% of vertical space */}
-          <div className="h-[40%]">
+          {/* Match Feed Panel - Increased from 40% to 50% of vertical space */}
+          <div className="h-[50%]">
             <div className="bg-[#132f45] rounded-lg overflow-hidden border border-[#1a3b55] shadow-md h-full">
               <div className="py-2 px-3 bg-[#1a3b55] text-white flex items-center justify-between">
                 <h3 className="font-medium text-sm uppercase tracking-wider">Match Feed</h3>
               </div>
-              <div className="overflow-y-auto h-full scrollbar-thin scrollbar-thumb-[#254a68] scrollbar-track-[#132f45]">
+              <div className="overflow-y-auto max-h-[calc(100%-40px)] scrollbar-thin scrollbar-thumb-[#254a68] scrollbar-track-[#132f45]">
                 <div className="p-3">
-                  {matchFeedItems.map(item => (
-                    <div key={item.id} className="mb-2">
-                      {/* Match feed content will be rendered here */}
+                  {matchFeedItems.map((item, index) => (
+                    <div key={item.id || index} className="mb-3 p-2 bg-[#0c1f2e] rounded border border-[#1a3b55]">
+                      <div className="flex justify-between items-center mb-1">
+                        <span className="text-xs text-gray-400">{item.time}</span>
+                        <span className="text-xs px-2 py-0.5 bg-[#254a68] rounded-full text-white">
+                          {item.type}
+                        </span>
+                      </div>
+                      <p className="text-sm text-white">{item.content}</p>
+                      {item.likes !== undefined && (
+                        <div className="flex items-center mt-1.5">
+                          <button className="text-xs text-gray-400 hover:text-primary">
+                            ❤️ {item.likes}
+                          </button>
+                        </div>
+                      )}
                     </div>
                   ))}
+                  
+                  {/* If there are no feed items, show a message */}
+                  {(!matchFeedItems || matchFeedItems.length === 0) && (
+                    <div className="text-center p-4 text-gray-400">
+                      No match updates yet. Stay tuned!
+                    </div>
+                  )}
                 </div>
               </div>
             </div>

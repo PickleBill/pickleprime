@@ -13,7 +13,7 @@ interface GameViewPanelProps {
   player2: Position;
   player3: Position;
   player4: Position;
-  matchFeedItems: any[];
+  matchFeedItems: any[]; // We'll keep this prop to maintain interface compatibility
 }
 
 const GameViewPanel: React.FC<GameViewPanelProps> = ({
@@ -23,8 +23,7 @@ const GameViewPanel: React.FC<GameViewPanelProps> = ({
   player1,
   player2,
   player3,
-  player4,
-  matchFeedItems
+  player4
 }) => {
   const [showShareModal, setShowShareModal] = useState(false);
 
