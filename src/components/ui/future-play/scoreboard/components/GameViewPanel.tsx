@@ -49,10 +49,10 @@ const GameViewPanel: React.FC<GameViewPanelProps> = ({
         player4={getPlayerWithRotation(player4)}
       />
       
-      {/* Current ball speed indicator */}
-      <div className="absolute bottom-3 left-1/2 -translate-x-1/2 bg-black/60 text-white px-3 py-1 rounded-full flex items-center gap-2 text-sm">
-        <ZapIcon className="h-4 w-4 text-yellow-400" />
-        <span>{Math.round(ballVelocity)} mph</span>
+      {/* Current ball speed indicator with enhanced styling */}
+      <div className="absolute bottom-3 left-1/2 -translate-x-1/2 bg-black/70 text-white px-4 py-1.5 rounded-full flex items-center gap-2 text-sm border border-yellow-400/30 shadow-lg shadow-yellow-400/20">
+        <ZapIcon className="h-4 w-4 text-yellow-400 animate-pulse" />
+        <span className="font-medium">{Math.round(ballVelocity)} mph</span>
       </div>
       
       {/* Share Button - Positioned in the top right corner */}

@@ -20,7 +20,7 @@ const Players: React.FC<PlayersProps> = ({
   const getPlayerColor = (teamId: number, playerIndex: number) => {
     // More vibrant neon colors
     const team1Colors = ["#4AFF5E", "#33FF99"]; // Bright neon green variations
-    const team2Colors = ["#8B5CF6", "#0EA5E9"]; // Vivid purple and ocean blue for better contrast
+    const team2Colors = ["#33C3F0", "#1A70C5"]; // Bright blue variations
     
     const playerColors = teamId === 1 ? team1Colors : team2Colors;
     return playerColors[playerIndex % playerColors.length];
@@ -30,23 +30,23 @@ const Players: React.FC<PlayersProps> = ({
   const renderPlayer = (position: Position, teamId: number, playerLabel: string, playerIndex: number) => {
     const playerColor = getPlayerColor(teamId, playerIndex);
     const glowColor = teamId === 1 
-      ? "rgba(74, 255, 94, 0.6)" // Bright green glow
-      : "rgba(139, 92, 246, 0.6)"; // Vivid purple glow for team 2
+      ? "rgba(74, 255, 94, 0.6)" // Bright green glow for team 1
+      : "rgba(51, 195, 240, 0.6)"; // Bright blue glow for team 2
     
     // Label background color - using team colors
     const labelBgColor = teamId === 1 
       ? "rgba(74, 255, 94, 0.8)" // Green team label background
-      : "rgba(139, 92, 246, 0.8)"; // Purple team label background
+      : "rgba(51, 195, 240, 0.8)"; // Blue team label background
     
     // Label text color - darker for better contrast
     const labelTextColor = teamId === 1 
       ? "#004D00" // Dark green for green team labels
-      : "#2E1065"; // Dark purple for blue team labels
+      : "#003366"; // Dark blue for blue team labels
     
     // Shadow properties for better visibility
     const shadowStyle = {
-      filter: `drop-shadow(0 0 8px ${teamId === 1 ? 'rgba(0, 77, 0, 0.7)' : 'rgba(46, 16, 101, 0.7)'})`,
-      WebkitFilter: `drop-shadow(0 0 8px ${teamId === 1 ? 'rgba(0, 77, 0, 0.7)' : 'rgba(46, 16, 101, 0.7)'})`
+      filter: `drop-shadow(0 0 8px ${teamId === 1 ? 'rgba(0, 77, 0, 0.7)' : 'rgba(0, 51, 102, 0.7)'})`,
+      WebkitFilter: `drop-shadow(0 0 8px ${teamId === 1 ? 'rgba(0, 77, 0, 0.7)' : 'rgba(0, 51, 102, 0.7)'})`
     };
     
     return (
@@ -83,7 +83,7 @@ const Players: React.FC<PlayersProps> = ({
             ...shadowStyle // Added shadow
           }}
         >
-          {/* SVG silhouette of a pickleball player - more detailed with action poses */}
+          {/* SVG silhouette of a pickleball player */}
           <div className="w-full h-full" style={{ color: playerColor }}>
             {getPlayerSilhouette(teamId, playerIndex)}
           </div>

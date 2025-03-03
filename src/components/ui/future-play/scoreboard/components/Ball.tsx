@@ -10,7 +10,7 @@ interface BallProps {
 }
 
 const Ball: React.FC<BallProps> = ({ ballPosition, ballTrajectory, ballVelocity }) => {
-  // Render a blended gradient trail with enhanced visuals
+  // Calculate a more vibrant trail with enhanced visuals
   const renderBallTrail = () => {
     // Calculate direction from trajectory
     const dx = ballTrajectory.dx || 0;
@@ -21,8 +21,8 @@ const Ball: React.FC<BallProps> = ({ ballPosition, ballTrajectory, ballVelocity 
     const normalizedDx = dx / magnitude;
     const normalizedDy = dy / magnitude;
     
-    // Calculate the trail length based on velocity
-    const trailLength = ballVelocity * 0.5;
+    // Calculate the trail length based on velocity (more speed = longer trail)
+    const trailLength = Math.min(ballVelocity * 0.8, 25); // Cap at 25% of screen width
     
     // Get the start position of the trail (behind the ball)
     const trailStartX = ballPosition.x - normalizedDx * trailLength;
@@ -43,9 +43,15 @@ const Ball: React.FC<BallProps> = ({ ballPosition, ballTrajectory, ballVelocity 
         <svg width="100%" height="100%" style={{ position: 'absolute' }}>
           <defs>
             <linearGradient id="trailGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="rgba(255, 235, 59, 0)" />
-              <stop offset="100%" stopColor="rgba(255, 235, 59, 0.8)" />
+              <stop offset="0%" stopColor="rgba(255, 255, 255, 0)" />
+              <stop offset="40%" stopColor="rgba(255, 255, 59, 0.2)" />
+              <stop offset="80%" stopColor="rgba(255, 235, 59, 0.6)" />
+              <stop offset="100%" stopColor="rgba(255, 235, 59, 0.9)" />
             </linearGradient>
+            <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="6" result="blur" />
+              <feComposite in="SourceGraphic" in2="blur" operator="over" />
+            </filter>
           </defs>
           <line
             x1={`${trailStartX}%`}
@@ -53,9 +59,9 @@ const Ball: React.FC<BallProps> = ({ ballPosition, ballTrajectory, ballVelocity 
             x2={`${ballPosition.x}%`}
             y2={`${ballPosition.y}%`}
             stroke="url(#trailGradient)"
-            strokeWidth={ballConfig.size * 0.8}
+            strokeWidth={ballConfig.size * 0.9}
             strokeLinecap="round"
-            transform={`rotate(${Math.atan2(dy, dx) * 180 / Math.PI}, ${ballPosition.x}, ${ballPosition.y})`}
+            filter="url(#glow)"
           />
         </svg>
       </div>
@@ -69,14 +75,15 @@ const Ball: React.FC<BallProps> = ({ ballPosition, ballTrajectory, ballVelocity 
       style={{
         width: `${ballConfig.size}px`,
         height: `${ballConfig.size}px`,
-        backgroundColor: '#FFEB3B', // Yellow ball color
-        borderColor: 'rgba(255, 255, 255, 0.6)',
+        backgroundColor: '#FFEB3B', // Bright yellow
+        borderColor: 'rgba(255, 255, 255, 0.8)',
         left: `${ballPosition.x}%`,
         top: `${ballPosition.y}%`,
         transform: 'translate(-50%, -50%)',
         zIndex: 3,
-        boxShadow: `0 0 ${ballConfig.glowSize}px rgba(255, 235, 59, ${ballConfig.glowOpacity + 0.2})`,
-        filter: 'drop-shadow(0 0 2px rgba(255, 255, 255, 0.7))'
+        boxShadow: `0 0 ${ballConfig.glowSize}px 8px rgba(255, 235, 59, 0.8)`,
+        filter: 'drop-shadow(0 0 6px rgba(255, 255, 255, 0.9))',
+        animation: 'pulse 2s infinite'
       }}
     />
   );

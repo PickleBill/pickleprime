@@ -71,15 +71,15 @@ const MobileScoreboardView: React.FC<MobileScoreboardViewProps> = ({
         currentSet={currentSet}
       />
       
-      {/* Main content in a two-card layout */}
-      <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-4 p-4 overflow-y-auto">
-        {/* Left Panel - Match Statistics */}
-        <div className="bg-[#0a2d4a] rounded-lg overflow-hidden border border-[#1a3b55] shadow-md">
+      {/* Main content in a two-panel layout */}
+      <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-4 p-4 overflow-y-auto pb-20">
+        {/* Left Panel - Match Statistics - Elongated by 22% */}
+        <div className="bg-[#0a2d4a] rounded-lg overflow-hidden border border-[#1a3b55] shadow-md flex flex-col h-full">
           <div className="py-2 px-4 bg-[#00654B] text-white">
             <h3 className="font-medium uppercase tracking-wider">Match Statistics</h3>
           </div>
           
-          <div className="p-3">
+          <div className="p-3 flex-1 overflow-y-auto">
             <StatsPanel 
               player1Stats={player1Stats}
               player2Stats={player2Stats}
@@ -93,14 +93,14 @@ const MobileScoreboardView: React.FC<MobileScoreboardViewProps> = ({
         
         {/* Right Panel - Game View and Match Feed stacked vertically */}
         <div className="flex flex-col h-full space-y-4">
-          {/* Game View Panel */}
-          <div className="bg-[#0a2d4a] rounded-lg overflow-hidden border border-[#1a3b55] shadow-md h-3/5">
+          {/* Game View Panel - Reduced to 38% */}
+          <div className="bg-[#0a2d4a] rounded-lg overflow-hidden border border-[#1a3b55] shadow-md" style={{ height: "38%" }}>
             <div className="grid grid-cols-2">
-              <div className="bg-[#004080] text-white py-1.5 px-4">
-                <h3 className="font-medium uppercase tracking-wider">Team Blue</h3>
+              <div className="bg-[#4CAF50] text-white py-1.5 px-4">
+                <h3 className="font-medium uppercase tracking-wider">Team Green</h3>
               </div>
-              <div className="bg-[#8B0000] text-white py-1.5 px-4 text-right">
-                <h3 className="font-medium uppercase tracking-wider">Team Red</h3>
+              <div className="bg-[#1A70C5] text-white py-1.5 px-4 text-right">
+                <h3 className="font-medium uppercase tracking-wider">Team Blue</h3>
               </div>
             </div>
             
@@ -118,8 +118,8 @@ const MobileScoreboardView: React.FC<MobileScoreboardViewProps> = ({
             </div>
           </div>
           
-          {/* Match Feed Panel */}
-          <div className="bg-[#0a2d4a] rounded-lg overflow-hidden border border-[#1a3b55] shadow-md h-2/5">
+          {/* Match Feed Panel - Increased to 62% */}
+          <div className="bg-[#0a2d4a] rounded-lg overflow-hidden border border-[#1a3b55] shadow-md" style={{ height: "62%" }}>
             <div className="py-2 px-4 bg-[#1a3b55] text-white flex items-center justify-between">
               <h3 className="font-medium uppercase tracking-wider">Match Feed</h3>
               <div className="flex space-x-2">
@@ -183,7 +183,10 @@ const MobileScoreboardView: React.FC<MobileScoreboardViewProps> = ({
               {/* If there are no feed items, show a message */}
               {(!matchFeedItems || matchFeedItems.length === 0) && (
                 <div className="text-center p-4 text-gray-400">
-                  No match updates yet. Stay tuned!
+                  <p className="mb-2">No match updates yet.</p>
+                  <div className="py-2 px-4 bg-[#0c1f2e] rounded-md inline-block">
+                    <span className="text-blue-400 font-medium">First point will be played soon!</span>
+                  </div>
                 </div>
               )}
             </div>

@@ -1,14 +1,14 @@
 
 import React from 'react';
-import { courtBoundaries, courtColors, teamLabels } from '../constants/courtConfig';
+import { courtBoundaries, courtColors } from '../constants/courtConfig';
 
 const CourtSurface: React.FC = () => {
-  // Light teal-blue color for the court
-  const tealBlueColor = "#33C3F0"; // Bright teal-blue color
+  // Light blue color for the court
+  const lightBlueColor = "#33C3F0"; // Bright blue color
   // Dark navy color for the outer areas
   const darkNavyColor = "#0a192f"; // Dark navy blue color
-  // Slightly darker grass color for the buffer area
-  const grassColor = "#33A060"; // Darker shade of green for better contrast
+  // Green color for the buffer area
+  const grassColor = "#4CAF50"; // Brighter green
   
   // Scale and position the court to be centered
   const paddingTop = 1.5;
@@ -48,13 +48,13 @@ const CourtSurface: React.FC = () => {
     
     return (
       <>
-        {/* Light teal blue center area (kitchen zone) */}
+        {/* Light blue center area (kitchen zone) */}
         <div className="absolute" style={{ 
           top: `${paddingTop + 5}%`,
           bottom: `${paddingBottom + 5}%`,
           left: `${leftKitchenLine}%`,
           right: `${100 - rightKitchenLine}%`,
-          backgroundColor: tealBlueColor,
+          backgroundColor: lightBlueColor,
           zIndex: 2
         }}></div>
         

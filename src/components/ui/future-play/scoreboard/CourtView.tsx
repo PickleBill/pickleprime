@@ -30,7 +30,7 @@ const CourtView: React.FC<CourtViewProps> = ({
       height: "100%",
       maxWidth: "100%",
       maxHeight: "100%",
-      backgroundColor: '#3EB264', // Slightly darker, more saturated green
+      backgroundColor: '#3EB264', // Green court background
       borderRadius: '0.375rem',
       overflow: 'hidden',
     }}>
@@ -50,10 +50,10 @@ const CourtView: React.FC<CourtViewProps> = ({
       />
       
       {/* Team labels */}
-      <div className="absolute bottom-0 right-0 bg-[#1d92c2] px-2.5 py-1 text-white text-xs font-medium rounded-tl-md">
+      <div className="absolute bottom-0 right-0 bg-blue-500 px-2.5 py-1 text-white text-xs font-medium rounded-tl-md">
         TEAM BLUE
       </div>
-      <div className="absolute bottom-0 left-0 bg-[#3EB264] px-2.5 py-1 text-white text-xs font-medium rounded-tr-md">
+      <div className="absolute bottom-0 left-0 bg-green-500 px-2.5 py-1 text-white text-xs font-medium rounded-tr-md">
         TEAM GREEN
       </div>
     </div>
