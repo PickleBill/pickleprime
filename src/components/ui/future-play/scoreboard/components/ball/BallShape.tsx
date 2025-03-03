@@ -19,16 +19,16 @@ const BallShape: React.FC<BallShapeProps> = ({ ballPosition, normalizedVelocity 
   
   return (
     <>
-      {/* Enhanced ball shadow */}
+      {/* Enhanced ball shadow - improved positioning to follow ball exactly */}
       <div
         className="absolute rounded-full"
         style={{
-          left: `${ballPosition.x + 1 + (normalizedVelocity * 0.5)}%`,
-          top: `${ballPosition.y + 1 + (normalizedVelocity * 0.3)}%`,
+          left: `${ballPosition.x}%`,
+          top: `${ballPosition.y}%`,
           width: `${ballConfig.size * 0.8}px`,
           height: `${ballConfig.size * 0.6}px`,
           backgroundColor: 'rgba(0, 0, 0, 0.4)',
-          transform: 'translate(-50%, -50%)',
+          transform: `translate(-50%, -50%) translate(${1 + (normalizedVelocity * 0.5)}px, ${1 + (normalizedVelocity * 0.3)}px)`,
           filter: 'blur(3px)',
           zIndex: 19,
           transition: 'all 0.15s linear'

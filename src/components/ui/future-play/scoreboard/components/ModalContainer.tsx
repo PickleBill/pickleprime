@@ -29,9 +29,6 @@ const ModalContainer: React.FC<ModalContainerProps> = ({
   onShareClick,
   onActionButtonClick,
   gameTime,
-  player1Score,
-  player2Score,
-  currentSet,
   sponsors
 }) => {
   const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
@@ -51,39 +48,48 @@ const ModalContainer: React.FC<ModalContainerProps> = ({
   };
 
   return (
-    <div className="flex flex-col h-screen bg-[#001a2c]">
+    <div className="flex flex-col h-screen bg-gradient-to-b from-[#001a2c] to-[#00131e]">
       {/* Top sponsors banner with back button */}
       <SponsorsBanner 
         sponsors={sponsors} 
         onBackClick={onBackClick}
         gameTime={gameTime}
-        player1Score={player1Score}
-        player2Score={player2Score}
-        currentSet={currentSet}
         onPlayerProfileClick={onPlayerProfileClick}
         onShareClick={onShareClick}
       />
       
-      {/* Main content */}
-      <div className="flex-1 overflow-hidden">
-        {children}
+      {/* Main content with subtle gradient overlay */}
+      <div className="flex-1 overflow-hidden relative">
+        {/* Subtle gradient overlays for depth */}
+        <div className="absolute top-0 left-0 w-full h-12 bg-gradient-to-b from-[#001a2c] to-transparent z-10 pointer-events-none opacity-60"></div>
+        <div className="absolute bottom-0 left-0 w-full h-12 bg-gradient-to-t from-[#00131e] to-transparent z-10 pointer-events-none opacity-60"></div>
+        
+        {/* Subtle vignette effect */}
+        <div className="absolute inset-0 bg-radial-gradient pointer-events-none opacity-40 z-0"></div>
+        
+        {/* Main content */}
+        <div className="relative z-20 h-full">
+          {children}
+        </div>
       </div>
       
-      {/* Footer with carousel-style actions */}
-      <ActionFooter 
-        onHighlightClick={onHighlightClick}
-        onPlayerProfileClick={onPlayerProfileClick}
-        onShareClick={onShareClick}
-        onActionButtonClick={handleActionButtonClick}
-        onSocialBettingClick={() => handleActionButtonClick("betting")}
-      />
+      {/* Footer with carousel-style actions - enhanced focus states */}
+      <div className="relative z-20">
+        <ActionFooter 
+          onHighlightClick={onHighlightClick}
+          onPlayerProfileClick={onPlayerProfileClick}
+          onShareClick={onShareClick}
+          onActionButtonClick={handleActionButtonClick}
+          onSocialBettingClick={() => handleActionButtonClick("betting")}
+        />
+      </div>
 
       {/* Modals */}
       <VideoClipsModal 
         isOpen={isVideoModalOpen}
         onClose={() => setIsVideoModalOpen(false)}
-        player1Score={player1Score}
-        player2Score={player2Score}
+        player1Score={0}
+        player2Score={0}
         gameTime={gameTime}
       />
 

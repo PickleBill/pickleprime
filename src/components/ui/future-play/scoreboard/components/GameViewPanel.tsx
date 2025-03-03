@@ -2,7 +2,7 @@
 import React from "react";
 import { Position, BallState, BallTrajectory } from "../types";
 import CourtViewPanel from "./CourtViewPanel";
-import { ZapIcon } from "lucide-react";
+import { ZapIcon, FlameIcon } from "lucide-react";
 
 interface GameViewPanelProps {
   ballPosition: BallState;
@@ -33,23 +33,41 @@ const GameViewPanel: React.FC<GameViewPanelProps> = ({
     };
   };
 
+  // Format velocity with more aesthetically pleasing presentation
+  const formattedVelocity = Math.round(ballVelocity);
+  
+  // Determine the velocity class for visual feedback
+  const getVelocityClass = () => {
+    if (formattedVelocity > 40) return "text-red-400";
+    if (formattedVelocity > 30) return "text-yellow-400";
+    return "text-green-400";
+  };
+
+  // Determine appropriate icon based on velocity
+  const VelocityIcon = formattedVelocity > 35 ? FlameIcon : ZapIcon;
+  
   return (
     <div className="relative w-full h-full">
-      {/* Court View Panel */}
-      <CourtViewPanel 
-        ballPosition={ballPosition}
-        ballTrajectory={ballTrajectory}
-        ballVelocity={ballVelocity}
-        player1={getPlayerWithRotation(player1)}
-        player2={getPlayerWithRotation(player2)}
-        player3={getPlayerWithRotation(player3)}
-        player4={getPlayerWithRotation(player4)}
-      />
+      {/* Court View Panel with enhanced styling */}
+      <div className="h-full w-full overflow-hidden rounded-xl border-2 border-[#0a2d4a]/60 shadow-[0_0_15px_rgba(0,0,0,0.3)] backdrop-blur-sm">
+        <CourtViewPanel 
+          ballPosition={ballPosition}
+          ballTrajectory={ballTrajectory}
+          ballVelocity={ballVelocity}
+          player1={getPlayerWithRotation(player1)}
+          player2={getPlayerWithRotation(player2)}
+          player3={getPlayerWithRotation(player3)}
+          player4={getPlayerWithRotation(player4)}
+        />
+      </div>
       
       {/* Current ball speed indicator with enhanced styling */}
-      <div className="absolute bottom-3 left-1/2 -translate-x-1/2 bg-black/70 text-white px-4 py-1.5 rounded-full flex items-center gap-2 text-sm border border-yellow-400/30 shadow-lg shadow-yellow-400/20">
-        <ZapIcon className="h-4 w-4 text-yellow-400 animate-pulse" />
-        <span className="font-medium">{Math.round(ballVelocity)} mph</span>
+      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-black/80 text-white px-4 py-2 rounded-full flex items-center gap-2.5 text-sm border border-yellow-400/40 shadow-lg shadow-yellow-400/20 backdrop-blur-sm">
+        <VelocityIcon className={`h-4 w-4 ${getVelocityClass()} ${formattedVelocity > 30 ? 'animate-pulse' : ''}`} />
+        <div className="flex items-baseline">
+          <span className={`font-bold text-lg ${getVelocityClass()}`}>{formattedVelocity}</span>
+          <span className="font-medium ml-1 text-white/80">mph</span>
+        </div>
       </div>
     </div>
   );
