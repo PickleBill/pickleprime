@@ -76,13 +76,13 @@ const ActionFooter: React.FC<ActionFooterProps> = ({
 
   return (
     <div className="bg-navy-dark border-t border-white/10 p-4">
-      <div className="grid grid-cols-6 gap-2">
+      <div className="flex justify-between gap-1.5">
         {actionButtons.map((button) => (
           <motion.div
             key={button.id}
             onClick={button.handler}
             className="relative py-4 px-1 rounded-lg flex flex-col items-center justify-center cursor-pointer 
-                      bg-[#001a29] backdrop-blur-lg
+                      bg-[#001a29] backdrop-blur-lg w-[16%]
                       overflow-hidden shadow-lg border border-[#0EA5E9]/60
                       transition-colors duration-300"
             whileHover={{ scale: 1.05 }}
@@ -98,7 +98,7 @@ const ActionFooter: React.FC<ActionFooterProps> = ({
               <div className={`flex items-center justify-center w-14 h-10 rounded-full ${button.bgColor} ${button.borderColor} border shadow-lg ${button.iconColor}`}>
                 {button.icon}
               </div>
-              <span className="text-white text-xs font-medium mt-2 block text-center">{button.label}</span>
+              <span className="text-white text-[0.887rem] font-medium mt-2 block text-center">{button.label}</span>
             </div>
 
             {/* Subtle ping effect to draw attention */}
