@@ -74,7 +74,7 @@ const MobileScoreboardView: React.FC<MobileScoreboardViewProps> = ({
       {/* Main content grid layout - Modified to make the left panel 45% of the width */}
       <div className="flex-1 grid grid-cols-12 gap-4 p-4 overflow-y-auto">
         {/* Left Panel - Match Statistics - Now takes 45% of width (5/12 cols) */}
-        <div className="col-span-5 space-y-3">
+        <div className="col-span-5 flex flex-col h-full">
           {/* Match Statistics Header */}
           <div className="flex items-center">
             <div className="bg-[#4CAF50] text-white py-1.5 px-4 rounded-t-md text-sm uppercase font-medium tracking-wider">
@@ -82,19 +82,21 @@ const MobileScoreboardView: React.FC<MobileScoreboardViewProps> = ({
             </div>
           </div>
           
-          {/* Stats Panel - Set to a more proportional height */}
-          <StatsPanel 
-            player1Stats={player1Stats}
-            player2Stats={player2Stats}
-            player1Score={player1Score}
-            player2Score={player2Score}
-            currentSet={currentSet}
-            ballVelocity={ballVelocity}
-          />
+          {/* Stats Panel - Fill the available height */}
+          <div className="flex-1">
+            <StatsPanel 
+              player1Stats={player1Stats}
+              player2Stats={player2Stats}
+              player1Score={player1Score}
+              player2Score={player2Score}
+              currentSet={currentSet}
+              ballVelocity={ballVelocity}
+            />
+          </div>
         </div>
         
         {/* Right Panel - Court View and Match Feed - Takes 7/12 cols */}
-        <div className="col-span-7 flex flex-col space-y-3">
+        <div className="col-span-7 flex flex-col space-y-3 h-full">
           {/* Team Headers */}
           <div className="grid grid-cols-2 gap-2">
             <div className="bg-[#4CAF50] text-white py-1.5 px-4 rounded-t-md text-sm uppercase font-medium tracking-wider">
@@ -105,8 +107,8 @@ const MobileScoreboardView: React.FC<MobileScoreboardViewProps> = ({
             </div>
           </div>
           
-          {/* Court View Panel - Reduced from 60% to 50% of the vertical space */}
-          <div className="h-[50%]">
+          {/* Court View Panel - Reduced from 50% to 38% of the vertical space (reduced by 24%) */}
+          <div className="h-[38%]">
             <GameViewPanel 
               ballPosition={ballPosition}
               ballTrajectory={ballTrajectory}
@@ -119,8 +121,8 @@ const MobileScoreboardView: React.FC<MobileScoreboardViewProps> = ({
             />
           </div>
 
-          {/* Match Feed Panel - Increased from 40% to 50% of vertical space */}
-          <div className="h-[50%]">
+          {/* Match Feed Panel - Increased to 62% of vertical space */}
+          <div className="flex-1">
             <div className="bg-[#132f45] rounded-lg overflow-hidden border border-[#1a3b55] shadow-md h-full">
               <div className="py-2 px-3 bg-[#1a3b55] text-white flex items-center justify-between">
                 <h3 className="font-medium text-sm uppercase tracking-wider">Match Feed</h3>
