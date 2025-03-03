@@ -88,7 +88,7 @@ const Hero = () => {
                 <AnimatedButton 
                   size="lg" 
                   onClick={handleFacilityClick}
-                  className="w-full px-6 py-4 text-lg bg-gradient-to-r from-primary to-[#1a9dc3] text-white hover:shadow-lg hover:shadow-primary/20 transition-all button-pulse"
+                  className="w-full px-6 py-4 text-lg bg-gradient-to-r from-[#2BCB6E] to-[#22A358] text-white hover:shadow-lg hover:shadow-primary/20 transition-all button-pulse"
                 >
                   QuantumCourt Peek
                 </AnimatedButton>
@@ -105,18 +105,18 @@ const Hero = () => {
                   onClick={() => setShowShareModal(true)}
                   className="w-full px-6 py-4 text-lg bg-gradient-to-r from-[#1a9dc3] to-[#0c7a9b] text-white hover:shadow-lg hover:shadow-[#1a9dc3]/20 transition-all"
                 >
-                  Ready Player One
+                  Ready Player One?
                 </AnimatedButton>
               </div>
             </div>
             
-            {/* Centered bottom button for both audiences */}
+            {/* Centered bottom button for both audiences - made wider */}
             <div className="mt-8 flex justify-center">
               <AnimatedButton 
                 size="lg" 
                 withArrow 
                 onClick={handleFuturePlayClick}
-                className="px-8 py-4 text-lg bg-gradient-to-r from-primary to-[#1a9dc3] hover:shadow-lg hover:shadow-primary/20 transition-all"
+                className="px-12 py-4 text-lg bg-gradient-to-r from-primary to-[#1a9dc3] hover:shadow-lg hover:shadow-primary/20 transition-all max-w-xl w-full sm:w-auto"
               >
                 See the Future of Play
               </AnimatedButton>
