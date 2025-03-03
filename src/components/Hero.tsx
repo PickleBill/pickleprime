@@ -143,7 +143,7 @@ const Hero = () => {
             </div>
             
             {/* Centered bottom button for all audiences - made wider */}
-            <div className="mt-8 flex justify-center">
+            <div className="mt-8 flex justify-center flex-col items-center">
               <AnimatedButton 
                 size="lg" 
                 withArrow 
@@ -152,6 +152,28 @@ const Hero = () => {
               >
                 See the Future of Play
               </AnimatedButton>
+              
+              {/* Hidden CTA button - invisible until hovered */}
+              <div className="relative w-full sm:w-auto max-w-xl mt-4">
+                <button 
+                  onClick={() => window.open('https://picklerickroll.lovable.app/', '_blank')}
+                  className="w-full sm:w-auto px-12 py-3 rounded-lg text-white bg-white 
+                             hover:bg-[#0EA5E9] transition-colors duration-300 
+                             relative overflow-hidden group"
+                >
+                  <span className="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    Enter Super Secret Playground Lab
+                  </span>
+                  {/* Subtle reveal hint - almost invisible dots */}
+                  <div className="absolute inset-x-0 top-1/2 transform -translate-y-1/2 flex justify-center">
+                    <div className="flex space-x-1">
+                      {[...Array(3)].map((_, i) => (
+                        <div key={i} className="w-1 h-1 rounded-full bg-gray-200/20"></div>
+                      ))}
+                    </div>
+                  </div>
+                </button>
+              </div>
             </div>
           </div>
         </div>
