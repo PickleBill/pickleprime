@@ -19,7 +19,7 @@ const ShareFooter: React.FC<ShareFooterProps> = ({
       <motion.button 
         onClick={onClose}
         className="relative px-4 py-2 bg-navy/40 hover:bg-navy/60 text-white/80 rounded-md text-sm transition-colors
-                   overflow-hidden border border-white/10"
+                   overflow-hidden border border-[#0EA5E9]/30"
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
       >
@@ -35,12 +35,12 @@ const ShareFooter: React.FC<ShareFooterProps> = ({
       
       <motion.button 
         onClick={handleShare}
-        className="relative px-6 py-2 bg-gradient-to-r from-primary/90 to-[#1a9dc3]/90 
+        className="relative px-6 py-2 bg-gradient-to-r from-[#0EA5E9]/90 to-[#1a9dc3]/90 
                    text-white rounded-md text-sm font-medium transition-colors 
-                   border border-primary/30 overflow-hidden flex items-center gap-1"
+                   border border-[#0EA5E9]/40 overflow-hidden flex items-center gap-1"
         whileHover={{ 
           scale: 1.05, 
-          boxShadow: '0 0 15px rgba(43, 203, 110, 0.3)'
+          boxShadow: '0 0 15px rgba(14, 165, 233, 0.3)'
         }}
         whileTap={{ scale: 0.95 }}
       >
