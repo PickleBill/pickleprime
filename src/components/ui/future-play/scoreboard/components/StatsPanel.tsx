@@ -23,8 +23,8 @@ const StatsPanel: React.FC<StatsPanelProps> = ({
   ballVelocity
 }) => {
   return (
-    <div className="bg-[#001a2c] rounded-lg overflow-hidden border border-[#0a2d4a] shadow-md">
-      <div className="overflow-hidden">
+    <div className="bg-[#001a2c] rounded-lg overflow-hidden border border-[#0a2d4a] shadow-md h-full flex flex-col">
+      <div className="overflow-y-auto flex-1">
         {/* Player comparison score header */}
         <div className="grid grid-cols-3 bg-[#0a2d4a]/80 px-4 py-3">
           <div className="flex flex-col items-start">
@@ -122,6 +122,45 @@ const StatsPanel: React.FC<StatsPanelProps> = ({
             player1Color="#4CAF50"
             player2Color="#3db5e6"
           />
+
+          {/* Additional stats to utilize the extra space */}
+          <div className="mt-4">
+            <h4 className="text-white/90 text-xs font-medium mb-2">Match Details</h4>
+            <div className="space-y-3">
+              <div className="grid grid-cols-2 gap-2 text-xs">
+                <div className="bg-[#0a2d4a]/30 p-2 rounded-md">
+                  <span className="text-white/70">Points Won</span>
+                  <div className="flex justify-between mt-1">
+                    <span className="text-[#4CAF50] font-medium">14</span>
+                    <span className="text-[#3db5e6] font-medium">12</span>
+                  </div>
+                </div>
+                <div className="bg-[#0a2d4a]/30 p-2 rounded-md">
+                  <span className="text-white/70">Winners</span>
+                  <div className="flex justify-between mt-1">
+                    <span className="text-[#4CAF50] font-medium">8</span>
+                    <span className="text-[#3db5e6] font-medium">6</span>
+                  </div>
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-2 text-xs">
+                <div className="bg-[#0a2d4a]/30 p-2 rounded-md">
+                  <span className="text-white/70">Unforced Errors</span>
+                  <div className="flex justify-between mt-1">
+                    <span className="text-[#4CAF50] font-medium">4</span>
+                    <span className="text-[#3db5e6] font-medium">7</span>
+                  </div>
+                </div>
+                <div className="bg-[#0a2d4a]/30 p-2 rounded-md">
+                  <span className="text-white/70">Net Play Win %</span>
+                  <div className="flex justify-between mt-1">
+                    <span className="text-[#4CAF50] font-medium">78%</span>
+                    <span className="text-[#3db5e6] font-medium">65%</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

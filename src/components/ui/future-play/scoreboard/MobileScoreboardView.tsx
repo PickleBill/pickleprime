@@ -71,10 +71,10 @@ const MobileScoreboardView: React.FC<MobileScoreboardViewProps> = ({
         currentSet={currentSet}
       />
       
-      {/* Main content grid layout */}
-      <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-4 p-4 overflow-y-auto">
-        {/* Left Panel - Match Statistics */}
-        <div className="space-y-3">
+      {/* Main content grid layout - Modified to make the left panel taller */}
+      <div className="flex-1 grid grid-cols-3 gap-4 p-4 overflow-y-auto">
+        {/* Left Panel - Match Statistics - Now takes full height */}
+        <div className="col-span-1 space-y-3">
           {/* Match Statistics Header */}
           <div className="flex items-center">
             <div className="bg-[#4CAF50] text-white py-1.5 px-4 rounded-t-md text-sm uppercase font-medium tracking-wider">
@@ -82,7 +82,7 @@ const MobileScoreboardView: React.FC<MobileScoreboardViewProps> = ({
             </div>
           </div>
           
-          {/* Stats Panel */}
+          {/* Stats Panel - Now with full height */}
           <StatsPanel 
             player1Stats={player1Stats}
             player2Stats={player2Stats}
@@ -93,8 +93,8 @@ const MobileScoreboardView: React.FC<MobileScoreboardViewProps> = ({
           />
         </div>
         
-        {/* Right Panel - Court View and Match Feed */}
-        <div className="space-y-3">
+        {/* Right Panel - Court View and Match Feed - Now in a column layout */}
+        <div className="col-span-2 space-y-3">
           {/* Team Headers */}
           <div className="grid grid-cols-2 gap-2">
             <div className="bg-[#4CAF50] text-white py-1.5 px-4 rounded-t-md text-sm uppercase font-medium tracking-wider">

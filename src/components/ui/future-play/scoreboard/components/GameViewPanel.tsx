@@ -41,18 +41,20 @@ const GameViewPanel: React.FC<GameViewPanelProps> = ({
   return (
     <div className="flex flex-col h-full space-y-4">
       {/* Court View Panel */}
-      <CourtViewPanel 
-        ballPosition={ballPosition}
-        ballTrajectory={ballTrajectory}
-        ballVelocity={ballVelocity}
-        player1={getPlayerWithRotation(player1)}
-        player2={getPlayerWithRotation(player2)}
-        player3={getPlayerWithRotation(player3)}
-        player4={getPlayerWithRotation(player4)}
-      />
+      <div className="flex-1">
+        <CourtViewPanel 
+          ballPosition={ballPosition}
+          ballTrajectory={ballTrajectory}
+          ballVelocity={ballVelocity}
+          player1={getPlayerWithRotation(player1)}
+          player2={getPlayerWithRotation(player2)}
+          player3={getPlayerWithRotation(player3)}
+          player4={getPlayerWithRotation(player4)}
+        />
+      </div>
       
       {/* Match Feed Panel */}
-      <div className="relative">
+      <div className="h-52 relative">
         <MatchFeedPanel
           matchFeedItems={matchFeedItems}
         />
