@@ -29,6 +29,9 @@ const ModalContainer: React.FC<ModalContainerProps> = ({
   onShareClick,
   onActionButtonClick,
   gameTime,
+  player1Score,
+  player2Score,
+  currentSet,
   sponsors
 }) => {
   const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
@@ -56,6 +59,9 @@ const ModalContainer: React.FC<ModalContainerProps> = ({
         gameTime={gameTime}
         onPlayerProfileClick={onPlayerProfileClick}
         onShareClick={onShareClick}
+        player1Score={player1Score}
+        player2Score={player2Score}
+        currentSet={currentSet}
       />
       
       {/* Main content with subtle gradient overlay */}
@@ -88,8 +94,8 @@ const ModalContainer: React.FC<ModalContainerProps> = ({
       <VideoClipsModal 
         isOpen={isVideoModalOpen}
         onClose={() => setIsVideoModalOpen(false)}
-        player1Score={0}
-        player2Score={0}
+        player1Score={player1Score}
+        player2Score={player2Score}
         gameTime={gameTime}
       />
 
