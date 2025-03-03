@@ -14,7 +14,8 @@ const ScoreboardViewContainer: React.FC<ScoreboardContainerProps> = (props) => {
     player1,
     player2,
     player3,
-    player4
+    player4,
+    poseCycleCounter
   } = useGameAnimations(props.showHighlight);
   
   const courtRef = useRef<HTMLDivElement>(null);

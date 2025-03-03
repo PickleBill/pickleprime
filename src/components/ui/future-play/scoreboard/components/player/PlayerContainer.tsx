@@ -20,7 +20,7 @@ const PlayerContainer: React.FC<PlayerContainerProps> = ({
   const getPlayerColor = (teamId: number, playerIndex: number) => {
     // More vibrant neon colors
     const team1Colors = ["#4AFF5E", "#33FF99"]; // Bright neon green variations for left team
-    const team2Colors = ["#33C3F0", "#1A70C5"]; // Bright blue variations for right team
+    const team2Colors = ["#33C3F0", "#1A70C5"]; // Brighter neon blue variations for right team
     
     const playerColors = teamId === 1 ? team1Colors : team2Colors;
     return playerColors[playerIndex % playerColors.length];
@@ -29,12 +29,12 @@ const PlayerContainer: React.FC<PlayerContainerProps> = ({
   const playerColor = getPlayerColor(teamId, playerIndex);
   const glowColor = teamId === 1 
     ? "rgba(74, 255, 94, 0.6)" // Bright green glow for team 1
-    : "rgba(51, 195, 240, 0.6)"; // Bright blue glow for team 2
+    : "rgba(51, 195, 240, 0.6)"; // Brighter blue glow for team 2
   
   // Label background color - using team colors
   const labelBgColor = teamId === 1 
     ? "rgba(74, 255, 94, 0.8)" // Green team label background
-    : "rgba(51, 195, 240, 0.8)"; // Blue team label background
+    : "rgba(51, 195, 240, 0.8)"; // Brighter blue team label background
   
   // Label text color - darker for better contrast
   const labelTextColor = teamId === 1 
@@ -54,8 +54,9 @@ const PlayerContainer: React.FC<PlayerContainerProps> = ({
     <div className="absolute" style={{ 
       left: `${position.x}%`, 
       top: `${position.y}%`,
-      transform: 'translate(-50%, -50%)',
-      zIndex: 10
+      transform: `translate(-50%, -50%) ${position.rotation ? `rotate(${position.rotation}deg)` : ''}`,
+      zIndex: 10,
+      transition: 'all 0.5s ease-out' // Smoother transitions
     }}>
       {/* Glow effect */}
       <div 

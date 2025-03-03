@@ -39,7 +39,7 @@ const Players: React.FC<PlayersProps> = ({
     updateTrails('player2', player2);
     updateTrails('player3', player3);
     updateTrails('player4', player4);
-  }, [player1, player2, player3, player4]);
+  }, [player1, player2, player3, player4, updateTrails]);
   
   return (
     <>

@@ -30,12 +30,21 @@ export const useGameAnimations = (isHighlightActive: boolean = false) => {
   const [player3, setPlayer3] = useState<PlayerPosition>(defaultPlayer3);
   const [player4, setPlayer4] = useState<PlayerPosition>(defaultPlayer4);
   
+  // Random pose counter for player silhouettes
+  const [poseCycleCounter, setPoseCycleCounter] = useState(0);
+  
   // Animation frame effect
   useEffect(() => {
     if (isHighlightActive) return;
     
     let animationFrameId: number;
     let lastTimestamp = 0;
+    let poseInterval: NodeJS.Timeout;
+    
+    // Set up pose change interval (every 3-6 seconds)
+    poseInterval = setInterval(() => {
+      setPoseCycleCounter(prev => prev + 1);
+    }, 3000 + Math.random() * 3000);
     
     const animate = (timestamp: number) => {
       if (!lastTimestamp) lastTimestamp = timestamp;
@@ -112,6 +121,7 @@ export const useGameAnimations = (isHighlightActive: boolean = false) => {
     
     return () => {
       cancelAnimationFrame(animationFrameId);
+      clearInterval(poseInterval);
     };
   }, [
     isHighlightActive,
@@ -131,7 +141,8 @@ export const useGameAnimations = (isHighlightActive: boolean = false) => {
     player1,
     player2,
     player3,
-    player4
+    player4,
+    poseCycleCounter
   };
 };
 
