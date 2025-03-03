@@ -1,11 +1,4 @@
-
-/**
- * Ball Component
- * 
- * Renders the ball with its position, trajectory, and velocity visualization.
- * Includes a glowing trail effect that follows the ball's movement.
- */
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { BallState, BallTrajectory } from '../types';
 import { ballConfig } from '../constants/courtConfig';
 
@@ -15,89 +8,99 @@ interface BallProps {
   ballVelocity: number;
 }
 
-const Ball: React.FC<BallProps> = ({ ballPosition, ballTrajectory, ballVelocity }) => {
-  // Calculate a more vibrant trail with enhanced visuals
-  const renderBallTrail = () => {
-    // Calculate direction from trajectory
-    const dx = ballTrajectory.dx || 0;
-    const dy = ballTrajectory.dy || 0;
-    
-    // Normalize the direction to get a unit vector
-    const magnitude = Math.sqrt(dx * dx + dy * dy) || 1; // Avoid division by zero
-    const normalizedDx = dx / magnitude;
-    const normalizedDy = dy / magnitude;
-    
-    // Calculate the trail length based on velocity (more speed = longer trail)
-    const trailLength = Math.min(ballVelocity * 0.9, 30); // Cap at 30% of screen width
-    
-    // Get the start position of the trail (behind the ball)
-    const trailStartX = ballPosition.x - normalizedDx * trailLength;
-    const trailStartY = ballPosition.y - normalizedDy * trailLength;
-    
-    return (
-      <div
-        className="absolute"
-        style={{
-          left: 0,
-          top: 0,
-          width: '100%',
-          height: '100%',
-          zIndex: 2,
-          pointerEvents: 'none',
-        }}
-      >
-        <svg width="100%" height="100%" style={{ position: 'absolute' }}>
-          <defs>
-            <linearGradient id="trailGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="rgba(255, 255, 255, 0)" />
-              <stop offset="30%" stopColor="rgba(255, 235, 59, 0.2)" />
-              <stop offset="70%" stopColor="rgba(255, 235, 59, 0.6)" />
-              <stop offset="100%" stopColor="rgba(255, 235, 59, 0.9)" />
-            </linearGradient>
-            <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
-              <feGaussianBlur stdDeviation="8" result="blur" />
-              <feComposite in="SourceGraphic" in2="blur" operator="over" />
-            </filter>
-          </defs>
-          <line
-            x1={`${trailStartX}%`}
-            y1={`${trailStartY}%`}
-            x2={`${ballPosition.x}%`}
-            y2={`${ballPosition.y}%`}
-            stroke="url(#trailGradient)"
-            strokeWidth={ballConfig.size * 0.95}
-            strokeLinecap="round"
-            filter="url(#glow)"
-          />
-        </svg>
-      </div>
-    );
-  };
+const Ball: React.FC<BallProps> = ({
+  ballPosition,
+  ballTrajectory,
+  ballVelocity
+}) => {
+  // Keep track of recent positions for trail
+  const [trailPositions, setTrailPositions] = useState<{x: number, y: number, opacity: number}[]>([]);
   
-  // Render the main ball with enhanced glow effect
-  const renderBall = () => (
-    <div
-      className="absolute rounded-full border"
-      style={{
-        width: `${ballConfig.size}px`,
-        height: `${ballConfig.size}px`,
-        backgroundColor: '#FFEB3B', // Bright yellow
-        borderColor: 'rgba(255, 255, 255, 0.8)',
-        left: `${ballPosition.x}%`,
-        top: `${ballPosition.y}%`,
-        transform: 'translate(-50%, -50%)',
-        zIndex: 3,
-        boxShadow: `0 0 ${ballConfig.glowSize}px 10px rgba(255, 235, 59, 0.8)`,
-        filter: 'drop-shadow(0 0 8px rgba(255, 255, 255, 0.9))',
-        transition: 'transform 0.05s ease-out'
-      }}
-    />
-  );
+  // Update trail when ball position changes
+  useEffect(() => {
+    setTrailPositions(prev => {
+      // Add current position to the start of array
+      const newPositions = [
+        { x: ballPosition.x, y: ballPosition.y, opacity: 1 },
+        ...prev
+      ];
+      
+      // Keep only recent positions and fade them out
+      return newPositions
+        .slice(0, ballConfig.trailLength)  // Keep only the most recent positions
+        .map((pos, index) => ({ 
+          ...pos, 
+          opacity: Math.max(0.1, 1 - (index * (1 / ballConfig.trailLength))) 
+        }));
+    });
+  }, [ballPosition]);
+  
+  // Calculate motion blur and glow based on velocity
+  const velocityFactor = Math.min(1, ballVelocity / 50); // Normalize velocity to 0-1 range
+  const blurAmount = Math.max(1, velocityFactor * 8); // 1-8px blur based on velocity
+  const glowSize = ballConfig.size * (1 + velocityFactor * 0.5); // Increase glow by up to 50%
+  const glowOpacity = Math.min(0.8, ballConfig.glowOpacity + (velocityFactor * 0.3)); // Increase opacity by up to 0.3
   
   return (
     <>
-      {renderBallTrail()}
-      {renderBall()}
+      {/* Ball trail */}
+      {trailPositions.map((trail, index) => (
+        <div 
+          key={`ball-trail-${index}`}
+          className="absolute rounded-full"
+          style={{
+            left: `${trail.x}%`,
+            top: `${trail.y}%`,
+            transform: 'translate(-50%, -50%)',
+            width: `${ballConfig.size * (1 - (index * 0.15))}px`,
+            height: `${ballConfig.size * (1 - (index * 0.15))}px`,
+            backgroundColor: ballConfig.trailColor,
+            opacity: trail.opacity * 0.6,
+            filter: `blur(${index + 2}px)`,
+            zIndex: 20 - index,
+            transition: 'opacity 0.1s ease-out'
+          }}
+        />
+      ))}
+    
+      {/* Ball glow effect */}
+      <div
+        className="absolute rounded-full"
+        style={{
+          left: `${ballPosition.x}%`,
+          top: `${ballPosition.y}%`,
+          transform: 'translate(-50%, -50%)',
+          width: `${glowSize * 1.5}px`,
+          height: `${glowSize * 1.5}px`,
+          backgroundColor: 'rgba(255, 255, 0, 0.4)',
+          boxShadow: `0 0 ${8 + velocityFactor * 12}px ${velocityFactor * 4}px rgba(255, 255, 0, ${glowOpacity})`,
+          filter: `blur(${4 + velocityFactor * 4}px)`,
+          opacity: glowOpacity,
+          zIndex: 22,
+          transition: 'all 0.2s ease-out'
+        }}
+      />
+    
+      {/* Ball itself */}
+      <div
+        className="absolute rounded-full border-2 flex items-center justify-center shadow-md"
+        style={{
+          left: `${ballPosition.x}%`,
+          top: `${ballPosition.y}%`,
+          transform: 'translate(-50%, -50%)',
+          width: `${ballConfig.size}px`,
+          height: `${ballConfig.size}px`,
+          backgroundColor: ballConfig.color,
+          borderColor: ballConfig.borderColor,
+          zIndex: 25,
+          filter: `blur(${velocityFactor > 0.5 ? blurAmount / 3 : 0}px)`,
+          transition: 'all 0.15s linear'
+        }}
+      >
+        {/* Ball detail lines */}
+        <div className="absolute w-full h-[1px] bg-black/30" />
+        <div className="absolute w-[1px] h-full bg-black/30" />
+      </div>
     </>
   );
 };

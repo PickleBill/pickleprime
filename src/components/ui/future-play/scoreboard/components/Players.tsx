@@ -1,4 +1,3 @@
-
 /**
  * Players Component
  * 
@@ -7,10 +6,11 @@
  * - Player position and rotation
  * - Glow effects for better visibility
  * - Player labels
+ * - Animation trails for movement
  * 
  * Uses SVG silhouettes for player representation.
  */
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Position } from '../types';
 import { playerConfig } from '../constants/courtConfig';
 
@@ -27,18 +27,81 @@ const Players: React.FC<PlayersProps> = ({
   player3,
   player4
 }) => {
+  // Keep track of previous positions for trails
+  const [trailPositions, setTrailPositions] = useState<{
+    [key: string]: { x: number; y: number; opacity: number }[];
+  }>({
+    player1: [],
+    player2: [],
+    player3: [],
+    player4: []
+  });
+  
+  // Update trail positions when player positions change
+  useEffect(() => {
+    const updateTrails = (playerId: string, position: Position) => {
+      setTrailPositions(prev => {
+        // Get current trails and add new position
+        const currentTrails = [...prev[playerId]];
+        
+        // Add new position with full opacity
+        currentTrails.unshift({ x: position.x, y: position.y, opacity: 0.9 });
+        
+        // Limit trail length and decrease opacity for older positions
+        return {
+          ...prev,
+          [playerId]: currentTrails
+            .slice(0, 5)
+            .map((pos, index) => ({ 
+              ...pos, 
+              opacity: Math.max(0.1, 0.9 - index * 0.2) 
+            }))
+        };
+      });
+    };
+    
+    updateTrails('player1', player1);
+    updateTrails('player2', player2);
+    updateTrails('player3', player3);
+    updateTrails('player4', player4);
+  }, [player1, player2, player3, player4]);
+  
   // Function to get more vibrant neon colors for each player
   const getPlayerColor = (teamId: number, playerIndex: number) => {
     // More vibrant neon colors
-    const team1Colors = ["#4AFF5E", "#33FF99"]; // Bright neon green variations
-    const team2Colors = ["#33C3F0", "#1A70C5"]; // Bright blue variations
+    const team1Colors = ["#4AFF5E", "#33FF99"]; // Bright neon green variations for left team
+    const team2Colors = ["#33C3F0", "#1A70C5"]; // Bright blue variations for right team
     
     const playerColors = teamId === 1 ? team1Colors : team2Colors;
     return playerColors[playerIndex % playerColors.length];
   };
   
+  // Function to render player trails
+  const renderTrails = (playerId: string, teamId: number, playerIndex: number) => {
+    const trails = trailPositions[playerId] || [];
+    const baseColor = getPlayerColor(teamId, playerIndex);
+    
+    return trails.map((trail, index) => (
+      <div 
+        key={`trail-${playerId}-${index}`} 
+        className="absolute rounded-full transition-opacity duration-300"
+        style={{ 
+          left: `${trail.x}%`, 
+          top: `${trail.y}%`,
+          transform: 'translate(-50%, -50%)',
+          width: `${(playerConfig.size * 1.23 * 3) * (1 - index * 0.15)}px`, // Decreasing size based on age
+          height: `${(playerConfig.size * 1.23 * 3) * (1 - index * 0.15)}px`, // Decreasing size based on age
+          backgroundColor: teamId === 1 ? 'rgba(74, 255, 94, 0.3)' : 'rgba(51, 195, 240, 0.3)',
+          opacity: trail.opacity,
+          zIndex: 5 - index,
+          filter: `blur(${index + 2}px)`
+        }}
+      />
+    ));
+  };
+  
   // Render a player with silhouette style
-  const renderPlayer = (position: Position, teamId: number, playerLabel: string, playerIndex: number) => {
+  const renderPlayer = (position: Position, teamId: number, playerLabel: string, playerIndex: number, playerId: string) => {
     const playerColor = getPlayerColor(teamId, playerIndex);
     const glowColor = teamId === 1 
       ? "rgba(74, 255, 94, 0.6)" // Bright green glow for team 1
@@ -60,59 +123,70 @@ const Players: React.FC<PlayersProps> = ({
       WebkitFilter: `drop-shadow(0 0 8px ${teamId === 1 ? 'rgba(0, 77, 0, 0.7)' : 'rgba(0, 51, 102, 0.7)'})`
     };
     
+    // Increased player size by 23%
+    const sizeMultiplier = 1.23;
+    
     return (
-      <div className="absolute" style={{ 
-        left: `${position.x}%`, 
-        top: `${position.y}%`,
-        transform: 'translate(-50%, -50%)',
-        zIndex: 10
-      }}>
-        {/* Glow effect */}
-        <div 
-          className="absolute rounded-full"
-          style={{ 
-            width: `${playerConfig.glowSize * 1.15}px`, // Increased by 15%
-            height: `${playerConfig.glowSize * 1.15}px`, // Increased by 15%
-            backgroundColor: glowColor,
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            filter: 'blur(6px)',
-            opacity: playerConfig.glowOpacity + 0.1, // Slightly increased opacity
-            zIndex: 5
-          }}
-        />
+      <>
+        {/* Render trails first */}
+        {renderTrails(playerId, teamId, playerIndex)}
         
-        {/* Player silhouette */}
-        <div 
-          className="relative flex items-center justify-center"
-          style={{ 
-            width: `${playerConfig.size * 4 * 1.15}px`, // Increased by 15%
-            height: `${playerConfig.size * 6 * 1.15}px`, // Increased by 15%
-            zIndex: 10,
-            opacity: playerConfig.opacity,
-            ...shadowStyle // Added shadow
-          }}
-        >
-          {/* SVG silhouette of a pickleball player */}
-          <div className="w-full h-full" style={{ color: playerColor }}>
-            {getPlayerSilhouette(teamId, playerIndex)}
-          </div>
-          
-          {/* Player label */}
+        {/* Player container */}
+        <div className="absolute" style={{ 
+          left: `${position.x}%`, 
+          top: `${position.y}%`,
+          transform: 'translate(-50%, -50%)',
+          zIndex: 10
+        }}>
+          {/* Glow effect */}
           <div 
-            className="absolute bottom-0 text-center text-[8px] font-bold rounded-sm px-1"
+            className="absolute rounded-full"
             style={{ 
-              width: "100%", 
-              backgroundColor: labelBgColor,
-              color: labelTextColor,
-              boxShadow: "0 2px 4px rgba(0,0,0,0.3)" // Added shadow to label
+              width: `${playerConfig.glowSize * sizeMultiplier * 1.15}px`, // Increased by 15% + 23%
+              height: `${playerConfig.glowSize * sizeMultiplier * 1.15}px`, // Increased by 15% + 23%
+              backgroundColor: glowColor,
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              filter: 'blur(6px)',
+              opacity: playerConfig.glowOpacity + 0.2, // Slightly increased opacity
+              zIndex: 5,
+              transition: 'all 0.3s ease-out'
+            }}
+          />
+          
+          {/* Player silhouette */}
+          <div 
+            className="relative flex items-center justify-center"
+            style={{ 
+              width: `${playerConfig.size * 4 * sizeMultiplier * 1.15}px`, // Increased by 15% + 23%
+              height: `${playerConfig.size * 6 * sizeMultiplier * 1.15}px`, // Increased by 15% + 23%
+              zIndex: 10,
+              opacity: playerConfig.opacity,
+              ...shadowStyle, // Added shadow
+              transition: 'all 0.3s ease-out'
             }}
           >
-            {playerLabel}
+            {/* SVG silhouette of a pickleball player */}
+            <div className="w-full h-full" style={{ color: playerColor }}>
+              {getPlayerSilhouette(teamId, playerIndex)}
+            </div>
+            
+            {/* Player label */}
+            <div 
+              className="absolute bottom-0 text-center text-[8px] font-bold rounded-sm px-1"
+              style={{ 
+                width: "100%", 
+                backgroundColor: labelBgColor,
+                color: labelTextColor,
+                boxShadow: "0 2px 4px rgba(0,0,0,0.3)" // Added shadow to label
+              }}
+            >
+              {playerLabel}
+            </div>
           </div>
         </div>
-      </div>
+      </>
     );
   };
   
@@ -169,10 +243,11 @@ const Players: React.FC<PlayersProps> = ({
 
   return (
     <>
-      {renderPlayer(player1, 1, "P1", 0)} {/* Green team player 1 - top left */}
-      {renderPlayer(player2, 1, "P2", 1)} {/* Green team player 2 - bottom left */}
-      {renderPlayer(player3, 2, "P3", 0)} {/* Blue team player 3 - top right */}
-      {renderPlayer(player4, 2, "P4", 1)} {/* Blue team player 4 - bottom right */}
+      {/* Note that we've swapped P3/P4 with P1/P2 to put green team on left and blue team on right */}
+      {renderPlayer(player1, 1, "P1", 0, 'player1')} {/* Green team player 1 - left side */}
+      {renderPlayer(player2, 1, "P2", 1, 'player2')} {/* Green team player 2 - left side */}
+      {renderPlayer(player3, 2, "P3", 0, 'player3')} {/* Blue team player 1 - right side */}
+      {renderPlayer(player4, 2, "P4", 1, 'player4')} {/* Blue team player 2 - right side */}
     </>
   );
 };

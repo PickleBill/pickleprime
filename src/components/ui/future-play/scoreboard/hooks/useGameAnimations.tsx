@@ -1,13 +1,14 @@
 
 import React, { useState, useEffect } from "react";
 import { Position, BallState, BallTrajectory, PlayerPosition } from "../types";
+import { courtBoundaries } from "../constants/courtConfig";
 
-// Default initial values
+// Default initial values - adjusted to correct sides
 const defaultBallPosition: BallState = { x: 50, y: 50, z: 0 };
-const defaultPlayer1: PlayerPosition = { x: 25, y: 25, rotation: 0 };
-const defaultPlayer2: PlayerPosition = { x: 75, y: 25, rotation: 180 };
-const defaultPlayer3: PlayerPosition = { x: 25, y: 75, rotation: 0 };
-const defaultPlayer4: PlayerPosition = { x: 75, y: 75, rotation: 180 };
+const defaultPlayer1: PlayerPosition = { x: 25, y: 25, rotation: 0 }; // Green team, left side top
+const defaultPlayer2: PlayerPosition = { x: 25, y: 75, rotation: 0 }; // Green team, left side bottom
+const defaultPlayer3: PlayerPosition = { x: 75, y: 25, rotation: 180 }; // Blue team, right side top 
+const defaultPlayer4: PlayerPosition = { x: 75, y: 75, rotation: 180 }; // Blue team, right side bottom
 
 export const useGameAnimations = (isHighlightActive: boolean = false) => {
   // Initialize ball position, trajectory, and velocity
@@ -41,42 +42,67 @@ export const useGameAnimations = (isHighlightActive: boolean = false) => {
       const deltaTime = timestamp - lastTimestamp;
       lastTimestamp = timestamp;
       
-      // Simple ball animation
+      // Simple ball animation with more dynamic movement
       const newBallPosition = { ...ballPosition };
       
-      // Move in a simple pattern
+      // Move in a more interesting pattern with occasional sharp changes in direction
       if (Math.random() > 0.95) {
-        newBallPosition.x = 30 + Math.random() * 40;
-        newBallPosition.y = 30 + Math.random() * 40;
-        setBallVelocity(10 + Math.random() * 20);
+        newBallPosition.x = 25 + Math.random() * 50; // Keep within center area of court
+        newBallPosition.y = 25 + Math.random() * 50;
+        setBallVelocity(15 + Math.random() * 25); // More variable velocity
+      } else {
+        // Small continuous movements
+        const smallMoveX = (Math.random() - 0.5) * 2;
+        const smallMoveY = (Math.random() - 0.5) * 2;
+        
+        newBallPosition.x = Math.max(15, Math.min(85, newBallPosition.x + smallMoveX));
+        newBallPosition.y = Math.max(15, Math.min(85, newBallPosition.y + smallMoveY));
       }
       
       setBallPosition(newBallPosition);
       
-      // Simple player movement - move slightly toward the ball
-      const movePlayerTowardBall = (player: PlayerPosition, speed: number): PlayerPosition => {
-        const dx = ballPosition.x - player.x;
-        const dy = ballPosition.y - player.y;
+      // Constrain player movements to their respective court sides
+      const movePlayerTowardBall = (player: PlayerPosition, speed: number, isLeftSide: boolean): PlayerPosition => {
+        // Create a target that's influenced by the ball but stays on player's side
+        const targetX = isLeftSide 
+          ? Math.min(courtBoundaries.centerLine - 5, ballPosition.x) // Left side boundary
+          : Math.max(courtBoundaries.centerLine + 5, ballPosition.x); // Right side boundary
+          
+        const targetY = Math.max(15, Math.min(85, ballPosition.y)); // Vertical constraint
+        
+        const dx = targetX - player.x;
+        const dy = targetY - player.y;
         const distance = Math.sqrt(dx * dx + dy * dy);
         
-        if (distance > 10) {
+        if (distance > 5) { // Only move if somewhat far from target
           const moveX = (dx / distance) * speed * (deltaTime / 100);
           const moveY = (dy / distance) * speed * (deltaTime / 100);
+          
+          // Calculate new position and enforce court boundaries
+          const newX = isLeftSide 
+            ? Math.max(15, Math.min(courtBoundaries.centerLine - 5, player.x + moveX))
+            : Math.max(courtBoundaries.centerLine + 5, Math.min(85, player.x + moveX));
+            
+          const newY = Math.max(15, Math.min(85, player.y + moveY));
+          
           return {
-            x: player.x + moveX,
-            y: player.y + moveY,
+            x: newX,
+            y: newY,
             rotation: Math.atan2(dy, dx) * (180 / Math.PI)
           };
         }
         return player;
       };
       
-      // Only move players sometimes for more natural movement
-      if (Math.random() > 0.7) {
-        setPlayer1(movePlayerTowardBall(player1, 1));
-        setPlayer2(movePlayerTowardBall(player2, 0.8));
-        setPlayer3(movePlayerTowardBall(player3, 0.9));
-        setPlayer4(movePlayerTowardBall(player4, 1.1));
+      // Move players more frequently for more dynamic animation
+      if (Math.random() > 0.4) {
+        // Team 1 (Green) on left side
+        setPlayer1(movePlayerTowardBall(player1, 1.2, true));
+        setPlayer2(movePlayerTowardBall(player2, 1.0, true));
+        
+        // Team 2 (Blue) on right side
+        setPlayer3(movePlayerTowardBall(player3, 1.1, false));
+        setPlayer4(movePlayerTowardBall(player4, 0.9, false));
       }
       
       animationFrameId = requestAnimationFrame(animate);
