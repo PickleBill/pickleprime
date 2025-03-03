@@ -40,9 +40,15 @@ const MainContent: React.FC<MainContentProps> = ({
   return (
     <div className="h-[calc(100vh-170px)] grid grid-cols-1 md:grid-cols-2 gap-4 p-4 overflow-hidden">
       {/* Left Panel - Match Statistics */}
-      <div className="bg-[#0a2d4a] rounded-lg overflow-hidden border border-[#1a3b55] shadow-md h-full">
-        <div className="py-2 px-4 bg-[#00654B] text-white">
-          <h3 className="font-medium uppercase tracking-wider">Match Statistics</h3>
+      <div className="bg-gradient-to-br from-[#0a2d4a] to-[#082540] rounded-lg overflow-hidden border border-[#1a3b55] shadow-lg h-full">
+        <div className="py-2 px-4 bg-gradient-to-r from-[#00654B] to-[#00523c] text-white shadow-md">
+          <h3 className="font-medium uppercase tracking-wider flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-2">
+              <path d="M3 3v18h18" />
+              <path d="m19 9-5 5-4-4-3 3" />
+            </svg>
+            Match Statistics
+          </h3>
         </div>
         
         <div className="p-4 h-[calc(100%-40px)] overflow-hidden">

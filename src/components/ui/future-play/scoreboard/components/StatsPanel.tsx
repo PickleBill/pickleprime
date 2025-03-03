@@ -3,7 +3,7 @@ import React from 'react';
 import StatComparisonItem from './StatComparisonItem';
 import ShotDistributionSection from './ShotDistributionSection';
 import WinProbabilitySection from './WinProbabilitySection';
-import { Activity, ZapIcon, Target, Clock } from 'lucide-react';
+import { Activity, ZapIcon, Target, Clock, BarChart2, TrendingUp } from 'lucide-react';
 
 interface StatsPanelProps {
   player1Stats: any;
@@ -28,48 +28,57 @@ const StatsPanel: React.FC<StatsPanelProps> = ({
   
   return (
     <div className="h-full flex flex-col">
-      <div className="overflow-y-auto flex-1 space-y-4">
-        {/* Player comparison score header */}
-        <div className="grid grid-cols-3 bg-[#001a2c] px-4 py-3 rounded-md shadow-inner">
+      <div className="overflow-y-auto flex-1 space-y-5 pr-1">
+        {/* Player comparison score header - modernized */}
+        <div className="grid grid-cols-3 bg-gradient-to-r from-[#001a2c] to-[#00233c] px-4 py-3 rounded-md shadow-md border border-[#1a3b55]">
           <div className="flex flex-col items-start">
             <div className="flex items-center gap-2">
-              <div className="w-10 h-10 rounded-full bg-[#4CAF50] flex items-center justify-center">
+              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#4CAF50] to-[#388E3C] flex items-center justify-center shadow-lg">
                 <span className="text-white font-bold text-lg">AC</span>
               </div>
-              <span className="text-[#4CAF50] font-bold text-3xl">
+              <span className="text-[#4CAF50] font-bold text-3xl text-shadow">
                 {player1Score}
               </span>
             </div>
             <span className="text-white/90 text-base mt-1.5 font-medium">Alex Chen</span>
-            <span className="text-white/60 text-xs">71% win rate</span>
+            <span className="text-white/60 text-xs flex items-center gap-1 mt-0.5">
+              <TrendingUp className="w-3 h-3 text-green-400" />
+              71% win rate
+            </span>
           </div>
           
           <div className="flex items-center justify-center">
             <div className="flex flex-col items-center">
-              <span className="text-white/90 text-lg font-semibold">SET {currentSet}</span>
-              <span className="text-white/70 text-base mt-1">11 - 9</span>
+              <span className="text-white/90 text-lg font-semibold bg-[#001223] px-3 py-1 rounded-md">SET {currentSet}</span>
+              <span className="text-white/70 text-base mt-2">11 - 9</span>
             </div>
           </div>
           
           <div className="flex flex-col items-end">
             <div className="flex items-center gap-2 justify-end">
-              <span className="text-[#33C3F0] font-bold text-3xl">
+              <span className="text-[#33C3F0] font-bold text-3xl text-shadow">
                 {player2Score}
               </span>
-              <div className="w-10 h-10 rounded-full bg-[#33C3F0] flex items-center justify-center">
+              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#33C3F0] to-[#0891b2] flex items-center justify-center shadow-lg">
                 <span className="text-white font-bold text-lg">JS</span>
               </div>
             </div>
             <span className="text-white/90 text-base mt-1.5 font-medium">Jordan Smith</span>
-            <span className="text-white/60 text-xs">62% win rate</span>
+            <span className="text-white/60 text-xs flex items-center gap-1 mt-0.5 justify-end">
+              <TrendingUp className="w-3 h-3 text-blue-400" />
+              62% win rate
+            </span>
           </div>
         </div>
         
         {/* Stats section - grouped and optimized */}
         <div className="space-y-4 px-1">
           {/* Core Stats Group */}
-          <div className="space-y-2">
-            <h4 className="text-white/80 text-xs uppercase tracking-wider font-medium px-1 mb-1">Core Stats</h4>
+          <div className="space-y-2.5">
+            <h4 className="text-white/80 text-xs uppercase tracking-wider font-medium px-1 mb-1 flex items-center">
+              <BarChart2 className="w-3.5 h-3.5 text-primary mr-1.5" />
+              Core Stats
+            </h4>
             
             <StatComparisonItem
               icon={<ZapIcon className="w-5 h-5 text-yellow-400" />}
@@ -113,8 +122,10 @@ const StatsPanel: React.FC<StatsPanelProps> = ({
           </div>
           
           {/* Current ball speed - in its own section */}
-          <div className="flex items-center gap-3 px-4 py-3 bg-[#001a2c] rounded-md shadow-inner">
-            <ZapIcon className="w-6 h-6 text-yellow-400 animate-pulse" />
+          <div className="flex items-center gap-3 px-4 py-3 bg-gradient-to-r from-[#001a2c] to-[#001223] rounded-md shadow-md border border-[#1a3b55]">
+            <div className="p-1.5 bg-yellow-500/20 rounded-full">
+              <ZapIcon className="w-5 h-5 text-yellow-400 animate-pulse" />
+            </div>
             <span className="text-white/90 text-base font-medium">Current ball speed: </span>
             <span className="text-yellow-400 font-bold text-xl ml-auto">{Math.round(ballVelocity)} mph</span>
           </div>
@@ -132,7 +143,10 @@ const StatsPanel: React.FC<StatsPanelProps> = ({
 
           {/* Match Details section with improved layout */}
           <div className="mt-4">
-            <h4 className="text-white/80 text-xs uppercase tracking-wider font-medium px-1 mb-2">Match Details</h4>
+            <h4 className="text-white/80 text-xs uppercase tracking-wider font-medium px-1 mb-2 flex items-center">
+              <BarChart2 className="w-3.5 h-3.5 text-primary mr-1.5" />
+              Match Details
+            </h4>
             <div className="grid grid-cols-2 gap-3">
               <MatchDetailCard label="Points Won" player1Value="14" player2Value="12" player1Color={player1Color} player2Color={player2Color} />
               <MatchDetailCard label="Winners" player1Value="8" player2Value="6" player1Color={player1Color} player2Color={player2Color} />
@@ -156,7 +170,7 @@ interface MatchDetailCardProps {
 }
 
 const MatchDetailCard: React.FC<MatchDetailCardProps> = ({ label, player1Value, player2Value, player1Color, player2Color }) => (
-  <div className="bg-[#001a2c] p-3 rounded-md shadow-inner">
+  <div className="bg-gradient-to-r from-[#001a2c] to-[#001223] p-3 rounded-md shadow-md border border-[#1a3b55]/50 hover:border-[#1a3b55] transition-all duration-300">
     <span className="text-white/70 text-xs">{label}</span>
     <div className="flex justify-between mt-1.5">
       <span className="font-semibold text-base" style={{ color: player1Color }}>{player1Value}</span>

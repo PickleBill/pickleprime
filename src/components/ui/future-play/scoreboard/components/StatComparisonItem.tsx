@@ -27,8 +27,8 @@ const StatComparisonItem: React.FC<StatComparisonItemProps> = ({
   const player2Higher = p2Value > p1Value;
   
   return (
-    <div className="grid grid-cols-[30px_1fr_1fr] items-center gap-2 px-4 py-2.5 bg-[#001a2c] rounded-md shadow-inner transition-colors hover:bg-[#001f34]">
-      <div className="flex items-center justify-center">
+    <div className="grid grid-cols-[30px_1fr_1fr] items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-[#001a2c] to-[#001223] rounded-md shadow-md border border-[#1a3b55]/50 hover:border-[#1a3b55] transition-all duration-300">
+      <div className="flex items-center justify-center bg-navy/80 p-1.5 rounded-full">
         {icon}
       </div>
       <div className="flex flex-col">
@@ -37,13 +37,13 @@ const StatComparisonItem: React.FC<StatComparisonItemProps> = ({
           <span className="text-sm md:text-base font-semibold" style={{ color: player1Color }}>
             {player1Value}{unit}
           </span>
-          {player1Higher && <span className="ml-1 text-green-400 text-xs">▲</span>}
+          {player1Higher && <span className="ml-1 text-green-400 text-xs animate-pulse">▲</span>}
         </div>
       </div>
       <div className="flex flex-col items-end">
         <span className="text-white/90 text-xs uppercase font-medium invisible">.</span>
         <div className="flex items-center">
-          {player2Higher && <span className="mr-1 text-green-400 text-xs">▲</span>}
+          {player2Higher && <span className="mr-1 text-green-400 text-xs animate-pulse">▲</span>}
           <span className="text-sm md:text-base font-semibold" style={{ color: player2Color }}>
             {player2Value}{unit}
           </span>

@@ -10,4 +10,11 @@ export interface Friend {
   wins?: number;       // Optional win count
   losses?: number;     // Optional loss count
   favoriteGame?: string; // Optional favorite game type
+  isOnline?: boolean;  // Quick check for online status
+  matchHistory?: {
+    result: "win" | "loss";
+    date: string;
+    opponent: string;
+    score: string;
+  }[];
 }

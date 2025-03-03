@@ -12,9 +12,9 @@ const NetworkTab: React.FC = () => {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -10 }}
       transition={{ duration: 0.3 }}
-      className="h-full flex flex-col"
+      className="h-full flex flex-col space-y-4"
     >
-      <div className="flex-1 min-h-0">
+      <div className="flex-1 min-h-0 bg-navy/40 rounded-lg p-3 border border-white/5 shadow-inner">
         <NetworkVisualization />
       </div>
       <NetworkStats />

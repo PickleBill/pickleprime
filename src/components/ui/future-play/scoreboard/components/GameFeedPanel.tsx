@@ -30,12 +30,12 @@ const GameFeedPanel: React.FC<GameFeedPanelProps> = ({
   return (
     <div className="flex flex-col h-full space-y-4">
       {/* Game View Panel - Increased to 63% */}
-      <div className="bg-[#0a2d4a] rounded-lg overflow-hidden border border-[#1a3b55] shadow-md" style={{ height: "63%" }}>
+      <div className="bg-gradient-to-r from-[#0a2d4a] to-[#082540] rounded-lg overflow-hidden border border-[#1a3b55] shadow-lg" style={{ height: "63%" }}>
         <div className="grid grid-cols-2">
-          <div className="bg-[#4CAF50] text-white py-1.5 px-4">
+          <div className="bg-gradient-to-r from-[#4CAF50] to-[#388E3C] text-white py-1.5 px-4 border-b border-white/10">
             <h3 className="font-medium uppercase tracking-wider">Team Green</h3>
           </div>
-          <div className="bg-[#1A70C5] text-white py-1.5 px-4 text-right">
+          <div className="bg-gradient-to-r from-[#1A70C5] to-[#0c56a0] text-white py-1.5 px-4 text-right border-b border-white/10">
             <h3 className="font-medium uppercase tracking-wider">Team Blue</h3>
           </div>
         </div>

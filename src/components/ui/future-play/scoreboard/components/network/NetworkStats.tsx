@@ -4,7 +4,7 @@ import { Users, Activity, Calendar } from "lucide-react";
 
 const NetworkStats: React.FC = () => {
   return (
-    <div className="grid grid-cols-3 gap-4 mt-6">
+    <div className="grid grid-cols-3 gap-4">
       <StatCard 
         icon={<Users className="w-5 h-5 text-[#0EA5E9]" />}
         title="Network"
@@ -39,7 +39,7 @@ interface StatCardProps {
 }
 
 const StatCard: React.FC<StatCardProps> = ({ icon, title, value, subtitle, color }) => (
-  <div className="bg-navy/70 border border-white/10 rounded-lg p-4 text-center transition-all hover:bg-navy/80 hover:border-white/20">
+  <div className="bg-navy/70 backdrop-blur-sm border border-white/10 rounded-lg p-4 text-center transition-all hover:bg-navy/80 hover:border-white/20 hover:shadow-lg hover:shadow-[rgba(0,0,0,0.2)] transform hover:-translate-y-1 duration-300">
     <div className="flex items-center justify-center mb-1">
       {icon}
       <h4 className="ml-1.5 font-medium" style={{ color }}>{title}</h4>
