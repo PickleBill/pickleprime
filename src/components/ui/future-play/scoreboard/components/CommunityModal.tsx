@@ -1,6 +1,6 @@
 
 import React, { useState } from "react";
-import { Users, X } from "lucide-react";
+import { Users, X, Filter, MessageSquare, Share2, UserPlus } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import NetworkTab from "./network/NetworkTab";
 import FriendsTab from "./friends/FriendsTab";
@@ -26,10 +26,16 @@ const CommunityModal: React.FC<CommunityModalProps> = ({
   
   return (
     <div 
-      className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4 animate-fade-in"
+      className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4 animate-fade-in backdrop-blur-sm"
       onClick={handleCloseClick}
     >
-      <div className="relative bg-navy-dark/90 rounded-xl border border-white/10 w-full max-w-4xl max-h-[85vh] overflow-hidden flex flex-col">
+      <motion.div 
+        className="relative bg-gradient-to-b from-navy-dark/95 to-navy/95 rounded-xl border border-white/10 w-full max-w-4xl max-h-[85vh] overflow-hidden flex flex-col"
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0, scale: 0.95 }}
+        transition={{ duration: 0.2 }}
+      >
         {/* Header */}
         <div className="border-b border-white/10 p-4 flex justify-between items-center">
           <div className="flex items-center gap-3">
@@ -38,12 +44,30 @@ const CommunityModal: React.FC<CommunityModalProps> = ({
             </div>
             <h3 className="text-xl font-semibold text-white">Community</h3>
           </div>
-          <button 
-            onClick={onClose}
-            className="text-white/70 hover:text-white p-1 rounded-full hover:bg-white/10 transition-colors"
-          >
-            <X className="w-5 h-5" />
-          </button>
+          <div className="flex items-center gap-3">
+            <motion.button 
+              className="p-2 rounded-full bg-navy-light/30 hover:bg-navy-light/50 transition-colors"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <Share2 className="w-4 h-4 text-white/70" />
+            </motion.button>
+            <motion.button 
+              className="p-2 rounded-full bg-navy-light/30 hover:bg-navy-light/50 transition-colors"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <MessageSquare className="w-4 h-4 text-white/70" />
+            </motion.button>
+            <motion.button 
+              onClick={onClose}
+              className="text-white/70 hover:text-white p-1 rounded-full hover:bg-white/10 transition-colors"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <X className="w-5 h-5" />
+            </motion.button>
+          </div>
         </div>
 
         {/* Tabs */}
@@ -74,8 +98,12 @@ const CommunityModal: React.FC<CommunityModalProps> = ({
           </button>
         </div>
 
-        {/* Main content */}
-        <div className="flex-1 overflow-y-auto p-5">
+        {/* Main content with subtle gradient overlay */}
+        <div className="flex-1 overflow-y-auto p-5 relative">
+          {/* Subtle gradient overlays for depth */}
+          <div className="absolute top-0 left-0 w-full h-8 bg-gradient-to-b from-navy-dark/80 to-transparent z-10 pointer-events-none"></div>
+          <div className="absolute bottom-0 left-0 w-full h-8 bg-gradient-to-t from-navy-dark/80 to-transparent z-10 pointer-events-none"></div>
+          
           <AnimatePresence mode="wait">
             {activeTab === 'network' ? (
               <NetworkTab />
@@ -109,7 +137,7 @@ const CommunityModal: React.FC<CommunityModalProps> = ({
             <Users className="w-4 h-4" />
           </motion.button>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 };
