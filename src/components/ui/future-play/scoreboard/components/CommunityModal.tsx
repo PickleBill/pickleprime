@@ -1,7 +1,7 @@
 
 import React, { useState } from "react";
 import { Users, Search, MessageCircle, UserPlus, X, UserPlus2 } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import ShareFooter from "./share-modal/ShareFooter";
 import AnimatedButton from "@/components/ui/AnimatedButton";
 
