@@ -71,10 +71,10 @@ const MobileScoreboardView: React.FC<MobileScoreboardViewProps> = ({
         currentSet={currentSet}
       />
       
-      {/* Main content grid layout - Modified to make the left panel taller */}
-      <div className="flex-1 grid grid-cols-3 gap-4 p-4 overflow-y-auto">
-        {/* Left Panel - Match Statistics - Now takes full height */}
-        <div className="col-span-1 space-y-3">
+      {/* Main content grid layout - Modified to make the left panel 45% of the width */}
+      <div className="flex-1 grid grid-cols-12 gap-4 p-4 overflow-y-auto">
+        {/* Left Panel - Match Statistics - Now takes 45% of width (5/12 cols) */}
+        <div className="col-span-5 space-y-3">
           {/* Match Statistics Header */}
           <div className="flex items-center">
             <div className="bg-[#4CAF50] text-white py-1.5 px-4 rounded-t-md text-sm uppercase font-medium tracking-wider">
@@ -82,7 +82,7 @@ const MobileScoreboardView: React.FC<MobileScoreboardViewProps> = ({
             </div>
           </div>
           
-          {/* Stats Panel - Now with full height */}
+          {/* Stats Panel - Set to a more proportional height */}
           <StatsPanel 
             player1Stats={player1Stats}
             player2Stats={player2Stats}
@@ -93,8 +93,8 @@ const MobileScoreboardView: React.FC<MobileScoreboardViewProps> = ({
           />
         </div>
         
-        {/* Right Panel - Court View and Match Feed - Now in a column layout */}
-        <div className="col-span-2 space-y-3">
+        {/* Right Panel - Court View and Match Feed - Takes 7/12 cols with court view taking 60% height */}
+        <div className="col-span-7 flex flex-col space-y-3">
           {/* Team Headers */}
           <div className="grid grid-cols-2 gap-2">
             <div className="bg-[#4CAF50] text-white py-1.5 px-4 rounded-t-md text-sm uppercase font-medium tracking-wider">
@@ -105,17 +105,37 @@ const MobileScoreboardView: React.FC<MobileScoreboardViewProps> = ({
             </div>
           </div>
           
-          {/* Game View Panel */}
-          <GameViewPanel 
-            ballPosition={ballPosition}
-            ballTrajectory={ballTrajectory}
-            ballVelocity={ballVelocity}
-            player1={player1}
-            player2={player2}
-            player3={player3}
-            player4={player4}
-            matchFeedItems={matchFeedItems}
-          />
+          {/* Court View Panel - Now takes 60% of the vertical space */}
+          <div className="h-[60%]">
+            <GameViewPanel 
+              ballPosition={ballPosition}
+              ballTrajectory={ballTrajectory}
+              ballVelocity={ballVelocity}
+              player1={player1}
+              player2={player2}
+              player3={player3}
+              player4={player4}
+              matchFeedItems={[]}
+            />
+          </div>
+
+          {/* Match Feed Panel - Now takes full width and 40% of vertical space */}
+          <div className="h-[40%]">
+            <div className="bg-[#132f45] rounded-lg overflow-hidden border border-[#1a3b55] shadow-md h-full">
+              <div className="py-2 px-3 bg-[#1a3b55] text-white flex items-center justify-between">
+                <h3 className="font-medium text-sm uppercase tracking-wider">Match Feed</h3>
+              </div>
+              <div className="overflow-y-auto h-full scrollbar-thin scrollbar-thumb-[#254a68] scrollbar-track-[#132f45]">
+                <div className="p-3">
+                  {matchFeedItems.map(item => (
+                    <div key={item.id} className="mb-2">
+                      {/* Match feed content will be rendered here */}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       

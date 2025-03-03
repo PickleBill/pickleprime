@@ -2,7 +2,6 @@
 import React, { useState } from "react";
 import { Position, BallState, BallTrajectory } from "../types";
 import CourtViewPanel from "./CourtViewPanel";
-import MatchFeedPanel from "./MatchFeedPanel";
 import ShareModal from "./ShareModal";
 import { Share } from "lucide-react";
 
@@ -39,9 +38,9 @@ const GameViewPanel: React.FC<GameViewPanelProps> = ({
   };
 
   return (
-    <div className="flex flex-col h-full space-y-4">
+    <div className="flex flex-col h-full">
       {/* Court View Panel */}
-      <div className="flex-1">
+      <div className="relative w-full h-full">
         <CourtViewPanel 
           ballPosition={ballPosition}
           ballTrajectory={ballTrajectory}
@@ -51,15 +50,8 @@ const GameViewPanel: React.FC<GameViewPanelProps> = ({
           player3={getPlayerWithRotation(player3)}
           player4={getPlayerWithRotation(player4)}
         />
-      </div>
-      
-      {/* Match Feed Panel */}
-      <div className="h-52 relative">
-        <MatchFeedPanel
-          matchFeedItems={matchFeedItems}
-        />
         
-        {/* Share Button - Opens the enhanced share modal */}
+        {/* Share Button - Positioned in the top right corner */}
         <button 
           onClick={() => setShowShareModal(true)}
           className="absolute top-2 right-2 bg-gradient-to-r from-primary to-[#1a9dc3] text-white p-2.5 rounded-full transition-all hover:shadow-lg hover:shadow-primary/20 animate-pulse-slow hover:scale-105"
@@ -69,7 +61,7 @@ const GameViewPanel: React.FC<GameViewPanelProps> = ({
         </button>
       </div>
 
-      {/* Enhanced Share Modal - Now with more prominent quick view navigation */}
+      {/* Enhanced Share Modal */}
       <ShareModal
         isOpen={showShareModal}
         onClose={() => setShowShareModal(false)}
