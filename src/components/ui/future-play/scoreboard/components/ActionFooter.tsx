@@ -72,15 +72,15 @@ const ActionFooter: React.FC<ActionFooterProps> = ({
     <div className="bg-navy-dark border-t border-white/10 p-4">
       <h3 className="text-base font-semibold text-white mb-3">Explore features</h3>
       
-      <div className="grid grid-cols-3 gap-3">
+      <div className="grid grid-cols-6 gap-2">
         {actionButtons.map((button) => (
           <motion.div
             key={button.id}
             onClick={button.handler}
-            className="relative p-6 rounded-lg flex flex-col items-center justify-center cursor-pointer 
+            className="relative py-3 px-1 rounded-lg flex flex-col items-center justify-center cursor-pointer 
                       bg-gradient-to-br from-[#001a29] to-[#001525] backdrop-blur-lg
                       overflow-hidden shadow-lg border border-white/10
-                      transition-colors duration-300 h-[100px]"
+                      transition-colors duration-300"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
@@ -91,14 +91,14 @@ const ActionFooter: React.FC<ActionFooterProps> = ({
             
             {/* Glow effect behind icon */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 
-                          w-16 h-16 rounded-full bg-white/5 filter blur-md" />
+                          w-12 h-12 rounded-full bg-white/5 filter blur-md" />
             
             <div className="relative z-10">
               {/* Icon circle */}
-              <div className={`p-3 rounded-full bg-gradient-to-br ${button.iconBgColor} border border-white/10 shadow-lg ${button.iconColor}`}>
+              <div className={`p-2 rounded-full bg-gradient-to-br ${button.iconBgColor} border border-white/10 shadow-lg ${button.iconColor}`}>
                 {button.icon}
               </div>
-              <span className="text-white text-sm font-medium mt-3 block text-center">{button.label}</span>
+              <span className="text-white text-xs font-medium mt-2 block text-center">{button.label}</span>
             </div>
 
             {/* Subtle ping effect to draw attention */}
