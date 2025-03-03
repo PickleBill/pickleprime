@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+
+import React, { useEffect, useState } from 'react';
 import { BallState, BallTrajectory } from '../types';
 import { ballConfig } from '../constants/courtConfig';
 
@@ -8,99 +9,109 @@ interface BallProps {
   ballVelocity: number;
 }
 
-const Ball: React.FC<BallProps> = ({
-  ballPosition,
-  ballTrajectory,
+const Ball: React.FC<BallProps> = ({ 
+  ballPosition, 
+  ballTrajectory, 
   ballVelocity
 }) => {
-  // Keep track of recent positions for trail
-  const [trailPositions, setTrailPositions] = useState<{x: number, y: number, opacity: number}[]>([]);
+  // Store previous positions for trail effect
+  const [positionHistory, setPositionHistory] = useState<{x: number, y: number, opacity: number}[]>([]);
   
-  // Update trail when ball position changes
+  // Update position history when ball moves
   useEffect(() => {
-    setTrailPositions(prev => {
-      // Add current position to the start of array
-      const newPositions = [
-        { x: ballPosition.x, y: ballPosition.y, opacity: 1 },
-        ...prev
+    setPositionHistory(prev => {
+      // Add current position to history
+      const newHistory = [
+        { 
+          x: ballPosition.x, 
+          y: ballPosition.y, 
+          opacity: 1.0 
+        },
+        ...prev.slice(0, ballConfig.trailLength - 1)
       ];
       
-      // Keep only recent positions and fade them out
-      return newPositions
-        .slice(0, ballConfig.trailLength)  // Keep only the most recent positions
-        .map((pos, index) => ({ 
-          ...pos, 
-          opacity: Math.max(0.1, 1 - (index * (1 / ballConfig.trailLength))) 
-        }));
+      // Update opacity of each trail segment based on its age
+      return newHistory.map((pos, index) => ({
+        ...pos,
+        opacity: Math.max(0.1, 1 - (index * (0.9 / ballConfig.trailLength)))
+      }));
     });
-  }, [ballPosition]);
+  }, [ballPosition.x, ballPosition.y]);
   
-  // Calculate motion blur and glow based on velocity
-  const velocityFactor = Math.min(1, ballVelocity / 50); // Normalize velocity to 0-1 range
-  const blurAmount = Math.max(1, velocityFactor * 8); // 1-8px blur based on velocity
-  const glowSize = ballConfig.size * (1 + velocityFactor * 0.5); // Increase glow by up to 50%
-  const glowOpacity = Math.min(0.8, ballConfig.glowOpacity + (velocityFactor * 0.3)); // Increase opacity by up to 0.3
+  // Calculate velocity-based scaling factors
+  const normalizedVelocity = Math.min(1, ballVelocity / 60); // Cap at a reasonable max
+  const glowOpacity = ballConfig.glowOpacity + (normalizedVelocity * 0.4); // Increase glow with velocity
+  const glowSize = ballConfig.glowSize * (1 + normalizedVelocity * 0.5); // Increase glow size with velocity
   
   return (
     <>
-      {/* Ball trail */}
-      {trailPositions.map((trail, index) => (
-        <div 
-          key={`ball-trail-${index}`}
+      {/* Ball trails */}
+      {positionHistory.map((pos, index) => (
+        <div
+          key={`trail-${index}`}
           className="absolute rounded-full"
           style={{
-            left: `${trail.x}%`,
-            top: `${trail.y}%`,
-            transform: 'translate(-50%, -50%)',
-            width: `${ballConfig.size * (1 - (index * 0.15))}px`,
-            height: `${ballConfig.size * (1 - (index * 0.15))}px`,
+            left: `${pos.x}%`,
+            top: `${pos.y}%`,
+            width: `${ballConfig.size * (1 - index * 0.15)}px`,
+            height: `${ballConfig.size * (1 - index * 0.15)}px`,
             backgroundColor: ballConfig.trailColor,
-            opacity: trail.opacity * 0.6,
-            filter: `blur(${index + 2}px)`,
-            zIndex: 20 - index,
-            transition: 'opacity 0.1s ease-out'
+            opacity: pos.opacity * 0.6,
+            transform: 'translate(-50%, -50%)',
+            filter: `blur(${Math.max(1, index * 2)}px)`,
+            zIndex: 10 - index,
+            transition: 'all 0.15s linear'
           }}
         />
       ))}
-    
-      {/* Ball glow effect */}
+      
+      {/* Ball glow effect - dynamic based on velocity */}
       <div
         className="absolute rounded-full"
         style={{
           left: `${ballPosition.x}%`,
           top: `${ballPosition.y}%`,
+          width: `${glowSize}px`,
+          height: `${glowSize}px`,
+          backgroundColor: `rgba(255, 255, 0, ${glowOpacity})`,
           transform: 'translate(-50%, -50%)',
-          width: `${glowSize * 1.5}px`,
-          height: `${glowSize * 1.5}px`,
-          backgroundColor: 'rgba(255, 255, 0, 0.4)',
-          boxShadow: `0 0 ${8 + velocityFactor * 12}px ${velocityFactor * 4}px rgba(255, 255, 0, ${glowOpacity})`,
-          filter: `blur(${4 + velocityFactor * 4}px)`,
-          opacity: glowOpacity,
-          zIndex: 22,
-          transition: 'all 0.2s ease-out'
+          filter: 'blur(5px)',
+          zIndex: 15,
+          transition: 'all 0.15s linear'
         }}
       />
-    
-      {/* Ball itself */}
+      
+      {/* Ball */}
       <div
-        className="absolute rounded-full border-2 flex items-center justify-center shadow-md"
+        className="absolute rounded-full border-2 shadow-md"
         style={{
           left: `${ballPosition.x}%`,
           top: `${ballPosition.y}%`,
-          transform: 'translate(-50%, -50%)',
           width: `${ballConfig.size}px`,
           height: `${ballConfig.size}px`,
           backgroundColor: ballConfig.color,
           borderColor: ballConfig.borderColor,
-          zIndex: 25,
-          filter: `blur(${velocityFactor > 0.5 ? blurAmount / 3 : 0}px)`,
+          transform: 'translate(-50%, -50%)',
+          zIndex: 20,
           transition: 'all 0.15s linear'
         }}
-      >
-        {/* Ball detail lines */}
-        <div className="absolute w-full h-[1px] bg-black/30" />
-        <div className="absolute w-[1px] h-full bg-black/30" />
-      </div>
+      />
+      
+      {/* Inner detailing (subtle markings on the ball) */}
+      <div
+        className="absolute"
+        style={{
+          left: `${ballPosition.x}%`,
+          top: `${ballPosition.y}%`,
+          width: `${ballConfig.size * 0.6}px`,
+          height: `${ballConfig.size * 0.3}px`,
+          borderRadius: '50%',
+          border: '1px solid rgba(0,0,0,0.2)',
+          transform: 'translate(-50%, -50%) rotate(15deg)',
+          zIndex: 21,
+          transition: 'all 0.15s linear'
+        }}
+      />
     </>
   );
 };

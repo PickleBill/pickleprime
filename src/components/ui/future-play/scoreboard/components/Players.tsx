@@ -1,3 +1,4 @@
+
 /**
  * Players Component
  * 
@@ -243,11 +244,12 @@ const Players: React.FC<PlayersProps> = ({
 
   return (
     <>
-      {/* Note that we've swapped P3/P4 with P1/P2 to put green team on left and blue team on right */}
-      {renderPlayer(player1, 1, "P1", 0, 'player1')} {/* Green team player 1 - left side */}
-      {renderPlayer(player2, 1, "P2", 1, 'player2')} {/* Green team player 2 - left side */}
-      {renderPlayer(player3, 2, "P3", 0, 'player3')} {/* Blue team player 1 - right side */}
-      {renderPlayer(player4, 2, "P4", 1, 'player4')} {/* Blue team player 2 - right side */}
+      {/* Team 1 (Green) on left side */}
+      {renderPlayer(player1, 1, "P1", 0, 'player1')} {/* Green team player 1 */}
+      {renderPlayer(player2, 1, "P2", 1, 'player2')} {/* Green team player 2 */}
+      {/* Team 2 (Blue) on right side */}
+      {renderPlayer(player3, 2, "P3", 0, 'player3')} {/* Blue team player 1 */}
+      {renderPlayer(player4, 2, "P4", 1, 'player4')} {/* Blue team player 2 */}
     </>
   );
 };

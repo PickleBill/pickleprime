@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Position, BallState, BallTrajectory, PlayerPosition } from "../types";
 import { courtBoundaries } from "../constants/courtConfig";
 
-// Default initial values - adjusted to correct sides
+// Default initial values - positioned correctly
 const defaultBallPosition: BallState = { x: 50, y: 50, z: 0 };
 const defaultPlayer1: PlayerPosition = { x: 25, y: 25, rotation: 0 }; // Green team, left side top
 const defaultPlayer2: PlayerPosition = { x: 25, y: 75, rotation: 0 }; // Green team, left side bottom
