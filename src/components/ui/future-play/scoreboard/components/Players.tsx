@@ -5,9 +5,9 @@
  * Renders player silhouettes on the court with:
  * - Team-based color coding
  * - Player position and rotation
- * - Glow effects for better visibility
+ * - Electric glow effects for better visibility
  * - Player labels
- * - Animation trails for movement
+ * - Electric animation trails for movement
  * 
  * Uses SVG silhouettes for player representation.
  */

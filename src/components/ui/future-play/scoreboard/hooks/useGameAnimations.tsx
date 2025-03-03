@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { Position, BallState, BallTrajectory, PlayerPosition } from "../types";
 import { courtBoundaries } from "../constants/courtConfig";
@@ -50,98 +51,93 @@ export const useGameAnimations = (isHighlightActive: boolean = false) => {
       const deltaTime = timestamp - lastTimestamp;
       lastTimestamp = timestamp;
       
-      // Simple ball animation with more dynamic movement
+      // More dynamic ball animation with sharper movement patterns
       const newBallPosition = { ...ballPosition };
       
-      // Move in a more interesting pattern with occasional sharp changes in direction
-      if (Math.random() > 0.95) {
-        newBallPosition.x = 25 + Math.random() * 50; // Keep within center area of court
-        newBallPosition.y = 25 + Math.random() * 50;
-        setBallVelocity(15 + Math.random() * 25); // More variable velocity
+      // Occasionally make sharp changes in direction (20% chance)
+      if (Math.random() > 0.8) {
+        // Create more dramatic movements covering more court area
+        newBallPosition.x = 15 + Math.random() * 70; // Use more of the court width
+        newBallPosition.y = 15 + Math.random() * 70; // Use more of the court height
+        setBallVelocity(25 + Math.random() * 35); // Higher velocity for more intense movement
       } else {
-        // Small continuous movements
-        const smallMoveX = (Math.random() - 0.5) * 2;
-        const smallMoveY = (Math.random() - 0.5) * 2;
+        // More varied small continuous movements
+        const moveX = (Math.random() - 0.5) * 3.5; // Larger range for x movement
+        const moveY = (Math.random() - 0.5) * 3.5; // Larger range for y movement
         
-        newBallPosition.x = Math.max(15, Math.min(85, newBallPosition.x + smallMoveX));
-        newBallPosition.y = Math.max(15, Math.min(85, newBallPosition.y + smallMoveY));
+        newBallPosition.x = Math.max(10, Math.min(90, newBallPosition.x + moveX));
+        newBallPosition.y = Math.max(10, Math.min(90, newBallPosition.y + moveY));
       }
       
       setBallPosition(newBallPosition);
       
-      // IMPROVED: Player movement function that keeps players in their quadrants
-      // and allows for more organic movement patterns
-      const movePlayerInQuadrant = (
+      // Enhanced player movement function that makes players aggressively chase the ball
+      // while still respecting their quadrant boundaries
+      const movePlayerTowardsBall = (
         player: PlayerPosition, 
-        baseX: number,
-        baseY: number,
         isLeftSide: boolean,
-        isTopSide: boolean
+        isTopSide: boolean,
+        aggression: number // How aggressively the player chases the ball (0-1)
       ): PlayerPosition => {
-        // Define quadrant boundaries - ensure they have more space to move
-        const minX = isLeftSide ? 15 : courtBoundaries.centerLine + 5;
-        const maxX = isLeftSide ? courtBoundaries.centerLine - 5 : 85;
-        const minY = isTopSide ? 15 : 50;
-        const maxY = isTopSide ? 50 : 85;
+        // Define quadrant boundaries with more flexibility
+        const minX = isLeftSide ? 10 : courtBoundaries.centerLine + 2;
+        const maxX = isLeftSide ? courtBoundaries.centerLine - 2 : 90;
+        const minY = isTopSide ? 10 : 40; // Allow more vertical movement
+        const maxY = isTopSide ? 60 : 90; // Allow more vertical movement
         
-        // Create movement based on both ball position and random factors
-        // Ball influence (70%)
-        const targetX = Math.max(minX, Math.min(maxX, ballPosition.x));
-        const targetY = Math.max(minY, Math.min(maxY, ballPosition.y));
+        // Calculate distance to ball
+        const dx = ballPosition.x - player.x;
+        const dy = ballPosition.y - player.y;
+        const distanceToBall = Math.sqrt(dx * dx + dy * dy);
         
-        // Random movement component (30%)
-        const randomX = baseX + (Math.random() - 0.5) * 30; // More range
-        const randomY = baseY + (Math.random() - 0.5) * 30; // More range
+        // Direction vector to ball
+        const dirX = distanceToBall > 0 ? dx / distanceToBall : 0;
+        const dirY = distanceToBall > 0 ? dy / distanceToBall : 0;
         
-        // Combined target with weights
-        const weightedTargetX = targetX * 0.7 + randomX * 0.3;
-        const weightedTargetY = targetY * 0.7 + randomY * 0.3;
+        // Higher base speed for more dynamic movement
+        const baseSpeed = 0.3 * (deltaTime / 16);
         
-        // Final constrained target
-        const finalTargetX = Math.max(minX, Math.min(maxX, weightedTargetX));
-        const finalTargetY = Math.max(minY, Math.min(maxY, weightedTargetY));
+        // Speed based on distance to ball - players move faster when ball is further away
+        let speed = baseSpeed * (0.8 + (distanceToBall / 100) * 2);
         
-        // Calculate direction vector
-        const dx = finalTargetX - player.x;
-        const dy = finalTargetY - player.y;
-        const distance = Math.sqrt(dx * dx + dy * dy);
+        // Apply the aggression factor - higher aggression means player chases ball more directly
+        speed *= aggression;
         
-        // Increased movement speed for more noticeable movement
-        const speed = 0.12 * (deltaTime / 16); // normalize for framerate
+        // Calculate new position - moving towards ball
+        let newX = player.x + dirX * speed;
+        let newY = player.y + dirY * speed;
         
-        // Only update rotation if moving
-        let newRotation = player.rotation;
-        if (distance > 0.1) {
-          // Calculate rotation - limited to ±49 degrees from base angle
-          const baseAngle = isLeftSide ? 0 : 180;
-          const rawAngle = Math.atan2(dy, dx) * (180 / Math.PI);
-          
-          // Normalize the angle relative to the base
-          let normalizedAngle = rawAngle - baseAngle;
-          while (normalizedAngle > 180) normalizedAngle -= 360;
-          while (normalizedAngle < -180) normalizedAngle += 360;
-          
-          // Limit rotation to ±49 degrees
-          const clampedAngle = Math.max(-49, Math.min(49, normalizedAngle));
-          newRotation = baseAngle + clampedAngle;
-        }
+        // Constrain to quadrant boundaries
+        newX = Math.max(minX, Math.min(maxX, newX));
+        newY = Math.max(minY, Math.min(maxY, newY));
         
-        // Always move (no distance threshold)
-        const moveX = distance > 0 ? (dx / distance) * speed : 0;
-        const moveY = distance > 0 ? (dy / distance) * speed : 0;
+        // Calculate rotation to face the ball
+        const baseAngle = isLeftSide ? 0 : 180;
+        
+        // Get angle to ball (in degrees)
+        let angleToBall = Math.atan2(dy, dx) * (180 / Math.PI);
+        
+        // Normalize relative to player's base orientation
+        let normalizedAngle = angleToBall - baseAngle;
+        while (normalizedAngle > 180) normalizedAngle -= 360;
+        while (normalizedAngle < -180) normalizedAngle += 360;
+        
+        // Limit rotation to ±60 degrees for more realistic movement
+        const clampedAngle = Math.max(-60, Math.min(60, normalizedAngle));
+        const newRotation = baseAngle + clampedAngle;
         
         return {
-          x: player.x + moveX,
-          y: player.y + moveY,
+          x: newX,
+          y: newY,
           rotation: newRotation
         };
       };
       
-      // Update player positions on EVERY frame for more consistent movement
-      setPlayer1(movePlayerInQuadrant(player1, 25, 25, true, true)); // Left top quadrant
-      setPlayer2(movePlayerInQuadrant(player2, 25, 75, true, false)); // Left bottom quadrant
-      setPlayer3(movePlayerInQuadrant(player3, 75, 25, false, true)); // Right top quadrant
-      setPlayer4(movePlayerInQuadrant(player4, 75, 75, false, false)); // Right bottom quadrant
+      // Update player positions with different aggression factors for variety
+      setPlayer1(movePlayerTowardsBall(player1, true, true, 0.85)); // Left top aggressive
+      setPlayer2(movePlayerTowardsBall(player2, true, false, 0.75)); // Left bottom less aggressive
+      setPlayer3(movePlayerTowardsBall(player3, false, true, 0.8)); // Right top aggressive
+      setPlayer4(movePlayerTowardsBall(player4, false, false, 0.7)); // Right bottom less aggressive
       
       animationFrameId = requestAnimationFrame(animate);
     };

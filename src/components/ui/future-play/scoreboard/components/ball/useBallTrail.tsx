@@ -1,5 +1,5 @@
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { BallState } from '../../types';
 import { ballConfig } from '../../constants/courtConfig';
 
@@ -11,28 +11,42 @@ export const useBallTrail = () => {
   const [lastUpdate, setLastUpdate] = useState(0);
   const [trailVelocity, setTrailVelocity] = useState(0);
   
+  // Previous position reference for distance calculation
+  const prevPositionRef = useRef<{x: number, y: number} | null>(null);
+  
   // Update position history when ball moves
   const updateTrail = (ballPosition: BallState) => {
     const now = performance.now();
     let velocity = 0;
     
     // Calculate velocity based on time and distance
-    if (lastUpdate > 0 && positionHistory.length > 0) {
+    if (lastUpdate > 0 && prevPositionRef.current) {
       const timeDelta = now - lastUpdate;
-      const lastPos = positionHistory[0];
-      const dx = ballPosition.x - lastPos.x;
-      const dy = ballPosition.y - lastPos.y;
+      const prevPos = prevPositionRef.current;
+      const dx = ballPosition.x - prevPos.x;
+      const dy = ballPosition.y - prevPos.y;
       const distance = Math.sqrt(dx * dx + dy * dy);
       
-      velocity = (distance / timeDelta) * 1000; // Scale for more dramatic effect
+      // Calculate velocity (scaled for more dramatic effect)
+      velocity = (distance / timeDelta) * 1200;
     }
     
+    // Update refs for next calculation
     setLastUpdate(now);
-    setTrailVelocity(velocity);
+    prevPositionRef.current = { x: ballPosition.x, y: ballPosition.y };
     
+    // Update velocity state with smoothing
+    setTrailVelocity(prev => {
+      const smoothingFactor = 0.7; // Higher = more smoothing
+      return prev * smoothingFactor + velocity * (1 - smoothingFactor);
+    });
+    
+    // Update position history with the new position
     setPositionHistory(prev => {
-      // More positions for longer trail at higher velocities
-      const trailLength = Math.min(ballConfig.trailLength + Math.floor(velocity / 5), 12);
+      // Dynamic trail length based on velocity
+      const baseTrailLength = ballConfig.trailLength;
+      const velocityFactor = Math.min(1, trailVelocity / 100);
+      const trailLength = Math.floor(baseTrailLength + velocityFactor * 8);
       
       // Add current position to history
       const newHistory = [
@@ -44,10 +58,10 @@ export const useBallTrail = () => {
         ...prev.slice(0, trailLength - 1)
       ];
       
-      // Dynamic opacity based on velocity and position in trail
+      // Enhanced dynamic opacity for electric trail effect
       return newHistory.map((pos, index) => ({
         ...pos,
-        opacity: Math.max(0.1, 1 - ((index / (trailLength)) * (0.8 + (velocity * 0.01))))
+        opacity: Math.max(0.1, 1 - ((index / trailLength) * (0.7 + (velocity * 0.005))))
       }));
     });
   };
