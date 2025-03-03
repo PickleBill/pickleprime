@@ -1,15 +1,12 @@
 
 export interface Friend {
-  id: number;
+  id: string;
   name: string;
   avatar: string;
-  status: "online" | "offline" | "playing";
+  status: "online" | "offline" | "playing" | "away";
   level: string;
-}
-
-export interface NetworkNode {
-  angle: number;
-  distance: number;
+  lastMatch?: string;
+  mutualFriends?: number;
 }
 
 export interface NetworkGraphProps {
@@ -22,4 +19,8 @@ export interface NetworkGraphProps {
   animationDuration?: number;
   nodeAnimationDelay?: number;
   showLegend?: boolean;
+}
+
+export interface FriendItemProps {
+  friend: Friend;
 }

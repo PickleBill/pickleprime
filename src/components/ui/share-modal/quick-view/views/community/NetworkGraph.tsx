@@ -18,9 +18,12 @@ const NetworkGraph: React.FC<NetworkGraphProps> = ({
 }) => {
   return (
     <div className="w-full h-full flex items-center justify-center relative">
-      {/* Central node (you) */}
+      {/* Central node (you) with glow effect */}
       <motion.div 
-        className={cn(`w-${centralNodeSize} h-${centralNodeSize} rounded-full ${centralNodeColor} border-2 border-white absolute z-20`)}
+        className={cn(`w-${centralNodeSize} h-${centralNodeSize} rounded-full ${centralNodeColor} border-2 border-white/80 absolute z-20 shadow-glow`)}
+        style={{
+          boxShadow: `0 0 15px rgba(45,212,191,0.5)`
+        }}
         initial={{ scale: 0.8 }}
         animate={{ 
           scale: [0.8, 1, 0.8],
@@ -29,33 +32,40 @@ const NetworkGraph: React.FC<NetworkGraphProps> = ({
         transition={{ duration: animationDuration, repeat: Infinity }}
       />
       
-      {/* Friend nodes */}
+      {/* Friend nodes with connections */}
       {networkNodes.map((node, index) => (
         <React.Fragment key={index}>
-          {/* Connection line */}
+          {/* Connection line with gradient */}
           <motion.div 
-            className={cn(`absolute bg-gradient-to-r ${connectionColor} h-px origin-left z-10`)}
+            className={cn(`absolute bg-gradient-to-r ${connectionColor} h-0.5 origin-left z-10 rounded-full`)}
             style={{
               top: '50%',
               left: '50%',
               width: node.distance,
               transform: `rotate(${node.angle}deg)`
             }}
-            initial={{ opacity: 0.3 }}
-            animate={{ opacity: [0.3, 0.7, 0.3] }}
-            transition={{ duration: animationDuration - 1, delay: index * (nodeAnimationDelay + 0.1), repeat: Infinity }}
+            initial={{ opacity: 0.3, width: 0 }}
+            animate={{ opacity: [0.3, 0.7, 0.3], width: node.distance }}
+            transition={{ 
+              opacity: { duration: animationDuration - 1, delay: index * (nodeAnimationDelay + 0.1), repeat: Infinity },
+              width: { duration: 0.8, delay: index * 0.1 }
+            }}
           />
           
-          {/* Friend node */}
+          {/* Friend node with subtle glow */}
           <motion.div 
-            className={cn(`w-${friendNodeSize} h-${friendNodeSize} rounded-full ${friendNodeColor} border border-white absolute z-20`)}
+            className={cn(`w-${friendNodeSize} h-${friendNodeSize} rounded-full ${friendNodeColor} border border-white/80 absolute z-20`)}
             style={{
               left: `calc(50% + ${Math.cos(node.angle * Math.PI / 180) * node.distance - friendNodeSize/2}px)`,
-              top: `calc(50% + ${Math.sin(node.angle * Math.PI / 180) * node.distance - friendNodeSize/2}px)`
+              top: `calc(50% + ${Math.sin(node.angle * Math.PI / 180) * node.distance - friendNodeSize/2}px)`,
+              boxShadow: `0 0 8px rgba(168,85,247,0.4)`
             }}
-            initial={{ scale: 0.8 }}
-            animate={{ scale: [0.8, 1, 0.8] }}
-            transition={{ duration: animationDuration - 1, delay: index * nodeAnimationDelay, repeat: Infinity }}
+            initial={{ scale: 0, opacity: 0 }}
+            animate={{ scale: [0.8, 1, 0.8], opacity: 1 }}
+            transition={{ 
+              scale: { duration: animationDuration - 1, delay: index * nodeAnimationDelay + 0.5, repeat: Infinity },
+              opacity: { duration: 0.5, delay: index * nodeAnimationDelay + 0.5 }
+            }}
           />
         </React.Fragment>
       ))}
@@ -71,7 +81,7 @@ const NetworkGraph: React.FC<NetworkGraphProps> = ({
         transition={{ duration: animationDuration, repeat: Infinity }}
       />
 
-      {/* Only render legend if showLegend is true */}
+      {/* Render legend if showLegend is true */}
       {showLegend && (
         <div className="absolute bottom-3 left-3 flex items-center gap-2">
           <div className={cn(`w-2 h-2 rounded-full ${centralNodeColor}`)}></div>

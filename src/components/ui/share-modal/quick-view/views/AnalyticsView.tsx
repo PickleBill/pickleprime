@@ -24,32 +24,33 @@ interface ActionButtonProps {
   onClick: () => void;
 }
 
-// Action Button Component
+// Action Button Component - Enhanced with better visual effects
 const ActionButton: React.FC<ActionButtonProps> = ({ icon, label, color, onClick }) => {
   return (
     <motion.button
       onClick={onClick}
-      className={`relative flex flex-col items-center justify-center text-white p-2 rounded-xl overflow-hidden 
+      className={`relative flex flex-col items-center justify-center text-white p-2.5 rounded-xl overflow-hidden 
                 bg-gradient-to-br ${color} shadow-lg border border-white/10
                 hover:shadow-xl transition-all duration-300 h-full`}
-      whileHover={{ scale: 1.05 }}
+      whileHover={{ scale: 1.05, y: -2 }}
       whileTap={{ scale: 0.95 }}
     >
       {/* Animated background shine effect */}
-      <div className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/20 to-white/0 
-                    opacity-0 hover:opacity-100 transition-opacity duration-500 -rotate-45 
-                    translate-x-full hover:translate-x-[-250%] transform-gpu" />
+      <motion.div 
+        className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/20 to-white/0 
+                  opacity-0 -rotate-45 transform-gpu" 
+        initial={{ translateX: '100%' }}
+        whileHover={{ 
+          translateX: '-250%',
+          opacity: 1,
+          transition: { duration: 1.2, ease: "easeInOut" }
+        }}
+      />
       
-      <div className="p-1.5 mb-1">
+      <div className="p-2 mb-1 bg-white/10 rounded-full">
         {icon}
       </div>
-      <span className="text-xs font-medium">{label}</span>
-      
-      {/* Subtle ping effect to draw attention */}
-      <span className="absolute -top-0.5 -right-0.5 flex h-3 w-3">
-        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
-        <span className="relative inline-flex rounded-full h-3 w-3 bg-white/50"></span>
-      </span>
+      <span className="text-xs font-medium mt-1">{label}</span>
     </motion.button>
   );
 };
@@ -114,7 +115,7 @@ const AnalyticsView: React.FC<AnalyticsViewProps> = ({
 
   return (
     <motion.div 
-      className="bg-gradient-to-br from-navy-dark/90 to-navy/90 backdrop-blur-lg rounded-lg p-6 mb-4"
+      className="bg-gradient-to-br from-navy-dark/90 to-navy/90 backdrop-blur-lg rounded-lg p-6 mb-4 border border-blue-500/20"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: 20 }}
@@ -122,7 +123,7 @@ const AnalyticsView: React.FC<AnalyticsViewProps> = ({
     >
       <AnalyticsDashboardHeader />
       
-      <div className="space-y-4">
+      <div className="space-y-5">
         <AnalyticsFilters 
           selectedStat={selectedStat}
           setSelectedStat={setSelectedStat}
@@ -130,23 +131,48 @@ const AnalyticsView: React.FC<AnalyticsViewProps> = ({
           setSelectedTimeRange={setSelectedTimeRange}
         />
         
-        <motion.div 
-          className="grid grid-cols-2 gap-3"
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3 }}
-        >
-          <PerformanceTrendChart />
+        {/* Main analytics content with fixed layout */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <motion.div 
+            className="col-span-2"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4 }}
+          >
+            <PerformanceTrendChart />
+          </motion.div>
           
-          <MetricsGrid />
+          <motion.div 
+            className="col-span-2"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: 0.1 }}
+          >
+            <MetricsGrid />
+          </motion.div>
           
-          <KeyStatsSection />
-        </motion.div>
+          <motion.div 
+            className="col-span-2"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: 0.2 }}
+          >
+            <KeyStatsSection />
+          </motion.div>
+        </div>
         
         {/* Action Buttons - 2 rows with 3 buttons each */}
-        <div className="mt-4">
-          <h4 className="text-sm font-medium text-white/80 mb-2">Quick Actions</h4>
-          <div className="grid grid-cols-3 gap-2">
+        <motion.div 
+          className="mt-5"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, delay: 0.3 }}
+        >
+          <h4 className="text-sm font-medium text-white/80 mb-3 flex items-center gap-2">
+            <Activity className="w-4 h-4 text-[#1a9dc3]" />
+            Quick Actions
+          </h4>
+          <div className="grid grid-cols-3 gap-3">
             {actionButtons.map((button) => (
               <ActionButton
                 key={button.id}
@@ -157,7 +183,7 @@ const AnalyticsView: React.FC<AnalyticsViewProps> = ({
               />
             ))}
           </div>
-        </div>
+        </motion.div>
         
         <PremiumBadge />
       </div>
