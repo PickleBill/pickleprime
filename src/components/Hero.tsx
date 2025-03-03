@@ -1,4 +1,3 @@
-
 import React, { useEffect, useRef, useState } from "react";
 import AnimatedButton from "./ui/AnimatedButton";
 import PlayerModal from "./ui/PlayerModal";
@@ -157,12 +156,13 @@ const Hero = () => {
               <div className="relative w-full sm:w-auto max-w-xl mt-4">
                 <button 
                   onClick={() => window.open('https://picklerickroll.lovable.app/', '_blank')}
-                  className="w-full sm:w-auto px-12 py-3 rounded-lg text-white bg-white 
+                  className="w-full sm:w-auto px-12 py-4 rounded-lg text-white bg-white 
                              hover:bg-[#0EA5E9] transition-colors duration-300 
                              relative overflow-hidden group"
                 >
-                  <span className="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    Enter Super Secret Playground Lab
+                  <span className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col">
+                    <span>Enter Super Secret Playground Lab</span>
+                    <span className="text-sm italic mt-1">(you won't do it)</span>
                   </span>
                   {/* Subtle reveal hint - almost invisible dots */}
                   <div className="absolute inset-x-0 top-1/2 transform -translate-y-1/2 flex justify-center">
