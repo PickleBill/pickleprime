@@ -12,26 +12,14 @@ import QuickViewContent from "./quick-view/QuickViewContent";
 interface ShareMatchModalProps {
   isOpen: boolean;
   onClose: () => void;
-  initialView?: string;
 }
 
-const ShareMatchModal: React.FC<ShareMatchModalProps> = ({ 
-  isOpen, 
-  onClose,
-  initialView = null 
-}) => {
+const ShareMatchModal: React.FC<ShareMatchModalProps> = ({ isOpen, onClose }) => {
   const [gameTime, setGameTime] = useState(180); // 3 minutes in seconds
   const [player1Score, setPlayer1Score] = useState(20);
   const [player2Score, setPlayer2Score] = useState(18);
   const [showAdvancedView, setShowAdvancedView] = useState(false);
-  const [quickViewContent, setQuickViewContent] = useState<string | null>(initialView);
-  
-  // Set the initial view when the modal opens
-  useEffect(() => {
-    if (isOpen && initialView) {
-      setQuickViewContent(initialView);
-    }
-  }, [isOpen, initialView]);
+  const [quickViewContent, setQuickViewContent] = useState<string | null>(null);
   
   // Add effect to handle Escape key
   useEffect(() => {
