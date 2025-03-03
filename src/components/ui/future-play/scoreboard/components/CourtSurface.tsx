@@ -18,8 +18,8 @@ const CourtSurface: React.FC = () => {
   const lightBlueColor = "#33C3F0"; // Bright blue color
   // Dark navy color for the outer areas
   const darkNavyColor = "#0a192f"; // Dark navy blue color
-  // Green color for the buffer area
-  const grassColor = "#4CAF50"; // Brighter green
+  // Dark forest green color for the buffer area (updated from the image)
+  const grassColor = "#1D4D3D"; // Dark forest green from the provided image
   
   // Scale and position the court to be centered
   const paddingTop = 1.5;

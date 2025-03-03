@@ -41,7 +41,7 @@ export const courtBoundaries = {
 // Court colors for the visualization
 export const courtColors = {
   // Play area
-  buffer: "#92D36E", // Grass green for buffer area
+  buffer: "#1D4D3D", // Updated to dark forest green from the provided image
   court: "#3897C8", // Medium blue for main court
   kitchen: "#A7EBFD", // Light blue for kitchen/non-volley zone
   
