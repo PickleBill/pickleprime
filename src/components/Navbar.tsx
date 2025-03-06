@@ -6,9 +6,15 @@ import MobileMenu from "./ui/MobileMenu";
 import DesktopNav from "./ui/DesktopNav";
 import NavbarAPIButton from "./ui/NavbarAPIButton";
 
+interface MobileMenuProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
 const Navbar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [showShareModal, setShowShareModal] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -17,6 +23,14 @@ const Navbar: React.FC = () => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const handleCommunityClick = () => {
+    // Handle community click
+  };
+
+  const handleScoreboardClick = () => {
+    // Handle scoreboard click
+  };
 
   return (
     <header
@@ -44,7 +58,11 @@ const Navbar: React.FC = () => {
             <NavbarAPIButton />
             
             {/* Desktop Navigation */}
-            <DesktopNav />
+            <DesktopNav 
+              handleCommunityClick={handleCommunityClick}
+              handleScoreboardClick={handleScoreboardClick}
+              setShowShareModal={setShowShareModal}
+            />
             
             {/* Mobile Menu Button */}
             <button
@@ -58,7 +76,10 @@ const Navbar: React.FC = () => {
       </div>
       
       {/* Mobile Menu */}
-      <MobileMenu isOpen={mobileMenuOpen} onClose={() => setMobileMenuOpen(false)} />
+      <MobileMenu 
+        isOpen={mobileMenuOpen} 
+        onClose={() => setMobileMenuOpen(false)} 
+      />
     </header>
   );
 };

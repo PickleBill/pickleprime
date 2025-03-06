@@ -25,10 +25,46 @@ export function useOpenAI() {
     return true;
   };
 
+  const callOpenAI = async (
+    endpoint: string, 
+    body: any, 
+    options?: RequestInit
+  ): Promise<any> => {
+    if (!checkApiKey()) return null;
+    
+    try {
+      const response = await fetch(`https://api.openai.com/v1/${endpoint}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${apiKey}`
+        },
+        body: JSON.stringify(body),
+        ...options
+      });
+      
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(`OpenAI API Error: ${response.status} - ${JSON.stringify(errorData)}`);
+      }
+      
+      return await response.json();
+    } catch (error) {
+      console.error("OpenAI API call failed:", error);
+      toast({
+        title: "API Call Failed",
+        description: error instanceof Error ? error.message : "Unknown error occurred",
+        variant: "destructive",
+      });
+      return null;
+    }
+  };
+
   return {
     apiKey,
     isLoading,
     hasKey: !!apiKey,
     checkApiKey,
+    callOpenAI
   };
 }
