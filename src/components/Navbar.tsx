@@ -6,11 +6,6 @@ import MobileMenu from "./ui/MobileMenu";
 import DesktopNav from "./ui/DesktopNav";
 import NavbarAPIButton from "./ui/NavbarAPIButton";
 
-interface MobileMenuProps {
-  isOpen: boolean;
-  onClose: () => void;
-}
-
 const Navbar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -78,7 +73,8 @@ const Navbar: React.FC = () => {
       {/* Mobile Menu */}
       <MobileMenu 
         isOpen={mobileMenuOpen} 
-        onClose={() => setMobileMenuOpen(false)} 
+        onClose={() => setMobileMenuOpen(false)}
+        setShowShareModal={setShowShareModal}
       />
     </header>
   );
